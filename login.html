@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Securely login or sign up at Kannika Bangles. Manage your profile and access handcrafted bridal & fashion collections.">
+  <meta name="author" content="Kannika Bangles">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Account Access — Kannika Bangles</title>
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Account Access — Kannika Bangles">
+  <meta property="og:type" content="website">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💍</text></svg>">
+
+  <!-- Google Fonts Preconnect -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/styles.css?v=8">
+  <link rel="stylesheet" href="css/login.css?v=8">
+</head>
+<body>
+
+  <!-- ─── Loading Screen ─── -->
+  <div class="loader">
+    <div class="loader__ring"></div>
+    <div class="loader__text">Kannika Bangles</div>
+  </div>
+  <!-- ─── Top Announcement Bar ─── -->
+  <div class="top-bar">
+    <div class="top-bar__inner">
+      <div class="top-bar__left">
+        <i data-lucide="truck" style="width:14px;height:14px;margin-right:6px;color:var(--pink-primary);"></i>
+        <span>Free Shipping on Orders Above ₹999</span>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ─── Navigation ─── -->
+  <nav class="navbar scrolled" id="navbar">
+    <div class="navbar__inner">
+      <!-- Left side: hamburger menu button -->
+      <div class="navbar__toggle-left" id="navToggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+
+      <!-- Center: Serif branding with ring icon on top -->
+      <a href="index.html" class="navbar__brand">
+        <div class="navbar__logo-icon"><i data-lucide="gem" style="width:20px;height:20px;"></i></div>
+        <div class="navbar__logo">KANNIKA <span>BANGLES</span></div>
+      </a>
+
+      <!-- Right side: Actions row -->
+      <div class="navbar__actions">
+        <a href="shop.html" class="navbar__action-btn" aria-label="Search">
+          <i data-lucide="search" style="width:20px;height:20px;"></i>
+        </a>
+        <div class="navbar__user-menu">
+          <a href="login.html" class="navbar__user-btn" aria-label="Account">
+            <i data-lucide="user" style="width:20px;height:20px;"></i>
+          </a>
+        </div>
+        <a href="wishlist.html" class="navbar__action-btn navbar__wishlist" aria-label="Wishlist">
+          <i data-lucide="heart" style="width:20px;height:20px;"></i>
+          <span class="navbar__wishlist-badge">0</span>
+        </a>
+        <a href="cart.html" class="navbar__cart" aria-label="Shopping Cart">
+          <i data-lucide="shopping-bag" style="width:20px;height:20px;"></i>
+          <span class="navbar__cart-badge">0</span>
+        </a>
+      </div>
+
+      <!-- Bottom centered: row of navigation links -->
+      <ul class="navbar__links" id="navLinks">
+        <li><a href="index.html" class="navbar__link ">Home</a></li>
+        <li><a href="shop.html?category=bangles" class="navbar__link ">Bangles</a></li>
+        <li><a href="shop.html?category=necklaces" class="navbar__link ">Necklaces</a></li>
+        <li><a href="shop.html?category=earrings" class="navbar__link ">Earrings</a></li>
+        <li><a href="shop.html?category=combos" class="navbar__link ">Combos</a></li>
+        <li><a href="shop.html?sort=newest" class="navbar__link ">New Arrivals</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ─── Login Main Section ─── -->
+  <main class="login-page">
+    <div class="login-page__bg"></div>
+
+    <!-- Luxury Floating Sparkles -->
+    <div class="login-sparkles">
+      <div class="sparkle" style="width: 4px; height: 4px; top: 15%; left: 10%; animation-delay: 0s;"></div>
+      <div class="sparkle" style="width: 6px; height: 6px; top: 25%; right: 15%; animation-delay: 1.5s;"></div>
+      <div class="sparkle" style="width: 3px; height: 3px; top: 65%; left: 18%; animation-delay: 2.2s;"></div>
+      <div class="sparkle" style="width: 5px; height: 5px; top: 80%; right: 12%; animation-delay: 0.7s;"></div>
+      <div class="sparkle" style="width: 4px; height: 4px; top: 40%; left: 85%; animation-delay: 3s;"></div>
+    </div>
+
+    <!-- Dynamic Luxury Card -->
+    <div class="auth-card">
+      <div class="auth-card__header">
+        <div class="auth-card__logo-deco">💍</div>
+        <h1 class="auth-card__title" id="authTitle">Welcome Back</h1>
+        <p class="auth-card__subtitle" id="authSubtitle">Please enter your credentials to log in.</p>
+      </div>
+
+      <!-- Error/Success Alerts -->
+      <div id="authAlert" class="auth-alert" style="display: none;"></div>
+
+      <form id="authForm" class="auth-form">
+        <!-- Email Input -->
+        <div class="auth-form__group">
+          <label for="email" class="auth-form__label">Email Address</label>
+          <div class="auth-form__input-wrapper">
+            <input type="email" id="email" class="auth-form__input" placeholder="name@example.com" required autocomplete="email">
+            <i data-lucide="mail"></i>
+          </div>
+        </div>
+
+        <!-- Password Input -->
+        <div class="auth-form__group">
+          <label for="password" class="auth-form__label">Password</label>
+          <div class="auth-form__input-wrapper">
+            <input type="password" id="password" class="auth-form__input" placeholder="••••••••" required autocomplete="current-password" minlength="6">
+            <i data-lucide="lock"></i>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" id="btnSubmit" class="btn btn--primary auth-form__submit">
+          <span id="btnText">Log In</span>
+        </button>
+      </form>
+
+      <div class="auth-card__toggle-text">
+        <span id="toggleQuestion">Don't have an account?</span>
+        <button id="btnToggleMode" class="auth-card__toggle-btn">Create an Account</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- ─── Footer ─── -->
+  <footer class="footer">
+    <div class="footer__grid">
+      <div class="footer__col">
+        <div class="footer__brand-name"><span>Kannika</span> Bangles</div>
+        <p class="footer__desc">Turning every bride's dream into a beautiful reality. Handcrafted bangles blending tradition with modern style since generations.</p>
+        <div class="footer__social">
+          <a href="#" class="footer__social-link" aria-label="Instagram"><i data-lucide="instagram" style="width:18px;height:18px;"></i></a>
+          <a href="#" class="footer__social-link" aria-label="Facebook"><i data-lucide="facebook" style="width:18px;height:18px;"></i></a>
+          <a href="#" class="footer__social-link" aria-label="Youtube"><i data-lucide="youtube" style="width:18px;height:18px;"></i></a>
+        </div>
+      </div>
+      <div class="footer__col">
+        <h4 class="footer__heading">Quick Links</h4>
+        <a href="index.html" class="footer__link">Home</a>
+        <a href="shop.html" class="footer__link">Shop All</a>
+        <a href="shop.html?category=bangles" class="footer__link">Bangles Collection</a>
+        <a href="about.html" class="footer__link">Our Story</a>
+        <a href="contact.html" class="footer__link">Contact Us</a>
+      </div>
+      <div class="footer__col">
+        <h4 class="footer__heading">Categories</h4>
+        <a href="shop.html?category=bangles" class="footer__link">Bangles</a>
+        <a href="shop.html?category=necklaces" class="footer__link">Necklaces</a>
+        <a href="shop.html?category=earrings" class="footer__link">Earrings</a>
+      </div>
+      <div class="footer__col">
+        <h4 class="footer__heading">Get in Touch</h4>
+        <div class="footer__contact-item">
+          <i data-lucide="map-pin" style="width:18px;height:18px;"></i>
+          <span>Sampige Road, Malleshwaram,<br>Bangalore, Karnataka</span>
+        </div>
+        <div class="footer__contact-item">
+          <i data-lucide="phone" style="width:18px;height:18px;"></i>
+          <a href="tel:08023462122">080 2346 2122</a>
+        </div>
+        <div class="footer__contact-item">
+          <i data-lucide="mail" style="width:18px;height:18px;"></i>
+          <a href="mailto:Srikannikabangles@gmail.com">Srikannikabangles@gmail.com</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <p>&copy; 2026 Kannika Bangles. All rights reserved. Crafted with 💛 in Bangalore.</p>
+    </div>
+  </footer>
+
+  <!-- WhatsApp Float Button -->
+  <a href="https://wa.me/919844758450?text=Hi! I'm interested in your bangles collection." class="whatsapp-float" target="_blank" aria-label="Chat on WhatsApp">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </a>
+
+  <!-- Back to Top -->
+  <button class="back-to-top" aria-label="Back to top">
+    <i data-lucide="chevron-up" style="width:22px;height:22px;"></i>
+  </button>
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js" defer></script>
+  <script src="js/products.js?v=6"></script>
+  <script src="js/main.js?v=6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/auth.js?v=6"></script>
+
+  <!-- Login Logic -->
+  <script>
+    (function() {
+      const authForm = document.getElementById('authForm');
+      const authTitle = document.getElementById('authTitle');
+      const authSubtitle = document.getElementById('authSubtitle');
+      const emailInput = document.getElementById('email');
+      const passwordInput = document.getElementById('password');
+      const btnSubmit = document.getElementById('btnSubmit');
+      const btnText = document.getElementById('btnText');
+      const btnToggleMode = document.getElementById('btnToggleMode');
+      const toggleQuestion = document.getElementById('toggleQuestion');
+      const authAlert = document.getElementById('authAlert');
+
+      let isLoginMode = true;
+
+      // Mode toggling
+      btnToggleMode.addEventListener('click', (e) => {
+        e.preventDefault();
+        isLoginMode = !isLoginMode;
+        clearAlert();
+
+        if (isLoginMode) {
+          authTitle.textContent = 'Welcome Back';
+          authSubtitle.textContent = 'Please enter your credentials to log in.';
+          btnText.textContent = 'Log In';
+          toggleQuestion.textContent = "Don't have an account?";
+          btnToggleMode.textContent = 'Create an Account';
+        } else {
+          authTitle.textContent = 'Create Account';
+          authSubtitle.textContent = 'Sign up to manage your luxury wristwear bookings.';
+          btnText.textContent = 'Sign Up';
+          toggleQuestion.textContent = 'Already have an account?';
+          btnToggleMode.textContent = 'Log In';
+        }
+      });
+
+      // Clear alerts helper
+      function clearAlert() {
+        authAlert.style.display = 'none';
+        authAlert.className = 'auth-alert';
+        authAlert.textContent = '';
+      }
+
+      // Display status alerts helper
+      function showAlert(message, type = 'error') {
+        authAlert.style.display = 'flex';
+        authAlert.className = `auth-alert auth-alert--${type}`;
+        authAlert.innerHTML = `
+          <i data-lucide="${type === 'error' ? 'alert-triangle' : 'check-circle'}" style="width:18px;height:18px;flex-shrink:0;"></i>
+          <span>${message}</span>
+        `;
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+      }
+
+      // Handle login / signup submission
+      authForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        clearAlert();
+
+        if (!supabaseClient) {
+          showAlert('Authentication client is not loaded. Please try again later.');
+          return;
+        }
+
+        const email = emailInput.value.trim();
+        const password = passwordInput.value;
+
+        // Visual loading state
+        btnSubmit.disabled = true;
+        const originalBtnHTML = btnText.innerHTML;
+        btnText.innerHTML = `<span class="loader__ring" style="width: 16px; height: 16px; border-width: 2px; margin: 0; display: inline-block;"></span>`;
+
+        try {
+          if (isLoginMode) {
+            // Sign in
+            const { data, error } = await supabaseClient.auth.signInWithPassword({
+              email,
+              password
+            });
+
+            if (error) throw error;
+
+            showAlert('Logged in successfully! Redirecting...', 'success');
+            setTimeout(() => {
+              // Redirect back to shopping page or home page
+              const params = new URLSearchParams(window.location.search);
+              const redirectUrl = params.get('redirect') || 'index.html';
+              window.location.href = redirectUrl;
+            }, 1200);
+
+          } else {
+            // Sign up
+            const { data, error } = await supabaseClient.auth.signUp({
+              email,
+              password,
+              options: {
+                emailRedirectTo: window.location.origin + '/index.html'
+              }
+            });
+
+            if (error) throw error;
+
+            // Supabase auto-confirms or sends confirmation email
+            if (data.session) {
+              showAlert('Registration successful! Logging in...', 'success');
+              setTimeout(() => {
+                window.location.href = 'index.html';
+              }, 1200);
+            } else {
+              showAlert('Registration successful! Please check your email for the confirmation link.', 'success');
+              authForm.reset();
+            }
+          }
+        } catch (error) {
+          showAlert(error.message || 'An unexpected error occurred. Please try again.');
+          btnSubmit.disabled = false;
+          btnText.textContent = isLoginMode ? 'Log In' : 'Sign Up';
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

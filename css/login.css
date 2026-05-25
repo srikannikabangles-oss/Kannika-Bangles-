@@ -1,0 +1,252 @@
+/* =====================================================
+   KANNIKA BANGLES — Login/Signup Portal Styles
+   Elegant Light Rose-Ivory Luxury Theme
+   ===================================================== */
+
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 140px 24px 60px;
+  position: relative;
+  overflow: hidden;
+  background-color: var(--bg-primary);
+}
+
+.login-page__bg {
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(circle at 10% 20%, rgba(212, 69, 106, 0.04), transparent 45%),
+    radial-gradient(circle at 90% 80%, rgba(212, 175, 55, 0.05), transparent 45%),
+    linear-gradient(180deg, #FFFDFD, #FCF8F8);
+  z-index: 0;
+}
+
+/* Luxury Floating Sparkles */
+.login-sparkles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.login-sparkles .sparkle {
+  position: absolute;
+  background: var(--pink-primary);
+  border-radius: 50%;
+  opacity: 0.15;
+  animation: sparkle-glow 4s infinite linear;
+}
+
+@keyframes sparkle-glow {
+  0%, 100% { opacity: 0.1; transform: translateY(0) scale(0.8); }
+  50% { opacity: 0.3; transform: translateY(-10px) scale(1.1); }
+}
+
+/* Auth Card */
+.auth-card {
+  width: 100%;
+  max-width: 450px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-gold);
+  border-radius: var(--radius-lg);
+  padding: 50px 42px;
+  box-shadow: var(--shadow-elevated);
+  z-index: 2;
+  position: relative;
+  transition: transform var(--transition-bounce), border-color var(--transition-normal);
+  animation: authFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.auth-card:hover {
+  border-color: var(--pink-primary);
+  box-shadow: 0 12px 40px rgba(212, 69, 106, 0.06);
+}
+
+@keyframes authFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.auth-card__header {
+  text-align: center;
+  margin-bottom: 34px;
+}
+
+.auth-card__logo-deco {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  animation: logoPulse 2s infinite ease-in-out;
+}
+
+@keyframes logoPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+
+.auth-card__title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.85rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+  letter-spacing: -0.01em;
+}
+
+.auth-card__subtitle {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+}
+
+/* Form Layout */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.auth-form__group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+}
+
+.auth-form__label {
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.auth-form__input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* Support both raw <i> and dynamic Lucide replaced <svg> tags */
+.auth-form__input-wrapper i,
+.auth-form__input-wrapper svg {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  width: 18px;
+  height: 18px;
+  transition: color var(--transition-fast);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.auth-form__input {
+  width: 100%;
+  padding: 13px 18px 13px 46px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  transition: all var(--transition-fast);
+  outline: none;
+  font-family: 'Inter', sans-serif;
+  z-index: 1;
+}
+
+.auth-form__input::placeholder {
+  color: var(--text-muted);
+  opacity: 0.65;
+}
+
+.auth-form__input:focus {
+  border-color: var(--pink-primary);
+  box-shadow: 0 0 10px rgba(212, 69, 106, 0.08);
+  background: #FFFFFF;
+}
+
+.auth-form__input:focus ~ i,
+.auth-form__input:focus ~ svg {
+  color: var(--pink-primary);
+}
+
+/* Submit Button */
+.auth-form__submit {
+  width: 100%;
+  margin-top: 8px;
+  padding: 14px;
+}
+
+/* Toggle Text Links */
+.auth-card__toggle-text {
+  text-align: center;
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  margin-top: 24px;
+}
+
+.auth-card__toggle-btn {
+  color: var(--pink-primary);
+  font-weight: 600;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 4px;
+  transition: color var(--transition-fast);
+  text-decoration: none;
+}
+
+.auth-card__toggle-btn:hover {
+  color: var(--pink-dark);
+  text-decoration: underline;
+}
+
+/* Status Alert Message */
+.auth-alert {
+  padding: 12px 16px;
+  border-radius: var(--radius-sm);
+  font-size: 0.88rem;
+  margin-bottom: 22px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  line-height: 1.4;
+  animation: authAlertIn 0.3s ease;
+}
+
+@keyframes authAlertIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.auth-alert--error {
+  background: rgba(212, 69, 106, 0.05);
+  border: 1px solid rgba(212, 69, 106, 0.2);
+  color: var(--pink-primary);
+}
+
+.auth-alert--success {
+  background: rgba(27, 122, 92, 0.05);
+  border: 1px solid rgba(27, 122, 92, 0.2);
+  color: var(--accent-emerald);
+}
+
+/* Responsive Alignment */
+@media (max-width: 480px) {
+  .auth-card {
+    padding: 38px 24px;
+  }
+  .auth-card__title {
+    font-size: 1.6rem;
+  }
+}

@@ -1,0 +1,822 @@
+/* =====================================================
+   KANNIKA BANGLES — Pages Shared Styles
+   About & Contact Pages
+   ===================================================== */
+
+/* ─── Page Hero Banner ─── */
+.page-hero {
+  height: 220px;
+  background: var(--bg-secondary);
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(201, 168, 76, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 50%, rgba(201, 168, 76, 0.04) 0%, transparent 50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding-top: var(--nav-height);
+  position: relative;
+  overflow: hidden;
+}
+
+.page-hero::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-primary), transparent);
+  opacity: 0.3;
+}
+
+.page-hero__title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+  animation: slideUp 0.8s ease forwards;
+}
+
+.page-hero__subtitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  color: var(--text-secondary);
+  font-style: italic;
+  letter-spacing: 0.04em;
+  margin-bottom: 12px;
+  animation: slideUp 0.8s ease 0.1s both;
+}
+
+.page-hero__breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  animation: fadeIn 1s ease 0.3s both;
+}
+
+.page-hero__breadcrumb a {
+  color: var(--text-secondary);
+  transition: color var(--transition-fast);
+}
+
+.page-hero__breadcrumb a:hover {
+  color: var(--gold-light);
+}
+
+.page-hero__breadcrumb svg {
+  width: 14px;
+  height: 14px;
+  opacity: 0.5;
+}
+
+/* ─────────────────────────────────────────────────────
+   ABOUT PAGE
+   ───────────────────────────────────────────────────── */
+
+/* ─── Brand Story Section ─── */
+.about-story {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.about-story__image {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.about-story__image::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  bottom: -2px;
+  width: 5px;
+  background: var(--gold-gradient);
+  border-radius: 4px;
+  z-index: 2;
+}
+
+.about-story__image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-subtle);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.about-story__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: var(--radius-lg);
+  transition: transform var(--transition-slow);
+}
+
+.about-story__image:hover img {
+  transform: scale(1.03);
+}
+
+/* Decorative gold corner accents */
+.about-story__image-decor {
+  position: absolute;
+  bottom: -12px;
+  right: -12px;
+  width: 100px;
+  height: 100px;
+  border-right: 2px solid var(--gold-primary);
+  border-bottom: 2px solid var(--gold-primary);
+  border-radius: 0 0 var(--radius-md) 0;
+  opacity: 0.4;
+  z-index: 0;
+}
+
+.about-story__content h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+  line-height: 1.25;
+}
+
+.about-story__label {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  color: var(--gold-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-weight: 600;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.about-story__content p {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  line-height: 1.8;
+  margin-bottom: 18px;
+}
+
+.about-story__content p:last-of-type {
+  margin-bottom: 0;
+}
+
+.about-story__highlight {
+  display: inline;
+  color: var(--gold-light);
+  font-weight: 500;
+}
+
+/* ─── Features / What We Offer Grid ─── */
+.features-section {
+  background: var(--bg-primary);
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.feature-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 36px 28px;
+  text-align: center;
+  transition: all var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+}
+
+.feature-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--gold-gradient);
+  transform: scaleX(0);
+  transition: transform var(--transition-normal);
+}
+
+.feature-card:hover {
+  border-color: var(--border-gold);
+  box-shadow: var(--shadow-gold);
+  transform: translateY(-6px);
+}
+
+.feature-card:hover::before {
+  transform: scaleX(1);
+}
+
+.feature-card__icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border-gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  color: var(--gold-primary);
+  transition: all var(--transition-normal);
+  background: rgba(201, 168, 76, 0.05);
+}
+
+.feature-card:hover .feature-card__icon {
+  background: rgba(201, 168, 76, 0.12);
+  border-color: var(--gold-primary);
+  box-shadow: 0 0 20px rgba(201, 168, 76, 0.15);
+}
+
+.feature-card__icon svg {
+  width: 26px;
+  height: 26px;
+}
+
+.feature-card__title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 10px;
+}
+
+.feature-card__desc {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.65;
+}
+
+/* ─── Stats / Why Choose Us Row ─── */
+.stats-section {
+  background: var(--bg-secondary);
+}
+
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+.stat-card {
+  text-align: center;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 40px 20px;
+  transition: all var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--gold-gradient);
+  transform: scaleX(0);
+  transition: transform var(--transition-normal);
+}
+
+.stat-card:hover {
+  border-color: var(--border-gold);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-gold);
+}
+
+.stat-card:hover::after {
+  transform: scaleX(1);
+}
+
+.stat-card__icon {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold-primary);
+  opacity: 0.7;
+}
+
+.stat-card__icon svg {
+  width: 28px;
+  height: 28px;
+}
+
+.stat-card__number {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 3vw, 2.8rem);
+  font-weight: 700;
+  background: var(--gold-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.1;
+  margin-bottom: 8px;
+}
+
+.stat-card__label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* ─── Visit Us Section ─── */
+.visit-section {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 48px;
+  align-items: start;
+}
+
+.visit-map {
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--border-subtle);
+  aspect-ratio: 16 / 10;
+}
+
+.visit-map iframe {
+  width: 100%;
+  height: 100%;
+  display: block;
+  filter: grayscale(0.5) brightness(0.85) contrast(1.1);
+  transition: filter var(--transition-normal);
+}
+
+.visit-map:hover iframe {
+  filter: grayscale(0.2) brightness(0.9) contrast(1.05);
+}
+
+.visit-info {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.visit-info__heading {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.visit-info__subheading {
+  font-family: 'Cormorant Garamond', serif;
+  color: var(--text-secondary);
+  font-size: 1.05rem;
+  font-style: italic;
+  margin-bottom: 8px;
+}
+
+.visit-info-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 18px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-normal);
+}
+
+.visit-info-card:hover {
+  border-color: var(--border-gold);
+  box-shadow: var(--shadow-gold);
+}
+
+.visit-info-card__icon {
+  width: 42px;
+  height: 42px;
+  min-width: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-elevated);
+  border-radius: 50%;
+  color: var(--gold-primary);
+}
+
+.visit-info-card__icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.visit-info-card__label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--gold-primary);
+  margin-bottom: 4px;
+}
+
+.visit-info-card__value {
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.visit-info-card__value a {
+  color: var(--text-primary);
+  transition: color var(--transition-fast);
+}
+
+.visit-info-card__value a:hover {
+  color: var(--gold-light);
+}
+
+
+/* ─────────────────────────────────────────────────────
+   CONTACT PAGE
+   ───────────────────────────────────────────────────── */
+
+/* ─── Contact Grid ─── */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 48px;
+  align-items: start;
+}
+
+/* ─── Contact Form ─── */
+.contact-form {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 44px;
+  position: relative;
+  overflow: hidden;
+}
+
+.contact-form::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--gold-gradient);
+}
+
+.contact-form__heading {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+
+.contact-form__subheading {
+  font-family: 'Cormorant Garamond', serif;
+  color: var(--text-secondary);
+  font-size: 1.05rem;
+  font-style: italic;
+  margin-bottom: 32px;
+}
+
+.contact-form .form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.contact-form .form-group {
+  margin-bottom: 20px;
+}
+
+.contact-form .form-label {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.contact-form .form-input {
+  width: 100%;
+  padding: 14px 18px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  transition: all var(--transition-fast);
+  outline: none;
+}
+
+.contact-form .form-input:focus {
+  border-color: var(--gold-primary);
+  box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.1);
+}
+
+.contact-form .form-input::placeholder {
+  color: var(--text-muted);
+}
+
+.contact-form textarea.form-input {
+  resize: vertical;
+  min-height: 130px;
+}
+
+.contact-form .btn {
+  width: 100%;
+  padding: 16px 32px;
+  font-size: 0.95rem;
+  margin-top: 8px;
+}
+
+/* ─── Contact Info Cards ─── */
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.contact-info__heading {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.contact-info__subheading {
+  font-family: 'Cormorant Garamond', serif;
+  color: var(--text-secondary);
+  font-size: 1.05rem;
+  font-style: italic;
+  margin-bottom: 8px;
+}
+
+.contact-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 24px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-normal);
+  cursor: default;
+}
+
+.contact-card:hover {
+  border-color: var(--border-gold);
+  box-shadow: var(--shadow-gold);
+  transform: translateY(-3px);
+}
+
+.contact-card__icon {
+  width: 50px;
+  height: 50px;
+  min-width: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-elevated);
+  border-radius: 50%;
+  color: var(--gold-primary);
+  transition: all var(--transition-normal);
+}
+
+.contact-card:hover .contact-card__icon {
+  background: rgba(201, 168, 76, 0.12);
+  box-shadow: 0 0 15px rgba(201, 168, 76, 0.1);
+}
+
+.contact-card__icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.contact-card__body {
+  flex: 1;
+}
+
+.contact-card__label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--gold-primary);
+  margin-bottom: 6px;
+}
+
+.contact-card__value {
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.contact-card__value a {
+  color: var(--text-primary);
+  transition: color var(--transition-fast);
+}
+
+.contact-card__value a:hover {
+  color: var(--gold-light);
+}
+
+.contact-card__note {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+/* ─── Map Section ─── */
+.map-section {
+  width: 100%;
+  padding: 0;
+}
+
+.map-container {
+  width: 100%;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--border-subtle);
+}
+
+.map-container iframe {
+  width: 100%;
+  height: 450px;
+  display: block;
+  filter: grayscale(0.5) brightness(0.85) contrast(1.1);
+  transition: filter var(--transition-normal);
+}
+
+.map-container:hover iframe {
+  filter: grayscale(0.2) brightness(0.9) contrast(1.05);
+}
+
+/* ─── Section Headers Shared ─── */
+.section-header {
+  text-align: center;
+  margin-bottom: 56px;
+}
+
+.section-header .section-subtitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  color: var(--gold-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.section-header .section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  color: var(--text-primary);
+  margin-bottom: 12px;
+}
+
+.section-header .section-desc {
+  color: var(--text-secondary);
+  max-width: 600px;
+  margin: 0 auto;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+
+/* ─────────────────────────────────────────────────────
+   RESPONSIVE
+   ───────────────────────────────────────────────────── */
+
+@media (max-width: 1024px) {
+  .about-story {
+    gap: 40px;
+  }
+
+  .features-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .stats-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .visit-section {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .contact-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+
+@media (max-width: 768px) {
+  .page-hero {
+    height: 180px;
+    padding-top: 64px;
+  }
+
+  .about-story {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .about-story__image-decor {
+    display: none;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .feature-card {
+    padding: 24px 18px;
+  }
+
+  .feature-card__icon {
+    width: 52px;
+    height: 52px;
+  }
+
+  .stats-row {
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .stat-card {
+    padding: 28px 16px;
+  }
+
+  .contact-form {
+    padding: 28px 22px;
+  }
+
+  .contact-form .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .map-container iframe {
+    height: 320px;
+  }
+
+  .section-header {
+    margin-bottom: 36px;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-hero {
+    height: 160px;
+  }
+
+  .page-hero__title {
+    font-size: 1.6rem;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-row {
+    grid-template-columns: 1fr;
+  }
+
+  .stat-card__number {
+    font-size: 2rem;
+  }
+
+  .contact-form {
+    padding: 20px 16px;
+  }
+
+  .contact-card {
+    padding: 18px;
+  }
+
+  .map-container iframe {
+    height: 260px;
+  }
+}
