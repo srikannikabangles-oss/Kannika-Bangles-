@@ -2,18 +2,20 @@
    KANNIKA BANGLES — Wishlist Page Logic
    ===================================================== */
 
-document.addEventListener('DOMContentLoaded', async () => {
-  if (supabaseClient) {
-    const { data: { session } } = await supabaseClient.auth.getSession();
-    if (!session) {
-      showToast('Please log in to view your wishlist! 🔒', '🔒');
-      setTimeout(() => {
-        window.location.href = `login.html?redirect=${encodeURIComponent(window.location.href)}`;
-      }, 1500);
-      return;
+document.addEventListener('DOMContentLoaded', () => {
+  const checkClerk = setInterval(() => {
+    if (window.Clerk && window.Clerk.loaded) {
+      clearInterval(checkClerk);
+      if (!window.Clerk.user) {
+        showToast('Please log in to view your wishlist! 🔒', '🔒');
+        setTimeout(() => {
+          window.Clerk.openSignIn();
+        }, 1500);
+      } else {
+        renderWishlist();
+      }
     }
-  }
-  renderWishlist();
+  }, 100);
 });
 
 function renderWishlist() {

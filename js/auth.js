@@ -6,7 +6,7 @@
 const SUPABASE_URL = 'https://husexfwrdjftshwaxama.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh1c2V4ZndyZGpmdHNod2F4YW1hIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2ODA4NTcsImV4cCI6MjA5NTI1Njg1N30.ymPgFmj881CdbUVJvVVtTUfQtadgMpI2vH0Zge5r81U';
 
-// Initialize Supabase
+// Initialize Supabase (keep database client intact for reviews and carts)
 let supabaseClient = null;
 if (typeof supabase !== 'undefined') {
   supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -14,19 +14,39 @@ if (typeof supabase !== 'undefined') {
   console.warn('Supabase JS library not loaded. Make sure to load the CDN script.');
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  if (supabaseClient) {
-    // 1. Listen to Auth state changes
-    supabaseClient.auth.onAuthStateChange((event, session) => {
-      updateUserNavbarUI(session);
-    });
+const CLERK_PUBLISHABLE_KEY = 'pk_test_Y3Jpc3AtdGVybWl0ZS0xMy5jbGVyay5hY2NvdW50cy5kZXYk';
+const CLERK_FRONTEND_API = 'crisp-termite-13.clerk.accounts.dev';
 
-    // 2. Initial UI update
-    supabaseClient.auth.getSession().then(({ data: { session } }) => {
-      updateUserNavbarUI(session);
-    });
-  }
-});
+// Load ClerkJS dynamically
+(function loadClerkJS() {
+  if (document.getElementById('clerk-js-sdk')) return;
+  const script = document.createElement('script');
+  script.id = 'clerk-js-sdk';
+  script.setAttribute('data-clerk-publishable-key', CLERK_PUBLISHABLE_KEY);
+  script.async = true;
+  script.src = `https://${CLERK_FRONTEND_API}/npm/@clerk/clerk-js@4/dist/clerk.browser.js`;
+  script.addEventListener('load', async () => {
+    try {
+      await window.Clerk.load();
+      console.log('ClerkJS loaded successfully');
+
+      // Update UI on initial load
+      updateUserNavbarUI(window.Clerk.session);
+
+      // Listen for auth state changes
+      window.Clerk.addListener((state) => {
+        updateUserNavbarUI(state.session);
+      });
+
+      // Update cart and wishlist badge counts once Clerk user ID is resolved
+      if (typeof updateCartBadge === 'function') updateCartBadge();
+      if (typeof updateWishlistBadge === 'function') updateWishlistBadge();
+    } catch (err) {
+      console.error('Error loading Clerk:', err);
+    }
+  });
+  document.body.appendChild(script);
+})();
 
 // Dynamic Navbar Account Action Injection
 function updateUserNavbarUI(session) {
@@ -44,16 +64,21 @@ function updateUserNavbarUI(session) {
   userWrapper.style.display = 'flex';
   userWrapper.style.alignItems = 'center';
 
-  if (session && session.user) {
+  const user = window.Clerk && window.Clerk.user;
+
+  if (user) {
     // Logged in UI - Dropdown Menu
     userWrapper.className = 'navbar__user-menu';
+    const displayName = user.fullName || user.primaryEmailAddress?.emailAddress || 'Account';
+    const email = user.primaryEmailAddress?.emailAddress || '';
     userWrapper.innerHTML = `
-      <button class="navbar__user-btn" aria-label="User Account" id="userMenuBtn">
+      <button class="navbar__user-btn" aria-label="User Account" id="userMenuBtn" title="${displayName}">
         <i data-lucide="user" style="width:22px;height:22px;"></i>
       </button>
       <div class="user-dropdown" id="userDropdown">
         <div class="user-dropdown__header">
-          <div class="user-dropdown__email" title="${session.user.email}">${session.user.email}</div>
+          <div class="user-dropdown__name" style="font-weight: 700; color: var(--text-primary); font-size: 0.95rem; margin-bottom: 2px;">${displayName}</div>
+          <div class="user-dropdown__email" title="${email}" style="font-size: 0.78rem; color: var(--text-muted);">${email}</div>
         </div>
         <div class="user-dropdown__divider"></div>
         <button class="user-dropdown__item" id="btnSignOut">
@@ -63,10 +88,10 @@ function updateUserNavbarUI(session) {
       </div>
     `;
   } else {
-    // Anonymous UI - Login Page Link
+    // Anonymous UI - Login Trigger Link
     userWrapper.className = 'navbar__user-login-btn';
     userWrapper.innerHTML = `
-      <a href="login.html" class="navbar__user-btn" aria-label="Login">
+      <a href="javascript:void(0)" class="navbar__user-btn btn-trigger-login" aria-label="Login">
         <i data-lucide="user" style="width:22px;height:22px;"></i>
       </a>
     `;
@@ -86,23 +111,19 @@ function updateUserNavbarUI(session) {
   }
 
   // Set up events if logged in
-  if (session && session.user) {
+  if (user) {
     const signOutBtn = document.getElementById('btnSignOut');
     if (signOutBtn) {
       signOutBtn.addEventListener('click', async (e) => {
         e.preventDefault();
-        const { error } = await supabaseClient.auth.signOut();
-        if (error) {
-          if (typeof showToast === 'function') {
-            showToast('Sign out failed: ' + error.message, '✗');
-          } else {
-            alert('Sign out failed: ' + error.message);
-          }
-        } else {
+        try {
+          await window.Clerk.signOut();
           if (typeof showToast === 'function') {
             showToast('Signed out successfully');
           }
           window.location.reload();
+        } catch (error) {
+          alert('Sign out failed: ' + error.message);
         }
       });
     }
@@ -119,6 +140,17 @@ function updateUserNavbarUI(session) {
       document.addEventListener('click', (e) => {
         if (!userWrapper.contains(e.target)) {
           userDropdown.classList.remove('active');
+        }
+      });
+    }
+  } else {
+    // Setup login modal triggers
+    const loginBtn = userWrapper.querySelector('.btn-trigger-login');
+    if (loginBtn) {
+      loginBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (window.Clerk) {
+          window.Clerk.openSignIn();
         }
       });
     }

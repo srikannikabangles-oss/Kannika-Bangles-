@@ -17,7 +17,6 @@ const PRODUCTS = [
     finish: "High Polish Gold",
     stones: "Emerald, CZ Diamonds",
     sizes: ["2.4", "2.6", "2.8", "2.10"],
-    rating: 4.9,
     inStock: true,
     badge: "bestseller",
     featured: true
@@ -36,7 +35,6 @@ const PRODUCTS = [
     finish: "Rose Gold Polish",
     stones: "American Diamond (CZ)",
     sizes: ["2.4", "2.6", "2.8"],
-    rating: 4.7,
     inStock: true,
     badge: "sale",
     featured: true
@@ -55,7 +53,6 @@ const PRODUCTS = [
     finish: "Antique Gold",
     stones: "Jadau Kundan, Polki",
     sizes: ["2.4", "2.6", "2.8", "2.10"],
-    rating: 4.8,
     inStock: true,
     badge: "new",
     featured: true
@@ -74,7 +71,6 @@ const PRODUCTS = [
     finish: "High Polish Gold",
     stones: "None",
     sizes: ["2.4", "2.6", "2.8"],
-    rating: 4.6,
     inStock: true,
     badge: null,
     featured: true
@@ -93,7 +89,6 @@ const PRODUCTS = [
     finish: "Matte Antique Gold",
     stones: "Temple Ruby",
     sizes: ["2.4", "2.6", "2.8", "2.10"],
-    rating: 4.8,
     inStock: true,
     badge: "featured",
     featured: true
@@ -112,7 +107,6 @@ const PRODUCTS = [
     finish: "High Polish",
     stones: "None",
     sizes: ["2.4", "2.6", "2.8"],
-    rating: 4.5,
     inStock: true,
     badge: null,
     featured: true
@@ -131,7 +125,6 @@ const PRODUCTS = [
     finish: "Natural Brass Polish",
     stones: "None",
     sizes: ["2.4", "2.6", "2.8", "2.10"],
-    rating: 4.4,
     inStock: true,
     badge: null,
     featured: false
@@ -150,7 +143,6 @@ const PRODUCTS = [
     finish: "Rose Gold & White Gold",
     stones: "Premium CZ Diamonds",
     sizes: ["2.4", "2.6", "2.8"],
-    rating: 4.9,
     inStock: true,
     badge: "bestseller",
     featured: true
@@ -169,7 +161,6 @@ const PRODUCTS = [
     finish: "Royal Gold",
     stones: "Kundan, Ruby, Emerald",
     sizes: ["2.4", "2.6", "2.8", "2.10"],
-    rating: 5.0,
     inStock: true,
     badge: "new",
     featured: true
@@ -188,7 +179,6 @@ const PRODUCTS = [
     finish: "Satin Gold",
     stones: "Pearl Accents",
     sizes: ["2.4", "2.6", "2.8"],
-    rating: 4.7,
     inStock: true,
     badge: null,
     featured: false
@@ -207,7 +197,6 @@ const PRODUCTS = [
     finish: "Oxidized Antique",
     stones: "Temple Motifs",
     sizes: ["2.6", "2.8", "2.10"],
-    rating: 4.6,
     inStock: true,
     badge: "featured",
     featured: false
@@ -226,87 +215,62 @@ const PRODUCTS = [
     finish: "Traditional Gold",
     stones: "Jadau, Meenakari, Polki",
     sizes: ["2.4", "2.6", "2.8"],
-    rating: 4.9,
     inStock: true,
     badge: "sale",
     featured: false
   },
-  {
-    id: 13,
-    type: "necklaces",
-    name: "Royal Kundan Bridal Choker Set",
-    category: "bridal",
-    price: 18999,
-    originalPrice: 22999,
-    image: "images/product-necklace-kundan.png",
-    images: ["images/product-necklace-kundan.png"],
-    description: "An elegant bridal kundan choker adorned with pristine pearls and vibrant gemstones, perfect for making a statement on your wedding day.",
-    material: "Brass Base, Micro Gold Plated",
-    finish: "Traditional Royal Gold",
-    stones: "Kundan, Faux Pearls & Emerald Beads",
-    sizes: ["Adjustable", "Choker Style"],
-    rating: 4.9,
-    inStock: true,
-    badge: "new",
-    featured: true
-  },
-  {
-    id: 14,
-    type: "necklaces",
-    name: "Antique Temple Guttapusalu Haram",
-    category: "matte-antique",
-    price: 14999,
-    originalPrice: 17999,
-    image: "images/product-necklace-temple.png",
-    images: ["images/product-necklace-temple.png"],
-    description: "A gorgeous, heritage-inspired South Indian Guttapusalu haram necklace featuring goddess motifs, antique matte gold finish, and clusters of tiny pearls.",
-    material: "Brass Base, Premium Gold Plated",
-    finish: "Matte Antique Gold",
-    stones: "Kemp Stones, Rice Pearls",
-    sizes: ["Adjustable"],
-    rating: 4.8,
-    inStock: true,
-    badge: "featured",
-    featured: true
-  },
-  {
-    id: 15,
-    type: "necklaces",
-    name: "Premium Gold Plated Haram Set",
-    category: "gold-plated",
-    price: 9999,
-    originalPrice: 12499,
-    image: "images/product-gold-set.png",
-    images: ["images/product-gold-set.png"],
-    description: "Exquisitely detailed long haram necklace set with matching earrings, featuring classical leaf motifs and premium gold plating for a flawless sheen.",
-    material: "Brass Base, Micro Gold Plated",
-    finish: "High Polish Gold",
-    stones: "CZ Stones & Rubies",
-    sizes: ["Adjustable"],
-    rating: 4.7,
-    inStock: true,
-    badge: null,
-    featured: true
-  },
-  {
-    id: 16,
-    type: "necklaces",
-    name: "Heritage Jadau Choker Set",
-    category: "jadau",
-    price: 16499,
-    originalPrice: 19999,
-    image: "images/product-jadau.png",
-    images: ["images/product-jadau.png"],
-    description: "A royal Jadau necklace hand-set with custom gemstones and intricate meenakari backing. Features matching statement jhumkas for the complete festive look.",
-    material: "Brass Base, 22K Gold Plated",
-    finish: "Traditional Gold",
-    stones: "Jadau Kundan, Polki, Meenakari",
-    sizes: ["Adjustable"],
-    rating: 5.0,
-    inStock: true,
-    badge: "bestseller",
-    featured: true
-  }
+  // Generate 24 real necklace products dynamically
+  ...(function() {
+    const necklaceImages = [
+      "IMG-20260520-WA0012.jpg",
+      "IMG-20260520-WA0013.jpg",
+      "IMG-20260520-WA0019.jpg",
+      "IMG-20260520-WA0021.jpg",
+      "IMG-20260520-WA0022.jpg",
+      "IMG-20260520-WA0023.jpg",
+      "IMG-20260520-WA0024.jpg",
+      "IMG-20260520-WA0025.jpg",
+      "IMG-20260520-WA0028.jpg",
+      "IMG-20260520-WA0035.jpg",
+      "IMG-20260520-WA0037.jpg",
+      "IMG-20260520-WA0052.jpg",
+      "IMG-20260520-WA0054.jpg",
+      "IMG-20260520-WA0056.jpg",
+      "IMG-20260520-WA0062.jpg",
+      "IMG-20260520-WA0063.jpg",
+      "IMG-20260520-WA0064.jpg",
+      "IMG-20260520-WA0067.jpg",
+      "IMG-20260520-WA0068.jpg",
+      "IMG-20260520-WA0076.jpg",
+      "IMG-20260520-WA0079.jpg",
+      "IMG-20260520-WA0080.jpg",
+      "IMG-20260520-WA0083.jpg",
+      "IMG-20260520-WA0084.jpg"
+    ];
+
+    const arr = [];
+    for (let i = 0; i < necklaceImages.length; i++) {
+      arr.push({
+        id: 13 + i,
+        type: "necklaces",
+        name: `necklace ${i + 1}`,
+        category: "necklaces",
+        price: 8999 + ((i * 347) % 12000),
+        originalPrice: 10999 + ((i * 347) % 15000),
+        image: `images/Necklaces - kannika/${necklaceImages[i]}`,
+        images: [`images/Necklaces - kannika/${necklaceImages[i]}`],
+        description: `A magnificent necklace ${i + 1} from the House of Kannika, meticulously crafted by master heritage artisans for bridal and royal festive occasions.`,
+        material: i % 2 === 0 ? "Brass Base, Micro Gold Plated" : "Pure Copper Base, Gold Plated",
+        finish: i % 3 === 0 ? "Matte Antique Gold Finish" : i % 3 === 1 ? "Traditional Royal Gold" : "High Polish Gold",
+        stones: i % 4 === 0 ? "Jadau Kundan, Pearls, Ruby" : i % 4 === 1 ? "Premium AD Stones" : i % 4 === 2 ? "Kemp Stones, Rice Pearls" : "Kundan, Faux Pearls & Emerald Beads",
+        sizes: ["Adjustable", "Choker Style"],
+        inStock: true,
+        badge: i % 6 === 0 ? "bestseller" : i % 6 === 1 ? "new" : i % 6 === 2 ? "featured" : null,
+        featured: i < 8
+      });
+    }
+    return arr;
+  })()
 ];
 
 // Generate 24 real earring products
@@ -339,7 +303,7 @@ const earringNames = [
 
 for (let i = 1; i <= 24; i++) {
   PRODUCTS.push({
-    id: 16 + i,
+    id: 36 + i,
     type: "earrings",
     name: `earring ${i}`,
     category: "earrings",
@@ -352,7 +316,6 @@ for (let i = 1; i <= 24; i++) {
     finish: i % 3 === 0 ? "Matte Antique Finish" : "High Polish Gold",
     stones: i % 4 === 0 ? "Jadau Kundan, Pearls" : i % 4 === 1 ? "Premium AD Stones" : i % 4 === 2 ? "Kemp Ruby & Emerald" : "None",
     sizes: ["Standard Pair"],
-    rating: parseFloat((4.5 + ((i * 7) % 6) * 0.1).toFixed(1)),
     inStock: true,
     badge: i % 6 === 0 ? "bestseller" : i % 6 === 1 ? "new" : i % 6 === 2 ? "featured" : null,
     featured: i <= 8
@@ -408,6 +371,47 @@ const TESTIMONIALS = [
     date: "April 2025"
   }
 ];
+
+// Realtime Database-backed Ratings Cache
+let PRODUCT_RATINGS_CACHE = {};
+
+async function fetchAllProductRatings() {
+  if (typeof supabaseClient === 'undefined' || !supabaseClient) return;
+  try {
+    const { data, error } = await supabaseClient
+      .from('reviews')
+      .select('product_id, rating');
+    
+    if (error) throw error;
+    
+    const ratings = {};
+    if (data) {
+      data.forEach(r => {
+        const pid = r.product_id;
+        if (!ratings[pid]) {
+          ratings[pid] = { sum: 0, count: 0 };
+        }
+        ratings[pid].sum += r.rating;
+        ratings[pid].count++;
+      });
+    }
+    
+    const newCache = {};
+    for (const pid in ratings) {
+      newCache[pid] = {
+        avg: parseFloat((ratings[pid].sum / ratings[pid].count).toFixed(1)),
+        count: ratings[pid].count
+      };
+    }
+    PRODUCT_RATINGS_CACHE = newCache;
+  } catch (e) {
+    console.warn('Failed to fetch global ratings from Supabase:', e);
+  }
+}
+
+function getProductRealtimeRating(productId) {
+  return PRODUCT_RATINGS_CACHE[productId] || { avg: 5.0, count: 0 };
+}
 
 // Helper functions
 function getProductById(id) {

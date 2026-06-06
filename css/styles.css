@@ -208,42 +208,47 @@ h4 { font-size: clamp(1.25rem, 2vw, 1.5rem); }
   position: relative;
 }
 
-.top-bar__inner {
-  max-width: var(--container-max);
+.marquee {
   width: 100%;
-  margin: 0 auto;
-  padding: 0 24px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.top-bar__left, .top-bar__right {
+  overflow: hidden;
+  white-space: nowrap;
   display: flex;
   align-items: center;
-  gap: 4px;
 }
 
-.top-bar__right {
-  display: none;
-}
-
-.top-bar__link {
-  color: var(--text-secondary);
-  transition: color var(--transition-fast);
+.marquee__track {
   display: inline-flex;
   align-items: center;
-  text-decoration: none;
+  gap: 24px;
+  animation: marquee-scroll 30s linear infinite;
 }
 
-.top-bar__link:hover {
+.marquee__track:hover {
+  animation-play-state: paused;
+}
+
+.marquee__track span {
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.marquee__dot {
   color: var(--pink-primary);
+  font-size: 1.1rem;
+  line-height: 1;
 }
 
-.top-bar__separator {
-  color: var(--text-muted);
-  opacity: 0.4;
-  margin: 0 8px;
+@keyframes marquee-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 /* ─── Navigation ─── */
@@ -346,7 +351,6 @@ h4 { font-size: clamp(1.25rem, 2vw, 1.5rem); }
   text-decoration: none;
 }
 
-.navbar__logo {
 .navbar__logo {
   font-family: 'Cinzel', serif;
   font-size: 1.8rem;
@@ -1871,4 +1875,28 @@ textarea.form-input {
   gap: 16px;
 }
 
+/* ─── Mobile Handled by css/mobile.css ─── */
 
+/* Desktop: Hide Mobile Bottom Nav */
+.mobile-bottom-nav {
+  display: none;
+}
+
+/* Nav backdrop overlay (created dynamically by JS) */
+.nav-backdrop {
+  display: block;
+  position: fixed;
+  inset: 0;
+  background: rgba(45, 28, 30, 0.45);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 995;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+
+.nav-backdrop.active {
+  opacity: 1;
+  pointer-events: all;
+}

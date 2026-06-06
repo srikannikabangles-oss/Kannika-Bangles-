@@ -236,36 +236,34 @@ function initCheckoutDrawer() {
 
         let supabaseOrderId = null;
 
-        // 1. Persist to orders table in Supabase (if authenticated)
-        if (supabaseClient) {
-          const { data: { session } } = await supabaseClient.auth.getSession();
-          if (session) {
-            const formattedItems = items.map(i => ({
-              product_id: i.product.id,
-              name: i.product.name,
-              size: i.cartItem.size,
-              quantity: i.cartItem.quantity,
-              price: i.product.price
-            }));
+        // 1. Persist to orders table in Supabase (if authenticated via Clerk)
+        if (supabaseClient && window.Clerk && window.Clerk.user) {
+          const user = window.Clerk.user;
+          const formattedItems = items.map(i => ({
+            product_id: i.product.id,
+            name: i.product.name,
+            size: i.cartItem.size,
+            quantity: i.cartItem.quantity,
+            price: i.product.price
+          }));
 
-            const { data: dbData, error: dbError } = await supabaseClient
-              .from('orders')
-              .insert([{
-                user_id: session.user.id,
-                items: formattedItems,
-                subtotal,
-                shipping_fee: shipping,
-                total,
-                shipping_details: shippingDetails
-              }])
-              .select('id')
-              .single();
-            
-            if (dbError) {
-              console.warn('Supabase order logging failed:', dbError);
-            } else if (dbData) {
-              supabaseOrderId = dbData.id;
-            }
+          const { data: dbData, error: dbError } = await supabaseClient
+            .from('orders')
+            .insert([{
+              user_id: user.id,
+              items: formattedItems,
+              subtotal,
+              shipping_fee: shipping,
+              total,
+              shipping_details: shippingDetails
+            }])
+            .select('id')
+            .single();
+          
+          if (dbError) {
+            console.warn('Supabase order logging failed:', dbError);
+          } else if (dbData) {
+            supabaseOrderId = dbData.id;
           }
         }
 
@@ -302,5 +300,22 @@ function openCheckoutDrawer() {
   if (overlay && drawer) {
     overlay.classList.add('active');
     drawer.classList.add('active');
+
+    // Autofill user details if authenticated via Clerk
+    if (window.Clerk && window.Clerk.user) {
+      const user = window.Clerk.user;
+      const fullName = user.fullName;
+      const phone = user.primaryPhoneNumber?.phoneNumber;
+      
+      const nameInput = document.getElementById('shippingName');
+      const phoneInput = document.getElementById('shippingPhone');
+      
+      if (nameInput && fullName && !nameInput.value) {
+        nameInput.value = fullName;
+      }
+      if (phoneInput && phone && !phoneInput.value) {
+        phoneInput.value = phone;
+      }
+    }
   }
 }

@@ -7,7 +7,7 @@ let selectedSize = '2.6';
 let selectedQuantity = 1;
 let currentImageIndex = 0;
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   const params = new URLSearchParams(window.location.search);
   const productId = params.get('id');
 
@@ -23,12 +23,15 @@ document.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
-  renderProductDetail();
+  if (typeof fetchAllProductRatings !== 'undefined') {
+    await fetchAllProductRatings();
+  }
+  await renderProductDetail();
   renderRelatedProducts();
   renderReviews();
 });
 
-function renderProductDetail() {
+async function renderProductDetail() {
   const container = document.getElementById('productDetail');
   if (!container || !currentProduct) return;
 
@@ -36,6 +39,8 @@ function renderProductDetail() {
 
   // Update page title
   document.title = `${currentProduct.name} — Kannika Bangles`;
+
+  const rtRating = getProductRealtimeRating(currentProduct.id);
 
   container.innerHTML = `
     <div class="pd__gallery">
@@ -64,9 +69,9 @@ function renderProductDetail() {
 
       <h1 class="pd__name">${currentProduct.name}</h1>
 
-      <div class="pd__rating">
-        <span class="stars">${getStarRating(currentProduct.rating)}</span>
-        <span class="pd__rating-text">${currentProduct.rating}</span>
+      <div class="pd__rating" style="display: flex; align-items: center; gap: 8px;">
+        <span class="stars">${getStarRating(rtRating.avg)}</span>
+        <span class="pd__rating-text" style="font-size: 0.92rem; color: var(--text-muted);">${rtRating.avg} (${rtRating.count} review${rtRating.count !== 1 ? 's' : ''})</span>
       </div>
 
       <div class="pd__pricing">
@@ -226,6 +231,7 @@ function renderRelatedProducts() {
 
   let html = '';
   related.forEach(product => {
+    const rtRating = getProductRealtimeRating(product.id);
     html += `
       <a href="product.html?id=${product.id}" class="card">
         <div class="card__image">
@@ -238,8 +244,9 @@ function renderRelatedProducts() {
             ${formatPrice(product.price)}
             ${product.originalPrice > product.price ? `<span class="original">${formatPrice(product.originalPrice)}</span>` : ''}
           </div>
-          <div class="card__rating">
-            <span class="stars">${getStarRating(product.rating)}</span>
+          <div class="card__rating" style="display: flex; align-items: center; gap: 4px;">
+            <span class="stars">${getStarRating(rtRating.avg)}</span>
+            <span style="font-size: 0.78rem; color: var(--text-muted);">${rtRating.avg} (${rtRating.count})</span>
           </div>
         </div>
       </a>
@@ -349,7 +356,7 @@ async function getProductReviews(productId) {
 async function saveProductReview(productId, review) {
   if (supabaseClient) {
     try {
-      const { data: { session } } = await supabaseClient.auth.getSession();
+      const user = window.Clerk && window.Clerk.user;
       const { error } = await supabaseClient
         .from('reviews')
         .insert([{
@@ -357,7 +364,7 @@ async function saveProductReview(productId, review) {
           name: review.name,
           rating: review.rating,
           comment: review.comment,
-          user_id: session ? session.user.id : null
+          user_id: user ? user.id : null
         }]);
 
       if (error) throw error;
@@ -506,11 +513,14 @@ async function handleReviewSubmit(e) {
     return;
   }
 
-  const { data: { session } } = await supabaseClient.auth.getSession();
-  if (!session) {
+  if (!window.Clerk || !window.Clerk.user) {
     showToast('Please log in to submit a review! 🔒', '🔒');
     setTimeout(() => {
-      window.location.href = `login.html?redirect=${encodeURIComponent(window.location.href)}`;
+      if (window.Clerk) {
+        window.Clerk.openSignIn();
+      } else {
+        window.location.href = `login.html?redirect=${encodeURIComponent(window.location.href)}`;
+      }
     }, 1500);
     return;
   }

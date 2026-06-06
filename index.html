@@ -29,17 +29,41 @@
   <!-- Stylesheets -->
   <link rel="stylesheet" href="css/styles.css?v=12">
   <link rel="stylesheet" href="css/home.css?v=12">
+  <link rel="stylesheet" href="css/mobile.css?v=1">
 
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js" defer></script>
 </head>
 <body class="home-page">
-  <!-- ─── Top Announcement Bar ─── -->
+  <!-- ─── Top Announcement Bar (Infinite Marquee) ─── -->
   <div class="top-bar">
-    <div class="top-bar__inner">
-      <div class="top-bar__left">
-        <i data-lucide="truck" style="width:14px;height:14px;margin-right:6px;color:var(--pink-primary);"></i>
-        <span>Free Shipping on Orders Above ₹999</span>
+    <div class="marquee">
+      <div class="marquee__track">
+        <span>Kundan Jewellery</span><span class="marquee__dot">•</span>
+        <span>Jadav Masterpieces</span><span class="marquee__dot">•</span>
+        <span>Bridal Bangles Curation</span><span class="marquee__dot">•</span>
+        <span>Antique Matte Harams</span><span class="marquee__dot">•</span>
+        <span>Sparkling CZ Diamonds</span><span class="marquee__dot">•</span>
+        <span>Nakshi Temple Jewellery</span><span class="marquee__dot">•</span>
+        <span>Royal Choker Sets</span><span class="marquee__dot">•</span>
+        <span>Emerald & Ruby Accents</span><span class="marquee__dot">•</span>
+        <span>Chandbali & Jhumka Suite</span><span class="marquee__dot">•</span>
+        <span>Designer Kadaas</span><span class="marquee__dot">•</span>
+        <span>Micro Gold Plated Bangles</span><span class="marquee__dot">•</span>
+        <span>Heritage Handcrafted Ornaments</span><span class="marquee__dot">•</span>
+        <!-- Duplicate for seamless loop -->
+        <span>Kundan Jewellery</span><span class="marquee__dot">•</span>
+        <span>Jadav Masterpieces</span><span class="marquee__dot">•</span>
+        <span>Bridal Bangles Curation</span><span class="marquee__dot">•</span>
+        <span>Antique Matte Harams</span><span class="marquee__dot">•</span>
+        <span>Sparkling CZ Diamonds</span><span class="marquee__dot">•</span>
+        <span>Nakshi Temple Jewellery</span><span class="marquee__dot">•</span>
+        <span>Royal Choker Sets</span><span class="marquee__dot">•</span>
+        <span>Emerald & Ruby Accents</span><span class="marquee__dot">•</span>
+        <span>Chandbali & Jhumka Suite</span><span class="marquee__dot">•</span>
+        <span>Designer Kadaas</span><span class="marquee__dot">•</span>
+        <span>Micro Gold Plated Bangles</span><span class="marquee__dot">•</span>
+        <span>Heritage Handcrafted Ornaments</span><span class="marquee__dot">•</span>
       </div>
     </div>
   </div>
@@ -157,24 +181,6 @@
             <span>New Masterworks</span>
           </a>
         </div>
-
-        <!-- Trust Strip -->
-        <div class="hero__trust">
-          <div class="hero__trust-item">
-            <i data-lucide="shield-check" style="width:15px;height:15px;"></i>
-            <span>Heritage Authenticity</span>
-          </div>
-          <div class="hero__trust-sep">&#183;</div>
-          <div class="hero__trust-item">
-            <i data-lucide="package" style="width:15px;height:15px;"></i>
-            <span>Complimentary Insured Shipping</span>
-          </div>
-          <div class="hero__trust-sep">&#183;</div>
-          <div class="hero__trust-item">
-            <i data-lucide="heart" style="width:15px;height:15px;"></i>
-            <span>Adoring 10,000+ Royal Brides</span>
-          </div>
-        </div>
       </div>
 
       <!-- RIGHT - Hanging Jewellery Cards -->
@@ -225,7 +231,7 @@
           <a href="shop.html?category=necklaces" class="hang-card__body hang-card__body--center">
             <div class="hang-card__featured-ribbon">&#10022; Bestseller</div>
             <div class="hang-card__img-wrap">
-              <img src="images/product-necklace-kundan.png" alt="Necklaces Collection" loading="eager">
+              <img src="images/Necklaces - kannika/IMG-20260520-WA0012.jpg" alt="Necklaces Collection" loading="eager">
               <div class="hang-card__img-shine"></div>
             </div>
             <div class="hang-card__info">
@@ -291,7 +297,7 @@
         <!-- Necklaces -->
         <a href="shop.html?category=necklaces" class="cat-circle-card">
           <div class="cat-circle-card__box">
-            <img src="images/product-necklace-kundan.png" alt="Necklaces" loading="lazy">
+            <img src="images/Necklaces - kannika/IMG-20260520-WA0012.jpg" alt="Necklaces" loading="lazy">
           </div>
           <div class="cat-circle-card__name">NECKLACES</div>
           <div class="cat-circle-card__action">Explore Now <i data-lucide="chevron-right"></i></div>
@@ -550,12 +556,22 @@
             : '';
 
           const categoryLabel = (CATEGORIES.find(c => c.id === product.category) || {}).name || product.category;
+          
+          // Realtime rating & Wishlist state
+          const rtRating = getProductRealtimeRating(product.id);
+          const activeWishlistClass = typeof isInWishlist !== 'undefined' && isInWishlist(product.id) ? 'active' : '';
+          const heartFillStyle = typeof isInWishlist !== 'undefined' && isInWishlist(product.id) ? 'style="fill: var(--pink-primary);"' : '';
 
           return `
             <div class="product-card">
               ${badgeHTML}
               <div class="product-card__image">
                 <img src="${product.image}" alt="${product.name}" loading="lazy">
+                
+                <button class="wishlist-toggle ${activeWishlistClass}" onclick="event.preventDefault(); handleWishlistToggle(${product.id}, this);" aria-label="Add to wishlist">
+                  <i data-lucide="heart" ${heartFillStyle}></i>
+                </button>
+
                 <div class="product-card__overlay">
                   <a href="product.html?id=${product.id}" class="btn btn--sm btn--outline">View Details</a>
                   <button class="btn btn--sm btn--primary" onclick="event.preventDefault(); addToCart(${product.id});">Add to Cart</button>
@@ -569,8 +585,9 @@
                   <span class="product-card__original-price">${formatPrice(product.originalPrice)}</span>
                   <span class="product-card__discount">-${discount}%</span>
                 </div>
-                <div class="product-card__rating">
-                  <span class="product-card__stars">${getStarRating(product.rating)}</span>
+                <div class="product-card__rating" style="display: flex; align-items: center; gap: 4px;">
+                  <span class="product-card__stars">${getStarRating(rtRating.avg)}</span>
+                  <span style="font-size: 0.72rem; color: var(--text-muted);">${rtRating.avg} (${rtRating.count})</span>
                 </div>
               </div>
             </div>
@@ -582,7 +599,10 @@
 
 
       /* ─── Initialize Everything ─── */
-      function init() {
+      async function init() {
+        if (typeof fetchAllProductRatings !== 'undefined') {
+          await fetchAllProductRatings();
+        }
         renderTypeGrid('bangles', 'banglesGrid');
         renderTypeGrid('necklaces', 'necklacesGrid');
         renderTypeGrid('earrings', 'earringsGrid');

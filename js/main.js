@@ -32,12 +32,15 @@ function syncPhoneNumbersDOM() {
 document.addEventListener('DOMContentLoaded', () => {
   syncPhoneNumbersDOM();
   initLoader();
+  fixIOSInputZoom();     // Prevent iOS auto-zoom on inputs
+  initMobileBottomNav();
   initNavbar();
   initScrollAnimations();
   initBackToTop();
   updateCartBadge();
   updateWishlistBadge();
   initGlobalSearch();
+  initStickyATC();       // Sticky add-to-cart on product pages
   initLucide();
 });
 
@@ -62,7 +65,7 @@ function initLoader() {
   }, 3000);
 }
 
-/* ─── Navbar Scroll Effect ─── */
+/* ─── Navbar Scroll Effect + Smart Hide/Show + Mobile Drawer ─── */
 function initNavbar() {
   const navbar = document.querySelector('.navbar');
   const toggle = document.querySelector('.navbar__toggle, .navbar__toggle-left');
@@ -70,46 +73,176 @@ function initNavbar() {
 
   if (!navbar) return;
 
-  // Scroll effect - solid bg on scroll
+  // Create nav backdrop overlay (mobile menu dimming)
+  let backdrop = document.querySelector('.nav-backdrop');
+  if (!backdrop) {
+    backdrop = document.createElement('div');
+    backdrop.className = 'nav-backdrop';
+    document.body.appendChild(backdrop);
+  }
+
+  const closeMenu = () => {
+    toggle && toggle.classList.remove('active');
+    links && links.classList.remove('open');
+    backdrop && backdrop.classList.remove('active');
+    document.body.style.overflow = '';
+  };
+
+  // — Smart scroll behavior —
+  let lastScrollY = window.scrollY;
+  let ticking = false;
+  const SCROLL_THRESHOLD = 80; // Minimum scroll before hide kicks in
+
   window.addEventListener('scroll', () => {
-    if (window.scrollY > 50) {
-      navbar.classList.add('scrolled');
-    } else {
-      navbar.classList.remove('scrolled');
+    if (!ticking) {
+      requestAnimationFrame(() => {
+        const currentScrollY = window.scrollY;
+
+        // Apply scrolled class (glassmorphism bg)
+        if (currentScrollY > 20) {
+          navbar.classList.add('scrolled');
+        } else {
+          navbar.classList.remove('scrolled');
+        }
+
+        // Smart hide/show on mobile only
+        if (window.innerWidth <= 768 && currentScrollY > SCROLL_THRESHOLD) {
+          if (currentScrollY > lastScrollY + 4) {
+            // Scrolling DOWN — hide navbar (but not when menu is open)
+            if (links && !links.classList.contains('open')) {
+              navbar.style.transform = 'translateY(-100%)';
+            }
+          } else if (currentScrollY < lastScrollY - 4) {
+            // Scrolling UP — reveal navbar
+            navbar.style.transform = 'translateY(0)';
+          }
+        } else {
+          navbar.style.transform = 'translateY(0)';
+        }
+
+        lastScrollY = currentScrollY;
+        ticking = false;
+      });
+      ticking = true;
     }
-  });
+  }, { passive: true });
 
   // Check initial scroll position
-  if (window.scrollY > 50) {
+  if (window.scrollY > 20) {
     navbar.classList.add('scrolled');
   }
+
+  // CSS transition for smart hide/show
+  navbar.style.transition = 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), top 0.35s ease, background 0.35s ease, box-shadow 0.35s ease';
 
   // Mobile toggle
   if (toggle && links) {
     toggle.addEventListener('click', () => {
+      const isOpen = links.classList.contains('open');
       toggle.classList.toggle('active');
       links.classList.toggle('open');
-      document.body.style.overflow = links.classList.contains('open') ? 'hidden' : '';
+      backdrop.classList.toggle('active', !isOpen);
+      document.body.style.overflow = !isOpen ? 'hidden' : '';
+      // Always show navbar when menu opens
+      navbar.style.transform = 'translateY(0)';
     });
 
     // Close menu on link click
     links.querySelectorAll('.navbar__link').forEach(link => {
-      link.addEventListener('click', () => {
-        toggle.classList.remove('active');
-        links.classList.remove('open');
-        document.body.style.overflow = '';
-      });
+      link.addEventListener('click', closeMenu);
     });
 
-    // Close menu on outside click
+    // Close menu when backdrop clicked
+    backdrop.addEventListener('click', closeMenu);
+
+    // Close on outside click
     document.addEventListener('click', (e) => {
       if (!navbar.contains(e.target) && links.classList.contains('open')) {
-        toggle.classList.remove('active');
-        links.classList.remove('open');
-        document.body.style.overflow = '';
+        closeMenu();
       }
     });
   }
+
+  // Close on Escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && links && links.classList.contains('open')) {
+      closeMenu();
+    }
+  });
+}
+
+/* ─── Mobile Bottom Navigation Dynamic Insertion ─── */
+function initMobileBottomNav() {
+  if (document.querySelector('.mobile-bottom-nav')) return;
+
+  const bottomNav = document.createElement('nav');
+  bottomNav.className = 'mobile-bottom-nav';
+  bottomNav.setAttribute('aria-label', 'Mobile Navigation');
+
+  const path = window.location.pathname;
+  const pageName = path.split('/').pop() || 'index.html';
+
+  const isHome = pageName === '' || pageName === 'index.html';
+  const isShop = pageName === 'shop.html';
+  const isWishlist = pageName === 'wishlist.html';
+  const isCart = pageName === 'cart.html';
+  const isProfile = pageName === 'login.html' || pageName === 'profile.html';
+
+  bottomNav.innerHTML = `
+    <a href="index.html" class="mobile-bottom-nav__item ${isHome ? 'active' : ''}" aria-label="Home">
+      <i data-lucide="home" style="width:22px;height:22px;"></i>
+      <span>Home</span>
+    </a>
+    <a href="shop.html" class="mobile-bottom-nav__item ${isShop ? 'active' : ''} mobile-bottom-nav__item--search" aria-label="Search">
+      <i data-lucide="search" style="width:22px;height:22px;"></i>
+      <span>Search</span>
+    </a>
+    <a href="wishlist.html" class="mobile-bottom-nav__item ${isWishlist ? 'active' : ''}" aria-label="Wishlist">
+      <i data-lucide="heart" style="width:22px;height:22px;"></i>
+      <span class="navbar__wishlist-badge">0</span>
+      <span>Wishlist</span>
+    </a>
+    <a href="cart.html" class="mobile-bottom-nav__item ${isCart ? 'active' : ''}" aria-label="Cart">
+      <i data-lucide="shopping-bag" style="width:22px;height:22px;"></i>
+      <span class="navbar__cart-badge">0</span>
+      <span>Cart</span>
+    </a>
+    <a href="login.html" class="mobile-bottom-nav__item ${isProfile ? 'active' : ''}" aria-label="Account">
+      <i data-lucide="user" style="width:22px;height:22px;"></i>
+      <span>Account</span>
+    </a>
+  `;
+
+  document.body.appendChild(bottomNav);
+
+  // Hook search overlay trigger (only on non-shop pages, prevents navigation)
+  const searchBtn = bottomNav.querySelector('.mobile-bottom-nav__item--search');
+  if (searchBtn && !isShop) {
+    searchBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      hapticFeedback('light');
+      const overlay = document.getElementById('globalSearchOverlay');
+      if (overlay) {
+        overlay.classList.add('active');
+        const searchInput = document.getElementById('searchOverlayInput');
+        if (searchInput) {
+          setTimeout(() => searchInput.focus(), 300);
+        }
+      }
+    });
+  }
+
+  // Add touch ripple effect to all bottom nav items
+  bottomNav.querySelectorAll('.mobile-bottom-nav__item').forEach(item => {
+    item.addEventListener('click', () => {
+      hapticFeedback('light');
+    });
+
+    item.addEventListener('touchstart', (e) => {
+      item.classList.add('tapped');
+      setTimeout(() => item.classList.remove('tapped'), 350);
+    }, { passive: true });
+  });
 }
 
 /* ─── Scroll Animations (Intersection Observer) ─── */
@@ -168,13 +301,13 @@ function saveLocalCart(cart) {
 async function getCart() {
   if (!supabaseClient) return getLocalCart();
   try {
-    const { data: { session } } = await supabaseClient.auth.getSession();
-    if (!session) return getLocalCart(); // Return guest cart instead of empty!
+    const userId = getLoggedInUserId();
+    if (!userId) return getLocalCart(); // Return guest cart instead of empty!
 
     const { data, error } = await supabaseClient
       .from('cart_items')
       .select('*')
-      .eq('user_id', session.user.id);
+      .eq('user_id', userId);
 
     if (error) throw error;
     return data.map(item => ({
@@ -203,8 +336,8 @@ async function addToCart(productId, size = '2.6', quantity = 1) {
     return;
   }
   
-  const { data: { session } } = await supabaseClient.auth.getSession();
-  if (!session) {
+  const userId = getLoggedInUserId();
+  if (!userId) {
     // Guest cart additions
     const cart = getLocalCart();
     const existingIndex = cart.findIndex(item => item.id === parseInt(productId) && item.size === size);
@@ -219,7 +352,6 @@ async function addToCart(productId, size = '2.6', quantity = 1) {
     return;
   }
 
-  const userId = session.user.id;
   try {
     const { data: existing, error: fetchError } = await supabaseClient
       .from('cart_items')
@@ -269,8 +401,8 @@ async function restoreCartFromBackup() {
     const backup = JSON.parse(localStorage.getItem('kannika_cart_backup'));
     if (!backup || backup.length === 0) return false;
     
-    const { data: { session } } = supabaseClient ? await supabaseClient.auth.getSession() : { data: { session: null } };
-    if (session) {
+    const userId = getLoggedInUserId();
+    if (userId) {
       // Clear database cart first
       await clearCart();
       // Restore to Supabase
@@ -295,12 +427,12 @@ async function restoreCartFromBackup() {
 async function removeFromCart(productId, size) {
   if (supabaseClient) {
     try {
-      const { data: { session } } = await supabaseClient.auth.getSession();
-      if (session) {
+      const userId = getLoggedInUserId();
+      if (userId) {
         const { error } = await supabaseClient
           .from('cart_items')
           .delete()
-          .eq('user_id', session.user.id)
+          .eq('user_id', userId)
           .eq('product_id', parseInt(productId))
           .eq('size', size);
         if (error) throw error;
@@ -321,12 +453,12 @@ async function removeFromCart(productId, size) {
 async function updateCartQuantity(productId, size, quantity) {
   if (supabaseClient) {
     try {
-      const { data: { session } } = await supabaseClient.auth.getSession();
-      if (session) {
+      const userId = getLoggedInUserId();
+      if (userId) {
         const { error } = await supabaseClient
           .from('cart_items')
           .update({ quantity: Math.max(1, quantity) })
-          .eq('user_id', session.user.id)
+          .eq('user_id', userId)
           .eq('product_id', parseInt(productId))
           .eq('size', size);
         if (error) throw error;
@@ -367,12 +499,12 @@ async function getCartTotal() {
 async function clearCart() {
   if (supabaseClient) {
     try {
-      const { data: { session } } = await supabaseClient.auth.getSession();
-      if (session) {
+      const userId = getLoggedInUserId();
+      if (userId) {
         const { error } = await supabaseClient
           .from('cart_items')
           .delete()
-          .eq('user_id', session.user.id);
+          .eq('user_id', userId);
         if (error) throw error;
         await updateCartBadge();
         return;
@@ -607,18 +739,10 @@ function getFooterHTML() {
   `;
 }
 
-/* ─── Wishlist Management (Supabase Auth Scoped) ─── */
+/* ─── Wishlist Management (Clerk Scoped) ─── */
 function getLoggedInUserId() {
-  try {
-    const tokenStr = localStorage.getItem('sb-husexfwrdjftshwaxama-auth-token');
-    if (tokenStr) {
-      const data = JSON.parse(tokenStr);
-      if (data && data.user) {
-        return data.user.id;
-      }
-    }
-  } catch (e) {
-    // ignore
+  if (window.Clerk && window.Clerk.user) {
+    return window.Clerk.user.id;
   }
   return null;
 }
@@ -641,16 +765,14 @@ function saveWishlist(wishlist) {
 }
 
 async function toggleWishlist(productId) {
-  if (!supabaseClient) {
-    showToast('Database client not initialized');
-    return false;
-  }
-
-  const { data: { session } } = await supabaseClient.auth.getSession();
-  if (!session) {
+  if (!window.Clerk || !window.Clerk.user) {
     showToast('Please log in to add items to wishlist! 🔒', '🔒');
     setTimeout(() => {
-      window.location.href = `login.html?redirect=${encodeURIComponent(window.location.href)}`;
+      if (window.Clerk) {
+        window.Clerk.openSignIn();
+      } else {
+        window.location.href = `login.html?redirect=${encodeURIComponent(window.location.href)}`;
+      }
     }, 1500);
     return false;
   }
@@ -836,3 +958,101 @@ function initGlobalSearch() {
   }
 }
 
+/* ─── Haptic Feedback (Vibration API) ─── */
+function hapticFeedback(type = 'light') {
+  if (!navigator.vibrate) return;
+  const patterns = {
+    light:   [8],
+    medium:  [18],
+    success: [8, 40, 8],
+    error:   [40, 25, 40],
+    warning: [20]
+  };
+  navigator.vibrate(patterns[type] || [8]);
+}
+
+/* ─── iOS Auto-Zoom Fix ─── */
+function fixIOSInputZoom() {
+  const inputs = document.querySelectorAll('input, select, textarea');
+  inputs.forEach(input => {
+    const computedSize = parseFloat(getComputedStyle(input).fontSize);
+    if (computedSize < 16 && !input.dataset.iosFixed) {
+      input.style.fontSize = '16px';
+      input.dataset.iosFixed = '1';
+    }
+  });
+
+  // Watch for dynamically added inputs
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach(mutation => {
+      mutation.addedNodes.forEach(node => {
+        if (node.nodeType === 1) {
+          const newInputs = node.querySelectorAll ? node.querySelectorAll('input, select, textarea') : [];
+          newInputs.forEach(input => {
+            const computedSize = parseFloat(getComputedStyle(input).fontSize);
+            if (computedSize < 16 && !input.dataset.iosFixed) {
+              input.style.fontSize = '16px';
+              input.dataset.iosFixed = '1';
+            }
+          });
+        }
+      });
+    });
+  });
+  observer.observe(document.body, { childList: true, subtree: true });
+}
+
+/* ─── Sticky Add-to-Cart Bar (Product Detail Pages — Mobile Only) ─── */
+function initStickyATC() {
+  const pdActions = document.querySelector('.pd__actions');
+  if (!pdActions) return;
+  if (window.innerWidth > 768) return;
+
+  const pdPrice = document.querySelector('.pd__price');
+  const pdAddBtn = document.querySelector('.pd__add-btn, .pd__actions .btn--primary');
+  if (!pdPrice || !pdAddBtn) return;
+
+  const stickyBar = document.createElement('div');
+  stickyBar.className = 'pd__sticky-atc';
+  stickyBar.innerHTML = `
+    <div class="pd__sticky-atc__price">${pdPrice.textContent}</div>
+    <button class="pd__sticky-atc__btn" id="stickyAddBtn">
+      <i data-lucide="shopping-bag" style="width:16px;height:16px;"></i>
+      Add to Cart
+    </button>
+  `;
+  document.body.appendChild(stickyBar);
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+
+  const stickyBtn = document.getElementById('stickyAddBtn');
+  if (stickyBtn) {
+    stickyBtn.addEventListener('click', () => {
+      hapticFeedback('success');
+      pdAddBtn.click();
+    });
+  }
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach(entry => {
+        stickyBar.classList.toggle('visible', !entry.isIntersecting);
+      });
+    },
+    { threshold: 0.1, rootMargin: '0px 0px -20px 0px' }
+  );
+  observer.observe(pdActions);
+}
+
+/* ─── Touch Press Feedback on Product Cards (Mobile) ─── */
+document.addEventListener('DOMContentLoaded', () => {
+  if (window.innerWidth <= 768) {
+    document.querySelectorAll('.product-card, .card').forEach(card => {
+      card.addEventListener('touchstart', () => {
+        card.classList.add('tapped');
+      }, { passive: true });
+      card.addEventListener('touchend', () => {
+        setTimeout(() => card.classList.remove('tapped'), 200);
+      }, { passive: true });
+    });
+  }
+});

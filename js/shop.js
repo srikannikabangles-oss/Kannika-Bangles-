@@ -8,7 +8,7 @@ let currentType = 'all';
 let currentSort = 'featured';
 let currentPriceRange = 'all';
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   // Check URL params for initial category
   const params = new URLSearchParams(window.location.search);
   const urlCategory = params.get('category');
@@ -35,6 +35,9 @@ document.addEventListener('DOMContentLoaded', () => {
     searchInput.value = urlSearch;
   }
 
+  if (typeof fetchAllProductRatings !== 'undefined') {
+    await fetchAllProductRatings();
+  }
   renderCategoryFilters();
   renderProducts();
   initSortDropdown();
@@ -154,7 +157,11 @@ function getFilteredProducts() {
       products.sort((a, b) => b.price - a.price);
       break;
     case 'rating':
-      products.sort((a, b) => b.rating - a.rating);
+      products.sort((a, b) => {
+        const ratingA = typeof getProductRealtimeRating !== 'undefined' ? getProductRealtimeRating(a.id).avg : 5.0;
+        const ratingB = typeof getProductRealtimeRating !== 'undefined' ? getProductRealtimeRating(b.id).avg : 5.0;
+        return ratingB - ratingA;
+      });
       break;
     case 'newest':
       products.sort((a, b) => b.id - a.id);
@@ -227,8 +234,9 @@ function renderProducts() {
             ${formatPrice(product.price)}
             ${product.originalPrice > product.price ? `<span class="original">${formatPrice(product.originalPrice)}</span>` : ''}
           </div>
-          <div class="card__rating">
-            <span class="stars">${getStarRating(product.rating)}</span>
+          <div class="card__rating" style="display: flex; align-items: center; gap: 4px;">
+            <span class="stars">${getStarRating(getProductRealtimeRating(product.id).avg)}</span>
+            <span style="font-size: 0.78rem; color: var(--text-muted);">${getProductRealtimeRating(product.id).avg} (${getProductRealtimeRating(product.id).count})</span>
           </div>
         </a>
       </div>
