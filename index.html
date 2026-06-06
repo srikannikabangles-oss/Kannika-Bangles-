@@ -51,7 +51,8 @@
         <span>Designer Kadaas</span><span class="marquee__dot">•</span>
         <span>Micro Gold Plated Bangles</span><span class="marquee__dot">•</span>
         <span>Heritage Handcrafted Ornaments</span><span class="marquee__dot">•</span>
-        <!-- Duplicate for seamless loop -->
+      </div>
+      <div class="marquee__track" aria-hidden="true">
         <span>Kundan Jewellery</span><span class="marquee__dot">•</span>
         <span>Jadav Masterpieces</span><span class="marquee__dot">•</span>
         <span>Bridal Bangles Curation</span><span class="marquee__dot">•</span>
@@ -529,9 +530,9 @@
   </button>
 
 
-  <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+  <!-- â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• 
        SCRIPTS
-       â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+       â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â•  -->
   <script src="js/products.js?v=6"></script>
   <script src="js/main.js?v=6"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -548,7 +549,15 @@
         const filtered = PRODUCTS.filter(p => p.type === type && p.featured).slice(0, 4);
 
         grid.innerHTML = filtered.map(product => {
-          const discount = Math.round((1 - product.price / product.originalPrice) * 100);
+          const originalPriceHTML = product.originalPrice && product.originalPrice > product.price 
+            ? `<span class="product-card__original-price">${formatPrice(product.originalPrice)}</span>` 
+            : '';
+          const discount = product.originalPrice && product.originalPrice > product.price 
+            ? Math.round((1 - product.price / product.originalPrice) * 100) 
+            : 0;
+          const discountHTML = discount > 0 
+            ? `<span class="product-card__discount">-${discount}%</span>` 
+            : '';
           const badgeHTML = product.badge
             ? `<div class="product-card__badge">
                  <span class="badge badge--${product.badge === 'bestseller' ? 'featured' : product.badge}">
@@ -584,8 +593,8 @@
                 <h3 class="product-card__name">${product.name}</h3>
                 <div class="product-card__price-row">
                   <span class="product-card__price">${formatPrice(product.price)}</span>
-                  <span class="product-card__original-price">${formatPrice(product.originalPrice)}</span>
-                  <span class="product-card__discount">-${discount}%</span>
+                  ${originalPriceHTML}
+                  ${discountHTML}
                 </div>
                 <div class="product-card__rating" style="display: flex; align-items: center; gap: 4px;">
                   <span class="product-card__stars">${getStarRating(rtRating.avg)}</span>

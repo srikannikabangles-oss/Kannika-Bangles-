@@ -247,9 +247,9 @@ h4 { font-size: clamp(1.25rem, 2vw, 1.5rem); }
 }
 
 @keyframes marquee-scroll {
-  0% {
-    transform: translateX(0);
-  }
+  0% { transform: translateX(0); }
+  100% { transform: translateX(calc(-100% - 24px)); }
+}
   100% {
     transform: translateX(-50%);
   }

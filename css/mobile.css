@@ -1363,17 +1363,9 @@
     overflow: hidden !important;
   }
 
-  .marquee__track {
-    display: flex !important;
-    flex-shrink: 0 !important;
-    width: max-content !important;
-    white-space: nowrap !important;
-    animation-duration: 20s !important;
-  }
+  
 
-  .marquee__track span {
-    flex-shrink: 0 !important;
-  }
+  
 }
 
 /* =====================================================
