@@ -966,35 +966,45 @@
 @media (max-width: 768px) {
   .search-overlay {
     align-items: flex-start !important;
-    padding-top: 60px;
+    padding-top: 0 !important;
+    overflow-y: auto !important;
+    display: block !important;
   }
 
   .search-overlay__close {
-    top: 16px !important;
-    right: 16px !important;
-    width: 44px !important;
-    height: 44px !important;
+    position: fixed !important;
+    top: calc(12px + env(safe-area-inset-top)) !important;
+    right: 12px !important;
+    width: 40px !important;
+    height: 40px !important;
+    z-index: 10000;
   }
 
   .search-overlay__content {
     width: 100% !important;
     max-width: 100% !important;
-    padding: 0 20px !important;
+    padding: calc(48px + env(safe-area-inset-top)) 16px 48px !important;
+    margin: 0 auto;
+    text-align: center;
+    box-sizing: border-box;
   }
 
   .search-overlay__title {
-    font-size: 1.5rem !important;
+    font-size: 1.35rem !important;
+    margin-top: 20px !important;
     margin-bottom: 16px !important;
   }
 
   .search-overlay__input {
     font-size: 1rem !important;
-    padding: 16px 52px 16px 20px !important;
+    padding: 14px 48px 14px 16px !important;
     border-radius: var(--radius-md) !important;
   }
 
   .search-overlay__results {
-    max-height: 55vh !important;
+    max-height: none !important;
+    overflow-y: visible !important;
+    margin-top: 20px !important;
     border-radius: var(--radius-md) !important;
   }
 
@@ -1350,10 +1360,19 @@
   .top-bar {
     font-size: 0.7rem;
     letter-spacing: 0.02em;
+    overflow: hidden !important;
   }
 
   .marquee__track {
-    animation-duration: 18s !important; /* Slightly faster on mobile */
+    display: flex !important;
+    flex-shrink: 0 !important;
+    width: max-content !important;
+    white-space: nowrap !important;
+    animation-duration: 20s !important;
+  }
+
+  .marquee__track span {
+    flex-shrink: 0 !important;
   }
 }
 
