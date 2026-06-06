@@ -30,12 +30,28 @@ const CLERK_FRONTEND_API = 'crisp-termite-13.clerk.accounts.dev';
       await window.Clerk.load();
       console.log('ClerkJS loaded successfully');
 
+      const triggerUserSync = async () => {
+        const userId = window.Clerk && window.Clerk.user && window.Clerk.user.id;
+        if (userId) {
+          if (typeof mergeGuestCartIntoDatabase === 'function') {
+            await mergeGuestCartIntoDatabase(userId);
+          }
+          if (typeof syncWishlistFromDatabase === 'function') {
+            await syncWishlistFromDatabase(userId);
+          }
+        }
+      };
+
       // Update UI on initial load
       updateUserNavbarUI(window.Clerk.session);
+      await triggerUserSync();
 
       // Listen for auth state changes
-      window.Clerk.addListener((state) => {
+      window.Clerk.addListener(async (state) => {
         updateUserNavbarUI(state.session);
+        if (state.session) {
+          await triggerUserSync();
+        }
       });
 
       // Update cart and wishlist badge counts once Clerk user ID is resolved
