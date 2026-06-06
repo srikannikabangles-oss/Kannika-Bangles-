@@ -1,9 +1,36 @@
-/* =====================================================
-   KANNIKA BANGLES — Main JavaScript
-   Navigation, Animations, Cart Badge, Shared Logic
-   ===================================================== */
+// Centralized Shop Configuration
+window.SUPPORT_PHONE = '9844758450';
+window.SUPPORT_WHATSAPP_PHONE = '919844758450';
+
+function syncPhoneNumbersDOM() {
+  const supportPhone = window.SUPPORT_PHONE || '9844758450';
+  const whatsappPhone = window.SUPPORT_WHATSAPP_PHONE || '919844758450';
+  
+  const phoneDisplay = `+91 ${supportPhone.substring(0, 5)} ${supportPhone.substring(5)}`;
+  const phoneCallHref = `tel:+91${supportPhone}`;
+  
+  // 1. Update tel links
+  document.querySelectorAll('a[href^="tel:"]').forEach(link => {
+    link.href = phoneCallHref;
+    if (link.textContent.trim().match(/^(?:080|\+91|98447|\d{10})/)) {
+      link.textContent = phoneDisplay;
+    }
+  });
+  
+  // 2. Update whatsapp float and normal whatsapp links
+  document.querySelectorAll('a[href*="wa.me"]').forEach(link => {
+    try {
+      const url = new URL(link.href);
+      const text = url.searchParams.get('text') || "Hi! I'm interested in your bangles collection.";
+      link.href = `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(text)}`;
+    } catch (e) {
+      link.href = `https://wa.me/${whatsappPhone}?text=Hi!%20I'm%20interested%20in%20your%20bangles%20collection.`;
+    }
+  });
+}
 
 document.addEventListener('DOMContentLoaded', () => {
+  syncPhoneNumbersDOM();
   initLoader();
   initNavbar();
   initScrollAnimations();
@@ -142,7 +169,7 @@ async function getCart() {
   if (!supabaseClient) return getLocalCart();
   try {
     const { data: { session } } = await supabaseClient.auth.getSession();
-    if (!session) return []; // Guests always have empty carts since auth is required!
+    if (!session) return getLocalCart(); // Return guest cart instead of empty!
 
     const { data, error } = await supabaseClient
       .from('cart_items')
@@ -163,16 +190,32 @@ async function getCart() {
 
 async function addToCart(productId, size = '2.6', quantity = 1) {
   if (!supabaseClient) {
-    showToast('Database client not initialized');
+    const cart = getLocalCart();
+    const existingIndex = cart.findIndex(item => item.id === parseInt(productId) && item.size === size);
+    if (existingIndex > -1) {
+      cart[existingIndex].quantity += quantity;
+    } else {
+      cart.push({ id: parseInt(productId), size, quantity });
+    }
+    saveLocalCart(cart);
+    showToast('Added to cart! 🛍️');
+    await updateCartBadge();
     return;
   }
   
   const { data: { session } } = await supabaseClient.auth.getSession();
   if (!session) {
-    showToast('Please log in to add items to cart! 🔒', '🔒');
-    setTimeout(() => {
-      window.location.href = `login.html?redirect=${encodeURIComponent(window.location.href)}`;
-    }, 1500);
+    // Guest cart additions
+    const cart = getLocalCart();
+    const existingIndex = cart.findIndex(item => item.id === parseInt(productId) && item.size === size);
+    if (existingIndex > -1) {
+      cart[existingIndex].quantity += quantity;
+    } else {
+      cart.push({ id: parseInt(productId), size, quantity });
+    }
+    saveLocalCart(cart);
+    showToast('Added to cart (Guest)! 🛍️');
+    await updateCartBadge();
     return;
   }
 
@@ -217,6 +260,35 @@ async function addToCart(productId, size = '2.6', quantity = 1) {
     saveLocalCart(cart);
     showToast('Added to local cart!');
     await updateCartBadge();
+  }
+}
+
+// Backup & Recovery Helpers
+async function restoreCartFromBackup() {
+  try {
+    const backup = JSON.parse(localStorage.getItem('kannika_cart_backup'));
+    if (!backup || backup.length === 0) return false;
+    
+    const { data: { session } } = supabaseClient ? await supabaseClient.auth.getSession() : { data: { session: null } };
+    if (session) {
+      // Clear database cart first
+      await clearCart();
+      // Restore to Supabase
+      for (const item of backup) {
+        await addToCart(item.id, item.size, item.quantity);
+      }
+    } else {
+      // Restore to local guest cart
+      localStorage.setItem('kannika_cart', JSON.stringify(backup));
+    }
+    
+    localStorage.removeItem('kannika_cart_backup');
+    showToast('Cart restored successfully! 🛍️', '🛍️');
+    await updateCartBadge();
+    return true;
+  } catch (e) {
+    console.error('Failed to restore cart:', e);
+    return false;
   }
 }
 
@@ -374,8 +446,6 @@ function debounce(func, wait) {
   };
 }
 
-const WHATSAPP_ORDER_PHONE = '919844758450';
-
 async function getCartOrderDetails() {
   const cart = await getCart();
   const items = [];
@@ -398,11 +468,15 @@ async function getCartOrderDetails() {
   return { items, subtotal, savings, shipping, total };
 }
 
-async function buildWhatsAppOrderMessage(shippingDetails = null) {
+async function buildWhatsAppOrderMessage(shippingDetails = null, orderId = null) {
   const { items, subtotal, savings, shipping, total } = await getCartOrderDetails();
   if (items.length === 0) return '';
 
-  let message = '*Booking Request from Kannika Bangles Website*\n\n';
+  let message = '*Booking Request from Kannika Bangles Website*\n';
+  if (orderId) {
+    message += `Order Reference ID: #${orderId.substring(0, 8).toUpperCase()}\n`;
+  }
+  message += '\n';
 
   if (shippingDetails) {
     message += '*Shipping & Delivery Details:*\n';
@@ -434,10 +508,11 @@ async function buildWhatsAppOrderMessage(shippingDetails = null) {
   return message;
 }
 
-async function getWhatsAppOrderUrl(shippingDetails = null) {
-  const message = await buildWhatsAppOrderMessage(shippingDetails);
+async function getWhatsAppOrderUrl(shippingDetails = null, orderId = null) {
+  const message = await buildWhatsAppOrderMessage(shippingDetails, orderId);
   if (!message) return '';
-  return `https://wa.me/${WHATSAPP_ORDER_PHONE}?text=${encodeURIComponent(message)}`;
+  const whatsappPhone = window.SUPPORT_WHATSAPP_PHONE || '919844758450';
+  return `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(message)}`;
 }
 
 /* ─── Render Navbar HTML (reusable across pages) ─── */
@@ -507,7 +582,7 @@ function getFooterHTML() {
           </div>
           <div class="footer__contact-item">
             <i data-lucide="phone" style="width:18px;height:18px;"></i>
-            <a href="tel:08023462122">080 2346 2122</a>
+            <a href="tel:+919844758450">+91 98447 58450</a>
           </div>
           <div class="footer__contact-item">
             <i data-lucide="mail" style="width:18px;height:18px;"></i>
@@ -532,21 +607,54 @@ function getFooterHTML() {
   `;
 }
 
-/* ─── Wishlist Management (localStorage) ─── */
-function getWishlist() {
+/* ─── Wishlist Management (Supabase Auth Scoped) ─── */
+function getLoggedInUserId() {
   try {
-    return JSON.parse(localStorage.getItem('kannika_wishlist')) || [];
+    const tokenStr = localStorage.getItem('sb-husexfwrdjftshwaxama-auth-token');
+    if (tokenStr) {
+      const data = JSON.parse(tokenStr);
+      if (data && data.user) {
+        return data.user.id;
+      }
+    }
+  } catch (e) {
+    // ignore
+  }
+  return null;
+}
+
+function getWishlist() {
+  const userId = getLoggedInUserId();
+  if (!userId) return [];
+  try {
+    return JSON.parse(localStorage.getItem(`kannika_wishlist_${userId}`)) || [];
   } catch {
     return [];
   }
 }
 
 function saveWishlist(wishlist) {
-  localStorage.setItem('kannika_wishlist', JSON.stringify(wishlist));
+  const userId = getLoggedInUserId();
+  if (!userId) return;
+  localStorage.setItem(`kannika_wishlist_${userId}`, JSON.stringify(wishlist));
   updateWishlistBadge();
 }
 
-function toggleWishlist(productId) {
+async function toggleWishlist(productId) {
+  if (!supabaseClient) {
+    showToast('Database client not initialized');
+    return false;
+  }
+
+  const { data: { session } } = await supabaseClient.auth.getSession();
+  if (!session) {
+    showToast('Please log in to add items to wishlist! 🔒', '🔒');
+    setTimeout(() => {
+      window.location.href = `login.html?redirect=${encodeURIComponent(window.location.href)}`;
+    }, 1500);
+    return false;
+  }
+
   const wishlist = getWishlist();
   const index = wishlist.indexOf(parseInt(productId));
   let added = false;
@@ -564,6 +672,8 @@ function toggleWishlist(productId) {
 }
 
 function isInWishlist(productId) {
+  const userId = getLoggedInUserId();
+  if (!userId) return false;
   const wishlist = getWishlist();
   return wishlist.includes(parseInt(productId));
 }
@@ -583,9 +693,9 @@ function updateWishlistBadge() {
   });
 }
 
-function handleWishlistToggle(productId, btn) {
-  const isAdded = toggleWishlist(productId);
-  if (btn) {
+async function handleWishlistToggle(productId, btn) {
+  const isAdded = await toggleWishlist(productId);
+  if (btn && getLoggedInUserId()) {
     btn.classList.toggle('active', isAdded);
     const icon = btn.querySelector('i');
     if (icon) {
@@ -620,6 +730,7 @@ function initGlobalSearch() {
             <i data-lucide="search" style="width:24px;height:24px;"></i>
           </button>
         </form>
+        <div class="search-overlay__results" id="searchOverlayResults"></div>
       </div>
     `;
     document.body.appendChild(overlay);
@@ -630,6 +741,7 @@ function initGlobalSearch() {
   const closeBtn = document.getElementById('closeSearchOverlay');
   const searchForm = document.getElementById('searchOverlayForm');
   const searchInput = document.getElementById('searchOverlayInput');
+  const resultsContainer = document.getElementById('searchOverlayResults');
 
   // Intercept Search Button click on Navbar across pages
   document.querySelectorAll('.navbar__action-btn[aria-label="Search"]').forEach(btn => {
@@ -643,6 +755,8 @@ function initGlobalSearch() {
   if (closeBtn) {
     closeBtn.addEventListener('click', () => {
       overlay.classList.remove('active');
+      resultsContainer.classList.remove('active');
+      searchInput.value = '';
     });
   }
 
@@ -650,6 +764,62 @@ function initGlobalSearch() {
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && overlay.classList.contains('active')) {
       overlay.classList.remove('active');
+      resultsContainer.classList.remove('active');
+      searchInput.value = '';
+    }
+  });
+
+  // Live filter event listener
+  searchInput.addEventListener('input', () => {
+    const query = searchInput.value.trim().toLowerCase();
+    if (!query) {
+      resultsContainer.innerHTML = '';
+      resultsContainer.classList.remove('active');
+      return;
+    }
+
+    if (typeof PRODUCTS === 'undefined') return;
+
+    const filtered = PRODUCTS.filter(product => {
+      return (
+        product.name.toLowerCase().includes(query) ||
+        (product.category && product.category.toLowerCase().includes(query)) ||
+        (product.description && product.description.toLowerCase().includes(query)) ||
+        (product.material && product.material.toLowerCase().includes(query)) ||
+        (product.stones && product.stones.toLowerCase().includes(query)) ||
+        (product.finish && product.finish.toLowerCase().includes(query))
+      );
+    }).slice(0, 5);
+
+    if (filtered.length === 0) {
+      resultsContainer.innerHTML = `<div class="search-overlay__no-results">No matching products found.</div>`;
+    } else {
+      resultsContainer.innerHTML = filtered.map(product => {
+        const originalPriceHTML = product.originalPrice && product.originalPrice > product.price 
+          ? `<span class="search-overlay__result-price-original">₹${product.originalPrice.toLocaleString('en-IN')}</span>` 
+          : '';
+        return `
+          <a href="product.html?id=${product.id}" class="search-overlay__result-item" onclick="document.getElementById('globalSearchOverlay').classList.remove('active');">
+            <img src="${product.image}" alt="${product.name}" class="search-overlay__result-img">
+            <div class="search-overlay__result-info">
+              <div class="search-overlay__result-name">${product.name}</div>
+              <div class="search-overlay__result-cat">${product.category}</div>
+            </div>
+            <div class="search-overlay__result-price">
+              ₹${product.price.toLocaleString('en-IN')}
+              ${originalPriceHTML}
+            </div>
+          </a>
+        `;
+      }).join('');
+    }
+    resultsContainer.classList.add('active');
+  });
+
+  // Close dropdown when clicking outside
+  document.addEventListener('click', (e) => {
+    if (overlay.classList.contains('active') && !searchForm.contains(e.target) && !resultsContainer.contains(e.target) && !e.target.closest('.navbar__action-btn')) {
+      resultsContainer.classList.remove('active');
     }
   });
 
@@ -659,6 +829,7 @@ function initGlobalSearch() {
       const query = searchInput.value.trim();
       if (query) {
         overlay.classList.remove('active');
+        resultsContainer.classList.remove('active');
         window.location.href = `shop.html?search=${encodeURIComponent(query)}`;
       }
     });

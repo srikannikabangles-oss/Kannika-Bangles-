@@ -168,7 +168,7 @@
 }
 
 .cart-item__name {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Cinzel', serif;
   font-size: 1.1rem;
   font-weight: 600;
   color: var(--text-primary);
@@ -277,7 +277,7 @@
   font-size: 1.1rem;
   font-weight: 600;
   color: var(--gold-light);
-  font-family: 'Inter', sans-serif;
+  font-family: 'Lora', serif;
   letter-spacing: -0.01em;
 }
 
@@ -331,7 +331,7 @@
 }
 
 .cart-summary__title {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Cinzel', serif;
   font-size: 1.3rem;
   font-weight: 600;
   color: var(--text-primary);
@@ -387,10 +387,7 @@
 .cart-summary__total span:last-child {
   font-size: 1.3rem;
   font-weight: 700;
-  background: var(--gold-gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--pink-primary);
 }
 
 /* Summary Note */

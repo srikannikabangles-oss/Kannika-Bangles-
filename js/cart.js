@@ -8,6 +8,15 @@ document.addEventListener('DOMContentLoaded', () => {
   initCheckoutDrawer();
 });
 
+window.triggerCartRestore = async function() {
+  const success = await restoreCartFromBackup();
+  if (success) {
+    const banner = document.getElementById('cartRecoveryBanner');
+    if (banner) banner.remove();
+    renderCart();
+  }
+};
+
 async function renderCart() {
   const container = document.getElementById('cartItems');
   const summaryEl = document.getElementById('cartSummary');
@@ -19,7 +28,29 @@ async function renderCart() {
   const cart = await getCart();
 
   if (cart.length === 0) {
-    if (emptyEl) emptyEl.style.display = 'flex';
+    if (emptyEl) {
+      emptyEl.style.display = 'flex';
+      
+      // Inject recovery backup banner if cart is empty but recovery details exist
+      const backup = localStorage.getItem('kannika_cart_backup');
+      if (backup && JSON.parse(backup).length > 0) {
+        let banner = document.getElementById('cartRecoveryBanner');
+        if (!banner) {
+          banner = document.createElement('div');
+          banner.id = 'cartRecoveryBanner';
+          banner.className = 'cart-recovery-banner reveal visible';
+          banner.style.cssText = 'background: rgba(212, 175, 55, 0.08); border: 1.5px dashed var(--gold-primary); padding: 16px 24px; border-radius: var(--radius-md); max-width: 600px; margin: 24px auto 0; text-align: center; font-family: "Inter", sans-serif; display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap;';
+          banner.innerHTML = `
+            <span style="font-size: 0.95rem; color: var(--text-primary); font-weight: 500;">🛍️ Did your WhatsApp checkout get interrupted?</span>
+            <button class="btn btn--outline btn--sm" onclick="event.preventDefault(); triggerCartRestore();" style="padding: 6px 12px; font-size: 0.85rem; border-color: var(--gold-primary); color: var(--gold-dark); cursor: pointer; transition: all var(--transition-fast);">Restore Cart Items</button>
+          `;
+          const containerEmpty = emptyEl.querySelector('.container');
+          if (containerEmpty) {
+            containerEmpty.appendChild(banner);
+          }
+        }
+      }
+    }
     if (filledEl) filledEl.style.display = 'none';
     return;
   }
@@ -203,7 +234,9 @@ function initCheckoutDrawer() {
           return;
         }
 
-        // 1. Persist to orders table in Supabase
+        let supabaseOrderId = null;
+
+        // 1. Persist to orders table in Supabase (if authenticated)
         if (supabaseClient) {
           const { data: { session } } = await supabaseClient.auth.getSession();
           if (session) {
@@ -215,7 +248,7 @@ function initCheckoutDrawer() {
               price: i.product.price
             }));
 
-            const { error: dbError } = await supabaseClient
+            const { data: dbData, error: dbError } = await supabaseClient
               .from('orders')
               .insert([{
                 user_id: session.user.id,
@@ -224,21 +257,29 @@ function initCheckoutDrawer() {
                 shipping_fee: shipping,
                 total,
                 shipping_details: shippingDetails
-              }]);
+              }])
+              .select('id')
+              .single();
             
             if (dbError) {
               console.warn('Supabase order logging failed:', dbError);
+            } else if (dbData) {
+              supabaseOrderId = dbData.id;
             }
           }
         }
 
-        // 2. Generate WhatsApp link with shipping parameters
-        const orderUrl = await getWhatsAppOrderUrl(shippingDetails);
+        // 2. Generate WhatsApp link with shipping parameters & reference order ID
+        const orderUrl = await getWhatsAppOrderUrl(shippingDetails, supabaseOrderId);
 
-        // 3. Clear database cart
+        // 3. Back up cart locally to support restore on cancellation/interruption
+        const currentCart = await getCart();
+        localStorage.setItem('kannika_cart_backup', JSON.stringify(currentCart));
+
+        // 4. Clear active cart
         await clearCart();
         
-        // 4. Alert user & Redirect
+        // 5. Alert user & Redirect
         showToast('Booking logged! Opening WhatsApp for payment confirmation...', '🛍️');
         
         setTimeout(() => {

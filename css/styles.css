@@ -16,10 +16,10 @@
 
   /* Gold Palette - Vibrant Traditional Indian Gold */
   --gold-primary: #D4AF37; /* Metallic gold */
-  --gold-light: #F3E5AB; /* Champaign gold */
+  --gold-light: #2D2D38; /* Champaign gold completely replaced with Dark Chrome */
   --gold-dark: #AA7C11; /* Royal antique gold */
-  --gold-gradient: linear-gradient(135deg, #D4AF37, #F3E5AB, #D4AF37);
-  --gold-shimmer: linear-gradient(90deg, #D4AF37 0%, #F3E5AB 25%, #D4AF37 50%, #F3E5AB 75%, #D4AF37 100%);
+  --gold-gradient: linear-gradient(135deg, #1C1C24, #5C5C6D, #1C1C24);
+  --gold-shimmer: linear-gradient(90deg, #1C1C24 0%, #5C5C6D 25%, #1C1C24 50%, #5C5C6D 75%, #1C1C24 100%);
 
   /* Silver Palette - Sparkling Shimmer Silver */
   --silver-primary: #C0C0C0;
@@ -92,7 +92,7 @@ html {
 }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'Lora', serif;
   background-color: var(--bg-primary);
   color: var(--text-primary);
   line-height: 1.6;
@@ -131,7 +131,7 @@ input, textarea, select {
 
 /* ─── Typography ─── */
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Cinzel', serif;
   font-weight: 600;
   line-height: 1.2;
   color: var(--text-primary);
@@ -143,10 +143,7 @@ h3 { font-size: clamp(1.5rem, 3vw, 2rem); }
 h4 { font-size: clamp(1.25rem, 2vw, 1.5rem); }
 
 .text-gold {
-  background: var(--gold-gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--pink-primary);
 }
 
 .text-accent {
@@ -338,10 +335,7 @@ h4 { font-size: clamp(1.25rem, 2vw, 1.5rem); }
     transform: translateY(-50%);
   }
   .navbar__toggle-left {
-    position: absolute;
-    left: 24px;
-    top: 50%;
-    transform: translateY(-50%);
+    display: none;
   }
 }
 
@@ -353,7 +347,8 @@ h4 { font-size: clamp(1.25rem, 2vw, 1.5rem); }
 }
 
 .navbar__logo {
-  font-family: 'Playfair Display', serif;
+.navbar__logo {
+  font-family: 'Cinzel', serif;
   font-size: 1.8rem;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -366,7 +361,7 @@ h4 { font-size: clamp(1.25rem, 2vw, 1.5rem); }
 .navbar__logo span {
   display: block;
   font-size: 0.78rem;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Lora', serif;
   font-weight: 600;
   letter-spacing: 0.15em;
   color: var(--text-secondary);
@@ -658,7 +653,7 @@ h4 { font-size: clamp(1.25rem, 2vw, 1.5rem); }
 }
 
 .card__title {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Cinzel', serif;
   font-size: 1.1rem;
   font-weight: 600;
   margin-bottom: 8px;
@@ -798,17 +793,14 @@ textarea.form-input {
 }
 
 .footer__brand-name {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Cinzel', serif;
   font-size: 1.5rem;
   font-weight: 700;
   margin-bottom: 16px;
 }
 
 .footer__brand-name span {
-  background: var(--gold-gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--pink-primary);
 }
 
 .footer__desc {
@@ -843,7 +835,7 @@ textarea.form-input {
 }
 
 .footer__heading {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Cinzel', serif;
   font-size: 1.1rem;
   font-weight: 600;
   margin-bottom: 24px;
@@ -990,14 +982,8 @@ textarea.form-input {
   to { transform: scale(1); opacity: 1; }
 }
 
-/* Shimmer text effect */
 .shimmer-text {
-  background: var(--gold-shimmer);
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: shimmer 3s linear infinite;
+  color: var(--pink-primary);
 }
 
 /* ─── Toast Notification ─── */
@@ -1099,12 +1085,9 @@ textarea.form-input {
 
 .loader__text {
   margin-top: 20px;
-  font-family: 'Playfair Display', serif;
+  font-family: 'Cinzel', serif;
   font-size: 1.2rem;
-  background: var(--gold-gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--pink-primary);
 }
 
 /* ─── WhatsApp Float ─── */
@@ -1365,7 +1348,7 @@ textarea.form-input {
   color: var(--text-secondary);
   word-break: break-all;
   font-weight: 500;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Lora', serif;
 }
 
 .user-dropdown__divider {
@@ -1388,7 +1371,7 @@ textarea.form-input {
   border: none;
   background: none;
   cursor: pointer;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Lora', serif;
 }
 
 .user-dropdown__item:hover {
@@ -1482,6 +1465,110 @@ textarea.form-input {
   background: none;
   border: none;
   cursor: pointer;
+}
+
+/* ─── Live Search Results Dropdown ─── */
+.search-overlay__results {
+  margin-top: 24px;
+  background: rgba(26, 26, 26, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-md);
+  max-height: 380px;
+  overflow-y: auto;
+  text-align: left;
+  display: none;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: all var(--transition-normal);
+}
+
+.search-overlay__results.active {
+  display: block;
+}
+
+.search-overlay__result-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+
+.search-overlay__result-item:last-child {
+  border-bottom: none;
+}
+
+.search-overlay__result-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+  padding-left: 24px;
+}
+
+.search-overlay__result-img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.search-overlay__result-info {
+  flex-grow: 1;
+}
+
+.search-overlay__result-name {
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.search-overlay__result-cat {
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.search-overlay__result-price {
+  color: var(--gold-primary);
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.search-overlay__result-price-original {
+  color: rgba(255, 255, 255, 0.35);
+  font-size: 0.78rem;
+  text-decoration: line-through;
+  margin-left: 6px;
+  font-weight: 400;
+}
+
+.search-overlay__no-results {
+  padding: 28px 24px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.95rem;
+}
+
+/* Scrollbar customization */
+.search-overlay__results::-webkit-scrollbar {
+  width: 6px;
+}
+.search-overlay__results::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.15);
+}
+.search-overlay__results::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 3px;
+}
+.search-overlay__results::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.4);
 }
 
 /* ─── Wishlist Badge & Toggle ─── */
@@ -1603,7 +1690,7 @@ textarea.form-input {
 
 .reviews-summary__score {
   font-size: 4rem;
-  font-family: 'Playfair Display', serif;
+  font-family: 'Cinzel', serif;
   font-weight: 700;
   line-height: 1;
   color: var(--pink-primary);

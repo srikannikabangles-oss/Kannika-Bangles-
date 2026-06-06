@@ -122,17 +122,25 @@ function renderProductDetail() {
         </div>
       </div>
 
-      <div class="pd__actions" style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
-        <button class="btn btn--primary btn--lg pd__add-btn" onclick="addProductToCart()" style="flex: 1; min-width: 160px;">
-          <i data-lucide="shopping-bag" style="width:20px;height:20px;"></i>
-          Add to Cart
-        </button>
-        <button class="btn btn--outline btn--lg" onclick="buyNow()">
-          Buy Now
-        </button>
-        <button class="btn btn--outline btn--lg pd__wishlist-btn" onclick="event.preventDefault(); toggleDetailWishlist(this);" aria-label="Add to wishlist" style="padding: 18px 22px;">
-          <i data-lucide="heart" ${isInWishlist(currentProduct.id) ? 'style="fill: var(--pink-primary);"' : ''}></i>
-        </button>
+      <div class="pd__actions" style="display: flex; flex-direction: column; gap: 12px; width: 100%;">
+        <div class="pd__actions-row" style="display: flex; gap: 12px; width: 100%;">
+          <button class="btn btn--primary btn--lg pd__add-btn" onclick="addProductToCart()" style="flex: 1; min-width: 0; white-space: nowrap; padding: 14px 16px; font-size: 0.95rem; display: flex; align-items: center; justify-content: center; gap: 8px;">
+            <i data-lucide="shopping-bag" style="width:18px;height:18px;"></i>
+            Add to Cart
+          </button>
+          <button class="btn btn--lg pd__whatsapp-btn" onclick="buyViaWhatsAppDirect()" style="background: #25D366; color: white; border: none; display: flex; align-items: center; justify-content: center; gap: 8px; flex: 1; min-width: 0; white-space: nowrap; font-weight: 600; cursor: pointer; transition: all var(--transition-fast); padding: 14px 16px; font-size: 0.95rem;">
+            <i data-lucide="message-circle" style="width:18px;height:18px;"></i>
+            Buy via WhatsApp
+          </button>
+        </div>
+        <div class="pd__actions-row" style="display: flex; gap: 12px; width: 100%;">
+          <button class="btn btn--outline btn--lg" onclick="buyNow()" style="flex: 1; min-width: 0; padding: 14px 16px; font-size: 0.95rem; display: flex; align-items: center; justify-content: center;">
+            Buy Now
+          </button>
+          <button class="btn btn--outline btn--lg pd__wishlist-btn" onclick="event.preventDefault(); toggleDetailWishlist(this);" aria-label="Add to wishlist" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; padding: 0; flex-shrink: 0;">
+            <i data-lucide="heart" ${isInWishlist(currentProduct.id) ? 'style="fill: var(--pink-primary);"' : ''}></i>
+          </button>
+        </div>
       </div>
 
       <div class="pd__trust">
@@ -265,15 +273,17 @@ function showProductNotFound() {
   if (typeof lucide !== 'undefined') lucide.createIcons();
 }
 
-function toggleDetailWishlist(btn) {
+async function toggleDetailWishlist(btn) {
   if (!currentProduct) return;
-  const isAdded = toggleWishlist(currentProduct.id);
-  const icon = btn.querySelector('i');
-  if (icon) {
-    if (isAdded) {
-      icon.style.fill = 'var(--pink-primary)';
-    } else {
-      icon.style.fill = 'none';
+  const isAdded = await toggleWishlist(currentProduct.id);
+  if (getLoggedInUserId()) {
+    const icon = btn.querySelector('i');
+    if (icon) {
+      if (isAdded) {
+        icon.style.fill = 'var(--pink-primary)';
+      } else {
+        icon.style.fill = 'none';
+      }
     }
   }
 }
@@ -537,4 +547,28 @@ async function handleReviewSubmit(e) {
 
   await renderReviews();
 }
+
+window.buyViaWhatsAppDirect = function() {
+  if (!currentProduct) return;
+  const whatsappPhone = window.SUPPORT_WHATSAPP_PHONE || '919844758450';
+  const size = selectedSize || '2.6';
+  const qty = selectedQuantity || 1;
+  const unitPrice = currentProduct.price;
+  const totalPrice = unitPrice * qty;
+  
+  let message = `*Inquiry from Kannika Bangles Website*\n\n`;
+  message += `I am interested in purchasing this product:\n`;
+  message += `✨ *${currentProduct.name}*\n`;
+  message += `🆔 Product ID: ${currentProduct.id}\n`;
+  message += `📏 Size: ${size}\n`;
+  message += `🛍️ Quantity: ${qty}\n`;
+  message += `💰 Price: ₹${unitPrice.toLocaleString('en-IN')}${qty > 1 ? ` (Total: ₹${totalPrice.toLocaleString('en-IN')})` : ''}\n\n`;
+  message += `Please confirm product availability and ordering steps. Thank you!`;
+  
+  const url = `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(message)}`;
+  showToast('Opening WhatsApp for booking inquiry...', '🛍️');
+  setTimeout(() => {
+    window.location.href = url;
+  }, 1000);
+};
 

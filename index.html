@@ -24,11 +24,11 @@
   <link rel="icon" type="image/png" href="images/hero-banner.png">
 
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 
   <!-- Stylesheets -->
-  <link rel="stylesheet" href="css/styles.css?v=8">
-  <link rel="stylesheet" href="css/home.css?v=8">
+  <link rel="stylesheet" href="css/styles.css?v=12">
+  <link rel="stylesheet" href="css/home.css?v=12">
 
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js" defer></script>
@@ -93,60 +93,176 @@
         <li><a href="shop.html?category=bangles" class="navbar__link ">Bangles</a></li>
         <li><a href="shop.html?category=necklaces" class="navbar__link ">Necklaces</a></li>
         <li><a href="shop.html?category=earrings" class="navbar__link ">Earrings</a></li>
-        <li><a href="shop.html?category=combos" class="navbar__link ">Combos</a></li>
         <li><a href="shop.html?sort=newest" class="navbar__link ">New Arrivals</a></li>
       </ul>
     </div>
   </nav>
 
 
-  <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-       SECTION 1 â€” HERO
-       â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+  <!-- =====================================================
+       SECTION 1 - HERO (Redesigned: Hanging Jewelry Cards)
+       ===================================================== -->
   <section class="hero" id="hero">
-    <div class="hero__bg">
-      <img src="images/hero-banner.png" alt="Kannika Bangles â€” Handcrafted luxury bangles collection" loading="eager">
-    </div>
-    <div class="hero__overlay"></div>
 
-    <!-- Floating Sparkles -->
-    <div class="hero__sparkles">
-      <div class="sparkle"></div>
-      <div class="sparkle"></div>
-      <div class="sparkle"></div>
-      <div class="sparkle"></div>
-      <div class="sparkle"></div>
-      <div class="sparkle"></div>
-      <div class="sparkle"></div>
-      <div class="sparkle"></div>
+    <!-- Ambient Background Orbs -->
+    <div class="hero__ambient">
+      <div class="hero__ambient-orb hero__ambient-orb--gold"></div>
+      <div class="hero__ambient-orb hero__ambient-orb--rose"></div>
+      <div class="hero__ambient-orb hero__ambient-orb--violet"></div>
     </div>
 
-    <div class="hero__content">
-      <div class="hero__badge">
-        <i data-lucide="sparkles" style="width:16px;height:16px;"></i>
-        TIMELESS BEAUTY
+    <!-- Floating Sparkle Particles -->
+    <div class="hero__particles">
+      <div class="hero-particle"></div>
+      <div class="hero-particle"></div>
+      <div class="hero-particle"></div>
+      <div class="hero-particle"></div>
+      <div class="hero-particle"></div>
+      <div class="hero-particle"></div>
+      <div class="hero-particle"></div>
+      <div class="hero-particle"></div>
+      <div class="hero-particle"></div>
+      <div class="hero-particle"></div>
+      <div class="hero-particle"></div>
+      <div class="hero-particle"></div>
+    </div>
+
+    <div class="hero__inner">
+
+      <!-- LEFT - Headline & CTA -->
+      <div class="hero__left">
+        <div class="hero__eyebrow">
+          <span class="hero__eyebrow-gem">&#10022;</span>
+          <span>✦ The Art of Heritage Craftsmanship ✦</span>
+          <span class="hero__eyebrow-gem">&#10022;</span>
+        </div>
+
+        <h1 class="hero__title">
+          A Legacy of<br>
+          <em class="hero__title-em">Elegant</em> Adornment<br>
+        </h1>
+
+        <p class="hero__subtitle">
+          A symphony of handcrafted bridal luxury. Intricately sculpted Kundan, royal Jadau,<br class="hero__br-desktop">
+          and brilliant gemstones designed for your most sacred occasions.
+        </p>
+
+        <div class="hero__cta">
+          <a href="shop.html" class="hero-btn hero-btn--primary" id="heroExploreBtn">
+            <span>Explore the Atelier</span>
+            <i data-lucide="arrow-right" style="width:18px;height:18px;"></i>
+          </a>
+          <a href="shop.html?sort=newest" class="hero-btn hero-btn--ghost" id="heroNewBtn">
+            <i data-lucide="sparkles" style="width:16px;height:16px;"></i>
+            <span>New Masterworks</span>
+          </a>
+        </div>
+
+        <!-- Trust Strip -->
+        <div class="hero__trust">
+          <div class="hero__trust-item">
+            <i data-lucide="shield-check" style="width:15px;height:15px;"></i>
+            <span>Heritage Authenticity</span>
+          </div>
+          <div class="hero__trust-sep">&#183;</div>
+          <div class="hero__trust-item">
+            <i data-lucide="package" style="width:15px;height:15px;"></i>
+            <span>Complimentary Insured Shipping</span>
+          </div>
+          <div class="hero__trust-sep">&#183;</div>
+          <div class="hero__trust-item">
+            <i data-lucide="heart" style="width:15px;height:15px;"></i>
+            <span>Adoring 10,000+ Royal Brides</span>
+          </div>
+        </div>
       </div>
-      <h1 class="hero__title">
-        Elegance in <span class="text-gold">Every Detail</span>
-      </h1>
-      <p class="hero__subtitle">
-        Discover our exclusive collection of Bangles, Necklaces & Earrings made to perfection.
-      </p>
-      <div class="hero__cta">
-        <a href="shop.html" class="btn btn--primary btn--lg">
-          Explore Collection
-          <i data-lucide="arrow-right" style="width:18px;height:18px;"></i>
-        </a>
-        <a href="contact.html" class="btn btn--outline btn--lg">
-          Visit Us
-        </a>
-      </div>
-    </div>
 
-    <div class="hero__scroll-hint">
-      <span>Scroll</span>
-      <div class="hero__scroll-line"></div>
-    </div>
+      <!-- RIGHT - Hanging Jewellery Cards -->
+      <div class="hero__right" aria-hidden="true">
+
+        <!-- Hanging Rod -->
+        <div class="hero__rod">
+          <div class="hero__rod-bar"></div>
+          <div class="hero__rod-hook hero__rod-hook--1"></div>
+          <div class="hero__rod-hook hero__rod-hook--2"></div>
+          <div class="hero__rod-hook hero__rod-hook--3"></div>
+        </div>
+
+        <!-- Card 1 - Bangles -->
+        <div class="hang-card hang-card--1">
+          <div class="hang-card__chain">
+            <div class="hang-card__chain-link"></div>
+            <div class="hang-card__chain-link"></div>
+            <div class="hang-card__chain-link"></div>
+            <div class="hang-card__chain-link"></div>
+            <div class="hang-card__chain-link"></div>
+          </div>
+          <a href="shop.html?category=bangles" class="hang-card__body">
+            <div class="hang-card__img-wrap">
+              <img src="images/bangles/bangle_1.jpg" alt="Bangles Collection" loading="eager">
+              <div class="hang-card__img-shine"></div>
+            </div>
+            <div class="hang-card__info">
+              <span class="hang-card__cat">Bangles</span>
+              <span class="hang-card__label">Bridal &amp; Fashion</span>
+              <span class="hang-card__cta-link">Shop Now &#8594;</span>
+            </div>
+          </a>
+        </div>
+
+        <!-- Card 2 - Necklaces (center, taller chain) -->
+        <div class="hang-card hang-card--2">
+          <div class="hang-card__chain">
+            <div class="hang-card__chain-link"></div>
+            <div class="hang-card__chain-link"></div>
+            <div class="hang-card__chain-link"></div>
+            <div class="hang-card__chain-link"></div>
+            <div class="hang-card__chain-link"></div>
+            <div class="hang-card__chain-link"></div>
+            <div class="hang-card__chain-link"></div>
+            <div class="hang-card__chain-link"></div>
+          </div>
+          <a href="shop.html?category=necklaces" class="hang-card__body hang-card__body--center">
+            <div class="hang-card__featured-ribbon">&#10022; Bestseller</div>
+            <div class="hang-card__img-wrap">
+              <img src="images/product-necklace-kundan.png" alt="Necklaces Collection" loading="eager">
+              <div class="hang-card__img-shine"></div>
+            </div>
+            <div class="hang-card__info">
+              <span class="hang-card__cat">Necklaces</span>
+              <span class="hang-card__label">Kundan &amp; Jadau</span>
+              <span class="hang-card__cta-link">Shop Now &#8594;</span>
+            </div>
+          </a>
+        </div>
+
+        <!-- Card 3 - Earrings -->
+        <div class="hang-card hang-card--3">
+          <div class="hang-card__chain">
+            <div class="hang-card__chain-link"></div>
+            <div class="hang-card__chain-link"></div>
+            <div class="hang-card__chain-link"></div>
+            <div class="hang-card__chain-link"></div>
+            <div class="hang-card__chain-link"></div>
+          </div>
+          <a href="shop.html?category=earrings" class="hang-card__body">
+            <div class="hang-card__img-wrap">
+              <img src="images/earrings/earring_1.jpg" alt="Earrings Collection" loading="eager">
+              <div class="hang-card__img-shine"></div>
+            </div>
+            <div class="hang-card__info">
+              <span class="hang-card__cat">Earrings</span>
+              <span class="hang-card__label">Chandbali &amp; Jhumka</span>
+              <span class="hang-card__cta-link">Shop Now &#8594;</span>
+            </div>
+          </a>
+        </div>
+
+      </div><!-- /hero__right -->
+    </div><!-- /hero__inner -->
+
+
+
   </section>
 
 
@@ -156,10 +272,10 @@
   <section class="categories section" id="categories">
     <div class="container">
       <div class="categories__header reveal">
-        <p class="section-subtitle">Handcrafted with Love</p>
-        <h2 class="section-title">Our <span class="text-gold">Collections</span></h2>
+        <p class="section-subtitle">Intricately Sculpted Heritage</p>
+        <h2 class="section-title">The Signature <span class="text-gold">Curations</span></h2>
         <div class="divider"></div>
-        <p class="section-desc">Explore our curated categories of traditional and contemporary bangles, each crafted to perfection.</p>
+        <p class="section-desc">Delve into our painstakingly curated assemblies of ancestral metalcraft, each reflecting a masterpiece of timeless design.</p>
       </div>
 
       <div class="categories-row reveal">
@@ -189,15 +305,6 @@
           <div class="cat-circle-card__name">EARRINGS</div>
           <div class="cat-circle-card__action">Explore Now <i data-lucide="chevron-right"></i></div>
         </a>
-
-        <!-- Combos -->
-        <a href="shop.html?category=all" class="cat-circle-card">
-          <div class="cat-circle-card__box cat-circle-card__box--gift">
-            <div class="gift-box-icon">🎁</div>
-          </div>
-          <div class="cat-circle-card__name">COMBOS</div>
-          <div class="cat-circle-card__action">Explore Now <i data-lucide="chevron-right"></i></div>
-        </a>
       </div>
     </div>
   </section>
@@ -212,10 +319,10 @@
   <section class="featured section" id="banglesSection" style="padding-bottom: 50px;">
     <div class="container">
       <div class="featured__header reveal">
-        <p class="section-subtitle">Exquisite Artistry</p>
-        <h2 class="section-title">Bestselling <span class="text-gold">Bangles</span></h2>
+        <p class="section-subtitle">The Imperial Suite</p>
+        <h2 class="section-title">The Signature <span class="text-gold">Bangles</span></h2>
         <div class="divider"></div>
-        <p class="section-desc">Explore our highly loved handcrafted bangles, celebrating generations of Indian tradition and grace.</p>
+        <p class="section-desc">Indulge in our most coveted handcrafted bangles, celebrating generations of heritage and aristocratic grace.</p>
       </div>
 
       <!-- Grid populated by JS -->
@@ -224,7 +331,7 @@
       <div class="featured__view-all reveal">
         <a href="shop.html?type=bangles" class="btn btn--outline">
           <i data-lucide="arrow-right" style="width:18px;height:18px;"></i>
-          View Bangles Collection
+          Explore the Bangles Curation
         </a>
       </div>
     </div>
@@ -236,10 +343,10 @@
   <section class="featured section" id="necklacesSection" style="padding-top: 50px; padding-bottom: 50px;">
     <div class="container">
       <div class="featured__header reveal">
-        <p class="section-subtitle">Heritage Creations</p>
-        <h2 class="section-title">Exquisite <span class="text-gold">Necklaces</span></h2>
+        <p class="section-subtitle">Atelier Creations</p>
+        <h2 class="section-title">The Exquisite Chokers &amp; <span class="text-gold">Necklaces</span></h2>
         <div class="divider"></div>
-        <p class="section-desc">Discover our breathtaking bridal chokers, long harams, and traditional sets designed to capture every gaze.</p>
+        <p class="section-desc">Discover our breathtaking bridal neckpieces, long harams, and royal collars sculpted to capture every gaze.</p>
       </div>
 
       <!-- Grid populated by JS -->
@@ -248,7 +355,7 @@
       <div class="featured__view-all reveal">
         <a href="shop.html?type=necklaces" class="btn btn--outline">
           <i data-lucide="arrow-right" style="width:18px;height:18px;"></i>
-          View Necklaces Collection
+          Explore the Necklaces Curation
         </a>
       </div>
     </div>
@@ -260,10 +367,10 @@
   <section class="featured section" id="earringsSection" style="padding-top: 50px; padding-bottom: 50px;">
     <div class="container">
       <div class="featured__header reveal">
-        <p class="section-subtitle">Stunning Earwear</p>
-        <h2 class="section-title">Bestselling <span class="text-gold">Earrings</span></h2>
+        <p class="section-subtitle">Imperial Earwear</p>
+        <h2 class="section-title">The Majestic Earring <span class="text-gold">Suite</span></h2>
         <div class="divider"></div>
-        <p class="section-desc">Explore our exquisite collection of handcrafted earrings, from grand wedding Jhumkas to stylish everyday studs.</p>
+        <p class="section-desc">Savour our majestic suite of handcrafted earwear, from regal wedding Jhumkas to sophisticated contemporary studs.</p>
       </div>
 
       <!-- Grid populated by JS -->
@@ -289,27 +396,27 @@
     <div class="container">
       <div class="brand-story__inner">
         <div class="brand-story__content reveal reveal--right">
-          <p class="brand-story__subtitle">Our Heritage</p>
-          <h2 class="brand-story__title">Crafted with <span class="text-gold">Love & Tradition</span></h2>
+          <p class="brand-story__subtitle">Our Legacy</p>
+          <h2 class="brand-story__title">A Legacy Sculpted in <span class="text-gold">Tradition</span></h2>
           <p class="brand-story__text">
-            Kannika Bangles has been a trusted name in handcrafted bangles, adorning brides and women across South India with exquisite pieces that celebrate our rich cultural heritage.
+            For over two decades, the House of Kannika has stood as a guardian of heritage metalcraft, weaving the romance of Indian royalty into timeless jewellery caskets.
           </p>
           <p class="brand-story__text">
-            From the bustling lanes of Malleshwaram, Bangalore, every bangle we create carries the warmth of tradition, the precision of skilled artisans, and the sparkle of timeless beauty.
+            Originating from the historic cultural heart of Malleshwaram, Bangalore, every curation is meticulously handcrafted by master artisans—blending ancestral heritage with a sophisticated modern aesthetic.
           </p>
 
           <div class="brand-story__stats">
             <div class="brand-story__stat">
               <div class="brand-story__stat-number">25+</div>
-              <div class="brand-story__stat-label">Years of Trust</div>
+              <div class="brand-story__stat-label">Years of Legacy</div>
             </div>
             <div class="brand-story__stat">
               <div class="brand-story__stat-number">10K+</div>
-              <div class="brand-story__stat-label">Happy Brides</div>
+              <div class="brand-story__stat-label">Brides Adorned</div>
             </div>
             <div class="brand-story__stat">
               <div class="brand-story__stat-number">500+</div>
-              <div class="brand-story__stat-label">Unique Designs</div>
+              <div class="brand-story__stat-label">Masterpiece Designs</div>
             </div>
           </div>
 
@@ -337,9 +444,9 @@
         <div class="newsletter__icon">
           <i data-lucide="mail"></i>
         </div>
-        <h2 class="newsletter__title">Stay <span class="text-gold">in Touch</span></h2>
+        <h2 class="newsletter__title">Enter the World of <span class="text-gold">Kannika</span></h2>
         <p class="newsletter__text">
-          Be the first to know about new collections, exclusive offers, and bridal season specials. Join our family of jewelry lovers.
+          Receive private invitations to preview new masterworks, bespoke styling ateliers, and seasonal collections.
         </p>
         <form class="newsletter__form" onsubmit="event.preventDefault(); this.querySelector('input').value=''; showToast('Thank you for subscribing!', 'ðŸ’Œ');">
           <input type="email" class="newsletter__input" placeholder="Enter your email address" required aria-label="Email address">
@@ -390,7 +497,7 @@
         </div>
         <div class="footer__contact-item">
           <i data-lucide="phone" style="width:18px;height:18px;"></i>
-          <a href="tel:08023462122">080 2346 2122</a>
+          <a href="tel:+919844758450">+91 98447 58450</a>
         </div>
         <div class="footer__contact-item">
           <i data-lucide="mail" style="width:18px;height:18px;"></i>

@@ -2,7 +2,17 @@
    KANNIKA BANGLES — Wishlist Page Logic
    ===================================================== */
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+  if (supabaseClient) {
+    const { data: { session } } = await supabaseClient.auth.getSession();
+    if (!session) {
+      showToast('Please log in to view your wishlist! 🔒', '🔒');
+      setTimeout(() => {
+        window.location.href = `login.html?redirect=${encodeURIComponent(window.location.href)}`;
+      }, 1500);
+      return;
+    }
+  }
   renderWishlist();
 });
 
@@ -77,13 +87,14 @@ function removeWishlistItem(productId) {
   if (card) {
     card.style.transform = 'translateY(50px) scale(0.9)';
     card.style.opacity = '0';
-    setTimeout(() => {
-      toggleWishlist(productId); // This removes it and updates badge
+    setTimeout(async () => {
+      await toggleWishlist(productId); // This removes it and updates badge
       renderWishlist();
     }, 300);
   } else {
-    toggleWishlist(productId);
-    renderWishlist();
+    toggleWishlist(productId).then(() => {
+      renderWishlist();
+    });
   }
 }
 

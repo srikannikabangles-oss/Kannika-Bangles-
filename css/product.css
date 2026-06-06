@@ -164,7 +164,7 @@
 
 /* ─── Product Name ─── */
 .pd__name {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Cinzel', serif;
   font-size: clamp(1.75rem, 3.5vw, 2.5rem);
   font-weight: 700;
   line-height: 1.2;
@@ -200,13 +200,10 @@
 }
 
 .pd__price {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Cinzel', serif;
   font-size: 2rem;
   font-weight: 700;
-  background: var(--gold-gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--pink-primary);
 }
 
 .pd__original-price {
@@ -317,7 +314,7 @@
   transition: all var(--transition-normal);
   position: relative;
   overflow: hidden;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Lora', serif;
 }
 
 .pd__size-btn::before {
@@ -380,7 +377,7 @@
   border: none;
   cursor: pointer;
   transition: all var(--transition-fast);
-  font-family: 'Inter', sans-serif;
+  font-family: 'Lora', serif;
 }
 
 .pd__qty-btn:hover {
@@ -484,7 +481,7 @@
 }
 
 .pd__not-found h2 {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Cinzel', serif;
   font-size: clamp(1.5rem, 3vw, 2rem);
   color: var(--text-primary);
   margin-top: 8px;

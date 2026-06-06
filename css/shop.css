@@ -419,6 +419,18 @@
   padding: 10px 16px;
 }
 
+.product-card__overlay-actions .btn--outline {
+  color: #FFFFFF;
+  border-color: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.product-card__overlay-actions .btn--outline:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: #FFFFFF;
+  color: #FFFFFF;
+}
+
 
 /* ─── Card Body Link ─── */
 a.card__body {
