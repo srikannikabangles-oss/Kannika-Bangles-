@@ -1901,3 +1901,17 @@ textarea.form-input {
   opacity: 1;
   pointer-events: all;
 }
+
+/* Zoom and crop to remove the butterfly logo from top-left of product images */
+.product-card__image img,
+.card__image img,
+.pd__main-image img,
+.cart-item__image img,
+.pd__thumb img {
+  width: 125% !important;
+  height: 125% !important;
+  max-width: none !important;
+  margin-top: -12.5% !important;
+  margin-left: -12.5% !important;
+  object-fit: cover !important;
+}
