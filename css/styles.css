@@ -225,6 +225,7 @@ h4 { font-size: clamp(1.25rem, 2vw, 1.5rem); }
   width: max-content;
   white-space: nowrap;
   animation: marquee-scroll 30s linear infinite;
+  will-change: transform;
 }
 
 .marquee__track:hover {
@@ -247,12 +248,8 @@ h4 { font-size: clamp(1.25rem, 2vw, 1.5rem); }
 }
 
 @keyframes marquee-scroll {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(calc(-100% - 24px)); }
-}
-  100% {
-    transform: translateX(-50%);
-  }
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(calc(-100% - 24px), 0, 0); }
 }
 
 /* ─── Navigation ─── */

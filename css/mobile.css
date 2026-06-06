@@ -1175,14 +1175,18 @@
   }
 
   .footer__contact-item {
+    flex-direction: column !important;
+    align-items: center !important;
     justify-content: center !important;
     font-size: 0.85rem !important;
     text-align: center;
-    margin-bottom: 12px !important;
+    margin-bottom: 18px !important;
+    gap: 6px !important;
   }
 
   .footer__contact-item i {
     margin-top: 0 !important;
+    margin-bottom: 2px !important;
   }
 
   .footer__bottom {
