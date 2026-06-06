@@ -118,6 +118,8 @@
         <li><a href="shop.html?category=necklaces" class="navbar__link ">Necklaces</a></li>
         <li><a href="shop.html?category=earrings" class="navbar__link ">Earrings</a></li>
         <li><a href="shop.html?sort=newest" class="navbar__link ">New Arrivals</a></li>
+        <li><a href="about.html" class="navbar__link ">About Us</a></li>
+        <li><a href="contact.html" class="navbar__link ">Contact Us</a></li>
       </ul>
     </div>
   </nav>
@@ -593,6 +595,11 @@
             </div>
           `;
         }).join('');
+
+        // Force visible class after rendering to ensure they display (since they are generated asynchronously and height is 0 initially)
+        setTimeout(() => {
+          grid.classList.add('visible');
+        }, 100);
 
         if (typeof lucide !== 'undefined') lucide.createIcons();
       }
