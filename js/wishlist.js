@@ -48,7 +48,7 @@ function renderWishlist() {
     html += `
       <div class="card product-card" data-wishlist-id="${product.id}" style="animation-delay: ${index * 0.08}s">
         <div class="card__image">
-          <img src="${product.image}" alt="${product.name}" loading="lazy">
+          <img src="${product.image}" alt="Kannika Bangles - ${product.name}" loading="lazy">
           ${badgeHTML ? `<div class="product-card__badge">${badgeHTML}</div>` : ''}
           ${discount > 0 ? `<div class="product-card__discount">-${discount}%</div>` : ''}
           

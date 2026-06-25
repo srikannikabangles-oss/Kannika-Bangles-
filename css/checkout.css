@@ -1,0 +1,208 @@
+/* =====================================================
+   KANNIKA BANGLES — Checkout Page Styles
+   Separate page for shipping details & order summary
+   ===================================================== */
+
+/* Checkout Header */
+.checkout-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 40px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border-subtle);
+  animation: cartFadeIn 0.6s ease both;
+}
+
+.checkout-header h1 {
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.checkout-header .btn--ghost {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  gap: 6px;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-normal);
+}
+
+.checkout-header .btn--ghost:hover {
+  color: var(--gold-primary);
+  background: rgba(212, 175, 55, 0.08);
+}
+
+/* Checkout Layout */
+.checkout-layout {
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  gap: 32px;
+  align-items: start;
+}
+
+/* Checkout Card */
+.checkout-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 28px;
+  transition: border-color var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+.checkout-card:hover {
+  border-color: var(--border-gold);
+  box-shadow: var(--shadow-gold);
+}
+
+.checkout-card__title {
+  font-family: 'Cinzel', serif;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.checkout-card .divider--left {
+  margin-bottom: 20px;
+}
+
+/* Checkout Form Section */
+.checkout-form-section {
+  animation: cartSlideInLeft 0.6s ease 0.1s both;
+}
+
+.checkout-form-section .form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* Checkout Summary Section */
+.checkout-summary-section {
+  animation: cartSlideInRight 0.6s ease 0.2s both;
+}
+
+/* Order Items List in Summary */
+.checkout-order-item {
+  display: flex;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border-subtle);
+  align-items: center;
+}
+
+.checkout-order-item:last-child {
+  border-bottom: none;
+}
+
+.checkout-order-item__image {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-xs);
+  overflow: hidden;
+  flex-shrink: 0;
+  background: var(--bg-elevated);
+}
+
+.checkout-order-item__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.checkout-order-item__info {
+  flex: 1;
+  min-width: 0;
+}
+
+.checkout-order-item__name {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.checkout-order-item__meta {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.checkout-order-item__price {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--gold-primary);
+  white-space: nowrap;
+}
+
+/* Checkout Summary Rows (reuse cart summary styles) */
+.checkout-summary-section .cart-summary__row {
+  padding: 8px 0;
+}
+
+.checkout-summary-section .cart-summary__divider {
+  margin: 12px 0;
+}
+
+.checkout-summary-section .cart-summary__total {
+  padding: 8px 0 0 !important;
+}
+
+/* Responsive: Tablet */
+@media (max-width: 1024px) {
+  .checkout-layout {
+    grid-template-columns: 1fr 360px;
+    gap: 24px;
+  }
+
+  .checkout-card {
+    padding: 24px;
+  }
+}
+
+/* Responsive: Mobile */
+@media (max-width: 768px) {
+  .checkout-header {
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+  }
+
+  .checkout-header h1 {
+    font-size: 1.6rem;
+  }
+
+  .checkout-layout {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .checkout-card {
+    padding: 20px;
+  }
+
+  .checkout-card__title {
+    font-size: 1.1rem;
+  }
+
+  .checkout-form-section .form-row {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Responsive: Small Mobile */
+@media (max-width: 480px) {
+  .checkout-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .checkout-header .btn--ghost {
+    align-self: flex-end;
+    padding: 8px 14px;
+    font-size: 0.78rem;
+  }
+}

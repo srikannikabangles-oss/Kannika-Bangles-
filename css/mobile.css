@@ -54,8 +54,12 @@
 
   /* Navbar sits right below announcement bar */
   .navbar {
-    top: 32px;
+    top: 0;
     transition: top 0.35s ease, background 0.35s ease, box-shadow 0.35s ease;
+  }
+
+  .home-page .navbar {
+    top: var(--topbar-height);
   }
 
   /* Scrolled: announcement bar hides, nav snaps to top */
@@ -138,21 +142,8 @@
     text-align: center;
   }
 
-  .navbar__logo {
-    font-size: 1.3rem !important;
-    letter-spacing: 0.07em !important;
-    line-height: 1 !important;
-  }
-
-  .navbar__logo span {
-    font-size: 0.6rem !important;
-    letter-spacing: 0.14em !important;
-    margin-top: 2px !important;
-    display: block !important;
-  }
-
-  .navbar__logo-icon {
-    display: none !important;
+  .navbar__logo-img {
+    height: 34px !important;
   }
 
   /* — Right Action Icons — */
@@ -265,6 +256,10 @@
   }
 
   .navbar {
+    top: 0;
+  }
+
+  .home-page .navbar {
     top: 28px;
   }
 
@@ -272,8 +267,8 @@
     --nav-height: 56px;
   }
 
-  .navbar__logo {
-    font-size: 1.15rem !important;
+  .navbar__logo-img {
+    height: 28px !important;
   }
 }
 

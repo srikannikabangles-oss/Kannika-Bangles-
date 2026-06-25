@@ -585,6 +585,10 @@
 }
 
 /* ── Navbar override for dark hero ── */
+.home-page .navbar:not(.scrolled) .navbar__logo-img {
+  filter: drop-shadow(0 0 12px rgba(212, 175, 55, 0.5)) drop-shadow(0 0 4px rgba(255, 255, 255, 0.3));
+}
+
 .home-page .navbar:not(.scrolled) .navbar__logo {
   color: #FFF7FA;
   text-shadow: 0 2px 18px rgba(0, 0, 0, 0.45);

@@ -1,18 +1,9 @@
 /* =====================================================
    KANNIKA BANGLES — Authentication & Account Settings
-   Supabase Auth Client Configuration & Dynamic Header UI
+   Clerk Auth Client Configuration & Dynamic Header UI
    ===================================================== */
 
-const SUPABASE_URL = 'https://husexfwrdjftshwaxama.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh1c2V4ZndyZGpmdHNod2F4YW1hIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2ODA4NTcsImV4cCI6MjA5NTI1Njg1N30.ymPgFmj881CdbUVJvVVtTUfQtadgMpI2vH0Zge5r81U';
-
-// Initialize Supabase (keep database client intact for reviews and carts)
-let supabaseClient = null;
-if (typeof supabase !== 'undefined') {
-  supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-} else {
-  console.warn('Supabase JS library not loaded. Make sure to load the CDN script.');
-}
+let supabaseClient = null; // Removed Supabase, using local MongoDB API instead
 
 const CLERK_PUBLISHABLE_KEY = 'pk_test_Y3Jpc3AtdGVybWl0ZS0xMy5jbGVyay5hY2NvdW50cy5kZXYk';
 const CLERK_FRONTEND_API = 'crisp-termite-13.clerk.accounts.dev';

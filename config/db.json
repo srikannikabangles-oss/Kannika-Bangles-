@@ -1,0 +1,6 @@
+{
+  "DB_CONNECTION_STRING": "mongodb+srv://srikannikabangles_db_user:EvGQmjlBJeWm5bCn@cluster0.kixh6yd.mongodb.net/kannika_bangles?retryWrites=true&w=majority&appName=Cluster0",
+  "DB_USERNAME": "srikannikabangles_db_user",
+  "DB_PASSWORD": "EvGQmjlBJeWm5bCn",
+  "DB_NAME": "kannika_bangles"
+}

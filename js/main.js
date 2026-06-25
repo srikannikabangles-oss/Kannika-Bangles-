@@ -292,113 +292,100 @@ function initBackToTop() {
   });
 }
 
-/* ─── Cart Management (Supabase DB + local fallback) ─── */
+/* ─── Cart Management (MongoDB API + local fallback) ─── */
 function getLocalCart() {
   try {
-    return JSON.parse(localStorage.getItem('kannika_cart')) || [];
-  } catch {
+    const data = localStorage.getItem('kannika_cart');
+    console.log('[Cart] getLocalCart raw:', data);
+    if (!data) return [];
+    const parsed = JSON.parse(data);
+    console.log('[Cart] getLocalCart parsed:', parsed);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch (e) {
+    console.warn('[Cart] getLocalCart error:', e);
     return [];
   }
 }
 
 function saveLocalCart(cart) {
+  console.log('[Cart] saveLocalCart:', cart);
   localStorage.setItem('kannika_cart', JSON.stringify(cart));
 }
 
 async function getCart() {
-  if (!supabaseClient) return getLocalCart();
+  const userId = getLoggedInUserId();
+  console.log('[Cart] getCart userId:', userId);
+  
+  if (userId) {
+    try {
+      const res = await fetch(`/api/cart?userId=${userId}`);
+      if (res.ok) {
+        const dbItems = await res.json();
+        const merged = dbItems.map(item => ({
+          id: item.id,
+          size: item.size,
+          quantity: item.quantity
+        }));
+        saveLocalCart(merged);
+        return merged;
+      }
+    } catch (err) {
+      console.warn('[Cart] Failed to fetch database cart, using local fallback:', err);
+    }
+  }
+
+  return getLocalCart();
+}
+
+async function syncCartFromDatabase(userId) {
+  if (!userId) return;
   try {
-    const userId = getLoggedInUserId();
-    if (!userId) return getLocalCart(); // Return guest cart instead of empty!
-
-    const { data, error } = await supabaseClient
-      .from('cart_items')
-      .select('*')
-      .eq('user_id', userId);
-
-    if (error) throw error;
-    return data.map(item => ({
-      id: item.product_id,
-      size: item.size,
-      quantity: item.quantity
-    }));
+    const res = await fetch(`/api/cart?userId=${userId}`);
+    if (res.ok) {
+      const dbItems = await res.json();
+      const merged = dbItems.map(item => ({
+        id: item.id,
+        size: item.size,
+        quantity: item.quantity
+      }));
+      saveLocalCart(merged);
+      await updateCartBadge();
+      if (typeof renderCart === 'function') {
+        renderCart();
+      }
+      if (typeof renderCheckout === 'function') {
+        renderCheckout();
+      }
+    }
   } catch (err) {
-    console.warn('Supabase cart fetch failed, using local fallback:', err);
-    return getLocalCart();
+    console.warn('Failed to sync cart from database:', err);
   }
 }
 
 async function addToCart(productId, size = '2.6', quantity = 1) {
-  if (!supabaseClient) {
-    const cart = getLocalCart();
-    const existingIndex = cart.findIndex(item => item.id === parseInt(productId) && item.size === size);
-    if (existingIndex > -1) {
-      cart[existingIndex].quantity += quantity;
-    } else {
-      cart.push({ id: parseInt(productId), size, quantity });
-    }
-    saveLocalCart(cart);
-    showToast('Added to cart! 🛍️');
-    await updateCartBadge();
-    return;
+  console.log('[Cart] addToCart called:', { productId, size, quantity });
+  const cart = getLocalCart();
+  const existingIndex = cart.findIndex(item => item.id === parseInt(productId) && item.size === size);
+  if (existingIndex > -1) {
+    cart[existingIndex].quantity += quantity;
+  } else {
+    cart.push({ id: parseInt(productId), size, quantity });
   }
-  
+  saveLocalCart(cart);
+  showToast('Added to cart! 🛍️');
+  await updateCartBadge();
+
   const userId = getLoggedInUserId();
-  if (!userId) {
-    // Guest cart additions
-    const cart = getLocalCart();
-    const existingIndex = cart.findIndex(item => item.id === parseInt(productId) && item.size === size);
-    if (existingIndex > -1) {
-      cart[existingIndex].quantity += quantity;
-    } else {
-      cart.push({ id: parseInt(productId), size, quantity });
+  if (userId) {
+    try {
+      await fetch('/api/cart', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId, productId: parseInt(productId), size, quantity })
+      });
+    } catch (error) {
+      console.warn('API cart sync failed, local save intact:', error);
     }
-    saveLocalCart(cart);
-    showToast('Added to cart (Guest)! 🛍️');
-    await updateCartBadge();
-    return;
-  }
-
-  try {
-    const { data: existing, error: fetchError } = await supabaseClient
-      .from('cart_items')
-      .select('*')
-      .eq('user_id', userId)
-      .eq('product_id', parseInt(productId))
-      .eq('size', size)
-      .maybeSingle();
-
-    if (fetchError) throw fetchError;
-
-    if (existing) {
-      const { error: updateError } = await supabaseClient
-        .from('cart_items')
-        .update({ quantity: existing.quantity + quantity })
-        .eq('id', existing.id);
-      if (updateError) throw updateError;
-    } else {
-      const { error: insertError } = await supabaseClient
-        .from('cart_items')
-        .insert([{ user_id: userId, product_id: parseInt(productId), size, quantity }]);
-      if (insertError) throw insertError;
-    }
-
-    showToast('Added to cart! 🛍️');
-    await updateCartBadge();
-  } catch (error) {
-    console.warn('Database cart write failed, utilizing local fallback:', error);
-    const cart = getLocalCart();
-    const existingIndex = cart.findIndex(item => item.id === parseInt(productId) && item.size === size);
-
-    if (existingIndex > -1) {
-      cart[existingIndex].quantity += quantity;
-    } else {
-      cart.push({ id: parseInt(productId), size, quantity });
-    }
-
-    saveLocalCart(cart);
-    showToast('Added to local cart!');
-    await updateCartBadge();
   }
 }
 
@@ -432,51 +419,26 @@ async function restoreCartFromBackup() {
 }
 
 async function removeFromCart(productId, size) {
-  if (supabaseClient) {
-    try {
-      const userId = getLoggedInUserId();
-      if (userId) {
-        const { error } = await supabaseClient
-          .from('cart_items')
-          .delete()
-          .eq('user_id', userId)
-          .eq('product_id', parseInt(productId))
-          .eq('size', size);
-        if (error) throw error;
-        await updateCartBadge();
-        return;
-      }
-    } catch (err) {
-      console.warn('Failed database deletion, removing locally:', err);
-    }
-  }
-
   let cart = getLocalCart();
   cart = cart.filter(item => !(item.id === parseInt(productId) && item.size === size));
   saveLocalCart(cart);
   await updateCartBadge();
+
+  const userId = getLoggedInUserId();
+  if (userId) {
+    try {
+      await fetch('/api/cart/remove', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId, productId: parseInt(productId), size })
+      });
+    } catch (err) {
+      console.warn('Failed API cart remove, local unchanged:', err);
+    }
+  }
 }
 
 async function updateCartQuantity(productId, size, quantity) {
-  if (supabaseClient) {
-    try {
-      const userId = getLoggedInUserId();
-      if (userId) {
-        const { error } = await supabaseClient
-          .from('cart_items')
-          .update({ quantity: Math.max(1, quantity) })
-          .eq('user_id', userId)
-          .eq('product_id', parseInt(productId))
-          .eq('size', size);
-        if (error) throw error;
-        await updateCartBadge();
-        return;
-      }
-    } catch (err) {
-      console.warn('Failed database update, updating locally:', err);
-    }
-  }
-
   const cart = getLocalCart();
   const item = cart.find(item => item.id === parseInt(productId) && item.size === size);
   if (item) {
@@ -484,6 +446,19 @@ async function updateCartQuantity(productId, size, quantity) {
     saveLocalCart(cart);
   }
   await updateCartBadge();
+
+  const userId = getLoggedInUserId();
+  if (userId) {
+    try {
+      await fetch('/api/cart/update', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId, productId: parseInt(productId), size, quantity: Math.max(1, quantity) })
+      });
+    } catch (err) {
+      console.warn('Failed API cart update, local unchanged:', err);
+    }
+  }
 }
 
 async function getCartCount() {
@@ -504,25 +479,21 @@ async function getCartTotal() {
 }
 
 async function clearCart() {
-  if (supabaseClient) {
-    try {
-      const userId = getLoggedInUserId();
-      if (userId) {
-        const { error } = await supabaseClient
-          .from('cart_items')
-          .delete()
-          .eq('user_id', userId);
-        if (error) throw error;
-        await updateCartBadge();
-        return;
-      }
-    } catch (err) {
-      console.warn('Failed database cart clearing, removing locally:', err);
-    }
-  }
-
   localStorage.removeItem('kannika_cart');
   await updateCartBadge();
+
+  const userId = getLoggedInUserId();
+  if (userId) {
+    try {
+      await fetch('/api/cart/clear', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId })
+      });
+    } catch (err) {
+      console.warn('Failed API cart clear, local cleared:', err);
+    }
+  }
 }
 
 async function updateCartBadge() {
@@ -746,7 +717,7 @@ function getFooterHTML() {
   `;
 }
 
-/* ─── Wishlist Management (Clerk & Supabase) ─── */
+/* ─── Wishlist Management (localStorage + MongoDB sync) ─── */
 function getLoggedInUserId() {
   if (window.Clerk && window.Clerk.user) {
     return window.Clerk.user.id;
@@ -756,35 +727,46 @@ function getLoggedInUserId() {
 
 function getWishlist() {
   const userId = getLoggedInUserId();
-  if (!userId) return [];
+  const key = userId ? `kannika_wishlist_${userId}` : 'kannika_wishlist';
   try {
-    return JSON.parse(localStorage.getItem(`kannika_wishlist_${userId}`)) || [];
+    return JSON.parse(localStorage.getItem(key)) || [];
   } catch {
     return [];
   }
 }
 
 function saveWishlist(wishlist) {
+  localStorage.setItem('kannika_wishlist', JSON.stringify(wishlist));
   const userId = getLoggedInUserId();
-  if (!userId) return;
-  localStorage.setItem(`kannika_wishlist_${userId}`, JSON.stringify(wishlist));
+  if (userId) {
+    localStorage.setItem(`kannika_wishlist_${userId}`, JSON.stringify(wishlist));
+  }
   updateWishlistBadge();
 }
 
 async function syncWishlistFromDatabase(userId) {
-  if (!supabaseClient || !userId) return;
+  if (!userId) return;
   try {
-    const { data, error } = await supabaseClient
-      .from('wishlist_items')
-      .select('product_id')
-      .eq('user_id', userId);
-    
-    if (error) throw error;
-    
-    const productIds = data.map(item => parseInt(item.product_id));
-    localStorage.setItem(`kannika_wishlist_${userId}`, JSON.stringify(productIds));
+    const response = await fetch(`/api/wishlist?userId=${encodeURIComponent(userId)}`);
+    if (!response.ok) throw new Error('API error');
+    const data = await response.json();
+    localStorage.setItem(`kannika_wishlist_${userId}`, JSON.stringify(data));
     updateWishlistBadge();
     
+    // Update any wishlist toggle buttons on the current page
+    const toggles = document.querySelectorAll('.wishlist-toggle');
+    toggles.forEach(btn => {
+      const prodId = parseInt(btn.getAttribute('data-product-id'));
+      if (!isNaN(prodId)) {
+        const isAdded = data.includes(prodId);
+        btn.classList.toggle('active', isAdded);
+        const icon = btn.querySelector('i');
+        if (icon) {
+          icon.style.fill = isAdded ? 'var(--pink-primary)' : 'none';
+        }
+      }
+    });
+
     if (typeof renderWishlist === 'function') {
       renderWishlist();
     }
@@ -794,53 +776,27 @@ async function syncWishlistFromDatabase(userId) {
 }
 
 async function mergeGuestCartIntoDatabase(userId) {
-  if (!supabaseClient || !userId) return;
+  if (!userId) return;
   try {
     const guestCart = JSON.parse(localStorage.getItem('kannika_cart')) || [];
-    if (guestCart.length === 0) return;
-
-    for (const item of guestCart) {
-      const prodId = parseInt(item.id);
-      const size = item.size || '2.6';
-      const qty = parseInt(item.quantity) || 1;
-
-      // Check if product exists in database cart
-      const { data: existing, error: fetchError } = await supabaseClient
-        .from('cart_items')
-        .select('*')
-        .eq('user_id', userId)
-        .eq('product_id', prodId)
-        .eq('size', size)
-        .maybeSingle();
-
-      if (fetchError) throw fetchError;
-
-      if (existing) {
-        // Update quantity
-        const { error: updateError } = await supabaseClient
-          .from('cart_items')
-          .update({ quantity: existing.quantity + qty })
-          .eq('id', existing.id);
-        if (updateError) throw updateError;
-      } else {
-        // Insert item
-        const { error: insertError } = await supabaseClient
-          .from('cart_items')
-          .insert([{ user_id: userId, product_id: prodId, size, quantity: qty }]);
-        if (insertError) throw insertError;
-      }
+    if (guestCart.length === 0) {
+      await syncCartFromDatabase(userId);
+      return;
     }
 
-    // Clear guest cart
+    const response = await fetch('/api/cart/merge', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId, guestCart })
+    });
+    if (!response.ok) throw new Error('API error');
+
+    console.log('Guest cart successfully merged to MongoDB');
     localStorage.removeItem('kannika_cart');
-    console.log('Guest cart successfully merged into Supabase');
-    await updateCartBadge();
-    
-    if (typeof renderCart === 'function') {
-      renderCart();
-    }
+    await syncCartFromDatabase(userId);
   } catch (err) {
     console.warn('Failed to merge guest cart into database:', err);
+    await syncCartFromDatabase(userId);
   }
 }
 
@@ -873,21 +829,13 @@ async function toggleWishlist(productId) {
   saveWishlist(wishlist);
   showToast(added ? 'Added to wishlist! ❤️' : 'Removed from wishlist');
 
-  if (supabaseClient && userId) {
+  if (userId) {
     try {
-      if (added) {
-        const { error } = await supabaseClient
-          .from('wishlist_items')
-          .insert([{ user_id: userId, product_id: prodId }]);
-        if (error) throw error;
-      } else {
-        const { error } = await supabaseClient
-          .from('wishlist_items')
-          .delete()
-          .eq('user_id', userId)
-          .eq('product_id', prodId);
-        if (error) throw error;
-      }
+      await fetch('/api/wishlist/toggle', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId, productId: prodId })
+      });
     } catch (err) {
       console.warn('Database wishlist sync failed, relying on local cache:', err);
     }
@@ -897,8 +845,6 @@ async function toggleWishlist(productId) {
 }
 
 function isInWishlist(productId) {
-  const userId = getLoggedInUserId();
-  if (!userId) return false;
   const wishlist = getWishlist();
   return wishlist.includes(parseInt(productId));
 }
@@ -920,17 +866,11 @@ function updateWishlistBadge() {
 
 async function handleWishlistToggle(productId, btn) {
   const isAdded = await toggleWishlist(productId);
-  if (btn && getLoggedInUserId()) {
+  if (btn) {
     btn.classList.toggle('active', isAdded);
     const icon = btn.querySelector('i');
     if (icon) {
-      if (isAdded) {
-        icon.setAttribute('data-lucide', 'heart');
-        icon.style.fill = 'var(--pink-primary)';
-      } else {
-        icon.setAttribute('data-lucide', 'heart');
-        icon.style.fill = 'none';
-      }
+      icon.style.fill = isAdded ? 'var(--pink-primary)' : 'none';
     }
     if (typeof lucide !== 'undefined') lucide.createIcons();
   }

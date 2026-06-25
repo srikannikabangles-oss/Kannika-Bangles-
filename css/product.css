@@ -145,6 +145,7 @@
   font-size: 0.82rem;
   color: var(--text-muted);
   flex-wrap: wrap;
+  margin-bottom: 24px;
 }
 
 .pd__breadcrumb a {
@@ -678,6 +679,13 @@
 }
 
 /* ─── Very Small Screens ─── */
+/* ─── Product Page Section Spacing ─── */
+.product-detail + .section--alt,
+.product-detail + .section {
+  margin-top: 0;
+  border-top: 1px solid var(--border-subtle);
+}
+
 @media (max-width: 320px) {
   .pd__name {
     font-size: 1.2rem;

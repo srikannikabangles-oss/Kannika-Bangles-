@@ -5,7 +5,6 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   renderCart();
-  initCheckoutDrawer();
 });
 
 window.triggerCartRestore = async function() {
@@ -18,14 +17,18 @@ window.triggerCartRestore = async function() {
 };
 
 async function renderCart() {
-  const container = document.getElementById('cartItems');
-  const summaryEl = document.getElementById('cartSummary');
-  const emptyEl = document.getElementById('cartEmpty');
-  const filledEl = document.getElementById('cartFilled');
+  try {
+    console.log('[Cart] renderCart started');
+    const container = document.getElementById('cartItems');
+    const summaryEl = document.getElementById('cartSummary');
+    const emptyEl = document.getElementById('cartEmpty');
+    const filledEl = document.getElementById('cartFilled');
 
-  if (!container) return;
+    console.log('[Cart] elements:', { container: !!container, summaryEl: !!summaryEl, emptyEl: !!emptyEl, filledEl: !!filledEl });
+    if (!container) return;
 
-  const cart = await getCart();
+    const cart = await getCart();
+    console.log('[Cart] cart data:', cart);
 
   if (cart.length === 0) {
     if (emptyEl) {
@@ -137,17 +140,10 @@ async function renderCart() {
     `;
   }
 
-  // Intercept the WhatsApp button to trigger form drawer
-  const whatsappLink = document.getElementById('whatsappOrderLink');
-  if (whatsappLink) {
-    whatsappLink.addEventListener('click', (e) => {
-      e.preventDefault();
-      openCheckoutDrawer();
-    });
-  }
-
-  // Re-initialize Lucide icons for new elements
   if (typeof lucide !== 'undefined') lucide.createIcons();
+  } catch (e) {
+    console.error('Cart render error:', e);
+  }
 }
 
 async function changeQty(productId, size, delta) {
@@ -186,136 +182,4 @@ async function clearAllCart() {
 function getCategoryName(categoryId) {
   const cat = CATEGORIES.find(c => c.id === categoryId);
   return cat ? cat.name : categoryId;
-}
-
-/* ─── Checkout Form & Drawer Implementations ─── */
-function initCheckoutDrawer() {
-  const overlay = document.getElementById('checkoutDrawerOverlay');
-  const drawer = document.getElementById('checkoutDrawer');
-  const closeBtn = document.getElementById('closeCheckoutDrawer');
-  const form = document.getElementById('shippingDetailsForm');
-
-  if (!overlay || !drawer) return;
-
-  const closeDrawer = () => {
-    overlay.classList.remove('active');
-    drawer.classList.remove('active');
-  };
-
-  if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
-  overlay.addEventListener('click', closeDrawer);
-
-  if (form) {
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-
-      // Show loader
-      const btn = form.querySelector('button[type="submit"]');
-      const originalText = btn.innerHTML;
-      btn.disabled = true;
-      btn.innerHTML = `<span class="loader__ring" style="width: 16px; height: 16px; border-width: 2px; margin: 0; display: inline-block;"></span> Processing Booking...`;
-
-      try {
-        const shippingDetails = {
-          name: document.getElementById('shippingName').value.trim(),
-          phone: document.getElementById('shippingPhone').value.trim(),
-          address: document.getElementById('shippingAddress').value.trim(),
-          city: document.getElementById('shippingCity').value.trim(),
-          state: document.getElementById('shippingState').value.trim(),
-          pincode: document.getElementById('shippingPin').value.trim()
-        };
-
-        const { items, subtotal, savings, shipping, total } = await getCartOrderDetails();
-        if (items.length === 0) {
-          showToast('Your cart is empty', '✗');
-          closeDrawer();
-          btn.disabled = false;
-          btn.innerHTML = originalText;
-          return;
-        }
-
-        let supabaseOrderId = null;
-
-        // 1. Persist to orders table in Supabase (if authenticated via Clerk)
-        if (supabaseClient && window.Clerk && window.Clerk.user) {
-          const user = window.Clerk.user;
-          const formattedItems = items.map(i => ({
-            product_id: i.product.id,
-            name: i.product.name,
-            size: i.cartItem.size,
-            quantity: i.cartItem.quantity,
-            price: i.product.price
-          }));
-
-          const { data: dbData, error: dbError } = await supabaseClient
-            .from('orders')
-            .insert([{
-              user_id: user.id,
-              items: formattedItems,
-              subtotal,
-              shipping_fee: shipping,
-              total,
-              shipping_details: shippingDetails
-            }])
-            .select('id')
-            .single();
-          
-          if (dbError) {
-            console.warn('Supabase order logging failed:', dbError);
-          } else if (dbData) {
-            supabaseOrderId = dbData.id;
-          }
-        }
-
-        // 2. Generate WhatsApp link with shipping parameters & reference order ID
-        const orderUrl = await getWhatsAppOrderUrl(shippingDetails, supabaseOrderId);
-
-        // 3. Back up cart locally to support restore on cancellation/interruption
-        const currentCart = await getCart();
-        localStorage.setItem('kannika_cart_backup', JSON.stringify(currentCart));
-
-        // 4. Clear active cart
-        await clearCart();
-        
-        // 5. Alert user & Redirect
-        showToast('Booking logged! Opening WhatsApp for payment confirmation...', '🛍️');
-        
-        setTimeout(() => {
-          window.location.href = orderUrl;
-        }, 1200);
-
-      } catch (err) {
-        console.error('Checkout error:', err);
-        showToast('Checkout failed. Please try again.', '✗');
-        btn.disabled = false;
-        btn.innerHTML = originalText;
-      }
-    });
-  }
-}
-
-function openCheckoutDrawer() {
-  const overlay = document.getElementById('checkoutDrawerOverlay');
-  const drawer = document.getElementById('checkoutDrawer');
-  if (overlay && drawer) {
-    overlay.classList.add('active');
-    drawer.classList.add('active');
-
-    // Autofill user details if authenticated via Clerk
-    if (window.Clerk && window.Clerk.user) {
-      const user = window.Clerk.user;
-      const fullName = user.fullName;
-      const phone = user.primaryPhoneNumber?.phoneNumber;
-      
-      const nameInput = document.getElementById('shippingName');
-      const phoneInput = document.getElementById('shippingPhone');
-      
-      if (nameInput && fullName && !nameInput.value) {
-        nameInput.value = fullName;
-      }
-      if (phoneInput && phone && !phoneInput.value) {
-        phoneInput.value = phone;
-      }
-    }
-  }
 }

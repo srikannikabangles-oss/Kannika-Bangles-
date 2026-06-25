@@ -5,7 +5,9 @@
 
 /* ─── Page Hero Banner ─── */
 .page-hero {
-  height: 220px;
+  min-height: 140px;
+  padding-top: calc(var(--nav-height) + 20px);
+  padding-bottom: 20px;
   background: var(--bg-secondary);
   background-image:
     radial-gradient(ellipse at 20% 50%, rgba(201, 168, 76, 0.06) 0%, transparent 50%),
@@ -15,7 +17,6 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding-top: var(--nav-height);
   position: relative;
   overflow: hidden;
 }
@@ -33,20 +34,20 @@
 
 .page-hero__title {
   font-family: 'Cinzel', serif;
-  font-size: clamp(2rem, 4vw, 3rem);
+  font-size: clamp(1.5rem, 3vw, 2rem);
   font-weight: 700;
   color: var(--text-primary);
-  margin-bottom: 8px;
+  margin-bottom: 4px;
   animation: slideUp 0.8s ease forwards;
 }
 
 .page-hero__subtitle {
   font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(1rem, 2vw, 1.25rem);
+  font-size: clamp(0.85rem, 1.5vw, 1rem);
   color: var(--text-secondary);
   font-style: italic;
   letter-spacing: 0.04em;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
   animation: slideUp 0.8s ease 0.1s both;
 }
 
@@ -731,8 +732,9 @@
 
 @media (max-width: 768px) {
   .page-hero {
-    height: 180px;
+    min-height: 180px;
     padding-top: 64px;
+    padding-bottom: 20px;
   }
 
   .about-story {
@@ -786,7 +788,9 @@
 
 @media (max-width: 480px) {
   .page-hero {
-    height: 160px;
+    min-height: 160px;
+    padding-top: 64px;
+    padding-bottom: 16px;
   }
 
   .page-hero__title {
@@ -817,3 +821,67 @@
     height: 260px;
   }
 }
+
+/* ─── Brand Story Stats (Imported from home.css to fix Area Pages) ─── */
+.brand-story__stats {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin: 32px 0;
+  padding: 24px 0;
+  border-top: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.brand-story__stat {
+  text-align: center;
+  flex: 1;
+}
+
+.brand-story__stat-number {
+  font-family: 'Cinzel', serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--pink-primary);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.brand-story__stat-label {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* responsive overrides for stats inside pages.css */
+@media (max-width: 1024px) {
+  .brand-story__stats {
+    gap: 24px;
+  }
+  .brand-story__stat-number {
+    font-size: 1.65rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .brand-story__stats {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 16px !important;
+  }
+  .brand-story__stat-number {
+    font-size: 1.35rem !important;
+  }
+  .brand-story__stat-label {
+    font-size: 0.72rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .brand-story__stats {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 12px !important;
+  }
+}
+

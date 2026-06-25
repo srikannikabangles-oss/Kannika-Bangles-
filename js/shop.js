@@ -210,11 +210,11 @@ function renderProducts() {
     html += `
       <div class="card product-card" style="animation-delay: ${index * 0.08}s">
         <div class="card__image">
-          <img src="${product.image}" alt="${product.name}" loading="lazy">
+          <img src="${product.image}" alt="Kannika Bangles product - ${product.name}" loading="lazy">
           ${badgeHTML ? `<div class="product-card__badge">${badgeHTML}</div>` : ''}
           ${discount > 0 ? `<div class="product-card__discount">-${discount}%</div>` : ''}
           
-          <button class="wishlist-toggle ${activeWishlistClass}" onclick="event.preventDefault(); handleWishlistToggle(${product.id}, this);" aria-label="Add to wishlist">
+          <button class="wishlist-toggle ${activeWishlistClass}" data-product-id="${product.id}" onclick="event.preventDefault(); handleWishlistToggle(${product.id}, this);" aria-label="Add to wishlist">
             <i data-lucide="heart" ${heartFillStyle}></i>
           </button>
 

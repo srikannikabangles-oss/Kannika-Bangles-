@@ -43,123 +43,125 @@ async function renderProductDetail() {
   const rtRating = getProductRealtimeRating(currentProduct.id);
 
   container.innerHTML = `
-    <div class="pd__gallery">
-      <div class="pd__main-image" id="mainImage">
-        <img src="${currentProduct.images[0]}" alt="${currentProduct.name}" id="pdMainImg">
-        ${currentProduct.badge ? `<span class="badge badge--${currentProduct.badge === 'bestseller' ? 'featured' : currentProduct.badge} pd__badge">${currentProduct.badge.toUpperCase()}</span>` : ''}
-      </div>
-      ${currentProduct.images.length > 1 ? `
-      <div class="pd__thumbnails">
-        ${currentProduct.images.map((img, i) => `
-          <button class="pd__thumb ${i === 0 ? 'active' : ''}" onclick="switchImage(${i}, this)">
-            <img src="${img}" alt="${currentProduct.name} view ${i + 1}" loading="lazy">
-          </button>
-        `).join('')}
-      </div>` : ''}
+    <div class="pd__breadcrumb">
+      <a href="index.html">Home</a>
+      <i data-lucide="chevron-right" style="width:14px;height:14px;"></i>
+      <a href="shop.html">Shop</a>
+      <i data-lucide="chevron-right" style="width:14px;height:14px;"></i>
+      <a href="shop.html?category=${currentProduct.category}">${getCatName(currentProduct.category)}</a>
     </div>
 
-    <div class="pd__info">
-      <div class="pd__breadcrumb">
-        <a href="index.html">Home</a>
-        <i data-lucide="chevron-right" style="width:14px;height:14px;"></i>
-        <a href="shop.html">Shop</a>
-        <i data-lucide="chevron-right" style="width:14px;height:14px;"></i>
-        <a href="shop.html?category=${currentProduct.category}">${getCatName(currentProduct.category)}</a>
-      </div>
-
-      <h1 class="pd__name">${currentProduct.name}</h1>
-
-      <div class="pd__rating" style="display: flex; align-items: center; gap: 8px;">
-        <span class="stars">${getStarRating(rtRating.avg)}</span>
-        <span class="pd__rating-text" style="font-size: 0.92rem; color: var(--text-muted);">${rtRating.avg} (${rtRating.count} review${rtRating.count !== 1 ? 's' : ''})</span>
-      </div>
-
-      <div class="pd__pricing">
-        <span class="pd__price">${formatPrice(currentProduct.price)}</span>
-        ${currentProduct.originalPrice > currentProduct.price ? `
-          <span class="pd__original-price">${formatPrice(currentProduct.originalPrice)}</span>
-          <span class="pd__discount-badge">Save ${discount}%</span>
-        ` : ''}
-      </div>
-
-      <p class="pd__description">${currentProduct.description}</p>
-
-      <div class="pd__details-grid">
-        <div class="pd__detail">
-          <span class="pd__detail-label">Material</span>
-          <span class="pd__detail-value">${currentProduct.material}</span>
+    <div class="pd__container">
+      <div class="pd__gallery">
+        <div class="pd__main-image" id="mainImage">
+          <img src="${currentProduct.images[0]}" alt="${currentProduct.name}" id="pdMainImg">
+          ${currentProduct.badge ? `<span class="badge badge--${currentProduct.badge === 'bestseller' ? 'featured' : currentProduct.badge} pd__badge">${currentProduct.badge.toUpperCase()}</span>` : ''}
         </div>
-        <div class="pd__detail">
-          <span class="pd__detail-label">Finish</span>
-          <span class="pd__detail-value">${currentProduct.finish}</span>
-        </div>
-        <div class="pd__detail">
-          <span class="pd__detail-label">Stones</span>
-          <span class="pd__detail-value">${currentProduct.stones}</span>
-        </div>
-        <div class="pd__detail">
-          <span class="pd__detail-label">Availability</span>
-          <span class="pd__detail-value" style="color: var(--accent-emerald);">In Stock ✓</span>
-        </div>
-      </div>
-
-      <div class="pd__size-section">
-        <label class="pd__label">Select Size (inches)</label>
-        <div class="pd__sizes">
-          ${currentProduct.sizes.map(size => `
-            <button class="pd__size-btn ${size === selectedSize ? 'active' : ''}" onclick="selectSize('${size}', this)">
-              ${size}
+        ${currentProduct.images.length > 1 ? `
+        <div class="pd__thumbnails">
+          ${currentProduct.images.map((img, i) => `
+            <button class="pd__thumb ${i === 0 ? 'active' : ''}" onclick="switchImage(${i}, this)">
+              <img src="${img}" alt="${currentProduct.name} view ${i + 1}" loading="lazy">
             </button>
           `).join('')}
-        </div>
+        </div>` : ''}
       </div>
 
-      <div class="pd__qty-section">
-        <label class="pd__label">Quantity</label>
-        <div class="pd__qty-control">
-          <button class="pd__qty-btn" onclick="updateQty(-1)" aria-label="Decrease">
-            <i data-lucide="minus" style="width:16px;height:16px;"></i>
-          </button>
-          <span class="pd__qty-value" id="qtyValue">${selectedQuantity}</span>
-          <button class="pd__qty-btn" onclick="updateQty(1)" aria-label="Increase">
-            <i data-lucide="plus" style="width:16px;height:16px;"></i>
-          </button>
-        </div>
-      </div>
+      <div class="pd__info">
+        <h1 class="pd__name">${currentProduct.name}</h1>
 
-      <div class="pd__actions" style="display: flex; flex-direction: column; gap: 12px; width: 100%;">
-        <div class="pd__actions-row" style="display: flex; gap: 12px; width: 100%;">
-          <button class="btn btn--primary btn--lg pd__add-btn" onclick="addProductToCart()" style="flex: 1; min-width: 0; white-space: nowrap; padding: 14px 16px; font-size: 0.95rem; display: flex; align-items: center; justify-content: center; gap: 8px;">
-            <i data-lucide="shopping-bag" style="width:18px;height:18px;"></i>
-            Add to Cart
-          </button>
-          <button class="btn btn--lg pd__whatsapp-btn" onclick="buyViaWhatsAppDirect()" style="background: #25D366; color: white; border: none; display: flex; align-items: center; justify-content: center; gap: 8px; flex: 1; min-width: 0; white-space: nowrap; font-weight: 600; cursor: pointer; transition: all var(--transition-fast); padding: 14px 16px; font-size: 0.95rem;">
-            <i data-lucide="message-circle" style="width:18px;height:18px;"></i>
-            Buy via WhatsApp
-          </button>
+        <div class="pd__rating" style="display: flex; align-items: center; gap: 8px;">
+          <span class="stars">${getStarRating(rtRating.avg)}</span>
+          <span class="pd__rating-text" style="font-size: 0.92rem; color: var(--text-muted);">${rtRating.avg} (${rtRating.count} review${rtRating.count !== 1 ? 's' : ''})</span>
         </div>
-        <div class="pd__actions-row" style="display: flex; gap: 12px; width: 100%;">
-          <button class="btn btn--outline btn--lg" onclick="buyNow()" style="flex: 1; min-width: 0; padding: 14px 16px; font-size: 0.95rem; display: flex; align-items: center; justify-content: center;">
-            Buy Now
-          </button>
-          <button class="btn btn--outline btn--lg pd__wishlist-btn" onclick="event.preventDefault(); toggleDetailWishlist(this);" aria-label="Add to wishlist" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; padding: 0; flex-shrink: 0;">
-            <i data-lucide="heart" ${isInWishlist(currentProduct.id) ? 'style="fill: var(--pink-primary);"' : ''}></i>
-          </button>
-        </div>
-      </div>
 
-      <div class="pd__trust">
-        <div class="pd__trust-item">
-          <i data-lucide="shield-check" style="width:20px;height:20px;color:var(--gold-primary);"></i>
-          <span>Quality Guaranteed</span>
+        <div class="pd__pricing">
+          <span class="pd__price">${formatPrice(currentProduct.price)}</span>
+          ${currentProduct.originalPrice > currentProduct.price ? `
+            <span class="pd__original-price">${formatPrice(currentProduct.originalPrice)}</span>
+            <span class="pd__discount-badge">Save ${discount}%</span>
+          ` : ''}
         </div>
-        <div class="pd__trust-item">
-          <i data-lucide="truck" style="width:20px;height:20px;color:var(--gold-primary);"></i>
-          <span>Free Shipping ₹5000+</span>
+
+        <p class="pd__description">${currentProduct.description}</p>
+
+        <div class="pd__details-grid">
+          <div class="pd__detail">
+            <span class="pd__detail-label">Material</span>
+            <span class="pd__detail-value">${currentProduct.material}</span>
+          </div>
+          <div class="pd__detail">
+            <span class="pd__detail-label">Finish</span>
+            <span class="pd__detail-value">${currentProduct.finish}</span>
+          </div>
+          <div class="pd__detail">
+            <span class="pd__detail-label">Stones</span>
+            <span class="pd__detail-value">${currentProduct.stones}</span>
+          </div>
+          <div class="pd__detail">
+            <span class="pd__detail-label">Availability</span>
+            <span class="pd__detail-value" style="color: var(--accent-emerald);">In Stock ✓</span>
+          </div>
         </div>
-        <div class="pd__trust-item">
-          <i data-lucide="rotate-ccw" style="width:20px;height:20px;color:var(--gold-primary);"></i>
-          <span>Easy Returns</span>
+
+        <div class="pd__size-section">
+          <label class="pd__label">Select Size (inches)</label>
+          <div class="pd__sizes">
+            ${currentProduct.sizes.map(size => `
+              <button class="pd__size-btn ${size === selectedSize ? 'active' : ''}" onclick="selectSize('${size}', this)">
+                ${size}
+              </button>
+            `).join('')}
+          </div>
+        </div>
+
+        <div class="pd__qty-section">
+          <label class="pd__label">Quantity</label>
+          <div class="pd__qty-control">
+            <button class="pd__qty-btn" onclick="updateQty(-1)" aria-label="Decrease">
+              <i data-lucide="minus" style="width:16px;height:16px;"></i>
+            </button>
+            <span class="pd__qty-value" id="qtyValue">${selectedQuantity}</span>
+            <button class="pd__qty-btn" onclick="updateQty(1)" aria-label="Increase">
+              <i data-lucide="plus" style="width:16px;height:16px;"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="pd__actions" style="display: flex; flex-direction: column; gap: 12px; width: 100%;">
+          <div class="pd__actions-row" style="display: flex; gap: 12px; width: 100%;">
+            <button class="btn btn--primary btn--lg pd__add-btn" onclick="addProductToCart()" style="flex: 1; min-width: 0; white-space: nowrap; padding: 14px 16px; font-size: 0.95rem; display: flex; align-items: center; justify-content: center; gap: 8px;">
+              <i data-lucide="shopping-bag" style="width:18px;height:18px;"></i>
+              Add to Cart
+            </button>
+            <button class="btn btn--lg pd__whatsapp-btn" onclick="buyViaWhatsAppDirect()" style="background: #25D366; color: white; border: none; display: flex; align-items: center; justify-content: center; gap: 8px; flex: 1; min-width: 0; white-space: nowrap; font-weight: 600; cursor: pointer; transition: all var(--transition-fast); padding: 14px 16px; font-size: 0.95rem;">
+              <i data-lucide="message-circle" style="width:18px;height:18px;"></i>
+              Buy via WhatsApp
+            </button>
+          </div>
+          <div class="pd__actions-row" style="display: flex; gap: 12px; width: 100%;">
+            <button class="btn btn--outline btn--lg" onclick="buyNow()" style="flex: 1; min-width: 0; padding: 14px 16px; font-size: 0.95rem; display: flex; align-items: center; justify-content: center;">
+              Buy Now
+            </button>
+            <button class="btn btn--outline btn--lg pd__wishlist-btn wishlist-toggle" data-product-id="${currentProduct.id}" onclick="event.preventDefault(); toggleDetailWishlist(this);" aria-label="Add to wishlist" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; padding: 0; flex-shrink: 0;">
+              <i data-lucide="heart" ${isInWishlist(currentProduct.id) ? 'style="fill: var(--pink-primary);"' : ''}></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="pd__trust">
+          <div class="pd__trust-item">
+            <i data-lucide="shield-check" style="width:20px;height:20px;color:var(--gold-primary);"></i>
+            <span>Quality Guaranteed</span>
+          </div>
+          <div class="pd__trust-item">
+            <i data-lucide="truck" style="width:20px;height:20px;color:var(--gold-primary);"></i>
+            <span>Free Shipping ₹5000+</span>
+          </div>
+          <div class="pd__trust-item">
+            <i data-lucide="rotate-ccw" style="width:20px;height:20px;color:var(--gold-primary);"></i>
+            <span>Easy Returns</span>
+          </div>
         </div>
       </div>
     </div>
@@ -235,7 +237,7 @@ function renderRelatedProducts() {
     html += `
       <a href="product.html?id=${product.id}" class="card">
         <div class="card__image">
-          <img src="${product.image}" alt="${product.name}" loading="lazy">
+          <img src="${product.image}" alt="Kannika Bangles product - ${product.name}" loading="lazy">
         </div>
         <div class="card__body">
           <span class="card__category">${getCatName(product.category)}</span>
@@ -295,30 +297,18 @@ async function toggleDetailWishlist(btn) {
   }
 }
 
-/* ─── Customer Reviews System (Supabase DB + local fallback) ─── */
+/* ─── Customer Reviews System (MongoDB + local fallback) ─── */
 async function getProductReviews(productId) {
-  if (supabaseClient) {
-    try {
-      const { data, error } = await supabaseClient
-        .from('reviews')
-        .select('*')
-        .eq('product_id', parseInt(productId))
-        .order('created_at', { ascending: false });
-
-      if (error) throw error;
-
+  try {
+    const response = await fetch(`/api/reviews/${parseInt(productId)}`);
+    if (response.ok) {
+      const data = await response.json();
       if (data && data.length > 0) {
-        return data.map(r => ({
-          name: r.name,
-          rating: r.rating,
-          comment: r.comment,
-          date: new Date(r.created_at).toLocaleDateString('en-IN', { month: 'long', year: 'numeric' }),
-          verified: true
-        }));
+        return data;
       }
-    } catch (e) {
-      console.warn('Failed to fetch reviews from database, utilizing local fallback:', e);
     }
+  } catch (e) {
+    console.warn('Failed to fetch reviews from database, utilizing local fallback:', e);
   }
 
   // Seed default reviews for the product if none exist
@@ -354,24 +344,24 @@ async function getProductReviews(productId) {
 }
 
 async function saveProductReview(productId, review) {
-  if (supabaseClient) {
-    try {
-      const user = window.Clerk && window.Clerk.user;
-      const { error } = await supabaseClient
-        .from('reviews')
-        .insert([{
-          product_id: parseInt(productId),
-          name: review.name,
-          rating: review.rating,
-          comment: review.comment,
-          user_id: user ? user.id : null
-        }]);
+  try {
+    const user = window.Clerk && window.Clerk.user;
+    const response = await fetch('/api/reviews', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        productId: parseInt(productId),
+        userId: user ? user.id : null,
+        name: review.name,
+        rating: review.rating,
+        comment: review.comment
+      })
+    });
 
-      if (error) throw error;
-      return;
-    } catch (e) {
-      console.warn('Failed to save review in database, saving locally:', e);
-    }
+    if (response.ok) return;
+    throw new Error('API error');
+  } catch (e) {
+    console.warn('Failed to save review in database, saving locally:', e);
   }
 
   try {
@@ -507,11 +497,6 @@ async function renderReviews() {
 async function handleReviewSubmit(e) {
   e.preventDefault();
   if (!currentProduct) return;
-
-  if (!supabaseClient) {
-    showToast('Database client not initialized');
-    return;
-  }
 
   if (!window.Clerk || !window.Clerk.user) {
     showToast('Please log in to submit a review! 🔒', '🔒');

@@ -7,12 +7,12 @@
 .shop-header {
   position: relative;
   width: 100%;
-  min-height: 260px;
+  min-height: 160px;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: calc(var(--nav-height) + 40px) 24px 48px;
+  padding: calc(var(--nav-height) + 20px) 24px 24px;
   overflow: hidden;
   background:
     radial-gradient(ellipse at 30% 50%, rgba(201, 168, 76, 0.08) 0%, transparent 60%),
@@ -46,17 +46,17 @@
 }
 
 .shop-header__title {
-  font-size: clamp(2rem, 4vw, 3rem);
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
   font-weight: 700;
-  margin-bottom: 12px;
+  margin-bottom: 6px;
   animation: shopTitleIn 0.8s ease-out both;
 }
 
 .shop-header__subtitle {
   font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(1rem, 2vw, 1.25rem);
+  font-size: clamp(0.9rem, 1.5vw, 1.05rem);
   color: var(--text-secondary);
-  margin-bottom: 20px;
+  margin-bottom: 12px;
   animation: shopSubIn 0.8s 0.15s ease-out both;
 }
 
@@ -64,8 +64,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  font-size: 0.85rem;
+  gap: 8px;
+  font-size: 0.78rem;
   color: var(--text-muted);
   animation: shopSubIn 0.8s 0.25s ease-out both;
 }
@@ -158,7 +158,7 @@
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   border-bottom: 1px solid var(--border-subtle);
-  padding: 16px 0;
+  padding: 12px 0;
   transition: box-shadow var(--transition-normal);
 }
 
@@ -172,7 +172,7 @@
   padding: 0 24px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 10px;
 }
 
 .filter-bar__top {

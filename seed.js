@@ -1,8 +1,34 @@
-/* =====================================================
-   KANNIKA BANGLES — Product Data Catalog
-   ===================================================== */
+const mongoose = require('mongoose');
+const dotenv = require('dotenv');
 
-const PRODUCTS = [
+// Load environment variables
+dotenv.config();
+
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb+srv://srikannikabangles_db_user:EvGQmjlBJeWm5bCn@cluster0.kixh6yd.mongodb.net/kannika_bangles?retryWrites=true&w=majority&appName=Cluster0";
+
+const productSchema = new mongoose.Schema({
+  id: { type: Number, required: true, unique: true },
+  type: { type: String, required: true },
+  name: { type: String, required: true },
+  category: { type: String, required: true },
+  price: { type: Number, required: true },
+  originalPrice: { type: Number, required: true },
+  image: { type: String, required: true },
+  images: [{ type: String }],
+  description: { type: String, required: true },
+  material: { type: String },
+  finish: { type: String },
+  stones: { type: String },
+  sizes: [{ type: String }],
+  inStock: { type: Boolean, default: true },
+  badge: { type: String, default: null },
+  featured: { type: Boolean, default: false }
+});
+
+const Product = mongoose.model('Product', productSchema);
+
+// Define products catalog exactly as in products.js
+const baseBangles = [
   {
     id: 1,
     type: "bangles",
@@ -218,88 +244,87 @@ const PRODUCTS = [
     inStock: true,
     badge: "sale",
     featured: false
-  },
-  // Generate 24 real necklace products dynamically
-  ...(function() {
-    const necklaceImages = [
-      "IMG-20260520-WA0012.jpg",
-      "IMG-20260520-WA0013.jpg",
-      "IMG-20260520-WA0019.jpg",
-      "IMG-20260520-WA0021.jpg",
-      "IMG-20260520-WA0022.jpg",
-      "IMG-20260520-WA0023.jpg",
-      "IMG-20260520-WA0024.jpg",
-      "IMG-20260520-WA0025.jpg",
-      "IMG-20260520-WA0028.jpg",
-      "IMG-20260520-WA0035.jpg",
-      "IMG-20260520-WA0037.jpg",
-      "IMG-20260520-WA0052.jpg",
-      "IMG-20260520-WA0054.jpg",
-      "IMG-20260520-WA0056.jpg",
-      "IMG-20260520-WA0062.jpg",
-      "IMG-20260520-WA0063.jpg",
-      "IMG-20260520-WA0064.jpg",
-      "IMG-20260520-WA0067.jpg",
-      "IMG-20260520-WA0068.jpg",
-      "IMG-20260520-WA0076.jpg",
-      "IMG-20260520-WA0079.jpg",
-      "IMG-20260520-WA0080.jpg",
-      "IMG-20260520-WA0083.jpg",
-      "IMG-20260520-WA0084.jpg"
-    ];
-
-    const arr = [];
-    const necklaceNames = [
-      "Heirloom Kundan Choker",
-      "Rajwada Jadau Haram",
-      "Emerald Vine Necklace",
-      "Mughal Rose Gold Set",
-      "Noorani Pearl Choker",
-      "Zamorin Temple Necklace",
-      "Aishwarya Polki Haram",
-      "Madhurima Kundan Set",
-      "Padmini Emerald Choker",
-      "Shahi Meenakari Necklace",
-      "Anmol AD Stone Haram",
-      "Rani Mynah Pearl Set",
-      "Sunehri Vintage Choker",
-      "Maharani Kemp Necklace",
-      "Parijat Flower Haram",
-      "Shagun Wedding Choker",
-      "Nakshatra Star Necklace",
-      "Darbar Ruby Choker",
-      "Sanwariya Gold Haram",
-      "Chandani Drop Necklace",
-      "Rajkumari Pearl Choker",
-      "Mannat Bridal Set",
-      "Sufiana Gold Necklace",
-      "Vaibhav Kundan Haram"
-    ];
-    for (let i = 0; i < necklaceImages.length; i++) {
-      arr.push({
-        id: 13 + i,
-        type: "necklaces",
-        name: necklaceNames[i],
-        category: "necklaces",
-        price: 8999 + ((i * 347) % 12000),
-        originalPrice: 10999 + ((i * 347) % 15000),
-        image: `images/Necklaces - kannika/${necklaceImages[i]}`,
-        images: [`images/Necklaces - kannika/${necklaceImages[i]}`],
-        description: `A magnificent necklace ${i + 1} from the House of Kannika, meticulously crafted by master heritage artisans for bridal and royal festive occasions.`,
-        material: i % 2 === 0 ? "Brass Base, Micro Gold Plated" : "Pure Copper Base, Gold Plated",
-        finish: i % 3 === 0 ? "Matte Antique Gold Finish" : i % 3 === 1 ? "Traditional Royal Gold" : "High Polish Gold",
-        stones: i % 4 === 0 ? "Jadau Kundan, Pearls, Ruby" : i % 4 === 1 ? "Premium AD Stones" : i % 4 === 2 ? "Kemp Stones, Rice Pearls" : "Kundan, Faux Pearls & Emerald Beads",
-        sizes: ["Adjustable", "Choker Style"],
-        inStock: true,
-        badge: i % 6 === 0 ? "bestseller" : i % 6 === 1 ? "new" : i % 6 === 2 ? "featured" : null,
-        featured: i < 8
-      });
-    }
-    return arr;
-  })()
+  }
 ];
 
-// Generate 24 real earring products
+// Generate necklaces
+const necklaceImages = [
+  "IMG-20260520-WA0012.jpg",
+  "IMG-20260520-WA0013.jpg",
+  "IMG-20260520-WA0019.jpg",
+  "IMG-20260520-WA0021.jpg",
+  "IMG-20260520-WA0022.jpg",
+  "IMG-20260520-WA0023.jpg",
+  "IMG-20260520-WA0024.jpg",
+  "IMG-20260520-WA0025.jpg",
+  "IMG-20260520-WA0028.jpg",
+  "IMG-20260520-WA0035.jpg",
+  "IMG-20260520-WA0037.jpg",
+  "IMG-20260520-WA0052.jpg",
+  "IMG-20260520-WA0054.jpg",
+  "IMG-20260520-WA0056.jpg",
+  "IMG-20260520-WA0062.jpg",
+  "IMG-20260520-WA0063.jpg",
+  "IMG-20260520-WA0064.jpg",
+  "IMG-20260520-WA0067.jpg",
+  "IMG-20260520-WA0068.jpg",
+  "IMG-20260520-WA0076.jpg",
+  "IMG-20260520-WA0079.jpg",
+  "IMG-20260520-WA0080.jpg",
+  "IMG-20260520-WA0083.jpg",
+  "IMG-20260520-WA0084.jpg"
+];
+
+const necklaceNames = [
+  "Heirloom Kundan Choker",
+  "Rajwada Jadau Haram",
+  "Emerald Vine Necklace",
+  "Mughal Rose Gold Set",
+  "Noorani Pearl Choker",
+  "Zamorin Temple Necklace",
+  "Aishwarya Polki Haram",
+  "Madhurima Kundan Set",
+  "Padmini Emerald Choker",
+  "Shahi Meenakari Necklace",
+  "Anmol AD Stone Haram",
+  "Rani Mynah Pearl Set",
+  "Sunehri Vintage Choker",
+  "Maharani Kemp Necklace",
+  "Parijat Flower Haram",
+  "Shagun Wedding Choker",
+  "Nakshatra Star Necklace",
+  "Darbar Ruby Choker",
+  "Sanwariya Gold Haram",
+  "Chandani Drop Necklace",
+  "Rajkumari Pearl Choker",
+  "Mannat Bridal Set",
+  "Sufiana Gold Necklace",
+  "Vaibhav Kundan Haram"
+];
+
+const generatedNecklaces = [];
+for (let i = 0; i < necklaceImages.length; i++) {
+  generatedNecklaces.push({
+    id: 13 + i,
+    type: "necklaces",
+    name: necklaceNames[i],
+    category: "necklaces",
+    price: 8999 + ((i * 347) % 12000),
+    originalPrice: 10999 + ((i * 347) % 15000),
+    image: `images/Necklaces - kannika/${necklaceImages[i]}`,
+    images: [`images/Necklaces - kannika/${necklaceImages[i]}`],
+    description: `A magnificent necklace ${i + 1} from the House of Kannika, meticulously crafted by master heritage artisans for bridal and royal festive occasions.`,
+    material: i % 2 === 0 ? "Brass Base, Micro Gold Plated" : "Pure Copper Base, Gold Plated",
+    finish: i % 3 === 0 ? "Matte Antique Gold Finish" : i % 3 === 1 ? "Traditional Royal Gold" : "High Polish Gold",
+    stones: i % 4 === 0 ? "Jadau Kundan, Pearls, Ruby" : i % 4 === 1 ? "Premium AD Stones" : i % 4 === 2 ? "Kemp Stones, Rice Pearls" : "Kundan, Faux Pearls & Emerald Beads",
+    sizes: ["Adjustable", "Choker Style"],
+    inStock: true,
+    badge: i % 6 === 0 ? "bestseller" : i % 6 === 1 ? "new" : i % 6 === 2 ? "featured" : null,
+    featured: i < 8
+  });
+}
+
+// Generate earrings
 const earringNames = [
   "Antique Golden Jhumkas",
   "Elegant Pearl Drop Chandbalis",
@@ -327,8 +352,9 @@ const earringNames = [
   "Heritage Kundan Chandelier Set"
 ];
 
+const generatedEarrings = [];
 for (let i = 1; i <= 24; i++) {
-  PRODUCTS.push({
+  generatedEarrings.push({
     id: 36 + i,
     type: "earrings",
     name: earringNames[i - 1],
@@ -348,97 +374,29 @@ for (let i = 1; i <= 24; i++) {
   });
 }
 
-// Map category to type strictly for all products
-PRODUCTS.forEach(p => {
-  p.category = p.type;
-});
+const allProducts = [...baseBangles, ...generatedNecklaces, ...generatedEarrings];
 
-const CATEGORIES = [
-  { id: "all", name: "All Collections", icon: "gem", count: PRODUCTS.length },
-  { id: "bangles", name: "Bangles", icon: "circle", count: PRODUCTS.filter(p => p.category === "bangles").length },
-  { id: "necklaces", name: "Necklaces", icon: "sparkles", count: PRODUCTS.filter(p => p.category === "necklaces").length },
-  { id: "earrings", name: "Earrings", icon: "gem", count: PRODUCTS.filter(p => p.category === "earrings").length }
-];
-
-const TESTIMONIALS = [
-  {
-    name: "Priya Sharma",
-    location: "Bangalore",
-    rating: 5,
-    text: "Absolutely stunning bridal set! The Kundan work is so intricate and the quality is exceptional. Everyone at my wedding was asking about my bangles. Thank you Kannika Bangles!",
-    date: "March 2025"
-  },
-  {
-    name: "Meera Reddy",
-    location: "Mysore",
-    rating: 5,
-    text: "I've been buying from Kannika Bangles for years. Their antique finish collection is unmatched. The temple jewellery kadaa I got is absolutely gorgeous!",
-    date: "February 2025"
-  },
-  {
-    name: "Anjali Patel",
-    location: "Bangalore",
-    rating: 5,
-    text: "The AD stone bangles are so sparkly and beautiful! Great quality for the price. The staff was super helpful in choosing the right size. Will definitely come back!",
-    date: "January 2025"
-  },
-  {
-    name: "Deepa Krishnan",
-    location: "Chennai",
-    rating: 4,
-    text: "Ordered the Jadau set for my daughter's wedding and it was perfect. The meenakari work is breathtaking. Highly recommend for bridal jewellery.",
-    date: "December 2024"
-  },
-  {
-    name: "Kavya Nair",
-    location: "Bangalore",
-    rating: 5,
-    text: "Love the everyday fashion bangles! They're lightweight, stylish, and the gold plating hasn't faded at all. Perfect for office wear. Great value!",
-    date: "April 2025"
-  }
-];
-
-// Realtime Database-backed Ratings Cache
-let PRODUCT_RATINGS_CACHE = {};
-
-async function fetchAllProductRatings() {
+async function seed() {
   try {
-    const response = await fetch('/api/ratings');
-    if (!response.ok) throw new Error('API error');
-    const data = await response.json();
-    PRODUCT_RATINGS_CACHE = data;
-  } catch (e) {
-    console.warn('Failed to fetch global ratings from MongoDB:', e);
+    console.log('Connecting to MongoDB...');
+    await mongoose.connect(MONGODB_URI);
+    console.log('Connected successfully. Seeding products...');
+
+    // Clear existing products
+    await Product.deleteMany({});
+    console.log('Cleared existing products.');
+
+    // Insert all products
+    const result = await Product.insertMany(allProducts);
+    console.log(`Successfully seeded ${result.length} products into the database!`);
+
+    await mongoose.disconnect();
+    console.log('Disconnected from MongoDB.');
+    process.exit(0);
+  } catch (error) {
+    console.error('Error seeding database:', error);
+    process.exit(1);
   }
 }
 
-function getProductRealtimeRating(productId) {
-  return PRODUCT_RATINGS_CACHE[productId] || { avg: 5.0, count: 0 };
-}
-
-// Helper functions
-function getProductById(id) {
-  return PRODUCTS.find(p => p.id === parseInt(id));
-}
-
-function getProductsByCategory(category) {
-  if (category === 'all') return PRODUCTS;
-  return PRODUCTS.filter(p => p.category === category);
-}
-
-function getFeaturedProducts() {
-  return PRODUCTS.filter(p => p.featured);
-}
-
-function formatPrice(price) {
-  return '₹' + price.toLocaleString('en-IN');
-}
-
-function getStarRating(rating) {
-  const fullStars = Math.floor(rating);
-  const hasHalf = rating % 1 >= 0.5;
-  let stars = '★'.repeat(fullStars);
-  if (hasHalf) stars += '½';
-  stars += '☆'.repeat(5 - fullStars - (hasHalf ? 1 : 0));
-  return stars;
-}
+seed();

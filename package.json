@@ -1,0 +1,13 @@
+{
+  "scripts": {
+    "dev": "serve"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "jsdom": "^29.1.1",
+    "mongoose": "^9.7.2",
+    "serve": "^14.2.4"
+  }
+}
