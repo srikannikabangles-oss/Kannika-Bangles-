@@ -288,6 +288,7 @@ h4 { font-size: clamp(1.25rem, 2vw, 1.5rem); }
   align-items: center;
   justify-content: space-between;
   position: relative;
+  overflow: visible;
 }
 
 /* Hamburger toggle on left */
@@ -325,7 +326,7 @@ h4 { font-size: clamp(1.25rem, 2vw, 1.5rem); }
 
 @media (min-width: 769px) {
   :root {
-    --nav-height: 64px;
+    --nav-height: 70px;
   }
   .navbar__inner {
     flex-direction: row;
@@ -333,6 +334,7 @@ h4 { font-size: clamp(1.25rem, 2vw, 1.5rem); }
     height: var(--nav-height);
     padding: 0 32px;
     gap: 0;
+    align-items: center;
   }
   .navbar__brand {
     flex-direction: row;
@@ -438,9 +440,13 @@ h4 { font-size: clamp(1.25rem, 2vw, 1.5rem); }
 
 .navbar__logo-img {
   display: block;
-  height: 42px;
+  height: 52px;
   width: auto;
+  max-width: 240px;
   object-fit: contain;
+  object-position: left center;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
 }
 
 .navbar__logo-icon {
@@ -870,8 +876,8 @@ textarea.form-input {
 
 .footer__grid {
   display: grid;
-  grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
-  gap: 48px;
+  grid-template-columns: 1.4fr 1fr 1fr 1fr 1.2fr;
+  gap: 40px;
   max-width: var(--container-max);
   margin: 0 auto;
   padding: 0 24px;
@@ -1206,10 +1212,17 @@ textarea.form-input {
 }
 
 /* ─── Responsive ─── */
+@media (max-width: 1200px) {
+  .footer__grid {
+    grid-template-columns: 1.2fr 1fr 1fr 1fr;
+    gap: 32px;
+  }
+}
+
 @media (max-width: 1024px) {
   .footer__grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 40px;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 32px;
   }
 }
 

@@ -36,8 +36,8 @@
 /* Checkout Layout */
 .checkout-layout {
   display: grid;
-  grid-template-columns: 1fr 420px;
-  gap: 32px;
+  grid-template-columns: 1fr 440px;
+  gap: 36px;
   align-items: start;
 }
 
@@ -46,7 +46,7 @@
   background: var(--bg-secondary);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
-  padding: 28px;
+  padding: 32px;
   transition: border-color var(--transition-normal), box-shadow var(--transition-normal);
 }
 
@@ -81,6 +81,8 @@
 /* Checkout Summary Section */
 .checkout-summary-section {
   animation: cartSlideInRight 0.6s ease 0.2s both;
+  position: sticky;
+  top: calc(var(--nav-height) + 24px);
 }
 
 /* Order Items List in Summary */
@@ -154,8 +156,8 @@
 /* Responsive: Tablet */
 @media (max-width: 1024px) {
   .checkout-layout {
-    grid-template-columns: 1fr 360px;
-    gap: 24px;
+    grid-template-columns: 1fr 380px;
+    gap: 28px;
   }
 
   .checkout-card {

@@ -80,8 +80,8 @@
 /* ─── Cart Layout ─── */
 .cart-layout {
   display: grid;
-  grid-template-columns: 1fr 380px;
-  gap: 32px;
+  grid-template-columns: 1fr 400px;
+  gap: 36px;
   align-items: start;
 }
 
@@ -507,8 +507,8 @@
 /* ─── Responsive: Tablet (max-width: 1024px) ─── */
 @media (max-width: 1024px) {
   .cart-layout {
-    grid-template-columns: 1fr 340px;
-    gap: 24px;
+    grid-template-columns: 1fr 360px;
+    gap: 28px;
   }
 
   .cart-summary-card {

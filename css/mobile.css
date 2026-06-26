@@ -143,7 +143,9 @@
   }
 
   .navbar__logo-img {
-    height: 34px !important;
+    height: 38px !important;
+    max-width: 180px !important;
+    object-fit: contain !important;
   }
 
   /* — Right Action Icons — */
@@ -268,7 +270,9 @@
   }
 
   .navbar__logo-img {
-    height: 28px !important;
+    height: 30px !important;
+    max-width: 160px !important;
+    object-fit: contain !important;
   }
 }
 
