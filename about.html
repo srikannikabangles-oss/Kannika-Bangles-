@@ -3,10 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Learn about Kannika Bangles — a trusted name in handcrafted bangles from Sampige Road, Malleshwaram, Bangalore. Discover our story of craftsmanship and tradition.">
+  <meta name="description" content="Learn about Kannika Bangles — a trusted name in handcrafted bangles from Sampige Road, Malleshwaram, Bangalore. Discover our story of craftsmanship and tradition since 1998.">
   <meta name="keywords" content="Kannika Bangles, about us, handcrafted bangles, Malleshwaram, Bangalore, Indian jewelry, bangles store">
   <meta name="author" content="Kannika Bangles">
-  <title>About Us — Kannika Bangles | Our Story</title>
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#8B6914">
+  <title>About Us — Kannika Bangles | Our Story &amp; Heritage Since 1998</title>
+  <link rel="canonical" href="https://kannikabangles.com/about.html">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="About Us — Kannika Bangles | Our Story">
+  <meta property="og:description" content="Learn about Kannika Bangles — a trusted name in handcrafted bangles from Malleshwaram, Bangalore, since 1998.">
+  <meta property="og:image" content="https://kannikabangles.com/images/about-hero.png">
+  <meta property="og:url" content="https://kannikabangles.com/about.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Kannika Bangles">
+  <meta property="og:locale" content="en_IN">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="About Us — Kannika Bangles | Our Story">
+  <meta name="twitter:description" content="Learn about Kannika Bangles — a trusted name in handcrafted bangles from Malleshwaram, Bangalore, since 1998.">
+  <meta name="twitter:image" content="https://kannikabangles.com/images/about-hero.png">
 
   <!-- Google Fonts Preconnect & Preloads -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,6 +42,31 @@
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js" defer></script>
   <link rel="icon" type="image/jpeg" href="/images/kannika_logo.jpeg">
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": "https://kannikabangles.com/about.html#webpage",
+        "url": "https://kannikabangles.com/about.html",
+        "name": "About Us — Kannika Bangles | Our Story & Heritage Since 1998",
+        "description": "Learn about Kannika Bangles — a trusted name in handcrafted bangles from Malleshwaram, Bangalore, since 1998.",
+        "isPartOf": {"@id": "https://kannikabangles.com/#website"},
+        "about": {"@id": "https://kannikabangles.com/#organization"},
+        "breadcrumb": {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://kannikabangles.com/"},
+            {"@type": "ListItem", "position": 2, "name": "About Us", "item": "https://kannikabangles.com/about.html"}
+          ]
+        }
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
   <!-- --- Loading Screen --- -->
@@ -33,26 +76,26 @@
   </div>
 
   <!-- --- Navigation --- -->
-  <nav class="navbar scrolled" id="navbar">
+  <nav class="navbar scrolled" id="navbar" role="navigation" aria-label="Main navigation">
     <div class="navbar__inner">
-      <div class="navbar__toggle-left" id="navToggle">
+      <div class="navbar__toggle-left" id="navToggle" role="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="navLinks" tabindex="0">
         <span></span>
         <span></span>
         <span></span>
       </div>
-      <a href="/index.html" class="navbar__brand">
+      <a href="/index.html" class="navbar__brand" aria-label="Kannika Bangles Home">
         <img src="/images/kannika_logo.jpeg" alt="Kannika Bangles" class="navbar__logo-img">
       </a>
       <div class="navbar__actions">
-        <a href="/shop.html" class="navbar__action-btn" aria-label="Search">
+        <a href="/shop.html" class="navbar__action-btn" aria-label="Search products">
           <i data-lucide="search" style="width:20px;height:20px;"></i>
         </a>
         <div class="navbar__user-menu">
-          <a href="/login.html" class="navbar__user-btn" aria-label="Account">
+          <a href="/login.html" class="navbar__user-btn" aria-label="My Account">
             <i data-lucide="user" style="width:20px;height:20px;"></i>
           </a>
         </div>
-        <a href="/wishlist.html" class="navbar__action-btn navbar__wishlist" aria-label="Wishlist">
+        <a href="/wishlist.html" class="navbar__action-btn navbar__wishlist" aria-label="My Wishlist">
           <i data-lucide="heart" style="width:20px;height:20px;"></i>
           <span class="navbar__wishlist-badge">0</span>
         </a>
@@ -61,14 +104,14 @@
           <span class="navbar__cart-badge">0</span>
         </a>
       </div>
-      <ul class="navbar__links" id="navLinks">
-        <li><a href="/index.html" class="navbar__link">Home</a></li>
-        <li><a href="/shop?category=bangles" class="navbar__link">Bangles</a></li>
-        <li><a href="/shop?category=necklaces" class="navbar__link">Necklaces</a></li>
-        <li><a href="/shop?category=earrings" class="navbar__link">Earrings</a></li>
-        <li><a href="/areas.html" class="navbar__link">Areas</a></li>
-        <li><a href="/about.html" class="navbar__link active">About Us</a></li>
-        <li><a href="/contact.html" class="navbar__link">Contact Us</a></li>
+      <ul class="navbar__links" id="navLinks" role="menubar">
+        <li role="none"><a href="/index.html" class="navbar__link" role="menuitem">Home</a></li>
+        <li role="none"><a href="/shop.html?category=bangles" class="navbar__link" role="menuitem">Bangles</a></li>
+        <li role="none"><a href="/shop.html?category=necklaces" class="navbar__link" role="menuitem">Necklaces</a></li>
+        <li role="none"><a href="/shop.html?category=earrings" class="navbar__link" role="menuitem">Earrings</a></li>
+        <li role="none"><a href="/areas.html" class="navbar__link" role="menuitem">Areas We Serve</a></li>
+        <li role="none"><a href="/about.html" class="navbar__link active" role="menuitem">About Us</a></li>
+        <li role="none"><a href="/contact.html" class="navbar__link" role="menuitem">Contact Us</a></li>
       </ul>
     </div>
   </nav>
@@ -219,15 +262,15 @@
         <h4 class="footer__heading">Quick Links</h4>
         <a href="/index.html" class="footer__link">Home</a>
         <a href="/shop.html" class="footer__link">Shop All</a>
-        <a href="/shop?category=bangles" class="footer__link">Bangles Collection</a>
+        <a href="/shop.html?category=bangles" class="footer__link">Bangles Collection</a>
         <a href="/about.html" class="footer__link">Our Story</a>
         <a href="/contact.html" class="footer__link">Contact Us</a>
       </div>
       <div class="footer__col">
         <h4 class="footer__heading">Categories</h4>
-        <a href="/shop?category=bangles" class="footer__link">Bangles</a>
-        <a href="/shop?category=necklaces" class="footer__link">Necklaces</a>
-        <a href="/shop?category=earrings" class="footer__link">Earrings</a>
+        <a href="/shop.html?category=bangles" class="footer__link">Bangles</a>
+        <a href="/shop.html?category=necklaces" class="footer__link">Necklaces</a>
+        <a href="/shop.html?category=earrings" class="footer__link">Earrings</a>
       </div>
       <div class="footer__col">
         <h4 class="footer__heading">Policies</h4>

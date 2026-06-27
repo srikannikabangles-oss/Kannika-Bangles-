@@ -1,6 +1,11 @@
 User-agent: *
 Allow: /
 Disallow: /login.html
+Disallow: /cart.html
+Disallow: /checkout.html
+Disallow: /wishlist.html
 Disallow: /node_modules/
+Disallow: /api/
+Disallow: /.env
 
 Sitemap: https://kannikabangles.com/sitemap.xml
