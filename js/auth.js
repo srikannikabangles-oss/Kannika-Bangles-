@@ -19,7 +19,7 @@ const CLERK_FRONTEND_API = 'crisp-termite-13.clerk.accounts.dev';
   script.addEventListener('load', async () => {
     try {
       await window.Clerk.load();
-      console.log('ClerkJS loaded successfully');
+
 
       const triggerUserSync = async () => {
         const userId = window.Clerk && window.Clerk.user && window.Clerk.user.id;

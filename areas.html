@@ -3,19 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bangles Delivery Across Bangalore | Kannika Bangles Service Areas</title>
-  <meta name="description" content="Kannika Bangles delivers handcrafted bridal bangles across Bangalore - Malleshwaram, Vijaynagar, Rajajinagar, Koramangala, Indiranagar & 10+ localities. Free delivery across the city. Order your favourite designs via WhatsApp!">
-  <meta name="keywords" content="bangles delivery Bangalore, bridal bangles Bangalore areas, bangles Malleshwaram, bangles Vijaynagar, bangles Koramangala, jewellery delivery Bangalore">
+  <title>Bangles Delivery Across Bangalore — Kannika Bangles</title>
+  <meta name="description" content="Sri Kannika Bangles delivers handcrafted bridal bangles and Kundan sets across Bangalore, including Indiranagar, Jayanagar, Koramangala and Rajajinagar.">
+  <meta name="keywords" content="bangles delivery Bangalore, bridal bangles Bangalore areas, bangles Malleshwaram, bangles Koramangala, jewellery delivery Bangalore">
   <meta name="author" content="Kannika Bangles">
   <meta name="robots" content="index, follow">
   <meta name="theme-color" content="#0D0D0D">
-  <link rel="canonical" href="https://kannikabangles.com/areas.html">
+  <link rel="canonical" href="https://kannikabangles.com/areas">
   
   <!-- Open Graph -->
   <meta property="og:title" content="Areas We Serve | Bangles Delivery in Bangalore — Kannika Bangles">
   <meta property="og:description" content="Kannika Bangles delivers handcrafted bridal bangles across Bangalore — Malleshwaram, Vijaynagar, Rajajinagar, Jayanagar, Koramangala, and more.">
   <meta property="og:image" content="https://kannikabangles.com/images/hero-banner.png">
-  <meta property="og:url" content="https://kannikabangles.com/areas.html">
+  <meta property="og:url" content="https://kannikabangles.com/areas">
   <meta property="og:site_name" content="Kannika Bangles">
   <meta property="og:locale" content="en_IN">
   <meta property="og:type" content="website">
@@ -32,6 +32,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
   
   <link rel="stylesheet" href="/css/styles.css?v=14">
+  <link rel="stylesheet" href="/css/home.css?v=25">
   <link rel="stylesheet" href="/css/mobile.css?v=3">
   <link rel="stylesheet" href="/css/pages.css?v=12">
   
@@ -119,7 +120,7 @@
         <img src="/images/kannika_logo.jpeg" alt="Kannika Bangles" class="navbar__logo-img">
       </a>
       <div class="navbar__actions">
-        <a href="/shop.html" class="navbar__action-btn" aria-label="Search"><i data-lucide="search" style="width:20px;height:20px;"></i></a>
+        <a href="/shop" class="navbar__action-btn" aria-label="Search"><i data-lucide="search" style="width:20px;height:20px;"></i></a>
         <div class="navbar__user-menu">
           <a href="/login.html" class="navbar__user-btn" aria-label="Account"><i data-lucide="user" style="width:20px;height:20px;"></i></a>
         </div>
@@ -128,10 +129,11 @@
       </div>
       <ul class="navbar__links" id="navLinks">
         <li><a href="/index.html" class="navbar__link">Home</a></li>
-        <li><a href="/shop?category=bangles" class="navbar__link">Bangles</a></li>
-        <li><a href="/shop?category=necklaces" class="navbar__link">Necklaces</a></li>
-        <li><a href="/shop?category=earrings" class="navbar__link">Earrings</a></li>
-        <li><a href="/areas.html" class="navbar__link active">Areas</a></li>
+        <li><a href="/bangles" class="navbar__link">Bangles</a></li>
+        <li><a href="/necklaces" class="navbar__link">Necklaces</a></li>
+        <li><a href="/earrings" class="navbar__link">Earrings</a></li>
+        <li><a href="/blog" class="navbar__link">Blog</a></li>
+        <li><a href="/areas" class="navbar__link active">Areas</a></li>
         <li><a href="/about.html" class="navbar__link">About Us</a></li>
         <li><a href="/contact.html" class="navbar__link">Contact Us</a></li>
       </ul>
@@ -149,64 +151,153 @@
     </div>
   </section>
 
+  <!-- Featured Products Section for Areas We Serve -->
+  <section class="section section--alt area-featured-products" style="padding: 48px 0; background: var(--bg-secondary);">
+    <div class="container">
+      <div class="text-center reveal" style="margin-bottom: 36px;">
+        <span class="section-subtitle">Curated Collection</span>
+        <h2 class="section-title">Popular Earring <span class="text-gold">Bangalore Curation</span></h2>
+        <div class="divider"></div>
+        <p style="max-width: 680px; margin: 12px auto 0; font-size: 0.95rem; color: var(--text-secondary);">
+          Explore our most requested handcrafted Kundan jhumkas, temple drops, and AD stone earrings available for express 24-48 hour delivery across all Bangalore areas.
+        </p>
+      </div>
+      <div class="product-grid" id="areaProductsGrid">
+        <div class="product-card">
+          <div class="product-card__image">
+            <span class="product-card__badge"><span class="badge badge--featured">★ Bestseller</span></span>
+            <span class="product-card__discount">-20%</span>
+            <img src="/images/earrings/E1.jpeg" alt="Mayuri Pearl &amp; Kundan Drop Jhumkas" loading="lazy" decoding="async">
+            <div class="product-card__overlay">
+              <a href="/product/1" class="btn btn--sm btn--outline">View Details</a>
+              <button class="btn btn--sm btn--primary" onclick="addToCart(1)">Add to Cart</button>
+            </div>
+          </div>
+          <div class="product-card__body">
+            <div class="product-card__category">Earrings</div>
+            <h3 class="product-card__name"><a href="/product/1" style="color:inherit;text-decoration:none;">Mayuri Pearl &amp; Kundan Drop Jhumkas</a></h3>
+            <div class="product-card__price-row">
+              <span class="product-card__price">₹1,080</span>
+              <span class="product-card__original-price">₹1,350</span>
+            </div>
+            <div class="product-card__rating" style="display: flex; align-items: center; gap: 4px; margin-top: 6px;">
+              <span class="product-card__stars" style="color: #D4AF37;">★★★★★</span>
+              <span style="font-size: 0.75rem; color: var(--text-muted);">(4.9)</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-card__image">
+            <span class="product-card__badge"><span class="badge badge--featured">★ Featured</span></span>
+            <span class="product-card__discount">-20%</span>
+            <img src="/images/earrings/E2.jpeg" alt="Rajwada Filigree Temple Drops" loading="lazy" decoding="async">
+            <div class="product-card__overlay">
+              <a href="/product/2" class="btn btn--sm btn--outline">View Details</a>
+              <button class="btn btn--sm btn--primary" onclick="addToCart(2)">Add to Cart</button>
+            </div>
+          </div>
+          <div class="product-card__body">
+            <div class="product-card__category">Earrings</div>
+            <h3 class="product-card__name"><a href="/product/2" style="color:inherit;text-decoration:none;">Rajwada Filigree Temple Drops</a></h3>
+            <div class="product-card__price-row">
+              <span class="product-card__price">₹1,760</span>
+              <span class="product-card__original-price">₹2,200</span>
+            </div>
+            <div class="product-card__rating" style="display: flex; align-items: center; gap: 4px; margin-top: 6px;">
+              <span class="product-card__stars" style="color: #D4AF37;">★★★★★</span>
+              <span style="font-size: 0.75rem; color: var(--text-muted);">(4.8)</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-card__image">
+            <span class="product-card__badge"><span class="badge badge--featured">★ Bestseller</span></span>
+            <span class="product-card__discount">-20%</span>
+            <img src="/images/earrings/E3.jpeg" alt="Padma Emerald &amp; Kundan Tikka Drops" loading="lazy" decoding="async">
+            <div class="product-card__overlay">
+              <a href="/product/3" class="btn btn--sm btn--outline">View Details</a>
+              <button class="btn btn--sm btn--primary" onclick="addToCart(3)">Add to Cart</button>
+            </div>
+          </div>
+          <div class="product-card__body">
+            <div class="product-card__category">Earrings</div>
+            <h3 class="product-card__name"><a href="/product/3" style="color:inherit;text-decoration:none;">Padma Emerald &amp; Kundan Tikka Drops</a></h3>
+            <div class="product-card__price-row">
+              <span class="product-card__price">₹940</span>
+              <span class="product-card__original-price">₹1,175</span>
+            </div>
+            <div class="product-card__rating" style="display: flex; align-items: center; gap: 4px; margin-top: 6px;">
+              <span class="product-card__stars" style="color: #D4AF37;">★★★★★</span>
+              <span style="font-size: 0.75rem; color: var(--text-muted);">(5.0)</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-card__image">
+            <span class="product-card__badge"><span class="badge badge--new">New</span></span>
+            <span class="product-card__discount">-20%</span>
+            <img src="/images/earrings/E4.jpeg" alt="Zivara CZ Diamond Floral Studs" loading="lazy" decoding="async">
+            <div class="product-card__overlay">
+              <a href="/product/4" class="btn btn--sm btn--outline">View Details</a>
+              <button class="btn btn--sm btn--primary" onclick="addToCart(4)">Add to Cart</button>
+            </div>
+          </div>
+          <div class="product-card__body">
+            <div class="product-card__category">Earrings</div>
+            <h3 class="product-card__name"><a href="/product/4" style="color:inherit;text-decoration:none;">Zivara CZ Diamond Floral Studs</a></h3>
+            <div class="product-card__price-row">
+              <span class="product-card__price">₹1,300</span>
+              <span class="product-card__original-price">₹1,625</span>
+            </div>
+            <div class="product-card__rating" style="display: flex; align-items: center; gap: 4px; margin-top: 6px;">
+              <span class="product-card__stars" style="color: #D4AF37;">★★★★★</span>
+              <span style="font-size: 0.75rem; color: var(--text-muted);">(4.9)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="text-center" style="margin-top: 36px; display: flex; justify-content: center; width: 100%; text-align: center;">
+        <a href="/shop" class="btn btn--primary btn--lg">View All Collections <i data-lucide="arrow-right" style="width:18px;height:18px;vertical-align:middle;margin-left:6px;"></i></a>
+      </div>
+    </div>
+  </section>
+
   <!-- --- Areas Grid Section --- -->
   <section class="section">
     <div class="container">
       <p class="areas-intro">
-        Based at <strong>Sampige Road, Malleshwaram</strong>, Kannika Bangles proudly delivers exquisite handcrafted bridal and fashion bangles 
+        Based at <strong>No. 157/108, 9th Cross, East Park Road, Malleshwaram</strong>, Kannika Bangles proudly delivers exquisite handcrafted bridal and fashion bangles 
         to every corner of Bangalore. Whether you are in the heart of the city or the growing suburbs, we bring our curated collections 
         of Kundan, Jadau, AD Stone, and Micro Gold Plated bangles right to your doorstep.
       </p>
       
       <div class="areas-grid">
-        <a href="/areas/banashankari.html" class="area-card">
-          <div class="area-card__icon"><i data-lucide="map-pin"></i></div>
-          <div class="area-card__name">Banashankari</div>
-          <div class="area-card__cta">Explore Collection →</div>
-        </a>
-        <a href="/areas/basaveshwaranagar.html" class="area-card">
-          <div class="area-card__icon"><i data-lucide="map-pin"></i></div>
-          <div class="area-card__name">Basaveshwaranagar</div>
-          <div class="area-card__cta">Explore Collection →</div>
-        </a>
-        <a href="/areas/hebbal.html" class="area-card">
-          <div class="area-card__icon"><i data-lucide="map-pin"></i></div>
-          <div class="area-card__name">Hebbal</div>
-          <div class="area-card__cta">Explore Collection →</div>
-        </a>
-        <a href="/areas/indiranagar.html" class="area-card">
+        <a href="/areas/indiranagar" class="area-card">
           <div class="area-card__icon"><i data-lucide="map-pin"></i></div>
           <div class="area-card__name">Indiranagar</div>
           <div class="area-card__cta">Explore Collection →</div>
         </a>
-        <a href="/areas/jayanagar.html" class="area-card">
+        <a href="/areas/jayanagar" class="area-card">
           <div class="area-card__icon"><i data-lucide="map-pin"></i></div>
           <div class="area-card__name">Jayanagar</div>
           <div class="area-card__cta">Explore Collection →</div>
         </a>
-        <a href="/areas/koramangala.html" class="area-card">
+        <a href="/areas/koramangala" class="area-card">
           <div class="area-card__icon"><i data-lucide="map-pin"></i></div>
           <div class="area-card__name">Koramangala</div>
           <div class="area-card__cta">Explore Collection →</div>
         </a>
-        <a href="/areas/malleshwaram.html" class="area-card">
+        <a href="/areas/malleshwaram" class="area-card">
           <div class="area-card__icon"><i data-lucide="map-pin"></i></div>
           <div class="area-card__name">Malleshwaram</div>
           <div class="area-card__cta">Explore Collection →</div>
         </a>
-        <a href="/areas/rajajinagar.html" class="area-card">
+        <a href="/areas/rajajinagar" class="area-card">
           <div class="area-card__icon"><i data-lucide="map-pin"></i></div>
           <div class="area-card__name">Rajajinagar</div>
-          <div class="area-card__cta">Explore Collection →</div>
-        </a>
-        <a href="/areas/vijaynagar.html" class="area-card">
-          <div class="area-card__icon"><i data-lucide="map-pin"></i></div>
-          <div class="area-card__name">Vijaynagar</div>
-          <div class="area-card__cta">Explore Collection →</div>
-        </a>
-        <a href="/areas/yeshwanthpur.html" class="area-card">
-          <div class="area-card__icon"><i data-lucide="map-pin"></i></div>
-          <div class="area-card__name">Yeshwanthpur</div>
           <div class="area-card__cta">Explore Collection →</div>
         </a>
       </div>
@@ -235,17 +326,17 @@
       <div class="footer__col">
         <h4 class="footer__heading">Quick Links</h4>
         <a href="/index.html" class="footer__link">Home</a>
-        <a href="/shop.html" class="footer__link">Shop All</a>
-        <a href="/shop?category=bangles" class="footer__link">Bangles Collection</a>
-        <a href="/areas.html" class="footer__link">Areas We Serve</a>
+        <a href="/shop" class="footer__link">Shop All</a>
+        <a href="/bangles" class="footer__link">Bangles Collection</a>
+        <a href="/areas" class="footer__link">Areas We Serve</a>
         <a href="/about.html" class="footer__link">Our Story</a>
         <a href="/contact.html" class="footer__link">Contact Us</a>
       </div>
       <div class="footer__col">
         <h4 class="footer__heading">Categories</h4>
-        <a href="/shop?category=bangles" class="footer__link">Bangles</a>
-        <a href="/shop?category=necklaces" class="footer__link">Necklaces</a>
-        <a href="/shop?category=earrings" class="footer__link">Earrings</a>
+        <a href="/bangles" class="footer__link">Bangles</a>
+        <a href="/necklaces" class="footer__link">Necklaces</a>
+        <a href="/earrings" class="footer__link">Earrings</a>
       </div>
       <div class="footer__col">
         <h4 class="footer__heading">Policies</h4>
@@ -255,7 +346,7 @@
       </div>
       <div class="footer__col">
         <h4 class="footer__heading">Get in Touch</h4>
-        <div class="footer__contact-item"><i data-lucide="map-pin" style="width:18px;height:18px;"></i><span>Sampige Road, Malleshwaram,<br>Bangalore, Karnataka</span></div>
+        <div class="footer__contact-item"><i data-lucide="map-pin" style="width:18px;height:18px;"></i><span>No. 157/108, 9th Cross, East Park Road, Malleshwaram, Bengaluru, Karnataka 560003</span></div>
         <div class="footer__contact-item"><i data-lucide="phone" style="width:18px;height:18px;"></i><a href="tel:+919844758450">+91 98447 58450</a></div>
         <div class="footer__contact-item"><i data-lucide="mail" style="width:18px;height:18px;"></i><a href="mailto:Srikannikabangles@gmail.com">Srikannikabangles@gmail.com</a></div>
       </div>
@@ -280,7 +371,7 @@
     "@type": "BreadcrumbList",
     "itemListElement": [
       { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://kannikabangles.com/" },
-      { "@type": "ListItem", "position": 2, "name": "Areas We Serve", "item": "https://kannikabangles.com/areas.html" }
+      { "@type": "ListItem", "position": 2, "name": "Areas We Serve", "item": "https://kannikabangles.com/areas" }
     ]
   }
   </script>
@@ -296,7 +387,7 @@
     "image": "https://kannikabangles.com/images/hero-banner.png",
     "telephone": "+91 98447 58450",
     "email": "Srikannikabangles@gmail.com",
-    "address": { "@type": "PostalAddress", "streetAddress": "Sampige Road, Malleshwaram", "addressLocality": "Bangalore", "addressRegion": "Karnataka", "postalCode": "560003", "addressCountry": "IN" },
+    "address": { "@type": "PostalAddress", "streetAddress": "No. 157/108, 9th Cross, East Park Road, Malleshwaram", "addressLocality": "Bangalore", "addressRegion": "Karnataka", "postalCode": "560003", "addressCountry": "IN" },
     "areaServed": [
       { "@type": "City", "name": "Malleshwaram" },
       { "@type": "City", "name": "Rajajinagar" },
@@ -312,5 +403,30 @@
     "priceRange": "₹₹₹"
   }
   </script>
+
+  <!-- Mobile Bottom Navigation -->
+  <nav class="mobile-bottom-nav" aria-label="Mobile Bottom Navigation">
+    <a href="/index.html" class="mobile-bottom-nav__item" aria-label="Home">
+      <i data-lucide="home" style="width:20px;height:20px;"></i>
+      <span>Home</span>
+    </a>
+    <a href="/shop" class="mobile-bottom-nav__item" aria-label="Shop">
+      <i data-lucide="layout-grid" style="width:20px;height:20px;"></i>
+      <span>Shop</span>
+    </a>
+    <a href="/wishlist.html" class="mobile-bottom-nav__item" aria-label="Wishlist">
+      <i data-lucide="heart" style="width:20px;height:20px;"></i>
+      <span>Wishlist</span>
+      <span class="navbar__wishlist-badge">0</span>
+    </a>
+    <a href="/login.html" class="mobile-bottom-nav__item" aria-label="Account">
+      <i data-lucide="user" style="width:20px;height:20px;"></i>
+      <span>Account</span>
+    </a>
+  <!-- Scripts for Lucide Icons, Animations, and Active Links -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js" defer></script>
+  <script src="/js/products.js?v=6"></script>
+  <script src="/js/cart.js?v=5"></script>
+  <script src="/js/main.js?v=7"></script>
 </body>
 </html>

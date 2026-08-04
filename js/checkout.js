@@ -9,16 +9,16 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 async function renderCheckout() {
-  console.log('[Checkout] renderCheckout started');
+
   const summaryEl = document.getElementById('checkoutSummary');
   const orderItemsEl = document.getElementById('checkoutOrderItems');
   const emptyEl = document.getElementById('checkoutEmpty');
   const filledEl = document.getElementById('checkoutFilled');
 
-  console.log('[Checkout] elements:', { summaryEl: !!summaryEl, orderItemsEl: !!orderItemsEl, emptyEl: !!emptyEl, filledEl: !!filledEl });
+
 
   const cart = await getCart();
-  console.log('[Checkout] cart data:', cart);
+
 
   if (cart.length === 0) {
     if (emptyEl) emptyEl.style.display = 'flex';
@@ -59,7 +59,7 @@ async function renderCheckout() {
 
   if (orderItemsEl) orderItemsEl.innerHTML = itemsHTML;
 
-  const shipping = subtotal > 5000 ? 0 : 199;
+  const shipping = 49;
   const total = subtotal + shipping;
 
   if (summaryEl) {
@@ -74,10 +74,10 @@ async function renderCheckout() {
         <span>-${formatPrice(totalSavings)}</span>
       </div>` : ''}
       <div class="cart-summary__row">
-        <span>Shipping</span>
-        <span>${shipping === 0 ? '<span class="text-gold">FREE</span>' : formatPrice(shipping)}</span>
+        <span>Shipping Fee</span>
+        <span>${formatPrice(shipping)}</span>
       </div>
-      ${shipping > 0 ? `<p class="cart-summary__note">Free shipping on orders above ₹5,000</p>` : ''}
+      <p class="cart-summary__note">Standard shipping charge of ₹49</p>
       <div class="cart-summary__divider"></div>
       <div class="cart-summary__row cart-summary__total">
         <span>Total</span>

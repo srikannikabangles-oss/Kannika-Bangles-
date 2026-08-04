@@ -58,14 +58,14 @@ function renderWishlist() {
           
           <div class="card__overlay">
             <div class="product-card__overlay-actions">
-              <a href="product.html?id=${product.id}" class="btn btn--primary btn--sm">View Details</a>
+              <a href="/product/${product.id}" class="btn btn--primary btn--sm">View Details</a>
               <button class="btn btn--outline btn--sm" onclick="event.preventDefault(); addWishlistItemToCart(${product.id})">
                 <i data-lucide="shopping-bag" style="width:16px;height:16px;"></i> Add to Cart
               </button>
             </div>
           </div>
         </div>
-        <a href="product.html?id=${product.id}" class="card__body">
+        <a href="/product/${product.id}" class="card__body">
           <span class="card__category">${categoryLabel}</span>
           <h3 class="card__title">${product.name}</h3>
           <div class="card__price">

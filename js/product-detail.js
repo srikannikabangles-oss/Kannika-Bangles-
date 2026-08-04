@@ -235,7 +235,7 @@ function renderRelatedProducts() {
   related.forEach(product => {
     const rtRating = getProductRealtimeRating(product.id);
     html += `
-      <a href="product.html?id=${product.id}" class="card">
+      <a href="/product/${product.id}" class="card">
         <div class="card__image">
           <img src="${product.image}" alt="Kannika Bangles product - ${product.name}" loading="lazy">
         </div>

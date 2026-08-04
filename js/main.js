@@ -35,6 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
   fixIOSInputZoom();     // Prevent iOS auto-zoom on inputs
   initMobileBottomNav();
   initNavbar();
+  initActiveNavLinkHighlight();
   initScrollAnimations();
   initBackToTop();
   updateCartBadge();
@@ -43,6 +44,26 @@ document.addEventListener('DOMContentLoaded', () => {
   initStickyATC();       // Sticky add-to-cart on product pages
   initLucide();
 });
+
+function initActiveNavLinkHighlight() {
+  const path = window.location.pathname.replace(/\/$/, '');
+  const navLinks = document.querySelectorAll('.navbar__links .navbar__link');
+  if (!navLinks.length) return;
+
+  navLinks.forEach(link => {
+    const href = link.getAttribute('href');
+    if (!href) return;
+
+    const cleanHref = href.replace(/\/$/, '');
+    if (cleanHref === path || (cleanHref !== '' && cleanHref !== '/index.html' && path.endsWith(cleanHref))) {
+      link.classList.add('active');
+    } else if ((path === '' || path === '/index.html') && (cleanHref === '' || cleanHref === '/index.html')) {
+      link.classList.add('active');
+    } else {
+      link.classList.remove('active');
+    }
+  });
+}
 
 /* ─── Loading Screen ─── */
 function initLoader() {
@@ -296,10 +317,8 @@ function initBackToTop() {
 function getLocalCart() {
   try {
     const data = localStorage.getItem('kannika_cart');
-    console.log('[Cart] getLocalCart raw:', data);
     if (!data) return [];
     const parsed = JSON.parse(data);
-    console.log('[Cart] getLocalCart parsed:', parsed);
     return Array.isArray(parsed) ? parsed : [];
   } catch (e) {
     console.warn('[Cart] getLocalCart error:', e);
@@ -308,13 +327,11 @@ function getLocalCart() {
 }
 
 function saveLocalCart(cart) {
-  console.log('[Cart] saveLocalCart:', cart);
   localStorage.setItem('kannika_cart', JSON.stringify(cart));
 }
 
 async function getCart() {
   const userId = getLoggedInUserId();
-  console.log('[Cart] getCart userId:', userId);
   
   if (userId) {
     try {
@@ -363,7 +380,6 @@ async function syncCartFromDatabase(userId) {
 }
 
 async function addToCart(productId, size = '2.6', quantity = 1) {
-  console.log('[Cart] addToCart called:', { productId, size, quantity });
   const cart = getLocalCart();
   const existingIndex = cart.findIndex(item => item.id === parseInt(productId) && item.size === size);
   if (existingIndex > -1) {
@@ -791,7 +807,6 @@ async function mergeGuestCartIntoDatabase(userId) {
     });
     if (!response.ok) throw new Error('API error');
 
-    console.log('Guest cart successfully merged to MongoDB');
     localStorage.removeItem('kannika_cart');
     await syncCartFromDatabase(userId);
   } catch (err) {
@@ -964,7 +979,7 @@ function initGlobalSearch() {
           ? `<span class="search-overlay__result-price-original">₹${product.originalPrice.toLocaleString('en-IN')}</span>` 
           : '';
         return `
-          <a href="product.html?id=${product.id}" class="search-overlay__result-item" onclick="document.getElementById('globalSearchOverlay').classList.remove('active');">
+          <a href="/product/${product.id}" class="search-overlay__result-item" onclick="document.getElementById('globalSearchOverlay').classList.remove('active');">
             <img src="${product.image}" alt="${product.name}" class="search-overlay__result-img">
             <div class="search-overlay__result-info">
               <div class="search-overlay__result-name">${product.name}</div>

@@ -58,11 +58,51 @@
   ],
   "rewrites": [
     {
+      "source": "/product/:id",
+      "destination": "/api/index.js"
+    },
+    {
       "source": "/api/:path*",
       "destination": "/api/index.js"
     }
   ],
   "redirects": [
+    {
+      "source": "/shop.html",
+      "has": [
+        {
+          "type": "query",
+          "key": "category",
+          "value": "bangles"
+        }
+      ],
+      "destination": "/bangles",
+      "permanent": true
+    },
+    {
+      "source": "/shop.html",
+      "has": [
+        {
+          "type": "query",
+          "key": "category",
+          "value": "necklaces"
+        }
+      ],
+      "destination": "/necklaces",
+      "permanent": true
+    },
+    {
+      "source": "/shop.html",
+      "has": [
+        {
+          "type": "query",
+          "key": "category",
+          "value": "earrings"
+        }
+      ],
+      "destination": "/earrings",
+      "permanent": true
+    },
     {
       "source": "/home",
       "destination": "/",

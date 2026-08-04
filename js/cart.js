@@ -18,17 +18,17 @@ window.triggerCartRestore = async function() {
 
 async function renderCart() {
   try {
-    console.log('[Cart] renderCart started');
+
     const container = document.getElementById('cartItems');
     const summaryEl = document.getElementById('cartSummary');
     const emptyEl = document.getElementById('cartEmpty');
     const filledEl = document.getElementById('cartFilled');
 
-    console.log('[Cart] elements:', { container: !!container, summaryEl: !!summaryEl, emptyEl: !!emptyEl, filledEl: !!filledEl });
+
     if (!container) return;
 
     const cart = await getCart();
-    console.log('[Cart] cart data:', cart);
+
 
   if (cart.length === 0) {
     if (emptyEl) {
@@ -113,7 +113,7 @@ async function renderCart() {
   container.innerHTML = itemsHTML;
 
   // Update summary
-  const shipping = subtotal > 5000 ? 0 : 199;
+  const shipping = 49;
   const total = subtotal + shipping;
 
   if (summaryEl) {
@@ -128,10 +128,10 @@ async function renderCart() {
         <span>-${formatPrice(totalSavings)}</span>
       </div>` : ''}
       <div class="cart-summary__row">
-        <span>Shipping</span>
-        <span>${shipping === 0 ? '<span class="text-gold">FREE</span>' : formatPrice(shipping)}</span>
+        <span>Shipping Fee</span>
+        <span>${formatPrice(shipping)}</span>
       </div>
-      ${shipping > 0 ? `<p class="cart-summary__note">Free shipping on orders above ₹5,000</p>` : ''}
+      <p class="cart-summary__note">Standard shipping charge of ₹49</p>
       <div class="cart-summary__divider"></div>
       <div class="cart-summary__row cart-summary__total">
         <span>Total</span>
