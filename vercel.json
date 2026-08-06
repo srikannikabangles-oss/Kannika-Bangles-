@@ -58,6 +58,42 @@
   ],
   "rewrites": [
     {
+      "source": "/bangles",
+      "destination": "/api/index.js"
+    },
+    {
+      "source": "/necklaces",
+      "destination": "/api/index.js"
+    },
+    {
+      "source": "/earrings",
+      "destination": "/api/index.js"
+    },
+    {
+      "source": "/shop",
+      "destination": "/api/index.js"
+    },
+    {
+      "source": "/blog",
+      "destination": "/api/index.js"
+    },
+    {
+      "source": "/blog/:slug",
+      "destination": "/api/index.js"
+    },
+    {
+      "source": "/areas",
+      "destination": "/api/index.js"
+    },
+    {
+      "source": "/areas/:location",
+      "destination": "/api/index.js"
+    },
+    {
+      "source": "/checkout",
+      "destination": "/api/index.js"
+    },
+    {
       "source": "/product/:id",
       "destination": "/api/index.js"
     },
