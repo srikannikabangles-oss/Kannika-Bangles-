@@ -27,354 +27,79 @@ const productSchema = new mongoose.Schema({
 
 const Product = mongoose.model('Product', productSchema);
 
-// Define products catalog exactly as in products.js
-const baseBangles = [
-  {
-    id: 1,
-    type: "bangles",
-    name: "Emerald Noor Bangles",
-    category: "bangles",
-    price: 6999,
-    originalPrice: 8999,
-    image: "images/bangles/bangle_1.jpg",
-    images: ["images/bangles/bangle_1.jpg"],
-    description: "A gorgeous set of gold-plated bangles studded with green emerald stones and brilliant CZ diamonds.",
-    material: "Brass Base, Micro Gold Plated",
-    finish: "High Polish Gold",
-    stones: "Emerald, CZ Diamonds",
-    sizes: ["2.4", "2.6", "2.8", "2.10"],
-    inStock: true,
-    badge: "bestseller",
-    featured: true
-  },
-  {
-    id: 2,
-    type: "bangles",
-    name: "Chandrika Crystal Bangles",
-    category: "bangles",
-    price: 4999,
-    originalPrice: 6499,
-    image: "images/bangles/bangle_2.jpg",
-    images: ["images/bangles/bangle_2.jpg"],
-    description: "An elegant set of two gold-plated bangles with intricate crystal detailing.",
-    material: "Brass Base, Gold Plated",
-    finish: "Rose Gold Polish",
-    stones: "American Diamond (CZ)",
-    sizes: ["2.4", "2.6", "2.8"],
-    inStock: true,
-    badge: "sale",
-    featured: true
-  },
-  {
-    id: 3,
-    type: "bangles",
-    name: "Rajwada Polki Kada",
-    category: "bangles",
-    price: 8999,
-    originalPrice: 10999,
-    image: "images/bangles/bangle_3.jpg",
-    images: ["images/bangles/bangle_3.jpg"],
-    description: "Exquisite broad gold Kada set adorned with multiple rows of sparkling CZ diamonds.",
-    material: "Brass Base, Micro Gold Plated",
-    finish: "Antique Gold",
-    stones: "Jadau Kundan, Polki",
-    sizes: ["2.4", "2.6", "2.8", "2.10"],
-    inStock: true,
-    badge: "new",
-    featured: true
-  },
-  {
-    id: 4,
-    type: "bangles",
-    name: "Maharani Heritage Bangles",
-    category: "bangles",
-    price: 3499,
-    originalPrice: 4299,
-    image: "images/bangles/bangle_4.jpg",
-    images: ["images/bangles/bangle_4.jpg"],
-    description: "Traditional gold bangle set with delicate leaf patterns and detailed CZ settings.",
-    material: "Brass Base, Micro Gold Plated",
-    finish: "High Polish Gold",
-    stones: "None",
-    sizes: ["2.4", "2.6", "2.8"],
-    inStock: true,
-    badge: null,
-    featured: true
-  },
-  {
-    id: 5,
-    type: "bangles",
-    name: "Aishani Polki Cuff",
-    category: "bangles",
-    price: 5999,
-    originalPrice: 7499,
-    image: "images/bangles/bangle_5.jpg",
-    images: ["images/bangles/bangle_5.jpg"],
-    description: "Majestic gold-plated bridal Kada studded with brilliant white stones on a velvet cushion.",
-    material: "Brass Base",
-    finish: "Matte Antique Gold",
-    stones: "Temple Ruby",
-    sizes: ["2.4", "2.6", "2.8", "2.10"],
-    inStock: true,
-    badge: "featured",
-    featured: true
-  },
-  {
-    id: 6,
-    type: "bangles",
-    name: "Noor Jhumki Bangles",
-    category: "bangles",
-    price: 1499,
-    originalPrice: 1999,
-    image: "images/bangles/bangle_6.jpg",
-    images: ["images/bangles/bangle_6.jpg"],
-    description: "Delicate set of gold-toned daily wear bangles with flower CZ motifs.",
-    material: "Brass Base, Gold Toned",
-    finish: "High Polish",
-    stones: "None",
-    sizes: ["2.4", "2.6", "2.8"],
-    inStock: true,
-    badge: null,
-    featured: true
-  },
-  {
-    id: 7,
-    type: "bangles",
-    name: "Zivara Crystal Bangles",
-    category: "bangles",
-    price: 2499,
-    originalPrice: 2999,
-    image: "images/bangles/bangle_7.jpg",
-    images: ["images/bangles/bangle_7.jpg"],
-    description: "Sleek set of stackable gold-plated bangles studded with CZ crystals.",
-    material: "Pure Brass",
-    finish: "Natural Brass Polish",
-    stones: "None",
-    sizes: ["2.4", "2.6", "2.8", "2.10"],
-    inStock: true,
-    badge: null,
-    featured: false
-  },
-  {
-    id: 8,
-    type: "bangles",
-    name: "Rani Meher Bangles",
-    category: "bangles",
-    price: 7999,
-    originalPrice: 9999,
-    image: "images/bangles/bangle_8.jpg",
-    images: ["images/bangles/bangle_8.jpg"],
-    description: "High-end traditional gold-plated broad bangles with detailed filigree patterns.",
-    material: "Brass Base, Rose Gold Plated",
-    finish: "Rose Gold & White Gold",
-    stones: "Premium CZ Diamonds",
-    sizes: ["2.4", "2.6", "2.8"],
-    inStock: true,
-    badge: "bestseller",
-    featured: true
-  },
-  {
-    id: 9,
-    type: "bangles",
-    name: "Moonlight Elegance Bangles",
-    category: "bangles",
-    price: 15999,
-    originalPrice: 19999,
-    image: "images/bangles/bangle_9.jpg",
-    images: ["images/bangles/bangle_9.jpg"],
-    description: "Exquisite micro-gold-plated pair of bangles studded with dual-row CZ diamonds.",
-    material: "Brass Base, Heavy Gold Plated",
-    finish: "Royal Gold",
-    stones: "Kundan, Ruby, Emerald",
-    sizes: ["2.4", "2.6", "2.8", "2.10"],
-    inStock: true,
-    badge: "new",
-    featured: true
-  },
-  {
-    id: 10,
-    type: "bangles",
-    name: "Kundan Royale Set",
-    category: "bangles",
-    price: 4499,
-    originalPrice: 5499,
-    image: "images/bangles/bangle_10.jpg",
-    images: ["images/bangles/bangle_10.jpg"],
-    description: "Premium bridal gold choker set with matching jhumkas.",
-    material: "Brass Base, Micro Gold Plated",
-    finish: "Satin Gold",
-    stones: "Pearl Accents",
-    sizes: ["2.4", "2.6", "2.8"],
-    inStock: true,
-    badge: null,
-    featured: false
-  },
-  {
-    id: 11,
-    type: "bangles",
-    name: "Gulnaar Polki Bangles",
-    category: "bangles",
-    price: 3999,
-    originalPrice: 4999,
-    image: "images/bangles/bangle_11.jpg",
-    images: ["images/bangles/bangle_11.jpg"],
-    description: "Beautiful gold-toned single flower Kada studded with CZ crystals.",
-    material: "Brass Base",
-    finish: "Oxidized Antique",
-    stones: "Temple Motifs",
-    sizes: ["2.6", "2.8", "2.10"],
-    inStock: true,
-    badge: "featured",
-    featured: false
-  },
-  {
-    id: 12,
-    type: "bangles",
-    name: "Shahi Noor Bangles",
-    category: "bangles",
-    price: 11499,
-    originalPrice: 13999,
-    image: "images/bangles/bangle_12.jpg",
-    images: ["images/bangles/bangle_12.jpg"],
-    description: "Gorgeous set of daily wear gold-plated bangles with detailed star cuts.",
-    material: "Brass Base, 22K Gold Plated",
-    finish: "Traditional Gold",
-    stones: "Jadau, Meenakari, Polki",
-    sizes: ["2.4", "2.6", "2.8"],
-    inStock: true,
-    badge: "sale",
-    featured: false
-  }
-];
+const earringNamesMap = {
+  1: "Mayuri Pearl & Kundan Drop Jhumkas",
+  2: "Rajwada Filigree Temple Drops",
+  3: "Padma Emerald & Kundan Tikka Drops",
+  4: "Zivara CZ Diamond Floral Studs",
+  5: "Surya Ruby & Kundan Drop Tops",
+  6: "Chandrika Emerald Crescent Drops",
+  7: "Gulnaar Antique Temple Jhumkas",
+  8: "Maharani Emerald & Pearl Bridal Drops",
+  9: "Aura Sleek Gold Dangler Earrings",
+  10: "Noor AD Crystal Drop Studs",
+  11: "Shahi Emerald Bridal Choker & Earrings",
+  12: "Imperial Kundan Crescent Jhumkas",
+  13: "Champa Round Jadau Floral Jhumkas",
+  14: "Devyani Pearl Tiered Heritage Jhumkas",
+  15: "Mayurika Jadau Peacock Drop Jhumkas",
+  16: "Aishani Temple Dome Gold Jhumkas",
+  17: "Ananya Pearl & Kundan Teardrop Danglers",
+  18: "Kaveri Crescent Pearl Chandbalis",
+  19: "Sunehri Broad Jadau Bridal Jhumkas",
+  20: "Sanvi Polki Gold Stud Earrings",
+  21: "Ambika Mango Motif Temple Jhumkas"
+};
 
-// Generate necklaces
-const necklaceImages = [
-  "IMG-20260520-WA0012.jpg",
-  "IMG-20260520-WA0013.jpg",
-  "IMG-20260520-WA0019.jpg",
-  "IMG-20260520-WA0021.jpg",
-  "IMG-20260520-WA0022.jpg",
-  "IMG-20260520-WA0023.jpg",
-  "IMG-20260520-WA0024.jpg",
-  "IMG-20260520-WA0025.jpg",
-  "IMG-20260520-WA0028.jpg",
-  "IMG-20260520-WA0035.jpg",
-  "IMG-20260520-WA0037.jpg",
-  "IMG-20260520-WA0052.jpg",
-  "IMG-20260520-WA0054.jpg",
-  "IMG-20260520-WA0056.jpg",
-  "IMG-20260520-WA0062.jpg",
-  "IMG-20260520-WA0063.jpg",
-  "IMG-20260520-WA0064.jpg",
-  "IMG-20260520-WA0067.jpg",
-  "IMG-20260520-WA0068.jpg",
-  "IMG-20260520-WA0076.jpg",
-  "IMG-20260520-WA0079.jpg",
-  "IMG-20260520-WA0080.jpg",
-  "IMG-20260520-WA0083.jpg",
-  "IMG-20260520-WA0084.jpg"
-];
+const pricesMap = {
+  1: { price: 1080, orig: 1350 },
+  2: { price: 1760, orig: 2200 },
+  3: { price: 940, orig: 1175 },
+  4: { price: 1300, orig: 1625 },
+  5: { price: 840, orig: 1050 },
+  6: { price: 920, orig: 1150 },
+  7: { price: 1100, orig: 1375 },
+  8: { price: 1680, orig: 2100 },
+  9: { price: 560, orig: 700 },
+  10: { price: 760, orig: 950 },
+  11: { price: 3760, orig: 4700 },
+  12: { price: 2600, orig: 3250 },
+  13: { price: 2850, orig: 3563 },
+  14: { price: 2620, orig: 3275 },
+  15: { price: 3750, orig: 4688 },
+  16: { price: 2250, orig: 2813 },
+  17: { price: 3950, orig: 4938 },
+  18: { price: 3220, orig: 4025 },
+  19: { price: 4760, orig: 5950 },
+  20: { price: 2400, orig: 3000 },
+  21: { price: 2160, orig: 2700 }
+};
 
-const necklaceNames = [
-  "Heirloom Kundan Choker",
-  "Rajwada Jadau Haram",
-  "Emerald Vine Necklace",
-  "Mughal Rose Gold Set",
-  "Noorani Pearl Choker",
-  "Zamorin Temple Necklace",
-  "Aishwarya Polki Haram",
-  "Madhurima Kundan Set",
-  "Padmini Emerald Choker",
-  "Shahi Meenakari Necklace",
-  "Anmol AD Stone Haram",
-  "Rani Mynah Pearl Set",
-  "Sunehri Vintage Choker",
-  "Maharani Kemp Necklace",
-  "Parijat Flower Haram",
-  "Shagun Wedding Choker",
-  "Nakshatra Star Necklace",
-  "Darbar Ruby Choker",
-  "Sanwariya Gold Haram",
-  "Chandani Drop Necklace",
-  "Rajkumari Pearl Choker",
-  "Mannat Bridal Set",
-  "Sufiana Gold Necklace",
-  "Vaibhav Kundan Haram"
-];
+const badges = ["bestseller", "new", "featured", null, "sale", null, "featured", "bestseller", null, "new", null, "featured", "sale", null, "bestseller", null, "featured", "new", null, "featured", "bestseller"];
 
-const generatedNecklaces = [];
-for (let i = 0; i < necklaceImages.length; i++) {
-  generatedNecklaces.push({
-    id: 13 + i,
-    type: "necklaces",
-    name: necklaceNames[i],
-    category: "necklaces",
-    price: 8999 + ((i * 347) % 12000),
-    originalPrice: 10999 + ((i * 347) % 15000),
-    image: `images/Necklaces - kannika/${necklaceImages[i]}`,
-    images: [`images/Necklaces - kannika/${necklaceImages[i]}`],
-    description: `A magnificent necklace ${i + 1} from the House of Kannika, meticulously crafted by master heritage artisans for bridal and royal festive occasions.`,
-    material: i % 2 === 0 ? "Brass Base, Micro Gold Plated" : "Pure Copper Base, Gold Plated",
-    finish: i % 3 === 0 ? "Matte Antique Gold Finish" : i % 3 === 1 ? "Traditional Royal Gold" : "High Polish Gold",
-    stones: i % 4 === 0 ? "Jadau Kundan, Pearls, Ruby" : i % 4 === 1 ? "Premium AD Stones" : i % 4 === 2 ? "Kemp Stones, Rice Pearls" : "Kundan, Faux Pearls & Emerald Beads",
-    sizes: ["Adjustable", "Choker Style"],
-    inStock: true,
-    badge: i % 6 === 0 ? "bestseller" : i % 6 === 1 ? "new" : i % 6 === 2 ? "featured" : null,
-    featured: i < 8
-  });
-}
-
-// Generate earrings
-const earringNames = [
-  "Antique Golden Jhumkas",
-  "Elegant Pearl Drop Chandbalis",
-  "Kundan Floral Studs",
-  "Micro Gold Plated Hoop Earrings",
-  "Brilliant AD Stone Drops",
-  "Traditional Temple Jhumkas",
-  "Royal Emerald Drop Chandbalis",
-  "Chic Geometric Gold Studs",
-  "Bridal Heritage Jhumka Set",
-  "Classic Daily Wear Hoops",
-  "Vibrant Ruby Floral Drops",
-  "Antique Oxidized Bali Pairs",
-  "Sparkling Diamond Cut Chandbalis",
-  "Delicate Pearl Cluster Studs",
-  "Regal Polki Drop Jhumkas",
-  "Modern Matte Gold Balis",
-  "Graceful Kemp Stone Drops",
-  "Designer AD Stone Chandelier Studs",
-  "Elegance Double Loop Jhumkas",
-  "Traditional Mango Leaf Drops",
-  "Premium CZ Diamond Studs",
-  "Imperial Peacock Motif Chandbalis",
-  "Filigree Craft Gold Drop Studs",
-  "Heritage Kundan Chandelier Set"
-];
-
-const generatedEarrings = [];
-for (let i = 1; i <= 24; i++) {
-  generatedEarrings.push({
-    id: 36 + i,
+const allProducts = Array.from({ length: 21 }, (_, index) => {
+  const i = index + 1;
+  const item = pricesMap[i];
+  const name = earringNamesMap[i];
+  return {
+    id: i,
     type: "earrings",
-    name: earringNames[i - 1],
+    name: name,
     category: "earrings",
-    price: 1999 + ((i * 123) % 2500),
-    originalPrice: 2999 + ((i * 123) % 3500),
-    image: `images/earrings/earring_${i}.jpg`,
-    images: [`images/earrings/earring_${i}.jpg`],
-    description: `Exquisitely handcrafted ${earringNames[i-1].toLowerCase()} designed to elevate your elegance. Blends deep Indian traditional motifs with highly polished modern detailing.`,
+    price: item.price,
+    originalPrice: item.orig,
+    image: `images/earrings/E${i}.jpeg`,
+    images: [`images/earrings/E${i}.jpeg`],
+    description: `Exquisitely handcrafted ${name.toLowerCase()} featuring intricate heritage metalwork, Kundan settings and premium gold finish.`,
     material: i % 2 === 0 ? "Brass Base, Micro Gold Plated" : "Pure Copper Base, Gold Plated",
-    finish: i % 3 === 0 ? "Matte Antique Finish" : "High Polish Gold",
-    stones: i % 4 === 0 ? "Jadau Kundan, Pearls" : i % 4 === 1 ? "Premium AD Stones" : i % 4 === 2 ? "Kemp Ruby & Emerald" : "None",
+    finish: i % 3 === 0 ? "Matte Antique Finish" : "High Polish Royal Gold",
+    stones: i % 4 === 0 ? "Jadau Kundan & Pearls" : i % 4 === 1 ? "Premium AD Stones" : i % 4 === 2 ? "Kemp Ruby & Emerald" : "Kundan & Faux Pearls",
     sizes: ["Standard Pair"],
     inStock: true,
-    badge: i % 6 === 0 ? "bestseller" : i % 6 === 1 ? "new" : i % 6 === 2 ? "featured" : null,
-    featured: i <= 8
-  });
-}
-
-const allProducts = [...baseBangles, ...generatedNecklaces, ...generatedEarrings];
+    badge: badges[index],
+    featured: true
+  };
+});
 
 async function seed() {
   try {
@@ -386,9 +111,9 @@ async function seed() {
     await Product.deleteMany({});
     console.log('Cleared existing products.');
 
-    // Insert all products
+    // Insert only earring products
     const result = await Product.insertMany(allProducts);
-    console.log(`Successfully seeded ${result.length} products into the database!`);
+    console.log(`Successfully seeded ${result.length} earring products into the database!`);
 
     await mongoose.disconnect();
     console.log('Disconnected from MongoDB.');
