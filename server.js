@@ -64,7 +64,7 @@ app.use((req, res, next) => {
 });
 
 // 301 Redirects: old query-param URLs → clean category URLs
-app.get('/shop.html', (req, res) => {
+app.get(['/shop.html', '/shop-template.html'], (req, res) => {
   const category = req.query.category;
   if (category === 'bangles') return res.redirect(301, '/bangles');
   if (category === 'necklaces') return res.redirect(301, '/necklaces');
@@ -441,19 +441,19 @@ app.get('/api/ratings', async (req, res) => {
 });
 
 // SSR Dynamic Product Page with pre-rendered Schema & OpenGraph
-app.get(['/product/:id', '/product.html'], async (req, res, next) => {
+app.get(['/product/:id', '/product.html', '/product-template.html'], async (req, res, next) => {
   const productId = parseInt(req.params.id || req.query.id);
   if (!productId || isNaN(productId)) {
-    return res.sendFile(path.join(__dirname, 'product.html'));
+    return res.sendFile(path.join(__dirname, 'product-template.html'));
   }
 
   try {
     const product = await Product.findOne({ id: productId });
     if (!product) {
-      return res.sendFile(path.join(__dirname, 'product.html'));
+      return res.sendFile(path.join(__dirname, 'product-template.html'));
     }
 
-    let template = fs.readFileSync(path.join(__dirname, 'product.html'), 'utf8');
+    let template = fs.readFileSync(path.join(__dirname, 'product-template.html'), 'utf8');
 
     // Dynamic Title & Meta
     const seoTitle = `${product.name} — Buy Online Bangalore | Sri Kannika Bangles`;
@@ -527,14 +527,14 @@ app.get(['/product/:id', '/product.html'], async (req, res, next) => {
 
     res.send(template);
   } catch (err) {
-    res.sendFile(path.join(__dirname, 'product.html'));
+    res.sendFile(path.join(__dirname, 'product-template.html'));
   }
 });
 
 // ─── SSR Category Pages with Pre-Rendered Product Grid ───
 async function serveCategorySSR(req, res, category, titleText, metaDesc) {
   try {
-    let template = fs.readFileSync(path.join(__dirname, 'shop.html'), 'utf8');
+    let template = fs.readFileSync(path.join(__dirname, 'shop-template.html'), 'utf8');
 
     // Inject category-specific title & meta
     template = template.replace(/<title>.*?<\/title>/i, `<title>${titleText}</title>`);
@@ -647,7 +647,7 @@ async function serveCategorySSR(req, res, category, titleText, metaDesc) {
     res.send(template);
   } catch (err) {
     console.error('[ERROR] serveCategorySSR failed:', err);
-    res.sendFile(path.join(__dirname, 'shop.html'));
+    res.sendFile(path.join(__dirname, 'shop-template.html'));
   }
 }
 

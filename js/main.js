@@ -204,7 +204,7 @@ function initMobileBottomNav() {
   const pageName = path.split('/').pop() || 'index.html';
 
   const isHome = pageName === '' || pageName === 'index.html';
-  const isShop = pageName === 'shop.html';
+  const isShop = pageName === 'shop' || path.startsWith('/shop') || path.startsWith('/earrings') || path.startsWith('/bangles') || path.startsWith('/necklaces');
   const isWishlist = pageName === 'wishlist.html';
   const isCart = pageName === 'cart.html';
   const isProfile = pageName === 'login.html' || pageName === 'profile.html';
@@ -214,7 +214,7 @@ function initMobileBottomNav() {
       <i data-lucide="home" style="width:22px;height:22px;"></i>
       <span>Home</span>
     </a>
-    <a href="shop.html" class="mobile-bottom-nav__item ${isShop ? 'active' : ''} mobile-bottom-nav__item--search" aria-label="Search">
+    <a href="/shop" class="mobile-bottom-nav__item ${isShop ? 'active' : ''} mobile-bottom-nav__item--search" aria-label="Search">
       <i data-lucide="search" style="width:22px;height:22px;"></i>
       <span>Search</span>
     </a>
@@ -652,7 +652,7 @@ function getNavbarHTML(activePage = '') {
         </a>
         <ul class="navbar__links" id="navLinks">
           <li><a href="index.html" class="navbar__link ${activePage === 'home' ? 'active' : ''}">Home</a></li>
-          <li><a href="shop.html" class="navbar__link ${activePage === 'shop' ? 'active' : ''}">Shop</a></li>
+          <li><a href="/shop" class="navbar__link ${activePage === 'shop' ? 'active' : ''}">Shop</a></li>
           <li><a href="about.html" class="navbar__link ${activePage === 'about' ? 'active' : ''}">About</a></li>
           <li><a href="contact.html" class="navbar__link ${activePage === 'contact' ? 'active' : ''}">Contact</a></li>
         </ul>
@@ -689,16 +689,16 @@ function getFooterHTML() {
         <div class="footer__col">
           <h4 class="footer__heading">Quick Links</h4>
           <a href="index.html" class="footer__link">Home</a>
-          <a href="shop.html" class="footer__link">Shop All</a>
-          <a href="shop.html?category=bangles" class="footer__link">Bangles Collection</a>
+          <a href="/shop" class="footer__link">Shop All</a>
+          <a href="/bangles" class="footer__link">Bangles Collection</a>
           <a href="about.html" class="footer__link">Our Story</a>
           <a href="contact.html" class="footer__link">Contact Us</a>
         </div>
         <div class="footer__col">
           <h4 class="footer__heading">Categories</h4>
-          <a href="shop.html?category=bangles" class="footer__link">Bangles</a>
-          <a href="shop.html?category=necklaces" class="footer__link">Necklaces</a>
-          <a href="shop.html?category=earrings" class="footer__link">Earrings</a>
+          <a href="/bangles" class="footer__link">Bangles</a>
+          <a href="/necklaces" class="footer__link">Necklaces</a>
+          <a href="/earrings" class="footer__link">Earrings</a>
         </div>
         <div class="footer__col">
           <h4 class="footer__heading">Get in Touch</h4>
@@ -1010,7 +1010,7 @@ function initGlobalSearch() {
       if (query) {
         overlay.classList.remove('active');
         resultsContainer.classList.remove('active');
-        window.location.href = `shop.html?search=${encodeURIComponent(query)}`;
+        window.location.href = `/shop?search=${encodeURIComponent(query)}`;
       }
     });
   }

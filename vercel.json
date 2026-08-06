@@ -59,47 +59,47 @@
   "rewrites": [
     {
       "source": "/bangles",
-      "destination": "/api/index.js"
+      "destination": "/api"
     },
     {
       "source": "/necklaces",
-      "destination": "/api/index.js"
+      "destination": "/api"
     },
     {
       "source": "/earrings",
-      "destination": "/api/index.js"
+      "destination": "/api"
     },
     {
       "source": "/shop",
-      "destination": "/api/index.js"
+      "destination": "/api"
     },
     {
       "source": "/blog",
-      "destination": "/api/index.js"
+      "destination": "/api"
     },
     {
       "source": "/blog/:slug",
-      "destination": "/api/index.js"
+      "destination": "/api"
     },
     {
       "source": "/areas",
-      "destination": "/api/index.js"
+      "destination": "/api"
     },
     {
       "source": "/areas/:location",
-      "destination": "/api/index.js"
+      "destination": "/api"
     },
     {
       "source": "/checkout",
-      "destination": "/api/index.js"
+      "destination": "/api"
     },
     {
       "source": "/product/:id",
-      "destination": "/api/index.js"
+      "destination": "/api"
     },
     {
       "source": "/api/:path*",
-      "destination": "/api/index.js"
+      "destination": "/api"
     }
   ],
   "redirects": [

@@ -9,7 +9,9 @@ let currentImageIndex = 0;
 
 document.addEventListener('DOMContentLoaded', async () => {
   const params = new URLSearchParams(window.location.search);
-  const productId = params.get('id');
+  // Support clean URLs like /product/5 and legacy ?id=5
+  const pathMatch = window.location.pathname.match(/\/product\/(\d+)/);
+  const productId = (pathMatch && pathMatch[1]) || params.get('id');
 
   if (!productId) {
     showProductNotFound();
@@ -46,9 +48,9 @@ async function renderProductDetail() {
     <div class="pd__breadcrumb">
       <a href="index.html">Home</a>
       <i data-lucide="chevron-right" style="width:14px;height:14px;"></i>
-      <a href="shop.html">Shop</a>
+      <a href="/shop">Shop</a>
       <i data-lucide="chevron-right" style="width:14px;height:14px;"></i>
-      <a href="shop.html?category=${currentProduct.category}">${getCatName(currentProduct.category)}</a>
+      <a href="/${currentProduct.category}">${getCatName(currentProduct.category)}</a>
     </div>
 
     <div class="pd__container">
@@ -276,7 +278,7 @@ function showProductNotFound() {
       <i data-lucide="search-x" style="width:80px;height:80px;color:var(--text-muted);"></i>
       <h2>Product Not Found</h2>
       <p>The product you're looking for doesn't exist or has been removed.</p>
-      <a href="shop.html" class="btn btn--primary">Browse Collection</a>
+      <a href="/shop" class="btn btn--primary">Browse Collection</a>
     </div>
   `;
   if (typeof lucide !== 'undefined') lucide.createIcons();
