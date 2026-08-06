@@ -532,13 +532,14 @@ app.get(['/product/:id', '/product.html', '/product-template.html'], async (req,
 });
 
 // ─── SSR Category Pages with Pre-Rendered Product Grid ───
-async function serveCategorySSR(req, res, category, titleText, metaDesc) {
+async function serveCategorySSR(req, res, category, titleText, metaDesc, keywords) {
   try {
     let template = fs.readFileSync(path.join(process.cwd(), 'shop-template.html'), 'utf8');
 
     // Inject category-specific title & meta
     template = template.replace(/<title>.*?<\/title>/i, `<title>${titleText}</title>`);
     template = template.replace(/<meta name="description" content=".*?">/i, `<meta name="description" content="${metaDesc}">`);
+    template = template.replace(/<meta name="keywords" content=".*?">/i, `<meta name="keywords" content="${keywords}">`);
 
     // Inject canonical link
     const canonicalUrl = `https://kannikabangles.com/${category === 'all' ? 'shop' : category}`;
@@ -653,29 +654,33 @@ async function serveCategorySSR(req, res, category, titleText, metaDesc) {
 
 app.get('/bangles', async (req, res) => {
   await serveCategorySSR(req, res, 'bangles',
-    'Jewellery Shop in Bangalore — Kannika Bangles',
-    'Visit Sri Kannika Bangles, a premium jewellery shop in bangalore. Explore our handcrafted bridal bangles, Kundan kadas and antique wristwear sets.'
+    'Bridal Bangles Bangalore',
+    'Discover exquisite bridal bangles in Bangalore. Shop Kundan kadas and handcrafted traditional wristwear for your special day at Sri Kannika Bangles.',
+    'bridal bangles bangalore, shop kundan kadas, traditional wristwear'
   );
 });
 
 app.get('/necklaces', async (req, res) => {
   await serveCategorySSR(req, res, 'necklaces',
-    'Bridal & Kundan Necklace Sets Bangalore | Kannika Bangles',
-    'Buy bridal necklace sets & Kundan necklaces in Bangalore. Explore chokers, haram designs & temple jewellery necklaces from Sri Kannika Bangles.'
+    'Bridal Necklace Sets Bangalore',
+    'Shop premium bridal necklace sets in Bangalore. Explore our beautiful collection of antique chokers online and South Indian traditional necklaces.',
+    'bridal necklace sets bangalore, antique chokers online, south indian necklaces'
   );
 });
 
 app.get('/earrings', async (req, res) => {
   await serveCategorySSR(req, res, 'earrings',
-    'Chandbali & Jhumka Earrings Online Bangalore | Kannika Bangles',
-    'Shop Chandbali earrings & Jhumka earrings online in Bangalore. Discover exquisite bridal & antique earrings handcrafted by Sri Kannika Bangles.'
+    'Traditional Earrings Bangalore',
+    'Buy elegant traditional earrings in Bangalore. Shop our exclusive collection of bridal Chandbali Jhumkas and premium wedding accessories at Kannika Bangles.',
+    'traditional earrings bangalore, bridal chandbali jhumkas, premium wedding accessories'
   );
 });
 
 app.get('/shop', async (req, res) => {
   await serveCategorySSR(req, res, 'all',
-    'Shop Handcrafted Indian Jewellery Bangalore | Kannika Bangles',
-    'Shop luxury handcrafted Indian jewellery online at Kannika Bangles Bangalore. Explore our exclusive bridal bangles, necklaces, and earrings.'
+    'Indian Wedding Jewellery Bangalore',
+    'Browse premium Indian wedding jewellery in Bangalore. Buy bridal accessories and traditional sets online from the exclusive Sri Kannika Bangles collection.',
+    'indian wedding jewellery bangalore, buy bridal accessories, traditional jewellery collection'
   );
 });
 
