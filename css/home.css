@@ -220,7 +220,7 @@
 /* ── Split Hero Layout with 2x2 Square Cards Grid ── */
 .hero--royal-split {
   min-height: 100vh;
-  padding: 140px 0 80px;
+  padding: 170px 0 90px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -804,8 +804,14 @@
 }
 
 /* ── Navbar override for dark hero ── */
+.home-page .navbar:not(.scrolled) {
+  background: linear-gradient(180deg, rgba(10, 4, 14, 0.92) 0%, rgba(10, 4, 14, 0.6) 70%, transparent 100%);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
 .home-page .navbar:not(.scrolled) .navbar__logo-img {
-  filter: drop-shadow(0 0 12px rgba(212, 175, 55, 0.5)) drop-shadow(0 0 4px rgba(255, 255, 255, 0.3));
+  filter: drop-shadow(0 0 12px rgba(212, 175, 55, 0.5));
 }
 
 .home-page .navbar:not(.scrolled) .navbar__logo {
@@ -818,7 +824,7 @@
 .home-page .navbar:not(.scrolled) .navbar__action-btn,
 .home-page .navbar:not(.scrolled) .navbar__cart,
 .home-page .navbar:not(.scrolled) .navbar__user-btn {
-  color: rgba(255, 247, 250, 0.84);
+  color: rgba(255, 247, 250, 0.92);
 }
 
 .home-page .navbar:not(.scrolled) .navbar__link:hover,
@@ -826,7 +832,7 @@
 .home-page .navbar:not(.scrolled) .navbar__action-btn:hover,
 .home-page .navbar:not(.scrolled) .navbar__cart:hover,
 .home-page .navbar:not(.scrolled) .navbar__user-btn:hover {
-  color: var(--gold-light);
+  color: #D4AF37 !important;
 }
 
 .home-page .navbar:not(.scrolled) .navbar__toggle-left span,

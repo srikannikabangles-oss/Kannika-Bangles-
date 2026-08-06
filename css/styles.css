@@ -263,20 +263,29 @@ h4 { font-size: clamp(1.25rem, 2vw, 1.5rem); }
   z-index: var(--z-nav);
   padding: 0;
   transition: top var(--transition-normal), background var(--transition-normal), box-shadow var(--transition-normal);
-  background: transparent;
-}
-
-.home-page .navbar {
-  top: var(--topbar-height);
-}
-
-.navbar.scrolled {
-  top: 0;
-  background: var(--bg-glass-strong);
+  background: var(--bg-glass-strong, #FFFFFF);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   border-bottom: 1px solid var(--border-subtle);
-  box-shadow: 0 8px 32px rgba(157, 23, 57, 0.04);
+  box-shadow: 0 4px 20px rgba(157, 23, 57, 0.04);
+}
+
+.home-page .navbar:not(.scrolled) {
+  top: var(--topbar-height);
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom: none;
+  box-shadow: none;
+}
+
+.navbar.scrolled {
+  top: 0 !important;
+  background: #FFFFFF !important;
+  backdrop-filter: blur(24px) !important;
+  -webkit-backdrop-filter: blur(24px) !important;
+  border-bottom: 1px solid var(--border-subtle) !important;
+  box-shadow: 0 8px 32px rgba(157, 23, 57, 0.08) !important;
 }
 
 .navbar__inner {
@@ -440,13 +449,15 @@ h4 { font-size: clamp(1.25rem, 2vw, 1.5rem); }
 
 .navbar__logo-img {
   display: block;
-  height: 52px;
+  height: 42px;
   width: auto;
   max-width: 240px;
   object-fit: contain;
   object-position: left center;
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: crisp-edges;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  transition: all var(--transition-normal);
 }
 
 .navbar__logo-icon {
@@ -2011,17 +2022,22 @@ main:not(.login-page):not(.not-found-section),
   padding-bottom: 80px;
 }
 
-/* Zoom and crop to remove the butterfly logo from top-left of product images */
+/* Product card crop adjustments */
 .product-card__image img,
-.card__image img,
+.card__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .pd__main-image img,
-.cart-item__image img,
-.pd__thumb img {
-  width: 125% !important;
-  height: 125% !important;
-  max-width: none !important;
-  margin-top: -12.5% !important;
-  margin-left: -12.5% !important;
+.pd__thumb img,
+.cart-item__image img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  margin: 0 !important;
+  max-width: 100% !important;
 }
 
 /* ─── Area Page Sections ─── */
