@@ -728,13 +728,15 @@ app.use((err, req, res, next) => {
   res.status(500).send('Server Error: ' + err.message);
 });
 
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Server is running at http://localhost:${PORT}`);
-});
-try {
-  app.listen(PORT, '::1');
-} catch (e) {
-  // IPv6 listener fallback
+if (!process.env.VERCEL) {
+  app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Server is running at http://localhost:${PORT}`);
+  });
+  try {
+    app.listen(PORT, '::1');
+  } catch (e) {
+    // IPv6 listener fallback
+  }
 }
 
 module.exports = app; // For Vercel Serverless Function export
