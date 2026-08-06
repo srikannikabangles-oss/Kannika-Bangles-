@@ -444,16 +444,16 @@ app.get('/api/ratings', async (req, res) => {
 app.get(['/product/:id', '/product.html', '/product-template.html'], async (req, res, next) => {
   const productId = parseInt(req.params.id || req.query.id);
   if (!productId || isNaN(productId)) {
-    return res.sendFile(path.join(__dirname, 'product-template.html'));
+    return res.sendFile(path.join(process.cwd(), 'product-template.html'));
   }
 
   try {
     const product = await Product.findOne({ id: productId });
     if (!product) {
-      return res.sendFile(path.join(__dirname, 'product-template.html'));
+      return res.sendFile(path.join(process.cwd(), 'product-template.html'));
     }
 
-    let template = fs.readFileSync(path.join(__dirname, 'product-template.html'), 'utf8');
+    let template = fs.readFileSync(path.join(process.cwd(), 'product-template.html'), 'utf8');
 
     // Dynamic Title & Meta
     const seoTitle = `${product.name} — Buy Online Bangalore | Sri Kannika Bangles`;
@@ -527,14 +527,14 @@ app.get(['/product/:id', '/product.html', '/product-template.html'], async (req,
 
     res.send(template);
   } catch (err) {
-    res.sendFile(path.join(__dirname, 'product-template.html'));
+    res.status(500).send('<pre>Error: ' + err.message + '\\n' + err.stack + '</pre>');
   }
 });
 
 // ─── SSR Category Pages with Pre-Rendered Product Grid ───
 async function serveCategorySSR(req, res, category, titleText, metaDesc) {
   try {
-    let template = fs.readFileSync(path.join(__dirname, 'shop-template.html'), 'utf8');
+    let template = fs.readFileSync(path.join(process.cwd(), 'shop-template.html'), 'utf8');
 
     // Inject category-specific title & meta
     template = template.replace(/<title>.*?<\/title>/i, `<title>${titleText}</title>`);
@@ -647,7 +647,7 @@ async function serveCategorySSR(req, res, category, titleText, metaDesc) {
     res.send(template);
   } catch (err) {
     console.error('[ERROR] serveCategorySSR failed:', err);
-    res.sendFile(path.join(__dirname, 'shop-template.html'));
+    res.status(500).send('<pre>Error: ' + err.message + '\\n' + err.stack + '</pre>');
   }
 }
 
