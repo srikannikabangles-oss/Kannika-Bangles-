@@ -93,30 +93,13 @@ function initCheckoutForm() {
   const form = document.getElementById('shippingDetailsForm');
   if (!form) return;
 
-  // Autofill user details if authenticated via Clerk
-  if (window.Clerk && window.Clerk.user) {
-    const user = window.Clerk.user;
-    const fullName = user.fullName;
-    const phone = user.primaryPhoneNumber?.phoneNumber;
-
-    const nameInput = document.getElementById('shippingName');
-    const phoneInput = document.getElementById('shippingPhone');
-
-    if (nameInput && fullName && !nameInput.value) {
-      nameInput.value = fullName;
-    }
-    if (phoneInput && phone && !phoneInput.value) {
-      phoneInput.value = phone;
-    }
-  }
-
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     const btn = form.querySelector('button[type="submit"]');
     const originalText = btn.innerHTML;
     btn.disabled = true;
-    btn.innerHTML = `<span class="loader__ring" style="width: 16px; height: 16px; border-width: 2px; margin: 0; display: inline-block;"></span> Processing Booking...`;
+    btn.innerHTML = `<span class="loader__ring" style="width: 16px; height: 16px; border-width: 2px; margin: 0; display: inline-block;"></span> Processing Order...`;
 
     try {
       const shippingDetails = {
@@ -138,35 +121,52 @@ function initCheckoutForm() {
 
       let orderId = null;
 
-      if (window.Clerk && window.Clerk.user) {
-        const user = window.Clerk.user;
-        try {
-          const orderResponse = await fetch('/api/orders', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              userId: user.id,
-              items: items.map(i => ({
-                productId: i.product.id,
-                name: i.product.name,
-                size: i.cartItem.size,
-                quantity: i.cartItem.quantity,
-                price: i.product.price
-              })),
-              subtotal,
-              shippingFee: shipping,
-              total,
-              shippingDetails
-            })
-          });
-          if (orderResponse.ok) {
-            const orderData = await orderResponse.json();
-            orderId = orderData.orderId;
-          }
-        } catch (dbErr) {
-          console.warn('MongoDB order logging failed:', dbErr);
+      // 1. Log Order to Database (Admin Panel visibility)
+      try {
+        const orderResponse = await fetch('/api/orders', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            userId: 'guest',
+            items: items.map(i => ({
+              productId: i.product.id,
+              name: i.product.name,
+              size: i.cartItem.size,
+              quantity: i.cartItem.quantity,
+              price: i.product.price
+            })),
+            subtotal,
+            shippingFee: shipping,
+            total,
+            shippingDetails
+          })
+        });
+        if (orderResponse.ok) {
+          const orderData = await orderResponse.json();
+          orderId = orderData.orderId;
         }
+      } catch (dbErr) {
+        console.warn('MongoDB order logging error:', dbErr);
       }
+
+      // 2. Also send order copy to FormSubmit email for store records
+      try {
+        const itemsSummary = items.map(i => `${i.product.name} (Qty: ${i.cartItem.quantity}, Size: ${i.cartItem.size}, Price: Rs. ${i.product.price})`).join(' | ');
+        fetch('https://formsubmit.co/ajax/Srikannikabangles@gmail.com', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({
+            name: shippingDetails.name,
+            phone: shippingDetails.phone,
+            address: `${shippingDetails.address}, ${shippingDetails.city}, ${shippingDetails.state} - ${shippingDetails.pincode}`,
+            order_items: itemsSummary,
+            total_amount: `Rs. ${total}`,
+            _subject: `New Online Order from ${shippingDetails.name} (Rs. ${total})`,
+            _captcha: 'false',
+            _template: 'table'
+          })
+        }).catch(() => {});
+      } catch (emailErr) {}
 
       const orderUrl = await getWhatsAppOrderUrl(shippingDetails, orderId);
 
@@ -175,11 +175,11 @@ function initCheckoutForm() {
 
       await clearCart();
 
-      showToast('Booking logged! Opening WhatsApp for payment confirmation...', '🛍️');
+      showToast('Order confirmed! Opening WhatsApp to complete booking...', '🛍️');
 
       setTimeout(() => {
         window.location.href = orderUrl;
-      }, 1200);
+      }, 1000);
 
     } catch (err) {
       console.error('Checkout error:', err);

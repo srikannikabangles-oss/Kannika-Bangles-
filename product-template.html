@@ -11,7 +11,7 @@
   <meta property="og:title" content="Product Details — Kannika Bangles">
   <meta property="og:description" content="Handcrafted luxury jewellery blending tradition with modern elegance. Shop the finest Indian jewellery.">
   <meta property="og:image" content="https://kannikabangles.com/images/hero-banner.png">
-  <meta property="og:url" content="https://kannikabangles.com/product.html">
+  <meta property="og:url" content="https://kannikabangles.com/product">
   <meta property="og:type" content="product">
   <meta property="og:site_name" content="Kannika Bangles">
   <meta property="og:locale" content="en_IN">
@@ -20,7 +20,7 @@
   <meta name="twitter:description" content="Handcrafted luxury jewellery blending tradition with modern elegance. Shop the finest Indian jewellery.">
   <meta name="twitter:image" content="https://kannikabangles.com/images/hero-banner.png">
   <title>Bridal Jewellery Online Bangalore</title>
-  <link rel="canonical" href="https://kannikabangles.com/product.html" id="canonicalTag">
+  <link rel="canonical" href="https://kannikabangles.com/product" id="canonicalTag">
 
   <!-- Google Fonts Preconnect -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -30,13 +30,15 @@
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 
   <!-- Stylesheets -->
-  <link rel="stylesheet" href="/css/styles.css?v=14">
-  <link rel="stylesheet" href="/css/mobile.css?v=3">
-  <link rel="stylesheet" href="/css/product.css?v=12">
+  <link rel="stylesheet" href="/css/styles.css?v=20260821_103">
+  <link rel="stylesheet" href="/css/mobile.css?v=20260821_103">
+  <link rel="stylesheet" href="/css/product.css?v=20260821_103">
 
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js" defer></script>
-  <link rel="icon" type="image/jpeg" href="/images/kannika_logo.jpeg">
+  <link rel="icon" type="image/png" sizes="64x64" href="/images/favicon-64.png">
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-180.png">
 </head>
 <body>
   <!-- --- Navigation --- -->
@@ -51,7 +53,7 @@
         <img src="/images/kannika_logo.jpeg" alt="Kannika Bangles" class="navbar__logo-img">
       </a>
       <div class="navbar__actions">
-        <a href="/shop.html" class="navbar__action-btn" aria-label="Search">
+        <a href="/shop" class="navbar__action-btn" aria-label="Search">
           <i data-lucide="search" style="width:20px;height:20px;"></i>
         </a>
         <div class="navbar__user-menu">
@@ -59,24 +61,189 @@
             <i data-lucide="user" style="width:20px;height:20px;"></i>
           </a>
         </div>
-        <a href="/wishlist.html" class="navbar__action-btn navbar__wishlist" aria-label="Wishlist">
-          <i data-lucide="heart" style="width:20px;height:20px;"></i>
-          <span class="navbar__wishlist-badge">0</span>
-        </a>
         <a href="/cart.html" class="navbar__cart" aria-label="Shopping Cart">
           <i data-lucide="shopping-bag" style="width:20px;height:20px;"></i>
           <span class="navbar__cart-badge">0</span>
         </a>
       </div>
-      <ul class="navbar__links" id="navLinks">
-        <li><a href="/index.html" class="navbar__link">Home</a></li>
-        <li><a href="/bangles" class="navbar__link">Bangles</a></li>
-        <li><a href="/necklaces" class="navbar__link">Necklaces</a></li>
-        <li><a href="/earrings" class="navbar__link">Earrings</a></li>
-        <li><a href="/blog" class="navbar__link">Blog</a></li>
-        <li><a href="/areas" class="navbar__link">Areas We Serve</a></li>
-        <li><a href="/about.html" class="navbar__link">About Us</a></li>
-        <li><a href="/contact.html" class="navbar__link">Contact Us</a></li>
+      <ul class="navbar__links" id="navLinks" role="menubar">
+        <li role="none"><a href="/index.html" class="navbar__link" role="menuitem">Home</a></li>
+        
+        <!-- Jewellery Dropdown (New Category Pages) -->
+        <li role="none" class="navbar__dropdown-item">
+          <a href="/shop" class="navbar__link navbar__link--has-dropdown" role="menuitem" aria-haspopup="true">
+            Jewellery <i data-lucide="chevron-down" style="width: 13px; height: 13px; margin-left: 2px;"></i>
+          </a>
+          <ul class="navbar__dropdown-menu">
+            <li>
+              <a href="/shop" class="navbar__dropdown-link">
+                <span class="navbar__dropdown-icon"><i data-lucide="gem"></i></span>
+                <span class="navbar__dropdown-text">
+                  <span class="navbar__dropdown-title">All Collections</span>
+                  <span class="navbar__dropdown-desc">Explore complete bridal showcase</span>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="/bangles" class="navbar__dropdown-link">
+                <span class="navbar__dropdown-icon"><i data-lucide="circle"></i></span>
+                <span class="navbar__dropdown-text">
+                  <span class="navbar__dropdown-title">Bridal Bangles &amp; Kadas</span>
+                  <span class="navbar__dropdown-desc">Traditional stacks, Jadau kadas &amp; spacers</span>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="/necklaces" class="navbar__dropdown-link">
+                <span class="navbar__dropdown-icon"><i data-lucide="gem"></i></span>
+                <span class="navbar__dropdown-text">
+                  <span class="navbar__dropdown-title">Bridal Necklaces &amp; Chokers</span>
+                  <span class="navbar__dropdown-desc">Royal choker sets, temple harams &amp; nakshi</span>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="/pendant-sets" class="navbar__dropdown-link">
+                <span class="navbar__dropdown-icon"><i data-lucide="sparkles"></i></span>
+                <span class="navbar__dropdown-text">
+                  <span class="navbar__dropdown-title">Handcrafted Pendant Sets</span>
+                  <span class="navbar__dropdown-desc">Heritage lockets with matching earrings</span>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="/earrings" class="navbar__dropdown-link">
+                <span class="navbar__dropdown-icon"><i data-lucide="sparkles"></i></span>
+                <span class="navbar__dropdown-text">
+                  <span class="navbar__dropdown-title">Designer Bridal Earrings</span>
+                  <span class="navbar__dropdown-desc">Traditional jhumkas, chandbalis &amp; studs</span>
+                </span>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <li role="none"><a href="/gallery.html" class="navbar__link" role="menuitem">Gallery</a></li>
+
+        <!-- Bridal Guides / Blog Dropdown -->
+        <li role="none" class="navbar__dropdown-item">
+          <a href="/blog" class="navbar__link navbar__link--has-dropdown" role="menuitem" aria-haspopup="true">
+            Blog <i data-lucide="chevron-down" style="width: 13px; height: 13px; margin-left: 2px;"></i>
+          </a>
+          <ul class="navbar__dropdown-menu">
+            <li>
+              <a href="/blog" class="navbar__dropdown-link">
+                <span class="navbar__dropdown-icon"><i data-lucide="book-open"></i></span>
+                <span class="navbar__dropdown-text">
+                  <span class="navbar__dropdown-title">All Bridal Guides</span>
+                  <span class="navbar__dropdown-desc">Explore styling tips &amp; jewellery advice</span>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="/blog/bridal-bangles-guide-bangalore-wedding.html" class="navbar__dropdown-link">
+                <span class="navbar__dropdown-icon"><i data-lucide="circle"></i></span>
+                <span class="navbar__dropdown-text">
+                  <span class="navbar__dropdown-title">Bridal Bangles Guide</span>
+                  <span class="navbar__dropdown-desc">Sizing, stacking &amp; wedding traditions</span>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="/blog/bridal-jewellery-shopping-guide-malleshwaram-bangalore.html" class="navbar__dropdown-link">
+                <span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span>
+                <span class="navbar__dropdown-text">
+                  <span class="navbar__dropdown-title">Malleshwaram Shopping Guide</span>
+                  <span class="navbar__dropdown-desc">8th Cross bridal jewelry tour</span>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="/blog/kundan-vs-jadau-vs-ad-stone-bangles.html" class="navbar__dropdown-link">
+                <span class="navbar__dropdown-icon"><i data-lucide="gem"></i></span>
+                <span class="navbar__dropdown-text">
+                  <span class="navbar__dropdown-title">Kundan vs Jadau vs AD Stone</span>
+                  <span class="navbar__dropdown-desc">Compare craft, stones &amp; finishes</span>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="/blog/south-indian-bridal-jewellery-ceremony-guide.html" class="navbar__dropdown-link">
+                <span class="navbar__dropdown-icon"><i data-lucide="sparkles"></i></span>
+                <span class="navbar__dropdown-text">
+                  <span class="navbar__dropdown-title">South Indian Ceremony Guide</span>
+                  <span class="navbar__dropdown-desc">What to wear for Haldi, Muhurtham &amp; Reception</span>
+                </span>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <!-- Areas We Serve Dropdown -->
+        <li role="none" class="navbar__dropdown-item">
+          <a href="/areas" class="navbar__link navbar__link--has-dropdown" role="menuitem" aria-haspopup="true">
+            Areas We Serve <i data-lucide="chevron-down" style="width: 13px; height: 13px; margin-left: 2px;"></i>
+          </a>
+          <ul class="navbar__dropdown-menu navbar__dropdown-menu--right">
+            <li>
+              <a href="/areas" class="navbar__dropdown-link">
+                <span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span>
+                <span class="navbar__dropdown-text">
+                  <span class="navbar__dropdown-title">All Bangalore Areas</span>
+                  <span class="navbar__dropdown-desc">City-wide express delivery &amp; coverage</span>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="/areas/malleshwaram.html" class="navbar__dropdown-link">
+                <span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span>
+                <span class="navbar__dropdown-text">
+                  <span class="navbar__dropdown-title">Malleshwaram</span>
+                  <span class="navbar__dropdown-desc">Flagship showroom on Sampige Road</span>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="/areas/indiranagar.html" class="navbar__dropdown-link">
+                <span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span>
+                <span class="navbar__dropdown-text">
+                  <span class="navbar__dropdown-title">Indiranagar</span>
+                  <span class="navbar__dropdown-desc">24-48 hr express delivery hub</span>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="/areas/jayanagar.html" class="navbar__dropdown-link">
+                <span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span>
+                <span class="navbar__dropdown-text">
+                  <span class="navbar__dropdown-title">Jayanagar</span>
+                  <span class="navbar__dropdown-desc">South Bangalore bridal consultations</span>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="/areas/koramangala.html" class="navbar__dropdown-link">
+                <span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span>
+                <span class="navbar__dropdown-text">
+                  <span class="navbar__dropdown-title">Koramangala</span>
+                  <span class="navbar__dropdown-desc">Contemporary &amp; sangeet party suites</span>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="/areas/rajajinagar.html" class="navbar__dropdown-link">
+                <span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span>
+                <span class="navbar__dropdown-text">
+                  <span class="navbar__dropdown-title">Rajajinagar</span>
+                  <span class="navbar__dropdown-desc">West Bangalore same-day courier dispatch</span>
+                </span>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <li role="none"><a href="/about.html" class="navbar__link" role="menuitem">About Us</a></li>
+        <li role="none"><a href="/contact.html" class="navbar__link" role="menuitem">Contact Us</a></li>
       </ul>
     </div>
   </nav>
@@ -116,17 +283,18 @@
       </div>
       <div class="footer__col">
         <h4 class="footer__heading">Quick Links</h4>
-        <a href="/index.html" class="footer__link">Home</a>
-        <a href="/shop.html" class="footer__link">Shop All</a>
-        <a href="/shop?category=bangles" class="footer__link">Bangles Collection</a>
+        <a href="/" class="footer__link">Home</a>
+        <a href="/shop" class="footer__link">Shop All</a>
+        <a href="/bangles" class="footer__link">Bangles Collection</a>
         <a href="/about.html" class="footer__link">Our Story</a>
         <a href="/contact.html" class="footer__link">Contact Us</a>
       </div>
       <div class="footer__col">
         <h4 class="footer__heading">Categories</h4>
-        <a href="/shop?category=bangles" class="footer__link">Bangles</a>
-        <a href="/shop?category=necklaces" class="footer__link">Necklaces</a>
-        <a href="/shop?category=earrings" class="footer__link">Earrings</a>
+        <a href="/bangles" class="footer__link">Bangles</a>
+        <a href="/pendant-sets" class="footer__link">Pendant Sets</a>
+        <a href="/necklaces" class="footer__link">Necklaces</a>
+        <a href="/earrings" class="footer__link">Earrings</a>
       </div>
       <div class="footer__col">
         <h4 class="footer__heading">Policies</h4>
@@ -156,7 +324,7 @@
   </footer>
 
   <!-- --- WhatsApp Float --- -->
-  <a href="https://wa.me/919844758450?text=Hi! I'm interested in your bangles collection." class="whatsapp-float" target="_blank" aria-label="Chat on WhatsApp">
+  <a href="https://wa.me/919844758450?text=Hi! I'm interested in your jewellery collection." class="whatsapp-float" target="_blank" aria-label="Chat on WhatsApp">
     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
   </a>
 
@@ -167,10 +335,9 @@
 
   <!-- --- Scripts --- -->
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js" defer></script>
-  <script src="/js/products.js?v=6"></script>
-  <script src="/js/main.js?v=6"></script>
-  <script src="/js/product-detail.js?v=6"></script>
+  <script src="/js/products.js?v=20260821_103"></script>
+  <script src="/js/main.js?v=20260821_103"></script>
+  <script src="/js/product-detail.js?v=20260821_103"></script>
   <!-- MongoDB API backend - Supabase removed -->
-  <script src="/js/auth.js?v=6"></script>
 </body>
 </html>

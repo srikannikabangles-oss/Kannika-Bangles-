@@ -83,7 +83,6 @@ async function renderCart() {
           <span class="cart-item__category">${getCategoryName(product.category)}</span>
           <h3 class="cart-item__name">${product.name}</h3>
           <div class="cart-item__meta">
-            <span class="cart-item__size">Size: ${item.size}</span>
             <span class="cart-item__finish">${product.finish}</span>
           </div>
           <div class="cart-item__price-row">

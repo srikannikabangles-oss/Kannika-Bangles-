@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title>Kannika Bangles</title>
+  <circle cx="32" cy="32" r="30" fill="#24112f"/>
+  <circle cx="32" cy="32" r="25" fill="none" stroke="#d4af37" stroke-width="2"/>
+  <path d="M22 14h7v15l13-15h8L36 30l15 20h-9L31 35l-2 2v13h-7z" fill="#f7e7a8"/>
+  <circle cx="48" cy="16" r="3" fill="#d4af37"/>
+</svg>

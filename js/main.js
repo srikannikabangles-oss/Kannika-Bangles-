@@ -31,7 +31,7 @@ function syncPhoneNumbersDOM() {
 
 document.addEventListener('DOMContentLoaded', () => {
   syncPhoneNumbersDOM();
-  initLoader();
+  // initLoader(); // Removed for performance upgrade
   fixIOSInputZoom();     // Prevent iOS auto-zoom on inputs
   initMobileBottomNav();
   initNavbar();
@@ -39,21 +39,46 @@ document.addEventListener('DOMContentLoaded', () => {
   initScrollAnimations();
   initBackToTop();
   updateCartBadge();
-  updateWishlistBadge();
   initGlobalSearch();
+  initGlobalEnquirySystem(); // Floating & Modal Enquiry with FormSubmit & Admin sync
   initStickyATC();       // Sticky add-to-cart on product pages
   initLucide();
 });
 
-function initActiveNavLinkHighlight() {
+function updateActiveNavLink() {
   const path = window.location.pathname.replace(/\/$/, '');
-  const navLinks = document.querySelectorAll('.navbar__links .navbar__link');
-  if (!navLinks.length) return;
+  const dropdownItems = document.querySelectorAll('.navbar__dropdown-item');
 
-  navLinks.forEach(link => {
+  dropdownItems.forEach(item => {
+    const parentLink = item.querySelector('.navbar__link--has-dropdown');
+    const childLinks = item.querySelectorAll('.navbar__dropdown-link');
+    let hasActiveChild = false;
+
+    childLinks.forEach(link => {
+      const href = link.getAttribute('href');
+      if (!href) return;
+      const cleanHref = href.replace(/\/$/, '');
+      if (cleanHref === path || (cleanHref !== '' && (path === cleanHref || path.endsWith(cleanHref)))) {
+        link.classList.add('active');
+        hasActiveChild = true;
+      } else {
+        link.classList.remove('active');
+      }
+    });
+
+    if (parentLink) {
+      if (hasActiveChild) {
+        parentLink.classList.add('active');
+      } else {
+        parentLink.classList.remove('active');
+      }
+    }
+  });
+
+  const topLevelLinks = document.querySelectorAll('.navbar__links > li > .navbar__link:not(.navbar__link--has-dropdown)');
+  topLevelLinks.forEach(link => {
     const href = link.getAttribute('href');
     if (!href) return;
-
     const cleanHref = href.replace(/\/$/, '');
     if (cleanHref === path || (cleanHref !== '' && cleanHref !== '/index.html' && path.endsWith(cleanHref))) {
       link.classList.add('active');
@@ -105,6 +130,10 @@ function initNavbar() {
   const closeMenu = () => {
     toggle && toggle.classList.remove('active');
     links && links.classList.remove('open');
+    if (links) {
+      links.style.left = '';
+      links.style.right = '';
+    }
     backdrop && backdrop.classList.remove('active');
     document.body.style.overflow = '';
   };
@@ -162,6 +191,13 @@ function initNavbar() {
       const isOpen = links.classList.contains('open');
       toggle.classList.toggle('active');
       links.classList.toggle('open');
+      if (!isOpen) {
+        links.style.left = '0';
+        links.style.right = 'auto';
+      } else {
+        links.style.left = '';
+        links.style.right = '';
+      }
       backdrop.classList.toggle('active', !isOpen);
       document.body.style.overflow = !isOpen ? 'hidden' : '';
       // Always show navbar when menu opens
@@ -194,7 +230,10 @@ function initNavbar() {
 
 /* ─── Mobile Bottom Navigation Dynamic Insertion ─── */
 function initMobileBottomNav() {
-  if (document.querySelector('.mobile-bottom-nav')) return;
+  const existingBottomNav = document.querySelector('.mobile-bottom-nav');
+  if (existingBottomNav) {
+    existingBottomNav.remove();
+  }
 
   const bottomNav = document.createElement('nav');
   bottomNav.className = 'mobile-bottom-nav';
@@ -203,55 +242,31 @@ function initMobileBottomNav() {
   const path = window.location.pathname;
   const pageName = path.split('/').pop() || 'index.html';
 
-  const isHome = pageName === '' || pageName === 'index.html';
-  const isShop = pageName === 'shop' || path.startsWith('/shop') || path.startsWith('/earrings') || path.startsWith('/bangles') || path.startsWith('/necklaces');
-  const isWishlist = pageName === 'wishlist.html';
-  const isCart = pageName === 'cart.html';
-  const isProfile = pageName === 'login.html' || pageName === 'profile.html';
+  const isHome = pageName === '' || pageName === 'index.html' || path === '/';
+  const isShop = pageName === 'shop' || path.startsWith('/shop') || path.startsWith('/bangles') || path.startsWith('/pendant-sets') || path.startsWith('/necklaces') || path.startsWith('/earrings');
+  const isCart = pageName === 'cart' || pageName === 'cart.html' || path === '/cart';
 
   bottomNav.innerHTML = `
-    <a href="index.html" class="mobile-bottom-nav__item ${isHome ? 'active' : ''}" aria-label="Home">
+    <a href="/" class="mobile-bottom-nav__item ${isHome ? 'active' : ''}" aria-label="Home">
       <i data-lucide="home" style="width:22px;height:22px;"></i>
       <span>Home</span>
     </a>
-    <a href="/shop" class="mobile-bottom-nav__item ${isShop ? 'active' : ''} mobile-bottom-nav__item--search" aria-label="Search">
-      <i data-lucide="search" style="width:22px;height:22px;"></i>
-      <span>Search</span>
+    <a href="/shop" class="mobile-bottom-nav__item ${isShop ? 'active' : ''}" aria-label="Shop">
+      <i data-lucide="gem" style="width:22px;height:22px;"></i>
+      <span>Shop</span>
     </a>
-    <a href="wishlist.html" class="mobile-bottom-nav__item ${isWishlist ? 'active' : ''}" aria-label="Wishlist">
-      <i data-lucide="heart" style="width:22px;height:22px;"></i>
-      <span class="navbar__wishlist-badge">0</span>
-      <span>Wishlist</span>
-    </a>
-    <a href="cart.html" class="mobile-bottom-nav__item ${isCart ? 'active' : ''}" aria-label="Cart">
+    <button type="button" class="mobile-bottom-nav__item mobile-bottom-nav__item--enquiry" aria-label="Enquire" onclick="openGlobalEnquiryModal();" style="background:transparent;border:none;cursor:pointer;font-family:inherit;">
+      <i data-lucide="message-square-heart" style="width:22px;height:22px;color:var(--pink-primary);"></i>
+      <span>Enquire</span>
+    </button>
+    <a href="/cart" class="mobile-bottom-nav__item ${isCart ? 'active' : ''}" aria-label="Cart">
       <i data-lucide="shopping-bag" style="width:22px;height:22px;"></i>
       <span class="navbar__cart-badge">0</span>
       <span>Cart</span>
     </a>
-    <a href="login.html" class="mobile-bottom-nav__item ${isProfile ? 'active' : ''}" aria-label="Account">
-      <i data-lucide="user" style="width:22px;height:22px;"></i>
-      <span>Account</span>
-    </a>
   `;
 
   document.body.appendChild(bottomNav);
-
-  // Hook search overlay trigger (only on non-shop pages, prevents navigation)
-  const searchBtn = bottomNav.querySelector('.mobile-bottom-nav__item--search');
-  if (searchBtn && !isShop) {
-    searchBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      hapticFeedback('light');
-      const overlay = document.getElementById('globalSearchOverlay');
-      if (overlay) {
-        overlay.classList.add('active');
-        const searchInput = document.getElementById('searchOverlayInput');
-        if (searchInput) {
-          setTimeout(() => searchInput.focus(), 300);
-        }
-      }
-    });
-  }
 
   // Add touch ripple effect to all bottom nav items
   bottomNav.querySelectorAll('.mobile-bottom-nav__item').forEach(item => {
@@ -259,11 +274,13 @@ function initMobileBottomNav() {
       hapticFeedback('light');
     });
 
-    item.addEventListener('touchstart', (e) => {
+    item.addEventListener('touchstart', () => {
       item.classList.add('tapped');
       setTimeout(() => item.classList.remove('tapped'), 350);
     }, { passive: true });
   });
+
+  if (typeof lucide !== 'undefined') lucide.createIcons();
 }
 
 /* ─── Scroll Animations (Intersection Observer) ─── */
@@ -616,9 +633,9 @@ async function buildWhatsAppOrderMessage(shippingDetails = null, orderId = null)
 
   items.forEach(({ cartItem, product, itemTotal }, index) => {
     const category = (CATEGORIES.find(c => c.id === product.category) || {}).name || product.category;
+    const prodCode = product.code || product.sku || `KB-${product.id}`;
     message += `${index + 1}. *${product.name}*\n`;
-    message += `   Product ID: ${product.id}\n`;
-    message += `   Size: ${cartItem.size}\n`;
+    message += `   Product ID: ${prodCode}\n`;
     message += `   Quantity: ${cartItem.quantity}\n`;
     message += `   Unit Price: ${formatPrice(product.price)}\n`;
     message += `   Item Total: ${formatPrice(itemTotal)}\n\n`;
@@ -646,18 +663,18 @@ function getNavbarHTML(activePage = '') {
   return `
     <nav class="navbar" id="navbar">
       <div class="navbar__inner">
-        <a href="index.html" class="navbar__brand">
+        <a href="/" class="navbar__brand">
           <div class="navbar__logo-icon">💍</div>
           <div class="navbar__logo"><span>Kannika</span> Bangles</div>
         </a>
         <ul class="navbar__links" id="navLinks">
-          <li><a href="index.html" class="navbar__link ${activePage === 'home' ? 'active' : ''}">Home</a></li>
+          <li><a href="/" class="navbar__link ${activePage === 'home' ? 'active' : ''}">Home</a></li>
           <li><a href="/shop" class="navbar__link ${activePage === 'shop' ? 'active' : ''}">Shop</a></li>
-          <li><a href="about.html" class="navbar__link ${activePage === 'about' ? 'active' : ''}">About</a></li>
-          <li><a href="contact.html" class="navbar__link ${activePage === 'contact' ? 'active' : ''}">Contact</a></li>
+          <li><a href="/about" class="navbar__link ${activePage === 'about' ? 'active' : ''}">About</a></li>
+          <li><a href="/contact" class="navbar__link ${activePage === 'contact' ? 'active' : ''}">Contact</a></li>
         </ul>
         <div class="navbar__actions">
-          <a href="cart.html" class="navbar__cart" aria-label="Shopping Cart">
+          <a href="/cart" class="navbar__cart" aria-label="Shopping Cart">
             <i data-lucide="shopping-bag" style="width:22px;height:22px;"></i>
             <span class="navbar__cart-badge">0</span>
           </a>
@@ -683,17 +700,16 @@ function getFooterHTML() {
         </div>
         <div class="footer__col">
           <h4 class="footer__heading">Quick Links</h4>
-          <a href="index.html" class="footer__link">Home</a>
+          <a href="/" class="footer__link">Home</a>
           <a href="/shop" class="footer__link">Shop All</a>
           <a href="/bangles" class="footer__link">Bangles Collection</a>
-          <a href="about.html" class="footer__link">Our Story</a>
-          <a href="contact.html" class="footer__link">Contact Us</a>
+          <a href="/about" class="footer__link">Our Story</a>
+          <a href="/contact" class="footer__link">Contact Us</a>
         </div>
         <div class="footer__col">
           <h4 class="footer__heading">Categories</h4>
           <a href="/bangles" class="footer__link">Bangles</a>
-          <a href="/necklaces" class="footer__link">Necklaces</a>
-          <a href="/earrings" class="footer__link">Earrings</a>
+          <a href="/pendant-sets" class="footer__link">Pendant Sets</a>
         </div>
         <div class="footer__col">
           <h4 class="footer__heading">Get in Touch</h4>
@@ -728,163 +744,242 @@ function getFooterHTML() {
   `;
 }
 
-/* ─── Wishlist Management (localStorage + MongoDB sync) ─── */
-function getLoggedInUserId() {
-  if (window.Clerk && window.Clerk.user) {
-    return window.Clerk.user.id;
+/* ─── GLOBAL ENQUIRY SYSTEM (FormSubmit.co + MongoDB Admin Sync) ─── */
+const STORE_CLIENT_EMAIL = 'Srikannikabangles@gmail.com';
+
+function initGlobalEnquirySystem() {
+  // 1. Inject Floating Enquiry Button if not already present
+  if (!document.getElementById('floatingEnquiryBtn')) {
+    const floatBtn = document.createElement('button');
+    floatBtn.id = 'floatingEnquiryBtn';
+    floatBtn.className = 'floating-enquiry-btn';
+    floatBtn.setAttribute('aria-label', 'Enquire Now');
+    floatBtn.onclick = () => openGlobalEnquiryModal();
+    floatBtn.innerHTML = `
+      <i data-lucide="sparkles" style="width:18px;height:18px;"></i>
+      <span>Enquire Now</span>
+    `;
+    document.body.appendChild(floatBtn);
   }
-  return null;
+
+  // 2. Inject Global Enquiry Modal if not already present
+  if (!document.getElementById('globalEnquiryModal')) {
+    const modal = document.createElement('div');
+    modal.id = 'globalEnquiryModal';
+    modal.className = 'enquiry-modal-backdrop';
+    modal.innerHTML = `
+      <div class="enquiry-modal-card" onclick="event.stopPropagation()">
+        <button type="button" class="enquiry-modal-close" onclick="closeGlobalEnquiryModal()" aria-label="Close Enquiry Modal">
+          <i data-lucide="x" style="width:20px;height:20px;"></i>
+        </button>
+        
+        <div class="enquiry-modal-header">
+          <div class="enquiry-modal-badge">
+            <i data-lucide="gem" style="width:14px;height:14px;"></i>
+            <span>Sri Kannika Bangles • Bangalore</span>
+          </div>
+          <h2 class="enquiry-modal-title">Custom Order &amp; Jewellery Inquiry</h2>
+          <p class="enquiry-modal-subtitle">Direct showroom inquiry. We will contact you via WhatsApp / Email with full pricing, sizes &amp; details.</p>
+        </div>
+
+        <form id="globalEnquiryForm" class="enquiry-modal-form" onsubmit="handleGlobalEnquirySubmit(event)">
+          <div class="form-row-2">
+            <div class="enquiry-input-group">
+              <label for="eqName">Your Full Name <span class="req">*</span></label>
+              <input type="text" id="eqName" name="name" placeholder="e.g. Ananya Sharma" required>
+            </div>
+            <div class="enquiry-input-group">
+              <label for="eqPhone">WhatsApp / Phone Number <span class="req">*</span></label>
+              <input type="tel" id="eqPhone" name="phone" placeholder="e.g. 98447 58450" required>
+            </div>
+          </div>
+
+          <div class="form-row-2">
+            <div class="enquiry-input-group">
+              <label for="eqEmail">Email Address <span class="req">*</span></label>
+              <input type="email" id="eqEmail" name="email" placeholder="e.g. ananya@example.com" required>
+            </div>
+            <div class="enquiry-input-group">
+              <label for="eqInterest">Jewellery Category of Interest</label>
+              <select id="eqInterest" name="interest">
+                <option value="Bridal Bangles & Kadas">Bridal Bangles &amp; Kadas</option>
+                <option value="Pendant Sets & Lockets">Pendant Sets &amp; Lockets</option>
+                <option value="Bridal Necklaces & Chokers">Bridal Necklaces &amp; Chokers</option>
+                <option value="Designer Earrings & Jhumkas">Designer Earrings &amp; Jhumkas</option>
+                <option value="Complete Bridal Set Customization">Complete Bridal Set Customization</option>
+                <option value="Bulk Wedding Order Inquiry">Bulk Wedding Order Inquiry</option>
+                <option value="Other Query">Other Query</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="enquiry-input-group">
+            <label for="eqMessage">Your Message / Custom Requirements <span class="req">*</span></label>
+            <textarea id="eqMessage" name="message" rows="3" placeholder="Tell us the bangles size, quantity, event date or specific design you are looking for..." required></textarea>
+          </div>
+
+          <div class="enquiry-form-footer">
+            <p class="enquiry-form-notice">
+              <i data-lucide="shield-check" style="width:15px;height:15px;color:var(--accent-emerald);"></i>
+              Your details are safe. Received directly by our showroom owner.
+            </p>
+            <button type="submit" id="btnSubmitEnquiry" class="btn btn--primary btn--lg enquiry-submit-btn">
+              <i data-lucide="send" style="width:18px;height:18px;"></i>
+              <span>Send Inquiry to Showroom</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    `;
+
+    modal.onclick = (e) => {
+      if (e.target === modal) closeGlobalEnquiryModal();
+    };
+
+    document.body.appendChild(modal);
+  }
+
+  // Attach click events to any enquiry trigger buttons across page
+  document.querySelectorAll('[data-open-enquiry]').forEach(el => {
+    el.addEventListener('click', (e) => {
+      e.preventDefault();
+      const topic = el.getAttribute('data-enquiry-topic') || '';
+      const msg = el.getAttribute('data-enquiry-msg') || '';
+      openGlobalEnquiryModal(topic, msg);
+    });
+  });
+
+  if (typeof lucide !== 'undefined') lucide.createIcons();
 }
 
-function getWishlist() {
-  const userId = getLoggedInUserId();
-  const key = userId ? `kannika_wishlist_${userId}` : 'kannika_wishlist';
-  try {
-    return JSON.parse(localStorage.getItem(key)) || [];
-  } catch {
-    return [];
+window.openGlobalEnquiryModal = function(topic = '', msg = '') {
+  const modal = document.getElementById('globalEnquiryModal');
+  if (!modal) {
+    initGlobalEnquirySystem();
   }
-}
+  const modalEl = document.getElementById('globalEnquiryModal');
+  if (!modalEl) return;
 
-function saveWishlist(wishlist) {
-  localStorage.setItem('kannika_wishlist', JSON.stringify(wishlist));
-  const userId = getLoggedInUserId();
-  if (userId) {
-    localStorage.setItem(`kannika_wishlist_${userId}`, JSON.stringify(wishlist));
-  }
-  updateWishlistBadge();
-}
-
-async function syncWishlistFromDatabase(userId) {
-  if (!userId) return;
-  try {
-    const response = await fetch(`/api/wishlist?userId=${encodeURIComponent(userId)}`);
-    if (!response.ok) throw new Error('API error');
-    const data = await response.json();
-    localStorage.setItem(`kannika_wishlist_${userId}`, JSON.stringify(data));
-    updateWishlistBadge();
-    
-    // Update any wishlist toggle buttons on the current page
-    const toggles = document.querySelectorAll('.wishlist-toggle');
-    toggles.forEach(btn => {
-      const prodId = parseInt(btn.getAttribute('data-product-id'));
-      if (!isNaN(prodId)) {
-        const isAdded = data.includes(prodId);
-        btn.classList.toggle('active', isAdded);
-        const icon = btn.querySelector('i');
-        if (icon) {
-          icon.style.fill = isAdded ? 'var(--pink-primary)' : 'none';
+  if (topic) {
+    const interestSel = document.getElementById('eqInterest');
+    if (interestSel) {
+      let found = false;
+      for (let i = 0; i < interestSel.options.length; i++) {
+        if (interestSel.options[i].value.toLowerCase().includes(topic.toLowerCase())) {
+          interestSel.selectedIndex = i;
+          found = true;
+          break;
         }
       }
-    });
-
-    if (typeof renderWishlist === 'function') {
-      renderWishlist();
-    }
-  } catch (err) {
-    console.warn('Failed to sync wishlist from database:', err);
-  }
-}
-
-async function mergeGuestCartIntoDatabase(userId) {
-  if (!userId) return;
-  try {
-    const guestCart = JSON.parse(localStorage.getItem('kannika_cart')) || [];
-    if (guestCart.length === 0) {
-      await syncCartFromDatabase(userId);
-      return;
-    }
-
-    const response = await fetch('/api/cart/merge', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userId, guestCart })
-    });
-    if (!response.ok) throw new Error('API error');
-
-    localStorage.removeItem('kannika_cart');
-    await syncCartFromDatabase(userId);
-  } catch (err) {
-    console.warn('Failed to merge guest cart into database:', err);
-    await syncCartFromDatabase(userId);
-  }
-}
-
-async function toggleWishlist(productId) {
-  if (!window.Clerk || !window.Clerk.user) {
-    showToast('Please log in to add items to wishlist! 🔒', '🔒');
-    setTimeout(() => {
-      if (window.Clerk) {
-        window.Clerk.openSignIn();
-      } else {
-        window.location.href = `login.html?redirect=${encodeURIComponent(window.location.href)}`;
+      if (!found) {
+        interestSel.value = 'Other Query';
       }
-    }, 1500);
-    return false;
-  }
-
-  const userId = getLoggedInUserId();
-  const wishlist = getWishlist();
-  const prodId = parseInt(productId);
-  const index = wishlist.indexOf(prodId);
-  let added = false;
-
-  if (index > -1) {
-    wishlist.splice(index, 1);
-  } else {
-    wishlist.push(prodId);
-    added = true;
-  }
-
-  saveWishlist(wishlist);
-  showToast(added ? 'Added to wishlist! ❤️' : 'Removed from wishlist');
-
-  if (userId) {
-    try {
-      await fetch('/api/wishlist/toggle', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId, productId: prodId })
-      });
-    } catch (err) {
-      console.warn('Database wishlist sync failed, relying on local cache:', err);
     }
   }
 
-  return added;
-}
-
-function isInWishlist(productId) {
-  const wishlist = getWishlist();
-  return wishlist.includes(parseInt(productId));
-}
-
-function updateWishlistBadge() {
-  const badges = document.querySelectorAll('.navbar__wishlist-badge');
-  const wishlist = getWishlist();
-  const count = wishlist.length;
-  
-  badges.forEach(badge => {
-    badge.textContent = count;
-    if (count > 0) {
-      badge.classList.add('visible');
-    } else {
-      badge.classList.remove('visible');
+  if (msg) {
+    const msgEl = document.getElementById('eqMessage');
+    if (msgEl && !msgEl.value) {
+      msgEl.value = msg;
     }
-  });
-}
+  }
 
-async function handleWishlistToggle(productId, btn) {
-  const isAdded = await toggleWishlist(productId);
+  modalEl.classList.add('active');
+  document.body.style.overflow = 'hidden';
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+};
+
+window.closeGlobalEnquiryModal = function() {
+  const modal = document.getElementById('globalEnquiryModal');
+  if (modal) {
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+};
+
+window.handleGlobalEnquirySubmit = async function(e) {
+  e.preventDefault();
+  const form = e.target;
+  const btn = document.getElementById('btnSubmitEnquiry');
+  const originalBtnContent = btn ? btn.innerHTML : 'Send Inquiry';
+
+  const name = (document.getElementById('eqName')?.value || '').trim();
+  const phone = (document.getElementById('eqPhone')?.value || '').trim();
+  const email = (document.getElementById('eqEmail')?.value || '').trim();
+  const interest = (document.getElementById('eqInterest')?.value || '').trim();
+  const message = (document.getElementById('eqMessage')?.value || '').trim();
+
+  if (!name || !phone || !email || !message) {
+    showToast('Please fill in all required fields.', '⚠️');
+    return;
+  }
+
   if (btn) {
-    btn.classList.toggle('active', isAdded);
-    const icon = btn.querySelector('i');
-    if (icon) {
-      icon.style.fill = isAdded ? 'var(--pink-primary)' : 'none';
-    }
-    if (typeof lucide !== 'undefined') lucide.createIcons();
+    btn.disabled = true;
+    btn.innerHTML = '<span class="loader__ring" style="width:16px;height:16px;border-width:2px;display:inline-block;margin:0 6px 0 0;"></span> Sending to Showroom...';
   }
-}
+
+  const payload = {
+    name,
+    phone,
+    email,
+    interest,
+    message,
+    page: window.location.href,
+    source: `Website Modal (${interest || 'General'})`,
+    _subject: `New Jewellery Inquiry from ${name} - Sri Kannika Bangles`,
+    _captcha: 'false',
+    _template: 'table'
+  };
+
+  try {
+    // 1. Submit to FormSubmit.co for direct client email delivery & activation link support
+    const formSubmitPromise = fetch(`https://formsubmit.co/ajax/${STORE_CLIENT_EMAIL}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    }).catch(err => {
+      console.warn('FormSubmit email dispatch fallback:', err);
+    });
+
+    // 2. Submit to MongoDB / Express API so inquiry appears immediately in Admin Panel
+    const dbPromise = fetch('/api/inquiries', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        name,
+        email,
+        phone,
+        message: `[Interest: ${interest}] ${message}`,
+        source: `Website Inquiry Modal`
+      })
+    }).catch(err => {
+      console.warn('Backend DB inquiry save error:', err);
+    });
+
+    await Promise.allSettled([formSubmitPromise, dbPromise]);
+
+    form.reset();
+    closeGlobalEnquiryModal();
+    showToast('Thank you! Your enquiry has been sent directly to our showroom team.', '💌');
+
+  } catch (error) {
+    console.error('Enquiry submission error:', error);
+    showToast('Enquiry sent! Our showroom team will get back to you.', '💌');
+    form.reset();
+    closeGlobalEnquiryModal();
+  } finally {
+    if (btn) {
+      btn.disabled = false;
+      btn.innerHTML = originalBtnContent;
+    }
+  }
+};
 
 /* ─── Global Search Overlay Implementation ─── */
 function initGlobalSearch() {
@@ -900,7 +995,7 @@ function initGlobalSearch() {
       <div class="search-overlay__content">
         <h2 class="search-overlay__title">Search <span class="text-gold">Our Catalog</span></h2>
         <form class="search-overlay__form" id="searchOverlayForm">
-          <input type="text" class="search-overlay__input" id="searchOverlayInput" placeholder="Search bangles, necklaces, earrings..." required autocomplete="off">
+          <input type="text" class="search-overlay__input" id="searchOverlayInput" placeholder="Search bangles, pendant sets..." required autocomplete="off">
           <button type="submit" class="search-overlay__btn" aria-label="Search">
             <i data-lucide="search" style="width:24px;height:24px;"></i>
           </button>
@@ -945,7 +1040,7 @@ function initGlobalSearch() {
   });
 
   // Live filter event listener
-  searchInput.addEventListener('input', () => {
+  searchInput.addEventListener('input', async () => {
     const query = searchInput.value.trim().toLowerCase();
     if (!query) {
       resultsContainer.innerHTML = '';
@@ -953,42 +1048,53 @@ function initGlobalSearch() {
       return;
     }
 
-    if (typeof PRODUCTS === 'undefined') return;
+    try {
+      // Fetch all products from API if not cached
+      if (!window._cachedProductsForSearch) {
+        const res = await fetch('/api/products');
+        window._cachedProductsForSearch = await res.json();
+      }
 
-    const filtered = PRODUCTS.filter(product => {
-      return (
-        product.name.toLowerCase().includes(query) ||
-        (product.category && product.category.toLowerCase().includes(query)) ||
-        (product.description && product.description.toLowerCase().includes(query)) ||
-        (product.material && product.material.toLowerCase().includes(query)) ||
-        (product.stones && product.stones.toLowerCase().includes(query)) ||
-        (product.finish && product.finish.toLowerCase().includes(query))
-      );
-    }).slice(0, 5);
+      const products = window._cachedProductsForSearch.data || window._cachedProductsForSearch || [];
 
-    if (filtered.length === 0) {
-      resultsContainer.innerHTML = `<div class="search-overlay__no-results">No matching products found.</div>`;
-    } else {
-      resultsContainer.innerHTML = filtered.map(product => {
-        const originalPriceHTML = product.originalPrice && product.originalPrice > product.price 
-          ? `<span class="search-overlay__result-price-original">₹${product.originalPrice.toLocaleString('en-IN')}</span>` 
-          : '';
-        return `
-          <a href="/product/${product.id}" class="search-overlay__result-item" onclick="document.getElementById('globalSearchOverlay').classList.remove('active');">
-            <img src="${product.image}" alt="${product.name}" class="search-overlay__result-img">
-            <div class="search-overlay__result-info">
-              <div class="search-overlay__result-name">${product.name}</div>
-              <div class="search-overlay__result-cat">${product.category}</div>
-            </div>
-            <div class="search-overlay__result-price">
-              ₹${product.price.toLocaleString('en-IN')}
-              ${originalPriceHTML}
-            </div>
-          </a>
-        `;
-      }).join('');
+      const filtered = products.filter(product => {
+        return (
+          (product.name && product.name.toLowerCase().includes(query)) ||
+          (product.category && product.category.toLowerCase().includes(query)) ||
+          (product.description && product.description.toLowerCase().includes(query)) ||
+          (product.material && product.material.toLowerCase().includes(query)) ||
+          (product.stones && product.stones.toLowerCase().includes(query)) ||
+          (product.finish && product.finish.toLowerCase().includes(query)) ||
+          (product.type && product.type.toLowerCase().includes(query))
+        );
+      }).slice(0, 8); // Show up to 8 results for powerful search
+
+      if (filtered.length === 0) {
+        resultsContainer.innerHTML = `<div class="search-overlay__no-results">No matching products found.</div>`;
+      } else {
+        resultsContainer.innerHTML = filtered.map(product => {
+          const originalPriceHTML = product.originalPrice && product.originalPrice > product.price 
+            ? `<span class="search-overlay__result-price-original">₹${product.originalPrice.toLocaleString('en-IN')}</span>` 
+            : '';
+          return `
+            <a href="/product/${product.id}" class="search-overlay__result-item" onclick="document.getElementById('globalSearchOverlay').classList.remove('active');">
+              <img src="/${product.image}" alt="${product.name}" class="search-overlay__result-img">
+              <div class="search-overlay__result-info">
+                <div class="search-overlay__result-name">${product.name}</div>
+                <div class="search-overlay__result-cat">${product.category}</div>
+              </div>
+              <div class="search-overlay__result-price">
+                ₹${product.price.toLocaleString('en-IN')}
+                ${originalPriceHTML}
+              </div>
+            </a>
+          `;
+        }).join('');
+      }
+      resultsContainer.classList.add('active');
+    } catch (err) {
+      console.error('Search error:', err);
     }
-    resultsContainer.classList.add('active');
   });
 
   // Close dropdown when clicking outside

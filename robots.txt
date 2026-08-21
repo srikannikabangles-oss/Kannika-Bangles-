@@ -1,9 +1,15 @@
 User-agent: *
 Allow: /
-Disallow: /login.html
+Disallow: /admin
+Disallow: /admin.html
+Disallow: /cart
 Disallow: /cart.html
+Disallow: /checkout
 Disallow: /checkout.html
+Disallow: /wishlist
 Disallow: /wishlist.html
+Disallow: /login
+Disallow: /login.html
 Disallow: /node_modules/
 Disallow: /api/
 Disallow: /.env

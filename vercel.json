@@ -67,6 +67,10 @@
       "destination": "/api"
     },
     {
+      "source": "/pendant-sets",
+      "destination": "/api"
+    },
+    {
       "source": "/necklaces",
       "destination": "/api"
     },
@@ -126,22 +130,10 @@
         {
           "type": "query",
           "key": "category",
-          "value": "necklaces"
+          "value": "pendant-sets"
         }
       ],
-      "destination": "/necklaces",
-      "permanent": true
-    },
-    {
-      "source": "/shop.html",
-      "has": [
-        {
-          "type": "query",
-          "key": "category",
-          "value": "earrings"
-        }
-      ],
-      "destination": "/earrings",
+      "destination": "/pendant-sets",
       "permanent": true
     },
     {

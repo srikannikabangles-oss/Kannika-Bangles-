@@ -9,7 +9,6 @@ let currentImageIndex = 0;
 
 document.addEventListener('DOMContentLoaded', async () => {
   const params = new URLSearchParams(window.location.search);
-  // Support clean URLs like /product/5 and legacy ?id=5
   const pathMatch = window.location.pathname.match(/\/product\/(\d+)/);
   const productId = (pathMatch && pathMatch[1]) || params.get('id');
 
@@ -18,19 +17,30 @@ document.addEventListener('DOMContentLoaded', async () => {
     return;
   }
 
-  currentProduct = getProductById(productId);
+  currentProduct = (typeof getProductById === 'function') ? getProductById(productId) : null;
+  if (!currentProduct) {
+    try {
+      const res = await fetch(`/api/products/${productId}`);
+      if (res.ok) currentProduct = await res.json();
+    } catch (e) {
+      console.warn('Could not fetch product from API:', e);
+    }
+  }
 
   if (!currentProduct) {
     showProductNotFound();
     return;
   }
 
-  if (typeof fetchAllProductRatings !== 'undefined') {
-    await fetchAllProductRatings();
-  }
+  try {
+    if (typeof fetchAllProductRatings !== 'undefined') {
+      await fetchAllProductRatings();
+    }
+  } catch (e) {}
+
   await renderProductDetail();
   renderRelatedProducts();
-  renderReviews();
+  if (typeof renderReviews === 'function') renderReviews();
 });
 
 async function renderProductDetail() {
@@ -44,91 +54,130 @@ async function renderProductDetail() {
 
   const rtRating = getProductRealtimeRating(currentProduct.id);
 
+  const isBangle = currentProduct.category === 'bangles';
+  const sizeLabel = isBangle ? 'Select Size (inches)' : 'Size & Fit';
+  const sizeOptions = isBangle ? ['2.4', '2.6', '2.8'] : ['Free Size (Adjustable)'];
+  if (!isBangle) selectedSize = 'Free Size (Adjustable)';
+
+  const prodCode = currentProduct.code || currentProduct.sku || `KB-${currentProduct.id}`;
+
   container.innerHTML = `
     <div class="pd__breadcrumb">
-      <a href="index.html">Home</a>
+      <a href="/">Home</a>
       <i data-lucide="chevron-right" style="width:14px;height:14px;"></i>
       <a href="/shop">Shop</a>
       <i data-lucide="chevron-right" style="width:14px;height:14px;"></i>
       <a href="/${currentProduct.category}">${getCatName(currentProduct.category)}</a>
+      <i data-lucide="chevron-right" style="width:14px;height:14px;"></i>
+      <span>${currentProduct.name}</span>
     </div>
 
     <div class="pd__container">
       <div class="pd__gallery">
-        <div class="pd__main-image" id="mainImage">
-          <img src="${currentProduct.images[0]}" alt="${currentProduct.name}" id="pdMainImg">
-          ${currentProduct.badge ? `<span class="badge badge--${currentProduct.badge === 'bestseller' ? 'featured' : currentProduct.badge} pd__badge">${currentProduct.badge.toUpperCase()}</span>` : ''}
+        <div class="pd__main-image" id="mainImage" style="position: relative; border-radius: 16px; overflow: hidden; background: #fff; border: 1.5px solid rgba(212, 175, 55, 0.35); box-shadow: 0 10px 30px rgba(0,0,0,0.06);">
+          <img src="${getProductImageUrl(currentProduct.images[0])}" alt="${currentProduct.name} - Sri Kannika Bangles" id="pdMainImg" style="width: 100%; aspect-ratio: 1 / 1; object-fit: cover; display: block; transition: transform 0.4s ease;">
+          ${currentProduct.badge ? `<span class="badge badge--${currentProduct.badge === 'bestseller' ? 'featured' : currentProduct.badge} pd__badge" style="position: absolute; top: 14px; left: 14px; z-index: 5;">${currentProduct.badge.toUpperCase()}</span>` : ''}
+          ${discount > 0 ? `<span style="position: absolute; top: 14px; right: 14px; z-index: 5; background: var(--pink-primary); color: white; font-size: 0.72rem; font-weight: 700; padding: 4px 10px; border-radius: 6px;">SAVE ${discount}%</span>` : ''}
         </div>
         ${currentProduct.images.length > 1 ? `
-        <div class="pd__thumbnails">
+        <div class="pd__thumbnails" style="display: flex; gap: 10px; margin-top: 14px; overflow-x: auto;">
           ${currentProduct.images.map((img, i) => `
-            <button class="pd__thumb ${i === 0 ? 'active' : ''}" onclick="switchImage(${i}, this)">
-              <img src="${img}" alt="${currentProduct.name} view ${i + 1}" loading="lazy">
+            <button class="pd__thumb ${i === 0 ? 'active' : ''}" onclick="switchImage(${i}, this)" style="width: 64px; height: 64px; border-radius: 8px; overflow: hidden; border: 2px solid ${i === 0 ? 'var(--pink-primary)' : 'var(--border-subtle)'}; background: #fff; cursor: pointer; padding: 0;">
+              <img src="${getProductImageUrl(img)}" alt="${currentProduct.name} view ${i + 1}" style="width: 100%; height: 100%; object-fit: cover;">
             </button>
           `).join('')}
         </div>` : ''}
       </div>
 
       <div class="pd__info">
-        <h1 class="pd__name">${currentProduct.name}</h1>
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 6px;">
+          <span class="pd__category-tag" style="font-family: 'Cinzel', serif; font-size: 0.8rem; font-weight: 700; color: var(--pink-primary); letter-spacing: 0.08em; text-transform: uppercase;">${getCatName(currentProduct.category)}</span>
+          <span class="pd__sku-tag" style="font-family: monospace; font-size: 0.82rem; font-weight: 700; color: #856404; background: rgba(212, 175, 55, 0.15); border: 1px solid rgba(212, 175, 55, 0.4); padding: 3px 8px; border-radius: 4px; letter-spacing: 0.5px;">ID: ${prodCode}</span>
+        </div>
+        <h1 class="pd__name" style="font-family: 'Cinzel', serif; font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 700; color: var(--text-primary); margin: 4px 0 12px;">${currentProduct.name}</h1>
 
-        <div class="pd__rating" style="display: flex; align-items: center; gap: 8px;">
-          <span class="stars">${getStarRating(rtRating.avg)}</span>
-          <span class="pd__rating-text" style="font-size: 0.92rem; color: var(--text-muted);">${rtRating.avg} (${rtRating.count} review${rtRating.count !== 1 ? 's' : ''})</span>
+        <div class="pd__rating" style="display: flex; align-items: center; gap: 8px; margin-bottom: 16px;">
+          <span class="stars" style="color: #D4AF37; font-size: 1.1rem;">${getStarRating(rtRating.avg)}</span>
+          <span class="pd__rating-text" style="font-size: 0.92rem; color: var(--text-muted); font-weight: 600;">${rtRating.avg} (${rtRating.count} reviews)</span>
+          <span style="display: inline-block; width: 4px; height: 4px; border-radius: 50%; background: #ccc; margin: 0 4px;"></span>
+          <span style="font-size: 0.85rem; color: var(--accent-emerald); font-weight: 700;">Verified Quality ✓</span>
         </div>
 
-        <div class="pd__pricing">
-          <span class="pd__price">${formatPrice(currentProduct.price)}</span>
+        <div class="pd__pricing" style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 16px;">
+          <span class="pd__price" style="font-size: 1.85rem; font-weight: 800; color: var(--text-primary);">${formatPrice(currentProduct.price)}</span>
           ${currentProduct.originalPrice > currentProduct.price ? `
-            <span class="pd__original-price">${formatPrice(currentProduct.originalPrice)}</span>
-            <span class="pd__discount-badge">Save ${discount}%</span>
+            <span class="pd__original-price" style="font-size: 1.1rem; color: var(--text-muted); text-decoration: line-through;">${formatPrice(currentProduct.originalPrice)}</span>
+            <span class="pd__discount-badge" style="background: rgba(212, 69, 106, 0.1); color: var(--pink-primary); font-size: 0.82rem; font-weight: 700; padding: 4px 8px; border-radius: 6px;">Save ${discount}%</span>
           ` : ''}
         </div>
 
-        <p class="pd__description">${currentProduct.description}</p>
+        <p class="pd__description" style="color: var(--text-secondary); line-height: 1.7; font-size: 0.96rem; margin-bottom: 20px;">${currentProduct.description}</p>
 
-        <div class="pd__details-grid">
-          <div class="pd__detail">
-            <span class="pd__detail-label">Material</span>
-            <span class="pd__detail-value">${currentProduct.material}</span>
+        <!-- 🚚 10-DAY PAN-INDIA DELIVERY BANNER -->
+        <div class="pd__delivery-box" style="margin-bottom: 16px; padding: 16px 18px; background: rgba(212, 175, 55, 0.08); border: 1.5px solid rgba(212, 175, 55, 0.35); border-radius: 12px; display: flex; align-items: center; gap: 14px;">
+          <div style="width: 44px; height: 44px; border-radius: 50%; background: #ffffff; display: flex; align-items: center; justify-content: center; color: #B38F24; box-shadow: 0 4px 12px rgba(0,0,0,0.06); flex-shrink: 0;">
+            <i data-lucide="truck" style="width: 22px; height: 22px;"></i>
           </div>
-          <div class="pd__detail">
-            <span class="pd__detail-label">Finish</span>
-            <span class="pd__detail-value">${currentProduct.finish}</span>
-          </div>
-          <div class="pd__detail">
-            <span class="pd__detail-label">Stones</span>
-            <span class="pd__detail-value">${currentProduct.stones}</span>
-          </div>
-          <div class="pd__detail">
-            <span class="pd__detail-label">Availability</span>
-            <span class="pd__detail-value" style="color: var(--accent-emerald);">In Stock ✓</span>
+          <div>
+            <h4 style="font-family: 'Cinzel', serif; font-size: 0.95rem; font-weight: 700; color: var(--text-primary); margin: 0 0 2px;">Delivery Across India Within 10 Days</h4>
+            <p style="font-size: 0.82rem; color: var(--text-secondary); margin: 0; line-height: 1.4;">Safe & insured express courier dispatch directly from our Malleshwaram, Bangalore showroom with tracking.</p>
           </div>
         </div>
 
-        <div class="pd__size-section">
-          <label class="pd__label">Select Size (inches)</label>
-          <div class="pd__sizes">
-            ${currentProduct.sizes.map(size => `
-              <button class="pd__size-btn ${size === selectedSize ? 'active' : ''}" onclick="selectSize('${size}', this)">
-                ${size}
+        <!-- ✨ SHINING & POLISHING ASSURANCE -->
+        <div class="pd__polish-box" style="margin-bottom: 24px; padding: 14px 18px; background: rgba(255, 245, 248, 0.6); border: 1px solid rgba(212, 69, 106, 0.25); border-radius: 12px; display: flex; align-items: center; gap: 14px;">
+          <div style="width: 40px; height: 40px; border-radius: 50%; background: #ffffff; display: flex; align-items: center; justify-content: center; color: var(--pink-primary); box-shadow: 0 4px 12px rgba(0,0,0,0.06); flex-shrink: 0;">
+            <i data-lucide="sparkles" style="width: 20px; height: 20px;"></i>
+          </div>
+          <div>
+            <h4 style="font-family: 'Cinzel', serif; font-size: 0.92rem; font-weight: 700; color: var(--text-primary); margin: 0 0 2px;">Premium Micro Gold Polish &amp; Long-Lasting Luster</h4>
+            <p style="font-size: 0.8rem; color: var(--text-secondary); margin: 0; line-height: 1.4;">Tarnish-resistant, skin-friendly micro plating crafted to retain vibrant heirloom gold radiance.</p>
+          </div>
+        </div>
+
+        <!-- 📋 PRODUCT SPECIFICATIONS TABLE -->
+        <div class="pd__details-section" style="margin-bottom: 24px;">
+          <h3 style="font-family: 'Cinzel', serif; font-size: 1rem; font-weight: 700; color: var(--text-primary); margin-bottom: 12px; letter-spacing: 0.04em;">Product Specifications</h3>
+          <div class="pd__details-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; background: rgba(255, 245, 248, 0.4); padding: 14px; border-radius: 10px; border: 1px solid var(--border-subtle);">
+            <div class="pd__detail">
+              <span class="pd__detail-label" style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600;">Product ID</span>
+              <span class="pd__detail-value" style="font-size: 0.88rem; font-weight: 700; font-family: monospace; color: var(--text-primary); display: block; margin-top: 2px;">${prodCode}</span>
+            </div>
+            <div class="pd__detail">
+              <span class="pd__detail-label" style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600;">Category</span>
+              <span class="pd__detail-value" style="font-size: 0.88rem; font-weight: 600; color: var(--text-primary); display: block; margin-top: 2px;">${getCatName(currentProduct.category)}</span>
+            </div>
+            <div class="pd__detail">
+              <span class="pd__detail-label" style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600;">Material</span>
+              <span class="pd__detail-value" style="font-size: 0.88rem; font-weight: 600; color: var(--text-primary); display: block; margin-top: 2px;">${currentProduct.material}</span>
+            </div>
+            <div class="pd__detail">
+              <span class="pd__detail-label" style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600;">Finish</span>
+              <span class="pd__detail-value" style="font-size: 0.88rem; font-weight: 600; color: var(--text-primary); display: block; margin-top: 2px;">${currentProduct.finish}</span>
+            </div>
+            <div class="pd__detail">
+              <span class="pd__detail-label" style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600;">Stones &amp; Pearls</span>
+              <span class="pd__detail-value" style="font-size: 0.88rem; font-weight: 600; color: var(--text-primary); display: block; margin-top: 2px;">${currentProduct.stones}</span>
+            </div>
+            <div class="pd__detail">
+              <span class="pd__detail-label" style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600;">Availability</span>
+              <span class="pd__detail-value" style="font-size: 0.88rem; font-weight: 700; color: var(--accent-emerald); display: block; margin-top: 2px;">In Stock (Ready to Dispatch)</span>
+            </div>
+          </div>
+        </div>
+
+          <div class="pd__qty-section" style="margin-bottom: 24px;">
+            <label class="pd__label" style="font-size: 0.86rem; font-weight: 700; color: var(--text-primary); display: block; margin-bottom: 8px;">Quantity</label>
+            <div class="pd__qty-control" style="display: inline-flex; align-items: center; border: 1px solid var(--border-subtle); border-radius: 8px; overflow: hidden; background: #fff;">
+              <button class="pd__qty-btn" onclick="updateQty(-1)" aria-label="Decrease" style="width: 40px; height: 40px; border: none; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+                <i data-lucide="minus" style="width:16px;height:16px;"></i>
               </button>
-            `).join('')}
+              <span class="pd__qty-value" id="qtyValue" style="width: 44px; text-align: center; font-weight: 700; font-size: 0.95rem;">${selectedQuantity}</span>
+              <button class="pd__qty-btn" onclick="updateQty(1)" aria-label="Increase" style="width: 40px; height: 40px; border: none; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+                <i data-lucide="plus" style="width:16px;height:16px;"></i>
+              </button>
+            </div>
           </div>
-        </div>
-
-        <div class="pd__qty-section">
-          <label class="pd__label">Quantity</label>
-          <div class="pd__qty-control">
-            <button class="pd__qty-btn" onclick="updateQty(-1)" aria-label="Decrease">
-              <i data-lucide="minus" style="width:16px;height:16px;"></i>
-            </button>
-            <span class="pd__qty-value" id="qtyValue">${selectedQuantity}</span>
-            <button class="pd__qty-btn" onclick="updateQty(1)" aria-label="Increase">
-              <i data-lucide="plus" style="width:16px;height:16px;"></i>
-            </button>
-          </div>
-        </div>
 
         <div class="pd__actions" style="display: flex; flex-direction: column; gap: 12px; width: 100%;">
           <div class="pd__actions-row" style="display: flex; gap: 12px; width: 100%;">
@@ -145,24 +194,25 @@ async function renderProductDetail() {
             <button class="btn btn--outline btn--lg" onclick="buyNow()" style="flex: 1; min-width: 0; padding: 14px 16px; font-size: 0.95rem; display: flex; align-items: center; justify-content: center;">
               Buy Now
             </button>
-            <button class="btn btn--outline btn--lg pd__wishlist-btn wishlist-toggle" data-product-id="${currentProduct.id}" onclick="event.preventDefault(); toggleDetailWishlist(this);" aria-label="Add to wishlist" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; padding: 0; flex-shrink: 0;">
-              <i data-lucide="heart" ${isInWishlist(currentProduct.id) ? 'style="fill: var(--pink-primary);"' : ''}></i>
+            <button class="btn btn--outline btn--lg" onclick="openGlobalEnquiryModal('${currentProduct.category}', 'Inquiring about ${currentProduct.name} (ID: ${prodCode})');" aria-label="Enquire about this product" style="flex: 1; min-width: 0; padding: 14px 16px; font-size: 0.95rem; display: flex; align-items: center; justify-content: center; gap: 8px;">
+              <i data-lucide="message-square-heart" style="width:18px;height:18px;color:var(--pink-primary);"></i>
+              Enquire
             </button>
           </div>
         </div>
 
-        <div class="pd__trust">
-          <div class="pd__trust-item">
+        <div class="pd__trust" style="display: flex; justify-content: space-between; gap: 12px; margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border-subtle); flex-wrap: wrap;">
+          <div class="pd__trust-item" style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 600; color: var(--text-primary);">
             <i data-lucide="shield-check" style="width:20px;height:20px;color:var(--gold-primary);"></i>
-            <span>Quality Guaranteed</span>
+            <span>100% Handcrafted</span>
           </div>
-          <div class="pd__trust-item">
+          <div class="pd__trust-item" style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 600; color: var(--text-primary);">
             <i data-lucide="truck" style="width:20px;height:20px;color:var(--gold-primary);"></i>
-            <span>Free Shipping ₹5000+</span>
+            <span>Delivery in 10 Days</span>
           </div>
-          <div class="pd__trust-item">
-            <i data-lucide="rotate-ccw" style="width:20px;height:20px;color:var(--gold-primary);"></i>
-            <span>Easy Returns</span>
+          <div class="pd__trust-item" style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 600; color: var(--text-primary);">
+            <i data-lucide="sparkles" style="width:20px;height:20px;color:var(--gold-primary);"></i>
+            <span>Micro Gold Polish</span>
           </div>
         </div>
       </div>
@@ -178,7 +228,7 @@ function switchImage(index, thumb) {
   if (mainImg && currentProduct) {
     mainImg.style.opacity = '0';
     setTimeout(() => {
-      mainImg.src = currentProduct.images[index];
+      mainImg.src = getProductImageUrl(currentProduct.images[index]);
       mainImg.style.opacity = '1';
     }, 200);
   }
@@ -191,7 +241,12 @@ function switchImage(index, thumb) {
 function selectSize(size, btn) {
   selectedSize = size;
   document.querySelectorAll('.pd__size-btn').forEach(b => b.classList.remove('active'));
-  if (btn) btn.classList.add('active');
+  if (btn) {
+    btn.classList.add('active');
+    btn.style.borderColor = 'var(--pink-primary)';
+    btn.style.background = 'rgba(212, 69, 106, 0.08)';
+    btn.style.color = 'var(--pink-primary)';
+  }
 }
 
 function updateQty(delta) {
@@ -207,7 +262,7 @@ function addProductToCart() {
   // Animate button
   const btn = document.querySelector('.pd__add-btn');
   if (btn) {
-    btn.innerHTML = '<i data-lucide="check" style="width:20px;height:20px;"></i> Added!';
+    btn.innerHTML = '<i data-lucide="check" style="width:20px;height:20px;"></i> Added to Bag!';
     btn.style.background = 'var(--accent-emerald)';
     setTimeout(() => {
       btn.innerHTML = '<i data-lucide="shopping-bag" style="width:20px;height:20px;"></i> Add to Cart';
@@ -221,50 +276,65 @@ function addProductToCart() {
 function buyNow() {
   if (!currentProduct) return;
   addToCart(currentProduct.id, selectedSize, selectedQuantity);
-  window.location.href = 'cart.html';
+  window.location.href = '/cart';
 }
 
 function renderRelatedProducts() {
   const container = document.getElementById('relatedProducts');
   if (!container || !currentProduct) return;
 
-  const related = PRODUCTS.filter(p => 
-    p.id !== currentProduct.id && 
-    (p.category === currentProduct.category || p.featured)
-  ).slice(0, 4);
+  // Filter 4 related products (prefer same category, then others)
+  let related = PRODUCTS.filter(p => p.id !== currentProduct.id && p.category === currentProduct.category);
+  if (related.length < 4) {
+    const others = PRODUCTS.filter(p => p.id !== currentProduct.id && p.category !== currentProduct.category);
+    related = related.concat(others);
+  }
+  related = related.slice(0, 4);
 
   let html = '';
   related.forEach(product => {
     const rtRating = getProductRealtimeRating(product.id);
+    const discount = product.originalPrice > product.price 
+      ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
+      : 0;
+
     html += `
-      <a href="/product/${product.id}" class="card">
-        <div class="card__image">
-          <img src="${product.image}" alt="Kannika Bangles product - ${product.name}" loading="lazy">
-        </div>
+      <div class="card product-card">
+        <a href="/product/${product.id}" class="card__image-link">
+          <div class="card__image">
+            <img src="${getProductImageUrl(product.image)}" alt="Kannika Bangles - ${product.name}" loading="lazy">
+            ${discount > 0 ? `<div class="product-card__discount">-${discount}%</div>` : ''}
+          </div>
+        </a>
         <div class="card__body">
           <span class="card__category">${getCatName(product.category)}</span>
-          <h3 class="card__title">${product.name}</h3>
+          <h3 class="card__title"><a href="/product/${product.id}" style="color:inherit;text-decoration:none;">${product.name}</a></h3>
           <div class="card__price">
             ${formatPrice(product.price)}
             ${product.originalPrice > product.price ? `<span class="original">${formatPrice(product.originalPrice)}</span>` : ''}
           </div>
-          <div class="card__rating" style="display: flex; align-items: center; gap: 4px;">
-            <span class="stars">${getStarRating(rtRating.avg)}</span>
+          <div class="card__rating" style="display: flex; align-items: center; gap: 4px; margin-top: 4px;">
+            <span class="stars" style="color: #D4AF37;">${getStarRating(rtRating.avg)}</span>
             <span style="font-size: 0.78rem; color: var(--text-muted);">${rtRating.avg} (${rtRating.count})</span>
           </div>
+          <div class="card__cta-row" style="margin-top: 10px; width: 100%;">
+            <a href="/product/${product.id}" class="btn btn--outline btn--sm" style="width: 100%; justify-content: center; font-size: 0.82rem; font-weight: 600; padding: 8px 12px; border-radius: 6px; text-decoration: none;">View Details</a>
+          </div>
         </div>
-      </a>
+      </div>
     `;
   });
 
   container.innerHTML = html;
+  if (typeof lucide !== 'undefined') lucide.createIcons();
 }
 
 function getCatName(catId) {
   const names = {
-    'bangles': 'Bangles Collection',
-    'necklaces': 'Necklaces Collection',
-    'earrings': 'Earrings Collection'
+    'bangles': 'Bangles',
+    'pendant-sets': 'Pendant Sets',
+    'necklaces': 'Necklaces',
+    'earrings': 'Earrings'
   };
   return names[catId] || catId;
 }
@@ -548,24 +618,24 @@ async function handleReviewSubmit(e) {
 window.buyViaWhatsAppDirect = function() {
   if (!currentProduct) return;
   const whatsappPhone = window.SUPPORT_WHATSAPP_PHONE || '919844758450';
-  const size = selectedSize || '2.6';
+  const prodCode = currentProduct.code || currentProduct.sku || `KB-${currentProduct.id}`;
   const qty = selectedQuantity || 1;
   const unitPrice = currentProduct.price;
   const totalPrice = unitPrice * qty;
   
-  let message = `*Inquiry from Kannika Bangles Website*\n\n`;
-  message += `I am interested in purchasing this product:\n`;
-  message += `✨ *${currentProduct.name}*\n`;
-  message += `🆔 Product ID: ${currentProduct.id}\n`;
-  message += `📏 Size: ${size}\n`;
-  message += `🛍️ Quantity: ${qty}\n`;
-  message += `💰 Price: ₹${unitPrice.toLocaleString('en-IN')}${qty > 1 ? ` (Total: ₹${totalPrice.toLocaleString('en-IN')})` : ''}\n\n`;
-  message += `Please confirm product availability and ordering steps. Thank you!`;
+  let message = `*Inquiry from Sri Kannika Bangles Website*\n\n`;
+  message += `Hello! I would like to inquire about / order this jewellery item:\n\n`;
+  message += `✨ *Product Name:* ${currentProduct.name}\n`;
+  message += `🏷️ *Product ID:* ${prodCode}\n`;
+  message += `📁 *Category:* ${getCatName(currentProduct.category)}\n`;
+  message += `🛍️ *Quantity:* ${qty}\n`;
+  message += `💰 *Price:* ₹${unitPrice.toLocaleString('en-IN')}${qty > 1 ? ` (Total: ₹${totalPrice.toLocaleString('en-IN')})` : ''}\n`;
+  message += `🔗 *Product Link:* https://kannikabangles.com/product/${currentProduct.id}\n\n`;
+  message += `Please confirm stock availability and 10-day pan-India delivery details. Thank you!`;
   
   const url = `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(message)}`;
-  showToast('Opening WhatsApp for booking inquiry...', '🛍️');
+  showToast('Opening WhatsApp with Product Details...', '🛍️');
   setTimeout(() => {
-    window.location.href = url;
-  }, 1000);
+    window.open(url, '_blank') || (window.location.href = url);
+  }, 400);
 };
-

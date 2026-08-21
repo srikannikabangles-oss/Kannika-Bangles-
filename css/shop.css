@@ -149,21 +149,18 @@
 }
 
 
-/* ─── Sticky Filter Bar ─── */
+/* ─── Non-Sticky Static Filter Bar ─── */
 .filter-bar {
-  position: sticky;
-  top: var(--nav-height);
-  z-index: 100;
-  background: var(--bg-glass-strong);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
+  position: relative;
+  top: auto;
+  z-index: 10;
+  background: transparent;
   border-bottom: 1px solid var(--border-subtle);
-  padding: 12px 0;
-  transition: box-shadow var(--transition-normal);
+  padding: 24px 0 16px;
 }
 
 .filter-bar.has-shadow {
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  box-shadow: none;
 }
 
 .filter-bar__inner {

@@ -1,0 +1,1817 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard — Sri Kannika Bangles</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#120E11">
+  <link rel="icon" type="image/png" sizes="64x64" href="/images/favicon-64.png">
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+
+  <style>
+    :root {
+      --bg-dark: #0F0C0E;
+      --bg-card: #181316;
+      --bg-card-hover: #221B20;
+      --bg-input: #271E24;
+      --gold-primary: #D4AF37;
+      --gold-light: #F3E5AB;
+      --gold-dark: #997A15;
+      --text-main: #FDF9F9;
+      --text-muted: #A89B9E;
+      --text-dim: #706266;
+      --border-color: rgba(212, 175, 55, 0.2);
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --success: #10B981;
+      --warning: #F59E0B;
+      --danger: #EF4444;
+      --info: #3B82F6;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg-dark); }
+    ::-webkit-scrollbar-thumb { background: rgba(212, 175, 55, 0.3); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--gold-primary); }
+
+    /* ─── AUTH SCREEN ─── */
+    .auth-overlay {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at center, #271a22 0%, #0c090b 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      padding: 20px;
+    }
+    .auth-card {
+      width: 100%;
+      max-width: 420px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 36px 30px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 30px rgba(212, 175, 55, 0.1);
+      text-align: center;
+      animation: fadeIn 0.4s ease-out;
+    }
+    .auth-logo {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      border: 2px solid var(--gold-primary);
+      margin: 0 auto 16px;
+      object-fit: cover;
+    }
+    .auth-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.5rem;
+      color: var(--gold-light);
+      margin-bottom: 6px;
+      letter-spacing: 0.5px;
+    }
+    .auth-subtitle {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+    .form-group {
+      text-align: left;
+      margin-bottom: 18px;
+    }
+    .form-label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--gold-light);
+      margin-bottom: 6px;
+    }
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .input-wrapper i {
+      position: absolute;
+      left: 14px;
+      color: var(--text-dim);
+      width: 18px;
+      height: 18px;
+    }
+    .form-control {
+      width: 100%;
+      background: var(--bg-input);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px 12px 42px;
+      color: var(--text-main);
+      font-size: 0.95rem;
+      font-family: inherit;
+      outline: none;
+      transition: var(--transition);
+    }
+    .form-control:focus {
+      border-color: var(--gold-primary);
+      box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.15);
+    }
+    .btn-submit {
+      width: 100%;
+      background: linear-gradient(135deg, var(--gold-primary) 0%, var(--gold-dark) 100%);
+      color: #000;
+      font-weight: 700;
+      padding: 13px;
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-size: 0.95rem;
+      letter-spacing: 0.5px;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .btn-submit:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+    }
+    .auth-error {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid var(--danger);
+      color: #FCA5A5;
+      font-size: 0.85rem;
+      padding: 10px;
+      border-radius: var(--radius-sm);
+      margin-bottom: 16px;
+      display: none;
+    }
+
+    /* ─── APP LAYOUT ─── */
+    .app-container {
+      display: none;
+      flex: 1;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .sidebar {
+      width: 260px;
+      background: var(--bg-card);
+      border-right: 1px solid var(--border-subtle);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+    }
+    .sidebar-header {
+      padding: 24px 20px;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .sidebar-logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1.5px solid var(--gold-primary);
+    }
+    .sidebar-brand {
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--gold-light);
+      line-height: 1.2;
+    }
+    .sidebar-brand span {
+      display: block;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .nav-menu {
+      list-style: none;
+      padding: 16px 12px;
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      border-radius: var(--radius-sm);
+      color: var(--text-muted);
+      cursor: pointer;
+      font-weight: 500;
+      font-size: 0.9rem;
+      transition: var(--transition);
+      position: relative;
+    }
+    .nav-item:hover {
+      background: var(--bg-card-hover);
+      color: var(--text-main);
+    }
+    .nav-item.active {
+      background: rgba(212, 175, 55, 0.15);
+      color: var(--gold-light);
+      font-weight: 600;
+      border-left: 3px solid var(--gold-primary);
+    }
+    .nav-item i { width: 18px; height: 18px; }
+    .nav-badge {
+      margin-left: auto;
+      background: var(--gold-primary);
+      color: #000;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 10px;
+    }
+    .nav-badge.danger {
+      background: var(--danger);
+      color: #fff;
+    }
+    .sidebar-footer {
+      padding: 16px;
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .btn-outline-gold {
+      background: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--gold-light);
+      padding: 9px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    .btn-outline-gold:hover {
+      background: rgba(212, 175, 55, 0.1);
+      border-color: var(--gold-primary);
+    }
+
+    /* ─── MAIN CONTENT ─── */
+    .main-wrapper {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: var(--bg-dark);
+    }
+    .top-header {
+      height: 70px;
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 0 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .header-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .clock-pill {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      background: var(--bg-input);
+      padding: 6px 12px;
+      border-radius: 20px;
+      border: 1px solid var(--border-subtle);
+    }
+    .content-area {
+      flex: 1;
+      overflow-y: auto;
+      padding: 28px;
+    }
+
+    /* ─── CARDS & GRIDS ─── */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+      margin-bottom: 28px;
+    }
+    .stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      transition: var(--transition);
+    }
+    .stat-card:hover {
+      border-color: var(--border-color);
+      transform: translateY(-2px);
+    }
+    .stat-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-md);
+      background: rgba(212, 175, 55, 0.1);
+      color: var(--gold-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .stat-icon.blue { background: rgba(59, 130, 246, 0.1); color: var(--info); }
+    .stat-icon.green { background: rgba(16, 185, 129, 0.1); color: var(--success); }
+    .stat-icon.red { background: rgba(239, 68, 68, 0.1); color: var(--danger); }
+    .stat-val {
+      font-size: 1.55rem;
+      font-weight: 700;
+      color: var(--text-main);
+      line-height: 1.2;
+    }
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* ─── TABLES & PANELS ─── */
+    .panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+    .panel-header {
+      padding: 18px 22px;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .panel-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--gold-light);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .table-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .search-box {
+      position: relative;
+      width: 220px;
+    }
+    .search-box input {
+      width: 100%;
+      background: var(--bg-input);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 7px 10px 7px 32px;
+      color: var(--text-main);
+      font-size: 0.85rem;
+      outline: none;
+    }
+    .search-box i {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-dim);
+      width: 14px;
+      height: 14px;
+    }
+    .filter-select {
+      background: var(--bg-input);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 7px 12px;
+      color: var(--text-main);
+      font-size: 0.85rem;
+      outline: none;
+    }
+
+    .custom-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.88rem;
+    }
+    .custom-table th {
+      background: rgba(0, 0, 0, 0.25);
+      padding: 12px 18px;
+      color: var(--gold-light);
+      font-weight: 600;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .custom-table td {
+      padding: 14px 18px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      vertical-align: middle;
+    }
+    .custom-table tr:hover td {
+      background: var(--bg-card-hover);
+    }
+
+    /* ─── STATUS BADGES ─── */
+    .status-badge {
+      display: inline-block;
+      padding: 3px 9px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: capitalize;
+    }
+    .status-new { background: rgba(59, 130, 246, 0.15); color: #93C5FD; border: 1px solid rgba(59, 130, 246, 0.3); }
+    .status-contacted { background: rgba(245, 158, 11, 0.15); color: #FCD34D; border: 1px solid rgba(245, 158, 11, 0.3); }
+    .status-resolved, .status-delivered, .status-instock { background: rgba(16, 185, 129, 0.15); color: #6EE7B7; border: 1px solid rgba(16, 185, 129, 0.3); }
+    .status-archived, .status-cancelled, .status-outofstock { background: rgba(239, 68, 68, 0.15); color: #FCA5A5; border: 1px solid rgba(239, 68, 68, 0.3); }
+    .status-pending { background: rgba(212, 175, 55, 0.15); color: var(--gold-light); border: 1px solid var(--border-color); }
+    .status-confirmed, .status-dispatched { background: rgba(147, 51, 234, 0.15); color: #D8B4FE; border: 1px solid rgba(147, 51, 234, 0.3); }
+
+    /* ─── ACTIONS ─── */
+    .action-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-icon {
+      background: var(--bg-input);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-sm);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition);
+      text-decoration: none;
+    }
+    .btn-icon:hover {
+      background: var(--bg-card-hover);
+      color: var(--gold-light);
+      border-color: var(--gold-primary);
+    }
+    .btn-icon.danger:hover {
+      color: var(--danger);
+      border-color: var(--danger);
+      background: rgba(239, 68, 68, 0.1);
+    }
+    .btn-icon.whatsapp:hover {
+      color: #25D366;
+      border-color: #25D366;
+      background: rgba(37, 211, 102, 0.1);
+    }
+
+    /* ─── TOGGLE SWITCH ─── */
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 44px;
+      height: 24px;
+    }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      inset: 0;
+      background-color: #372E33;
+      transition: .3s;
+      border-radius: 24px;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .3s;
+      border-radius: 50%;
+    }
+    input:checked + .slider { background-color: var(--success); }
+    input:checked + .slider:before { transform: translateX(20px); }
+
+    /* ─── MODAL ─── */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+      padding: 20px;
+    }
+    .modal-content {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      width: 100%;
+      max-width: 550px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 28px;
+      position: relative;
+    }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 12px;
+    }
+    .modal-close {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 1.2rem;
+    }
+
+    /* ─── TOAST ─── */
+    .toast-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 99999;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .toast {
+      background: var(--bg-card);
+      border: 1px solid var(--gold-primary);
+      color: var(--text-main);
+      padding: 12px 18px;
+      border-radius: var(--radius-sm);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      font-size: 0.88rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      animation: slideIn 0.3s ease-out;
+    }
+
+    @keyframes fadeIn { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
+    @keyframes slideIn { from { transform: translateX(50px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .app-container { flex-direction: column; }
+      .sidebar { width: 100%; height: auto; border-right: none; border-bottom: 1px solid var(--border-subtle); }
+      .nav-menu { flex-direction: row; flex-wrap: wrap; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ─── AUTH SCREEN ─── -->
+  <div class="auth-overlay" id="authScreen">
+    <div class="auth-card">
+      <img src="/images/kannika_logo.jpeg" alt="Kannika Bangles" class="auth-logo">
+      <h1 class="auth-title">Sri Kannika Bangles</h1>
+      <p class="auth-subtitle">Admin Management Portal</p>
+
+      <div class="auth-error" id="authError">Invalid Admin Credentials</div>
+
+      <form id="adminLoginForm">
+        <div class="form-group">
+          <label class="form-label" for="loginUsername">Admin Username</label>
+          <div class="input-wrapper">
+            <i data-lucide="user"></i>
+            <input type="text" id="loginUsername" class="form-control" placeholder="Enter admin username" required autofocus>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="loginPassword">Password</label>
+          <div class="input-wrapper">
+            <i data-lucide="lock"></i>
+            <input type="password" id="loginPassword" class="form-control" placeholder="Enter password" required>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-submit" id="btnAdminLogin">
+          <i data-lucide="shield-check"></i> Sign In to Dashboard
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ─── MAIN DASHBOARD ─── -->
+  <div class="app-container" id="appContainer">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <img src="/images/kannika_logo.jpeg" alt="Logo" class="sidebar-logo">
+        <div class="sidebar-brand">
+          Kannika Bangles
+          <span>Admin Portal</span>
+        </div>
+      </div>
+
+      <ul class="nav-menu">
+        <li class="nav-item active" data-tab="overview">
+          <i data-lucide="layout-dashboard"></i>
+          <span>Overview</span>
+        </li>
+        <li class="nav-item" data-tab="inquiries">
+          <i data-lucide="mail"></i>
+          <span>Inquiries</span>
+          <span class="nav-badge danger" id="badgeNewInquiries">0</span>
+        </li>
+        <li class="nav-item" data-tab="orders">
+          <i data-lucide="shopping-bag"></i>
+          <span>Orders</span>
+          <span class="nav-badge" id="badgePendingOrders">0</span>
+        </li>
+        <li class="nav-item" data-tab="products">
+          <i data-lucide="gem"></i>
+          <span>Products</span>
+        </li>
+        <li class="nav-item" data-tab="reviews">
+          <i data-lucide="star"></i>
+          <span>Reviews</span>
+        </li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <a href="/" target="_blank" class="btn-outline-gold">
+          <i data-lucide="external-link"></i> Live Website
+        </a>
+        <button class="btn-outline-gold" style="border-color: rgba(239,68,68,0.3); color: #FCA5A5;" id="btnAdminLogout">
+          <i data-lucide="log-out"></i> Logout
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-wrapper">
+      <header class="top-header">
+        <div class="header-title" id="pageTitleText">
+          <i data-lucide="layout-dashboard" style="color:var(--gold-primary);"></i> Dashboard Overview
+        </div>
+        <div class="header-actions">
+          <div class="clock-pill" id="liveClock">Loading time...</div>
+          <button class="btn-icon" id="btnRefreshAll" title="Refresh Live Data">
+            <i data-lucide="refresh-cw"></i>
+          </button>
+        </div>
+      </header>
+
+      <div class="content-area">
+
+        <!-- ─── TAB 1: OVERVIEW ─── -->
+        <section id="tab-overview" class="tab-content">
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon red"><i data-lucide="mail"></i></div>
+              <div>
+                <div class="stat-val" id="statNewInquiries">0</div>
+                <div class="stat-label">New Inquiries</div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon blue"><i data-lucide="inbox"></i></div>
+              <div>
+                <div class="stat-val" id="statTotalInquiries">0</div>
+                <div class="stat-label">Total Inquiries</div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon"><i data-lucide="shopping-bag"></i></div>
+              <div>
+                <div class="stat-val" id="statTotalOrders">0</div>
+                <div class="stat-label">Total Orders</div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon green"><i data-lucide="indian-rupee"></i></div>
+              <div>
+                <div class="stat-val" id="statTotalRevenue">₹0</div>
+                <div class="stat-label">Total Booking Value</div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon"><i data-lucide="gem"></i></div>
+              <div>
+                <div class="stat-val" id="statTotalProducts">0</div>
+                <div class="stat-label">Active Catalog Items</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recent Inquiries Quick Table -->
+          <div class="panel">
+            <div class="panel-header">
+              <div class="panel-title"><i data-lucide="clock"></i> Recent Form Responses & Inquiries</div>
+              <button class="btn-outline-gold" onclick="switchTab('inquiries')">View All Inquiries</button>
+            </div>
+            <div style="overflow-x: auto;">
+              <table class="custom-table" id="recentInquiriesTable">
+                <thead>
+                  <tr>
+                    <th>Customer Name</th>
+                    <th>Email / Phone</th>
+                    <th>Source</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td colspan="6" style="text-align:center; color:var(--text-muted);">Loading inquiries...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ─── TAB 2: INQUIRIES & FORM RESPONSES ─── -->
+        <section id="tab-inquiries" class="tab-content" style="display:none;">
+          <div class="panel">
+            <div class="panel-header">
+              <div class="panel-title"><i data-lucide="mail"></i> Customer Inquiries & Form Responses</div>
+              <div class="table-controls">
+                <div class="search-box">
+                  <i data-lucide="search"></i>
+                  <input type="text" id="searchInquiries" placeholder="Search inquiries...">
+                </div>
+                <select class="filter-select" id="filterInquiryStatus">
+                  <option value="">All Statuses</option>
+                  <option value="new">New</option>
+                  <option value="contacted">Contacted</option>
+                  <option value="resolved">Resolved</option>
+                  <option value="archived">Archived</option>
+                </select>
+                <button class="btn-outline-gold" id="btnExportInquiriesCSV">
+                  <i data-lucide="download"></i> Export CSV
+                </button>
+              </div>
+            </div>
+            <div style="overflow-x: auto;">
+              <table class="custom-table" id="inquiriesFullTable">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Contact Info</th>
+                    <th>Message Summary</th>
+                    <th>Source</th>
+                    <th>Received At</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td colspan="7" style="text-align:center; color:var(--text-muted);">Loading inquiries...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ─── TAB 3: ORDERS ─── -->
+        <section id="tab-orders" class="tab-content" style="display:none;">
+          <div class="panel">
+            <div class="panel-header">
+              <div class="panel-title"><i data-lucide="shopping-bag"></i> Customer Orders & Bookings</div>
+              <div class="table-controls">
+                <div class="search-box">
+                  <i data-lucide="search"></i>
+                  <input type="text" id="searchOrders" placeholder="Search orders...">
+                </div>
+                <select class="filter-select" id="filterOrderStatus">
+                  <option value="">All Statuses</option>
+                  <option value="pending">Pending</option>
+                  <option value="confirmed">Confirmed</option>
+                  <option value="dispatched">Dispatched</option>
+                  <option value="delivered">Delivered</option>
+                  <option value="cancelled">Cancelled</option>
+                </select>
+                <button class="btn-outline-gold" id="btnExportOrdersCSV">
+                  <i data-lucide="download"></i> Export CSV
+                </button>
+              </div>
+            </div>
+            <div style="overflow-x: auto;">
+              <table class="custom-table" id="ordersFullTable">
+                <thead>
+                  <tr>
+                    <th>Order ID / Date</th>
+                    <th>Customer Name</th>
+                    <th>Phone / Location</th>
+                    <th>Items</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td colspan="7" style="text-align:center; color:var(--text-muted);">Loading orders...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ─── TAB 4: PRODUCTS ─── -->
+        <section id="tab-products" class="tab-content" style="display:none;">
+          <div class="panel">
+            <div class="panel-header">
+              <div class="panel-title"><i data-lucide="gem"></i> Product Inventory & Price Management</div>
+              <div class="table-controls">
+                <div class="search-box">
+                  <i data-lucide="search"></i>
+                  <input type="text" id="searchProducts" placeholder="Search products...">
+                </div>
+                <select class="filter-select" id="filterProductCategory">
+                  <option value="">All Categories</option>
+                  <option value="bangles">Bangles</option>
+                  <option value="pendant-sets">Pendant Sets</option>
+                  <option value="necklaces">Necklaces</option>
+                  <option value="earrings">Earrings</option>
+                </select>
+                <button class="btn-submit" style="margin:0; padding:8px 16px; font-size:0.85rem;" id="btnOpenAddProduct">
+                  <i data-lucide="plus"></i> Add Product
+                </button>
+              </div>
+            </div>
+            <div style="overflow-x: auto;">
+              <table class="custom-table" id="productsTable">
+                <thead>
+                  <tr>
+                    <th>Photo</th>
+                    <th>Product ID</th>
+                    <th>Name &amp; Category</th>
+                    <th>Selling Price</th>
+                    <th>Original Price</th>
+                    <th>Stock</th>
+                    <th>Inquiry / Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td colspan="7" style="text-align:center; color:var(--text-muted);">Loading products...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ─── TAB 5: REVIEWS ─── -->
+        <section id="tab-reviews" class="tab-content" style="display:none;">
+          <div class="panel">
+            <div class="panel-header">
+              <div class="panel-title"><i data-lucide="star"></i> Customer Reviews Moderation</div>
+            </div>
+            <div style="overflow-x: auto;">
+              <table class="custom-table" id="reviewsTable">
+                <thead>
+                  <tr>
+                    <th>Product ID</th>
+                    <th>Customer Name</th>
+                    <th>Rating</th>
+                    <th>Comment</th>
+                    <th>Date</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td colspan="6" style="text-align:center; color:var(--text-muted);">Loading reviews...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- ─── INQUIRY DETAIL MODAL ─── -->
+  <div class="modal-backdrop" id="inquiryModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="panel-title" id="modalInquiryName">Inquiry Details</h3>
+        <button class="modal-close" onclick="closeModal('inquiryModal')">&times;</button>
+      </div>
+      <div id="modalInquiryBody" style="font-size:0.92rem; line-height:1.6; color:var(--text-main);">
+        <!-- Injected dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── ADD/EDIT PRODUCT MODAL ─── -->
+  <div class="modal-backdrop" id="productModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="panel-title" id="productModalTitle">Add New Product</h3>
+        <button class="modal-close" onclick="closeModal('productModal')">&times;</button>
+      </div>
+      <form id="productForm">
+        <input type="hidden" id="editProductId">
+        <div class="form-group">
+          <label class="form-label" for="prodName">Product Name</label>
+          <input type="text" id="prodName" class="form-control" style="padding-left:14px;" required placeholder="e.g. Royal Kundan Bangle Set">
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+          <div class="form-group">
+            <label class="form-label" for="prodCategory">Category</label>
+            <select id="prodCategory" class="form-control" style="padding-left:14px;" required>
+              <option value="bangles">Bangles</option>
+              <option value="pendant-sets">Pendant Sets</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="prodPrice">Offer Price (₹)</label>
+            <input type="number" id="prodPrice" class="form-control" style="padding-left:14px;" required placeholder="1499">
+          </div>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+          <div class="form-group">
+            <label class="form-label" for="prodOriginalPrice">Original Price (₹)</label>
+            <input type="number" id="prodOriginalPrice" class="form-control" style="padding-left:14px;" required placeholder="2499">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="prodImage">Image Path</label>
+            <input type="text" id="prodImage" class="form-control" style="padding-left:14px;" required placeholder="images/hero-banner.png">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="prodDescription">Product Description</label>
+          <textarea id="prodDescription" class="form-control" rows="3" style="padding-left:14px;" required placeholder="Detailed description..."></textarea>
+        </div>
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
+          <label class="form-label" style="margin:0;">In Stock Availability:</label>
+          <label class="switch">
+            <input type="checkbox" id="prodInStock" checked>
+            <span class="slider"></span>
+          </label>
+        </div>
+        <button type="submit" class="btn-submit">
+          <i data-lucide="save"></i> Save Product
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- ─── SCRIPT LOGIC ─── -->
+  <script>
+    let adminToken = localStorage.getItem('kannika_admin_token') || '';
+    let globalInquiries = [];
+    let globalOrders = [];
+    let globalProducts = [];
+    let globalReviews = [];
+
+    document.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+      initClock();
+
+      if (adminToken) {
+        verifySession();
+      } else {
+        showAuthScreen();
+      }
+
+      // Login form handler
+      document.getElementById('adminLoginForm').addEventListener('submit', handleLogin);
+      document.getElementById('btnAdminLogout').addEventListener('click', handleLogout);
+      document.getElementById('btnRefreshAll').addEventListener('click', loadAllData);
+
+      // Navigation tab switching
+      document.querySelectorAll('.nav-item').forEach(item => {
+        item.addEventListener('click', () => {
+          const tab = item.getAttribute('data-tab');
+          switchTab(tab);
+        });
+      });
+
+      // Search & Filters
+      document.getElementById('searchInquiries')?.addEventListener('input', renderInquiries);
+      document.getElementById('filterInquiryStatus')?.addEventListener('change', renderInquiries);
+      document.getElementById('searchOrders')?.addEventListener('input', renderOrders);
+      document.getElementById('filterOrderStatus')?.addEventListener('change', renderOrders);
+      document.getElementById('searchProducts')?.addEventListener('input', renderProducts);
+      document.getElementById('filterProductCategory')?.addEventListener('change', renderProducts);
+
+      // CSV Exports
+      document.getElementById('btnExportInquiriesCSV')?.addEventListener('click', exportInquiriesCSV);
+      document.getElementById('btnExportOrdersCSV')?.addEventListener('click', exportOrdersCSV);
+
+      // Product Add/Edit Form
+      document.getElementById('btnOpenAddProduct')?.addEventListener('click', openAddProductModal);
+      document.getElementById('productForm')?.addEventListener('submit', handleSaveProduct);
+    });
+
+    function initClock() {
+      const clock = document.getElementById('liveClock');
+      function update() {
+        const now = new Date();
+        clock.textContent = now.toLocaleDateString('en-IN', {
+          day: '2-digit', month: 'short', year: 'numeric',
+          hour: '2-digit', minute: '2-digit', second: '2-digit'
+        });
+      }
+      update();
+      setInterval(update, 1000);
+    }
+
+    async function handleLogin(e) {
+      e.preventDefault();
+      const username = document.getElementById('loginUsername').value.trim();
+      const password = document.getElementById('loginPassword').value.trim();
+      const btn = document.getElementById('btnAdminLogin');
+      const errEl = document.getElementById('authError');
+
+      btn.disabled = true;
+      btn.innerHTML = 'Authenticating...';
+      errEl.style.display = 'none';
+
+      try {
+        const res = await fetch('/api/admin/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password })
+        });
+
+        const data = await res.json();
+        if (res.ok && data.success && data.token) {
+          adminToken = data.token;
+          localStorage.setItem('kannika_admin_token', adminToken);
+          showApp();
+          loadAllData();
+          showToast('Welcome back, Admin!', '👑');
+        } else {
+          throw new Error(data.error || 'Authentication failed');
+        }
+      } catch (err) {
+        errEl.textContent = err.message;
+        errEl.style.display = 'block';
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i data-lucide="shield-check"></i> Sign In to Dashboard';
+        lucide.createIcons();
+      }
+    }
+
+    async function verifySession() {
+      try {
+        const res = await fetch('/api/admin/verify', {
+          headers: { 'Authorization': `Bearer ${adminToken}` }
+        });
+        if (res.ok) {
+          showApp();
+          loadAllData();
+        } else {
+          handleLogout();
+        }
+      } catch (e) {
+        handleLogout();
+      }
+    }
+
+    function handleLogout() {
+      adminToken = '';
+      localStorage.removeItem('kannika_admin_token');
+      showAuthScreen();
+      showToast('Logged out securely', '🔒');
+    }
+
+    function showAuthScreen() {
+      document.getElementById('authScreen').style.display = 'flex';
+      document.getElementById('appContainer').style.display = 'none';
+    }
+
+    function showApp() {
+      document.getElementById('authScreen').style.display = 'none';
+      document.getElementById('appContainer').style.display = 'flex';
+    }
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.nav-item').forEach(item => {
+        item.classList.toggle('active', item.getAttribute('data-tab') === tabId);
+      });
+      document.querySelectorAll('.tab-content').forEach(tab => {
+        tab.style.display = tab.id === `tab-${tabId}` ? 'block' : 'none';
+      });
+
+      const tabTitles = {
+        overview: 'Dashboard Overview',
+        inquiries: 'Customer Inquiries & Form Responses',
+        orders: 'Customer Orders & Bookings',
+        products: 'Product Inventory & Pricing',
+        reviews: 'Customer Reviews Moderation'
+      };
+      document.getElementById('pageTitleText').innerHTML = `
+        <i data-lucide="${tabId === 'overview' ? 'layout-dashboard' : tabId === 'inquiries' ? 'mail' : tabId === 'orders' ? 'shopping-bag' : tabId === 'products' ? 'gem' : 'star'}" style="color:var(--gold-primary);"></i>
+        ${tabTitles[tabId] || 'Admin Dashboard'}
+      `;
+      lucide.createIcons();
+    }
+
+    async function loadAllData() {
+      const btn = document.getElementById('btnRefreshAll');
+      if (btn) btn.classList.add('loading');
+
+      await Promise.all([
+        loadStats(),
+        loadInquiries(),
+        loadOrders(),
+        loadProducts(),
+        loadReviews()
+      ]);
+
+      if (btn) btn.classList.remove('loading');
+      showToast('Dashboard refreshed with latest data', '🔄');
+    }
+
+    /* ─── LOAD STATS ─── */
+    async function loadStats() {
+      try {
+        const res = await fetch('/api/admin/stats', {
+          headers: { 'Authorization': `Bearer ${adminToken}` }
+        });
+        if (!res.ok) return;
+        const data = await res.json();
+
+        document.getElementById('statNewInquiries').textContent = data.inquiries.new || 0;
+        document.getElementById('statTotalInquiries').textContent = data.inquiries.total || 0;
+        document.getElementById('statTotalOrders').textContent = data.orders.total || 0;
+        document.getElementById('statTotalRevenue').textContent = '₹' + (data.orders.revenue || 0).toLocaleString('en-IN');
+        document.getElementById('statTotalProducts').textContent = data.products.total || 0;
+
+        document.getElementById('badgeNewInquiries').textContent = data.inquiries.new || 0;
+        document.getElementById('badgePendingOrders').textContent = data.orders.pending || 0;
+      } catch (e) {
+        console.error('Failed to load stats:', e);
+      }
+    }
+
+    /* ─── INQUIRIES ─── */
+    async function loadInquiries() {
+      try {
+        const res = await fetch('/api/admin/inquiries', {
+          headers: { 'Authorization': `Bearer ${adminToken}` }
+        });
+        if (!res.ok) return;
+        globalInquiries = await res.json();
+        renderInquiries();
+        renderRecentInquiries();
+      } catch (e) {
+        console.error('Failed to load inquiries:', e);
+      }
+    }
+
+    function renderRecentInquiries() {
+      const tbody = document.querySelector('#recentInquiriesTable tbody');
+      if (!tbody) return;
+      const recent = globalInquiries.slice(0, 5);
+
+      if (recent.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:var(--text-muted);">No inquiries yet.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = recent.map(inq => `
+        <tr>
+          <td><strong>${escapeHTML(inq.name)}</strong></td>
+          <td>
+            <div>${escapeHTML(inq.email)}</div>
+            <div style="font-size:0.78rem; color:var(--text-muted);">${escapeHTML(inq.phone || 'No phone')}</div>
+          </td>
+          <td><span style="font-size:0.8rem; color:var(--gold-light);">${escapeHTML(inq.source || 'Contact Form')}</span></td>
+          <td style="font-size:0.8rem; color:var(--text-muted);">${new Date(inq.createdAt).toLocaleDateString('en-IN', { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' })}</td>
+          <td><span class="status-badge status-${inq.status}">${inq.status}</span></td>
+          <td>
+            <button class="btn-icon" onclick="viewInquiry('${inq._id}')" title="View Message"><i data-lucide="eye"></i></button>
+          </td>
+        </tr>
+      `).join('');
+      lucide.createIcons();
+    }
+
+    function renderInquiries() {
+      const tbody = document.querySelector('#inquiriesFullTable tbody');
+      if (!tbody) return;
+
+      const search = document.getElementById('searchInquiries').value.toLowerCase();
+      const filter = document.getElementById('filterInquiryStatus').value;
+
+      const filtered = globalInquiries.filter(inq => {
+        const matchesSearch = !search || 
+          inq.name.toLowerCase().includes(search) || 
+          inq.email.toLowerCase().includes(search) || 
+          (inq.phone && inq.phone.includes(search)) ||
+          inq.message.toLowerCase().includes(search);
+        const matchesFilter = !filter || inq.status === filter;
+        return matchesSearch && matchesFilter;
+      });
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; color:var(--text-muted);">No matching inquiries found.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(inq => `
+        <tr>
+          <td><strong>${escapeHTML(inq.name)}</strong></td>
+          <td>
+            <div><a href="mailto:${escapeHTML(inq.email)}" style="color:var(--gold-light); text-decoration:none;">${escapeHTML(inq.email)}</a></div>
+            ${inq.phone ? `<div style="font-size:0.8rem; color:var(--text-muted);">${escapeHTML(inq.phone)}</div>` : ''}
+          </td>
+          <td style="max-width:280px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" title="${escapeHTML(inq.message)}">
+            ${escapeHTML(inq.message)}
+          </td>
+          <td><span style="font-size:0.8rem; color:var(--text-muted);">${escapeHTML(inq.source || 'Contact Form')}</span></td>
+          <td style="font-size:0.8rem; color:var(--text-muted);">${new Date(inq.createdAt).toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' })}</td>
+          <td>
+            <select class="filter-select" style="padding:4px 8px; font-size:0.78rem;" onchange="updateInquiryStatus('${inq._id}', this.value)">
+              <option value="new" ${inq.status === 'new' ? 'selected' : ''}>New</option>
+              <option value="contacted" ${inq.status === 'contacted' ? 'selected' : ''}>Contacted</option>
+              <option value="resolved" ${inq.status === 'resolved' ? 'selected' : ''}>Resolved</option>
+              <option value="archived" ${inq.status === 'archived' ? 'selected' : ''}>Archived</option>
+            </select>
+          </td>
+          <td>
+            <div class="action-group">
+              <button class="btn-icon" onclick="viewInquiry('${inq._id}')" title="View Details"><i data-lucide="eye"></i></button>
+              ${inq.phone ? `<a href="https://wa.me/${inq.phone.replace(/[^0-9]/g, '')}?text=Hi ${encodeURIComponent(inq.name)}, regarding your enquiry on Sri Kannika Bangles:" target="_blank" class="btn-icon whatsapp" title="Chat on WhatsApp"><i data-lucide="message-circle"></i></a>` : ''}
+              <button class="btn-icon danger" onclick="deleteInquiry('${inq._id}')" title="Delete"><i data-lucide="trash-2"></i></button>
+            </div>
+          </td>
+        </tr>
+      `).join('');
+      lucide.createIcons();
+    }
+
+    function viewInquiry(id) {
+      const inq = globalInquiries.find(i => i._id === id);
+      if (!inq) return;
+
+      document.getElementById('modalInquiryName').textContent = `Inquiry from ${inq.name}`;
+      document.getElementById('modalInquiryBody').innerHTML = `
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:16px; background:var(--bg-input); padding:12px; border-radius:var(--radius-sm);">
+          <div><strong style="color:var(--gold-light);">Email:</strong> <a href="mailto:${inq.email}" style="color:var(--text-main);">${inq.email}</a></div>
+          <div><strong style="color:var(--gold-light);">Phone:</strong> ${inq.phone || 'Not Provided'}</div>
+          <div><strong style="color:var(--gold-light);">Source:</strong> ${inq.source || 'Contact Form'}</div>
+          <div><strong style="color:var(--gold-light);">Received:</strong> ${new Date(inq.createdAt).toLocaleString('en-IN')}</div>
+        </div>
+        <div style="margin-bottom:16px;">
+          <strong style="color:var(--gold-light); display:block; margin-bottom:6px;">Message:</strong>
+          <div style="background:var(--bg-input); padding:16px; border-radius:var(--radius-sm); border:1px solid var(--border-subtle); white-space:pre-wrap;">${escapeHTML(inq.message)}</div>
+        </div>
+        <div style="display:flex; justify-content:flex-end; gap:10px;">
+          ${inq.phone ? `<a href="https://wa.me/${inq.phone.replace(/[^0-9]/g, '')}" target="_blank" class="btn-submit" style="margin:0; width:auto; padding:8px 16px;"><i data-lucide="message-circle"></i> Reply via WhatsApp</a>` : ''}
+          <a href="mailto:${inq.email}" class="btn-outline-gold" style="margin:0; width:auto;"><i data-lucide="mail"></i> Reply via Email</a>
+        </div>
+      `;
+      openModal('inquiryModal');
+      lucide.createIcons();
+    }
+
+    async function updateInquiryStatus(id, newStatus) {
+      try {
+        const res = await fetch(`/api/admin/inquiries/${id}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${adminToken}`
+          },
+          body: JSON.stringify({ status: newStatus })
+        });
+        if (res.ok) {
+          const item = globalInquiries.find(i => i._id === id);
+          if (item) item.status = newStatus;
+          loadStats();
+          showToast(`Status updated to ${newStatus}`, '✅');
+        }
+      } catch (e) {
+        showToast('Failed to update status', '⚠️');
+      }
+    }
+
+    async function deleteInquiry(id) {
+      if (!confirm('Are you sure you want to delete this inquiry?')) return;
+      try {
+        const res = await fetch(`/api/admin/inquiries/${id}`, {
+          method: 'DELETE',
+          headers: { 'Authorization': `Bearer ${adminToken}` }
+        });
+        if (res.ok) {
+          globalInquiries = globalInquiries.filter(i => i._id !== id);
+          renderInquiries();
+          renderRecentInquiries();
+          loadStats();
+          showToast('Inquiry deleted', '🗑️');
+        }
+      } catch (e) {
+        showToast('Delete failed', '⚠️');
+      }
+    }
+
+    /* ─── ORDERS ─── */
+    async function loadOrders() {
+      try {
+        const res = await fetch('/api/admin/orders', {
+          headers: { 'Authorization': `Bearer ${adminToken}` }
+        });
+        if (!res.ok) return;
+        globalOrders = await res.json();
+        renderOrders();
+      } catch (e) {
+        console.error('Failed to load orders:', e);
+      }
+    }
+
+    function renderOrders() {
+      const tbody = document.querySelector('#ordersFullTable tbody');
+      if (!tbody) return;
+
+      const search = document.getElementById('searchOrders').value.toLowerCase();
+      const filter = document.getElementById('filterOrderStatus').value;
+
+      const filtered = globalOrders.filter(ord => {
+        const name = ord.shippingDetails?.name || '';
+        const phone = ord.shippingDetails?.phone || '';
+        const city = ord.shippingDetails?.city || '';
+        const id = ord._id || '';
+
+        const matchesSearch = !search || 
+          name.toLowerCase().includes(search) || 
+          phone.includes(search) || 
+          city.toLowerCase().includes(search) ||
+          id.toLowerCase().includes(search);
+        const matchesFilter = !filter || (ord.status || 'pending') === filter;
+        return matchesSearch && matchesFilter;
+      });
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; color:var(--text-muted);">No matching orders found.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(ord => {
+        const itemsSummary = (ord.items || []).map(i => `${i.name} (${i.size} × ${i.quantity})`).join(', ');
+        const status = ord.status || 'pending';
+        return `
+          <tr>
+            <td>
+              <div style="font-family:monospace; font-size:0.8rem; color:var(--gold-light);">${ord._id.slice(-6).toUpperCase()}</div>
+              <div style="font-size:0.75rem; color:var(--text-muted);">${new Date(ord.createdAt).toLocaleDateString('en-IN', { day:'2-digit', month:'short' })}</div>
+            </td>
+            <td><strong>${escapeHTML(ord.shippingDetails?.name || 'Customer')}</strong></td>
+            <td>
+              <div>${escapeHTML(ord.shippingDetails?.phone || 'No phone')}</div>
+              <div style="font-size:0.78rem; color:var(--text-muted);">${escapeHTML(ord.shippingDetails?.city || '')}, ${escapeHTML(ord.shippingDetails?.pincode || '')}</div>
+            </td>
+            <td style="max-width:250px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" title="${escapeHTML(itemsSummary)}">
+              ${escapeHTML(itemsSummary)}
+            </td>
+            <td><strong>₹${(ord.total || 0).toLocaleString('en-IN')}</strong></td>
+            <td>
+              <select class="filter-select" style="padding:4px 8px; font-size:0.78rem;" onchange="updateOrderStatus('${ord._id}', this.value)">
+                <option value="pending" ${status === 'pending' ? 'selected' : ''}>Pending</option>
+                <option value="confirmed" ${status === 'confirmed' ? 'selected' : ''}>Confirmed</option>
+                <option value="dispatched" ${status === 'dispatched' ? 'selected' : ''}>Dispatched</option>
+                <option value="delivered" ${status === 'delivered' ? 'selected' : ''}>Delivered</option>
+                <option value="cancelled" ${status === 'cancelled' ? 'selected' : ''}>Cancelled</option>
+              </select>
+            </td>
+            <td>
+              <div class="action-group">
+                ${ord.shippingDetails?.phone ? `<a href="https://wa.me/${ord.shippingDetails.phone.replace(/[^0-9]/g, '')}?text=Hi ${encodeURIComponent(ord.shippingDetails.name)}, this is Sri Kannika Bangles regarding your booking #${ord._id.slice(-6).toUpperCase()}:" target="_blank" class="btn-icon whatsapp" title="Chat on WhatsApp"><i data-lucide="message-circle"></i></a>` : ''}
+                <button class="btn-icon danger" onclick="deleteOrder('${ord._id}')" title="Delete"><i data-lucide="trash-2"></i></button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+      lucide.createIcons();
+    }
+
+    async function updateOrderStatus(id, newStatus) {
+      try {
+        const res = await fetch(`/api/admin/orders/${id}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${adminToken}`
+          },
+          body: JSON.stringify({ status: newStatus })
+        });
+        if (res.ok) {
+          const ord = globalOrders.find(o => o._id === id);
+          if (ord) ord.status = newStatus;
+          loadStats();
+          showToast(`Order status updated to ${newStatus}`, '📦');
+        }
+      } catch (e) {
+        showToast('Failed to update order status', '⚠️');
+      }
+    }
+
+    async function deleteOrder(id) {
+      if (!confirm('Are you sure you want to delete this order record?')) return;
+      try {
+        const res = await fetch(`/api/admin/orders/${id}`, {
+          method: 'DELETE',
+          headers: { 'Authorization': `Bearer ${adminToken}` }
+        });
+        if (res.ok) {
+          globalOrders = globalOrders.filter(o => o._id !== id);
+          renderOrders();
+          loadStats();
+          showToast('Order record deleted', '🗑️');
+        }
+      } catch (e) {
+        showToast('Delete order failed', '⚠️');
+      }
+    }
+
+    /* ─── PRODUCTS ─── */
+    async function loadProducts() {
+      try {
+        const res = await fetch('/api/admin/products', {
+          headers: { 'Authorization': `Bearer ${adminToken}` }
+        });
+        if (!res.ok) return;
+        globalProducts = await res.json();
+        renderProducts();
+      } catch (e) {
+        console.error('Failed to load products:', e);
+      }
+    }
+
+    function renderProducts() {
+      const tbody = document.querySelector('#productsTable tbody');
+      if (!tbody) return;
+
+      const search = document.getElementById('searchProducts').value.toLowerCase();
+      const filter = document.getElementById('filterProductCategory').value;
+
+      const filtered = globalProducts.filter(p => {
+        const matchesSearch = !search || 
+          p.name.toLowerCase().includes(search) || 
+          (p.code && p.code.toLowerCase().includes(search)) || 
+          (p.sku && p.sku.toLowerCase().includes(search)) || 
+          String(p.id).includes(search);
+        const matchesFilter = !filter || p.category === filter;
+        return matchesSearch && matchesFilter;
+      });
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; color:var(--text-muted); padding:30px;">No products found.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(p => {
+        const prodCode = p.code || p.sku || (p.category === 'bangles' ? `KB-BAN-${String(p.id).padStart(3,'0')}` : p.category === 'pendant-sets' ? `KB-PEN-${String(p.id).padStart(3,'0')}` : p.category === 'necklaces' ? `KB-NEC-${String(p.id).padStart(3,'0')}` : `KB-EAR-${String(p.id).padStart(3,'0')}`);
+        const waMsg = encodeURIComponent(`Hi Sri Kannika Bangles! I am interested in inquiring about:\n\n✨ Product: ${p.name}\n🏷️ Product ID: ${prodCode}\n💰 Price: ₹${p.price.toLocaleString('en-IN')}\n🔗 Link: https://kannikabangles.com/product/${p.id}\n\nPlease confirm availability and delivery details.`);
+        return `
+        <tr>
+          <td>
+            <a href="/${p.image}" target="_blank">
+              <img src="/${p.image}" alt="${escapeHTML(p.name)}" style="width:48px; height:48px; border-radius:8px; object-fit:cover; border:1.5px solid rgba(212,175,55,0.4); box-shadow:0 2px 8px rgba(0,0,0,0.3);">
+            </a>
+          </td>
+          <td>
+            <span style="display:inline-block; font-family:monospace; font-weight:700; font-size:0.82rem; background:rgba(212,175,55,0.15); color:#F5E39E; border:1px solid rgba(212,175,55,0.4); padding:4px 8px; border-radius:4px; letter-spacing:0.5px;">
+              ${prodCode}
+            </span>
+          </td>
+          <td>
+            <strong style="color:var(--text-main); font-size:0.92rem; display:block;">${escapeHTML(p.name)}</strong>
+            <div style="font-size:0.75rem; text-transform:capitalize; color:var(--gold-light); margin-top:2px;">${p.category}</div>
+          </td>
+          <td><strong style="color:#10B981; font-size:0.95rem;">₹${p.price.toLocaleString('en-IN')}</strong></td>
+          <td><span style="color:var(--text-muted); text-decoration:line-through; font-size:0.85rem;">₹${(p.originalPrice || (p.price + 500)).toLocaleString('en-IN')}</span></td>
+          <td>
+            <label class="switch" title="Toggle In-Stock">
+              <input type="checkbox" ${p.inStock !== false ? 'checked' : ''} onchange="toggleProductStock(${p.id}, this.checked)">
+              <span class="slider"></span>
+            </label>
+          </td>
+          <td>
+            <div class="action-group">
+              <a href="https://wa.me/919844758450?text=${waMsg}" target="_blank" class="btn-icon" title="Test Customer WhatsApp Inquiry for this item" style="color:#25D366;"><i data-lucide="message-circle"></i></a>
+              <button class="btn-icon" onclick="openEditProductModal(${p.id})" title="Edit Product"><i data-lucide="edit-3"></i></button>
+              <button class="btn-icon danger" onclick="deleteProduct(${p.id})" title="Delete"><i data-lucide="trash-2"></i></button>
+            </div>
+          </td>
+        </tr>
+      `;
+      }).join('');
+      lucide.createIcons();
+    }
+
+    async function toggleProductStock(id, inStock) {
+      try {
+        const res = await fetch(`/api/admin/products/${id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${adminToken}`
+          },
+          body: JSON.stringify({ inStock })
+        });
+        if (res.ok) {
+          const prod = globalProducts.find(p => p.id === id);
+          if (prod) prod.inStock = inStock;
+          showToast(`Product ${id} is now ${inStock ? 'In Stock' : 'Out of Stock'}`, '💎');
+        }
+      } catch (e) {
+        showToast('Failed to toggle stock', '⚠️');
+      }
+    }
+
+    function openAddProductModal() {
+      document.getElementById('productForm').reset();
+      document.getElementById('editProductId').value = '';
+      document.getElementById('productModalTitle').textContent = 'Add New Product';
+      document.getElementById('prodInStock').checked = true;
+      openModal('productModal');
+    }
+
+    function openEditProductModal(id) {
+      const p = globalProducts.find(prod => prod.id === id);
+      if (!p) return;
+
+      document.getElementById('editProductId').value = p.id;
+      document.getElementById('productModalTitle').textContent = `Edit Product: ${p.name}`;
+      document.getElementById('prodName').value = p.name;
+      document.getElementById('prodCategory').value = p.category;
+      document.getElementById('prodPrice').value = p.price;
+      document.getElementById('prodOriginalPrice').value = p.originalPrice;
+      document.getElementById('prodImage').value = p.image;
+      document.getElementById('prodDescription').value = p.description;
+      document.getElementById('prodInStock').checked = p.inStock;
+
+      openModal('productModal');
+    }
+
+    async function handleSaveProduct(e) {
+      e.preventDefault();
+      const editId = document.getElementById('editProductId').value;
+
+      const payload = {
+        name: document.getElementById('prodName').value.trim(),
+        category: document.getElementById('prodCategory').value,
+        price: parseFloat(document.getElementById('prodPrice').value),
+        originalPrice: parseFloat(document.getElementById('prodOriginalPrice').value),
+        image: document.getElementById('prodImage').value.trim(),
+        description: document.getElementById('prodDescription').value.trim(),
+        inStock: document.getElementById('prodInStock').checked
+      };
+
+      try {
+        let res;
+        if (editId) {
+          res = await fetch(`/api/admin/products/${editId}`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${adminToken}`
+            },
+            body: JSON.stringify(payload)
+          });
+        } else {
+          res = await fetch('/api/admin/products', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${adminToken}`
+            },
+            body: JSON.stringify(payload)
+          });
+        }
+
+        if (res.ok) {
+          closeModal('productModal');
+          await loadProducts();
+          loadStats();
+          showToast(editId ? 'Product updated successfully' : 'New product created!', '🎉');
+        } else {
+          const err = await res.json();
+          showToast(err.error || 'Failed to save product', '⚠️');
+        }
+      } catch (e) {
+        showToast('Network error saving product', '⚠️');
+      }
+    }
+
+    async function deleteProduct(id) {
+      if (!confirm(`Are you sure you want to delete Product #${id}?`)) return;
+      try {
+        const res = await fetch(`/api/admin/products/${id}`, {
+          method: 'DELETE',
+          headers: { 'Authorization': `Bearer ${adminToken}` }
+        });
+        if (res.ok) {
+          globalProducts = globalProducts.filter(p => p.id !== id);
+          renderProducts();
+          loadStats();
+          showToast('Product deleted', '🗑️');
+        }
+      } catch (e) {
+        showToast('Failed to delete product', '⚠️');
+      }
+    }
+
+    /* ─── REVIEWS ─── */
+    async function loadReviews() {
+      try {
+        const res = await fetch('/api/admin/reviews', {
+          headers: { 'Authorization': `Bearer ${adminToken}` }
+        });
+        if (!res.ok) return;
+        globalReviews = await res.json();
+        renderReviews();
+      } catch (e) {
+        console.error('Failed to load reviews:', e);
+      }
+    }
+
+    function renderReviews() {
+      const tbody = document.querySelector('#reviewsTable tbody');
+      if (!tbody) return;
+
+      if (globalReviews.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:var(--text-muted);">No reviews submitted yet.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = globalReviews.map(r => `
+        <tr>
+          <td><span style="color:var(--gold-light);">#${r.productId}</span></td>
+          <td><strong>${escapeHTML(r.name)}</strong></td>
+          <td style="color:#FBBF24;">${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}</td>
+          <td>${escapeHTML(r.comment)}</td>
+          <td style="font-size:0.8rem; color:var(--text-muted);">${new Date(r.createdAt).toLocaleDateString('en-IN')}</td>
+          <td>
+            <button class="btn-icon danger" onclick="deleteReview('${r._id}')" title="Delete Review"><i data-lucide="trash-2"></i></button>
+          </td>
+        </tr>
+      `).join('');
+      lucide.createIcons();
+    }
+
+    async function deleteReview(id) {
+      if (!confirm('Are you sure you want to remove this review?')) return;
+      try {
+        const res = await fetch(`/api/admin/reviews/${id}`, {
+          method: 'DELETE',
+          headers: { 'Authorization': `Bearer ${adminToken}` }
+        });
+        if (res.ok) {
+          globalReviews = globalReviews.filter(r => r._id !== id);
+          renderReviews();
+          showToast('Review removed', '🗑️');
+        }
+      } catch (e) {
+        showToast('Failed to remove review', '⚠️');
+      }
+    }
+
+    /* ─── CSV EXPORTS ─── */
+    function exportInquiriesCSV() {
+      if (globalInquiries.length === 0) return showToast('No inquiries to export', '⚠️');
+      const headers = ['ID', 'Name', 'Email', 'Phone', 'Source', 'Status', 'Date', 'Message'];
+      const rows = globalInquiries.map(i => [
+        i._id,
+        `"${(i.name||'').replace(/"/g, '""')}"`,
+        `"${(i.email||'').replace(/"/g, '""')}"`,
+        `"${(i.phone||'').replace(/"/g, '""')}"`,
+        `"${(i.source||'').replace(/"/g, '""')}"`,
+        i.status,
+        new Date(i.createdAt).toISOString(),
+        `"${(i.message||'').replace(/"/g, '""')}"`
+      ]);
+      downloadCSV('kannika_inquiries.csv', [headers, ...rows]);
+    }
+
+    function exportOrdersCSV() {
+      if (globalOrders.length === 0) return showToast('No orders to export', '⚠️');
+      const headers = ['Order ID', 'Customer Name', 'Phone', 'Address', 'City', 'Pincode', 'Total Amount', 'Status', 'Date'];
+      const rows = globalOrders.map(o => [
+        o._id,
+        `"${(o.shippingDetails?.name||'').replace(/"/g, '""')}"`,
+        `"${(o.shippingDetails?.phone||'').replace(/"/g, '""')}"`,
+        `"${(o.shippingDetails?.address||'').replace(/"/g, '""')}"`,
+        `"${(o.shippingDetails?.city||'').replace(/"/g, '""')}"`,
+        `"${(o.shippingDetails?.pincode||'').replace(/"/g, '""')}"`,
+        o.total || 0,
+        o.status || 'pending',
+        new Date(o.createdAt).toISOString()
+      ]);
+      downloadCSV('kannika_orders.csv', [headers, ...rows]);
+    }
+
+    function downloadCSV(filename, rows) {
+      const csvContent = 'data:text/csv;charset=utf-8,' + rows.map(e => e.join(',')).join('\n');
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement('a');
+      link.setAttribute('href', encodedUri);
+      link.setAttribute('download', filename);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    /* ─── UTILS & MODALS ─── */
+    function openModal(id) {
+      document.getElementById(id).style.display = 'flex';
+    }
+    function closeModal(id) {
+      document.getElementById(id).style.display = 'none';
+    }
+    function showToast(msg, icon = '✨') {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.innerHTML = `<span>${icon}</span> <span>${msg}</span>`;
+      container.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(50px)';
+        toast.style.transition = 'all 0.3s';
+        setTimeout(() => toast.remove(), 300);
+      }, 3500);
+    }
+    function escapeHTML(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+  </script>
+</body>
+</html>
