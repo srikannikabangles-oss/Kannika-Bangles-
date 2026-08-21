@@ -3017,3 +3017,31 @@ main:not(.login-page):not(.not-found-section),
   gap: 8px;
   border-radius: 10px;
 }
+
+
+/* Clean Bullet Points for SEO Pages */
+.seo-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 24px 0;
+}
+.seo-list li {
+  position: relative;
+  padding-left: 24px;
+  margin-bottom: 12px;
+  color: var(--text-secondary, #5C4347);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+.seo-list li::before {
+  content: "✦";
+  position: absolute;
+  left: 0;
+  top: 0px;
+  color: var(--gold-dark, #AA7C11);
+  font-size: 0.9rem;
+}
+.seo-list li strong {
+  color: var(--text-primary, #2D1C1E);
+  font-weight: 700;
+}

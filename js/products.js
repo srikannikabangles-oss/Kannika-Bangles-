@@ -30,30 +30,6 @@ const PRODUCTS = [
     "featured": true
   },
   {
-    "id": 29,
-    "code": "KB-NEC-029",
-    "sku": "KB-NEC-029",
-    "type": "necklaces",
-    "name": "Floral Kundan Tikka",
-    "category": "necklaces",
-    "price": 920,
-    "originalPrice": 1450,
-    "image": "images/necklaces/IMG-20260717-WA0002.jpg",
-    "images": [
-      "images/necklaces/IMG-20260717-WA0002.jpg"
-    ],
-    "description": "Handcrafted Floral Kundan Tikka featuring premium micro gold polish and intricate artisanal artistry.",
-    "material": "Brass Base, Micro Gold Plated",
-    "finish": "Antique Gold Polish",
-    "stones": "Kundan, AD Stones & Faux Pearls",
-    "sizes": [
-      "Standard"
-    ],
-    "inStock": true,
-    "badge": "bestseller",
-    "featured": true
-  },
-  {
     "id": 15,
     "code": "KB-PEN-015",
     "sku": "KB-PEN-015",
@@ -223,30 +199,6 @@ const PRODUCTS = [
     ],
     "inStock": true,
     "badge": "popular",
-    "featured": true
-  },
-  {
-    "id": 31,
-    "code": "KB-NEC-031",
-    "sku": "KB-NEC-031",
-    "type": "necklaces",
-    "name": "Emerald Gold Tikka",
-    "category": "necklaces",
-    "price": 840,
-    "originalPrice": 1300,
-    "image": "images/necklaces/IMG-20260717-WA0004.jpg",
-    "images": [
-      "images/necklaces/IMG-20260717-WA0004.jpg"
-    ],
-    "description": "Handcrafted Emerald Gold Tikka featuring premium micro gold polish and intricate artisanal artistry.",
-    "material": "Brass Base, Micro Gold Plated",
-    "finish": "Antique Gold Polish",
-    "stones": "Kundan, AD Stones & Faux Pearls",
-    "sizes": [
-      "Standard"
-    ],
-    "inStock": true,
-    "badge": null,
     "featured": true
   },
   {
