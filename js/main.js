@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
   fixIOSInputZoom();     // Prevent iOS auto-zoom on inputs
   initMobileBottomNav();
   initNavbar();
-  initActiveNavLinkHighlight();
+  updateActiveNavLink();
   initScrollAnimations();
   initBackToTop();
   updateCartBadge();
