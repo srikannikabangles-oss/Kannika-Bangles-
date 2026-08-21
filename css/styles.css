@@ -493,6 +493,17 @@ h4 { font-size: clamp(1.25rem, 2vw, 1.5rem); }
   animation: dropdownFadeIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
+/* Invisible hover bridge to prevent dropdown from closing when moving mouse */
+.navbar__dropdown-menu::before {
+  content: "";
+  position: absolute;
+  top: -16px;
+  left: 0;
+  width: 100%;
+  height: 16px;
+  background: transparent;
+}
+
 @keyframes dropdownFadeIn {
   from {
     opacity: 0;
