@@ -770,13 +770,45 @@
         <p class="newsletter__text">
           Receive private invitations to preview new masterworks, bespoke styling ateliers, and seasonal collections.
         </p>
-        <form class="newsletter__form" onsubmit="event.preventDefault(); this.querySelector('input').value=''; showToast('Thank you for subscribing!', '💌');">
+        <form class="newsletter__form" id="newsletterForm">
           <input type="email" class="newsletter__input" placeholder="Enter your email address" required aria-label="Email address">
           <button type="submit" class="btn btn--primary">
             <i data-lucide="send" style="width:16px;height:16px;"></i>
             Subscribe
           </button>
         </form>
+        <script>
+          document.getElementById('newsletterForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const input = this.querySelector('input');
+            const email = input.value;
+            const btn = this.querySelector('button');
+            const originalText = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = 'Subscribing...';
+            try {
+              await fetch('/api/inquiries', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  name: 'Newsletter Subscriber',
+                  email: email,
+                  message: 'Requested newsletter subscription.',
+                  source: 'Newsletter Form'
+                })
+              });
+              input.value = '';
+              if (typeof showToast === 'function') showToast('Thank you for subscribing!', '💌');
+              else alert('Thank you for subscribing!');
+            } catch (err) {
+              if (typeof showToast === 'function') showToast('Failed to subscribe. Please try again.', '⚠️');
+              else alert('Failed to subscribe.');
+            } finally {
+              btn.disabled = false;
+              btn.innerHTML = originalText;
+            }
+          });
+        </script>
         <p class="newsletter__privacy">We respect your privacy. Unsubscribe anytime.</p>
       </div>
     </div>
