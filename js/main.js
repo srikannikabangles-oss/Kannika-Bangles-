@@ -187,25 +187,52 @@ function initNavbar() {
 
   // Mobile toggle
   if (toggle && links) {
-    toggle.addEventListener('click', () => {
+    // Mobile drawer toggle
+    toggle.addEventListener('click', (e) => {
+      e.stopPropagation();
       const isOpen = links.classList.contains('open');
-      toggle.classList.toggle('active');
-      links.classList.toggle('open');
-      if (!isOpen) {
-        links.style.left = '0';
-        links.style.right = 'auto';
-      } else {
-        links.style.left = '';
-        links.style.right = '';
-      }
+      toggle.classList.toggle('active', !isOpen);
+      links.classList.toggle('open', !isOpen);
       backdrop.classList.toggle('active', !isOpen);
       document.body.style.overflow = !isOpen ? 'hidden' : '';
-      // Always show navbar when menu opens
       navbar.style.transform = 'translateY(0)';
+      if (window.lucide) {
+        window.lucide.createIcons();
+      }
     });
 
-    // Close menu on link click
-    links.querySelectorAll('.navbar__link').forEach(link => {
+    // Close button inside mobile drawer header
+    const closeBtn = document.getElementById('navClose') || links.querySelector('.mobile-drawer__close');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        closeMenu();
+      });
+    }
+
+    // Mobile Accordion Toggle for Dropdowns (Screen <= 900px)
+    links.querySelectorAll('.navbar__link--has-dropdown').forEach(dropdownToggle => {
+      dropdownToggle.addEventListener('click', (e) => {
+        if (window.innerWidth <= 900) {
+          e.preventDefault();
+          e.stopPropagation();
+          const parentItem = dropdownToggle.closest('.navbar__dropdown-item');
+          if (parentItem) {
+            const wasActive = parentItem.classList.contains('active-accordion');
+            // Close other open accordions for a tidy mobile view
+            links.querySelectorAll('.navbar__dropdown-item').forEach(item => {
+              if (item !== parentItem) {
+                item.classList.remove('active-accordion');
+              }
+            });
+            parentItem.classList.toggle('active-accordion', !wasActive);
+          }
+        }
+      });
+    });
+
+    // Close menu when clicking direct leaf navigation links
+    links.querySelectorAll('.navbar__link:not(.navbar__link--has-dropdown), .navbar__dropdown-link, .mobile-drawer__btn').forEach(link => {
       link.addEventListener('click', closeMenu);
     });
 
