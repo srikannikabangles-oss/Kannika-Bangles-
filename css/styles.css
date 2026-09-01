@@ -1433,23 +1433,31 @@ textarea.form-input {
   .navbar__links {
     position: fixed;
     top: 0;
-    right: -100%;
-    width: 80%;
+    left: -115vw;
+    right: auto;
+    width: 88vw;
     max-width: 360px;
     height: 100vh;
-    background: var(--bg-glass-strong);
-    backdrop-filter: blur(30px);
-    -webkit-backdrop-filter: blur(30px);
+    height: 100dvh;
+    background: #FFFFFF !important;
+    background-color: #FFFFFF !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    opacity: 1 !important;
     flex-direction: column;
-    justify-content: center;
-    gap: 24px;
-    padding: 40px;
-    transition: right var(--transition-slow);
-    border-left: 1px solid var(--border-subtle);
+    justify-content: flex-start;
+    gap: 0;
+    padding: 0;
+    transition: left 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    border-right: 1px solid #E6D5DC;
+    box-shadow: 16px 0 50px rgba(25, 5, 28, 0.3);
+    z-index: 100000;
+    overflow-y: auto;
   }
 
   .navbar__links.open {
-    right: 0;
+    left: 0;
+    right: auto;
   }
 
   .navbar__link {
