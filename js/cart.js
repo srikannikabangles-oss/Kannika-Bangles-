@@ -3,7 +3,10 @@
    Asynchronous Database Cart & Order Form Controllers
    ===================================================== */
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+  if (typeof fetchLiveProducts === 'function') {
+    await fetchLiveProducts().catch(() => {});
+  }
   renderCart();
 });
 

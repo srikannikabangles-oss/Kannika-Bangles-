@@ -702,20 +702,29 @@ function getFooterHTML() {
           <h4 class="footer__heading">Quick Links</h4>
           <a href="/" class="footer__link">Home</a>
           <a href="/shop" class="footer__link">Shop All</a>
-          <a href="/bangles" class="footer__link">Bangles Collection</a>
-          <a href="/about" class="footer__link">Our Story</a>
-          <a href="/contact" class="footer__link">Contact Us</a>
+          <a href="/bridal-jewellery-bangalore" class="footer__link">Bridal Jewellery</a>
+          <a href="/temple-jewellery-bangalore" class="footer__link">Temple Jewellery</a>
+          <a href="/about.html" class="footer__link">Our Story</a>
+          <a href="/contact.html" class="footer__link">Contact Us</a>
         </div>
         <div class="footer__col">
           <h4 class="footer__heading">Categories</h4>
           <a href="/bangles" class="footer__link">Bangles</a>
+          <a href="/necklaces" class="footer__link">Necklaces</a>
           <a href="/pendant-sets" class="footer__link">Pendant Sets</a>
+          <a href="/earrings" class="footer__link">Earrings</a>
+        </div>
+        <div class="footer__col">
+          <h4 class="footer__heading">Policies</h4>
+          <a href="/no-return-policy.html" class="footer__link">No Return Policy</a>
+          <a href="/exchange-policy.html" class="footer__link">Exchange Policy</a>
+          <a href="/delivery-policy.html" class="footer__link">Delivery Policy</a>
         </div>
         <div class="footer__col">
           <h4 class="footer__heading">Get in Touch</h4>
           <div class="footer__contact-item">
             <i data-lucide="map-pin" style="width:18px;height:18px;"></i>
-            <span>Sampige Road, Malleshwaram,<br>Bangalore, Karnataka</span>
+            <span>No. 157/108, 9th Cross, East Park Road, Malleshwaram, Bengaluru, Karnataka 560003</span>
           </div>
           <div class="footer__contact-item">
             <i data-lucide="phone" style="width:18px;height:18px;"></i>
@@ -802,13 +811,16 @@ function initGlobalEnquirySystem() {
             <div class="enquiry-input-group">
               <label for="eqInterest">Jewellery Category of Interest</label>
               <select id="eqInterest" name="interest">
-                <option value="Bridal Bangles & Kadas">Bridal Bangles &amp; Kadas</option>
-                <option value="Pendant Sets & Lockets">Pendant Sets &amp; Lockets</option>
-                <option value="Bridal Necklaces & Chokers">Bridal Necklaces &amp; Chokers</option>
-                <option value="Designer Earrings & Jhumkas">Designer Earrings &amp; Jhumkas</option>
-                <option value="Complete Bridal Set Customization">Complete Bridal Set Customization</option>
-                <option value="Bulk Wedding Order Inquiry">Bulk Wedding Order Inquiry</option>
-                <option value="Other Query">Other Query</option>
+                <option value="Saree & Lehenga Matching Consultation">👗 Saree &amp; Lehenga Matching Consultation</option>
+                <option value="Book a 5-Min Live Video Call">🎥 Book a 5-Min Live Video Call</option>
+                <option value="Bridal Jewellery Bangalore Sets">✨ Complete Bridal Suite / Wedding Set</option>
+                <option value="Temple Jewellery & Nakshi Harams">🛕 Antique Temple Jewellery &amp; Harams</option>
+                <option value="Bridal Bangles & Kadas">⭕ Bridal Bangles &amp; Kadas</option>
+                <option value="Bridal Necklaces & Chokers">📿 Necklaces &amp; Chokers</option>
+                <option value="Pendant Sets & Lockets">💎 Pendant Sets &amp; Lockets</option>
+                <option value="Designer Earrings & Jhumkas">🌸 Designer Earrings &amp; Jhumkas</option>
+                <option value="Bulk Wedding Order Inquiry">🛍️ Bulk Wedding / Return Gifts</option>
+                <option value="Other Query">💬 Other Query</option>
               </select>
             </div>
           </div>
@@ -1049,13 +1061,22 @@ function initGlobalSearch() {
     }
 
     try {
-      // Fetch all products from API if not cached
-      if (!window._cachedProductsForSearch) {
+      let products = (typeof window !== 'undefined' && Array.isArray(window.PRODUCTS) && window.PRODUCTS.length > 0)
+        ? window.PRODUCTS
+        : null;
+
+      if (!products) {
         const res = await fetch('/api/products');
-        window._cachedProductsForSearch = await res.json();
+        if (res.ok) {
+          products = await res.json();
+          window.PRODUCTS = products;
+        }
       }
 
-      const products = window._cachedProductsForSearch.data || window._cachedProductsForSearch || [];
+      if (!products && typeof PRODUCTS !== 'undefined') {
+        products = PRODUCTS;
+      }
+      products = products || [];
 
       const filtered = products.filter(product => {
         return (

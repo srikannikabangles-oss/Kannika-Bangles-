@@ -4,6 +4,9 @@
    ===================================================== */
 
 document.addEventListener('DOMContentLoaded', async () => {
+  if (typeof fetchLiveProducts === 'function') {
+    await fetchLiveProducts().catch(() => {});
+  }
   await renderCheckout();
   initCheckoutForm();
 });

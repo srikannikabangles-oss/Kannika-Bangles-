@@ -45,8 +45,8 @@ app.use('/js', express.static(path.join(__dirname, 'js'), {
 
 // Middleware to redirect .html requests to clean URLs (for SEO)
 app.use((req, res, next) => {
-  // Ignore API requests or internal routes
-  if (req.path.startsWith('/api') || req.path.startsWith('/node_modules')) {
+  // Ignore API requests, internal routes, or Google Search Console verification files
+  if (req.path.startsWith('/api') || req.path.startsWith('/node_modules') || /^\/google[a-z0-9]+\.html$/i.test(req.path)) {
     return next();
   }
 
@@ -970,6 +970,55 @@ app.get(['/product/:id', '/product.html', '/product-template.html'], async (req,
               <span>Micro Gold Polish</span>
             </div>
           </div>
+
+          <!-- 📍 BANGALORE & PAN-INDIA PINCODE DELIVERY ESTIMATOR -->
+          <div class="pd__pincode-checker" style="background: #FFFDF9; border: 1.5px solid rgba(212, 175, 55, 0.35); border-radius: 12px; padding: 14px 16px; margin-top: 18px;">
+            <label style="font-size: 0.85rem; font-weight: 700; color: var(--text-primary); display: flex; align-items: center; gap: 6px; margin-bottom: 8px;">
+              <i data-lucide="map-pin" style="width: 16px; height: 16px; color: var(--pink-primary);"></i>
+              Check Estimated Delivery Date
+            </label>
+            <div style="display: flex; gap: 8px;">
+              <input type="text" id="deliveryPincodeInput" placeholder="Enter 6-digit PIN code (e.g. 560003)" maxlength="6" style="flex: 1; min-width: 0; padding: 10px 14px; border: 1px solid var(--border-subtle); border-radius: 8px; font-size: 0.9rem; outline: none; background: #fff;">
+              <button type="button" onclick="checkDeliveryPincode()" class="btn btn--outline btn--sm" style="white-space: nowrap; padding: 10px 16px; font-weight: 700; border-color: var(--pink-primary); color: var(--pink-primary); cursor: pointer;">Check</button>
+            </div>
+            <div id="pincodeResult" style="margin-top: 8px; font-size: 0.84rem; display: none; line-height: 1.4;"></div>
+          </div>
+
+          <!-- 👗 SAREE MATCHING & 🎥 VIDEO CALL DUAL ACTION BOX -->
+          <div style="background: linear-gradient(135deg, rgba(255, 245, 248, 0.9) 0%, rgba(255, 252, 245, 0.9) 100%); border: 1px solid rgba(212, 69, 106, 0.25); border-radius: 12px; padding: 14px 16px; margin-top: 16px; display: flex; flex-direction: column; gap: 10px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap;">
+              <div style="font-size: 0.85rem; color: var(--text-primary);">
+                <strong style="display: block; color: var(--pink-primary); margin-bottom: 2px;">👗 Saree &amp; Lehenga Matching:</strong>
+                Need help matching your saree border or lehenga color?
+              </div>
+              <a href="https://wa.me/919844758450?text=Hi!%20I%20would%20like%20help%20matching%20my%20saree%20with%20${encodeURIComponent(product.name)}%20(ID:%20${prodCode}).%20Here%20is%20my%20outfit%20photo:" target="_blank" class="btn btn--sm btn--primary" style="font-size: 0.8rem; padding: 8px 12px; display: inline-flex; align-items: center; gap: 6px; text-decoration: none; white-space: nowrap;">
+                <i data-lucide="camera" style="width: 14px; height: 14px;"></i>
+                Send Saree Photo
+              </a>
+            </div>
+            <div style="border-top: 1px dashed rgba(212, 175, 55, 0.35); padding-top: 8px; display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap;">
+              <div style="font-size: 0.85rem; color: var(--text-primary);">
+                <strong style="display: block; color: #856404; margin-bottom: 2px;">🎥 Live 5-Min Video Call:</strong>
+                Inspect weight, luster &amp; stone shine in real-time.
+              </div>
+              <a href="https://wa.me/919844758450?text=Hi!%20I%20would%20like%20to%20schedule%20a%20quick%205-min%20video%20call%20to%20view%20${encodeURIComponent(product.name)}%20(ID:%20${prodCode})%20live." target="_blank" class="btn btn--sm btn--outline" style="font-size: 0.8rem; padding: 8px 12px; display: inline-flex; align-items: center; gap: 6px; text-decoration: none; border-color: #856404; color: #856404; white-space: nowrap;">
+                <i data-lucide="video" style="width: 14px; height: 14px;"></i>
+                Book Video Call
+              </a>
+            </div>
+          </div>
+
+          <!-- Studio Visuals & Raw Photo Transparency Box -->
+          <div class="pd__ai-transparency" style="background: rgba(255, 248, 235, 0.95); border: 1px solid rgba(212, 175, 55, 0.45); border-radius: 10px; padding: 14px 16px; margin-top: 16px;">
+            <div style="display: flex; align-items: flex-start; gap: 10px;">
+              <i data-lucide="camera" style="width: 20px; height: 20px; color: #B38F24; flex-shrink: 0; margin-top: 2px;"></i>
+              <div style="font-size: 0.84rem; line-height: 1.55; color: #4A3E30;">
+                <strong style="color: #2C1820; display: block; margin-bottom: 3px; font-weight: 700;">📸 Visual Authenticity &amp; Live Photos:</strong>
+                Our showcase photos are studio-enhanced with AI referencing our original handcrafted pieces. The actual physical product closely resembles these visuals. Want to see unedited raw photos or a live video before purchasing? 
+                <a href="https://wa.me/919844758450?text=Hi!%20Please%20share%20raw%20photos%20or%20a%20live%20video%20clip%20of%20${encodeURIComponent(product.name)}%20(ID:%20${prodCode})" target="_blank" style="color: #25D366; font-weight: 700; text-decoration: underline; margin-left: 4px;">Request Raw Images on WhatsApp &rarr;</a>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     `;
@@ -1344,6 +1393,26 @@ app.get('/checkout', (req, res) => {
 // Serve Admin Dashboard
 app.get(['/admin', '/admin.html'], (req, res) => {
   res.sendFile(path.join(__dirname, 'admin.html'));
+});
+
+// Serve Bridal & Temple Jewellery Landing Pages
+app.get('/bridal-jewellery-bangalore', (req, res) => {
+  res.sendFile(path.join(__dirname, 'bridal-jewellery-bangalore.html'));
+});
+
+app.get('/temple-jewellery-bangalore', (req, res) => {
+  res.sendFile(path.join(__dirname, 'temple-jewellery-bangalore.html'));
+});
+
+// Serve blog guide pages
+app.get('/blog/:slug', (req, res) => {
+  const slug = req.params.slug;
+  const filePath = path.join(__dirname, 'blog', `${slug}.html`);
+  if (fs.existsSync(filePath)) {
+    res.sendFile(filePath);
+  } else {
+    res.status(404).sendFile(path.join(__dirname, '404.html'));
+  }
 });
 
 // Serve areas location pages specifically

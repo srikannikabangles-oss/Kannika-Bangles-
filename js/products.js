@@ -1086,14 +1086,64 @@ const PRODUCTS = [
     "inStock": true,
     "badge": null,
     "featured": true
+  },
+  {
+    "id": 47,
+    "code": "KB-NEC-047",
+    "sku": "KB-NEC-047",
+    "type": "necklaces",
+    "name": "Heritage Lakshmi Temple Haram",
+    "category": "necklaces",
+    "price": 3450,
+    "originalPrice": 4600,
+    "image": "images/necklaces/IMG-20260717-WA0004.jpg",
+    "images": [
+      "images/necklaces/IMG-20260717-WA0004.jpg"
+    ],
+    "description": "Grand handcrafted antique Lakshmi temple necklace set with intricately carved nakshi peacocks, kemp red spinels, and matching jhumkas for South Indian brides.",
+    "material": "Brass Base, Micro Gold Plated",
+    "finish": "Antique Heritage Matte Gold",
+    "stones": "Kemp Ruby, Emerald & Kundan Stones",
+    "sizes": [
+      "Standard"
+    ],
+    "inStock": true,
+    "badge": "royal",
+    "featured": true
+  },
+  {
+    "id": 48,
+    "code": "KB-BAN-048",
+    "sku": "KB-BAN-048",
+    "type": "bangles",
+    "name": "Kundan Peacock Bridal Kada",
+    "category": "bangles",
+    "price": 1680,
+    "originalPrice": 2400,
+    "image": "images/products/bangles_IMG-20260520-WA0037.jpg",
+    "images": [
+      "images/products/bangles_IMG-20260520-WA0037.jpg"
+    ],
+    "description": "Opulent openable bridal kada featuring majestic embossed peacock artistry, sparkling uncut polki kundan stones, and lustrous micro-gold plating.",
+    "material": "Brass Base, Micro Gold Plated",
+    "finish": "Antique Gold Polish",
+    "stones": "Kundan, AD Stones & Kemp Pearls",
+    "sizes": [
+      "2.4",
+      "2.6",
+      "2.8"
+    ],
+    "inStock": true,
+    "badge": "trending",
+    "featured": true
   }
 ];
 
 const CATEGORIES = [
-  { id: "all", name: "All Collections", icon: "gem", count: 46 },
-  { id: "bangles", name: "Bangles", icon: "circle", count: 14 },
+  { id: "all", name: "All Collections", icon: "gem", count: 48 },
+  { id: "bangles", name: "Bangles", icon: "circle", count: 15 },
   { id: "pendant-sets", name: "Pendant Sets", icon: "sparkles", count: 14 },
-  { id: "necklaces", name: "Necklaces", icon: "gem", count: 6 },
+  { id: "necklaces", name: "Necklaces", icon: "gem", count: 7 },
   { id: "earrings", name: "Earrings", icon: "sparkles", count: 12 }
 ];
 
@@ -1121,23 +1171,34 @@ const TESTIMONIALS = [
   }
 ];
 
-// Helper functions
+// Live Helper functions
+function getActiveProducts() {
+  if (typeof window !== 'undefined' && Array.isArray(window.PRODUCTS) && window.PRODUCTS.length > 0) {
+    return window.PRODUCTS;
+  }
+  return PRODUCTS;
+}
+
 function getProductById(id) {
-  return PRODUCTS.find(p => p.id === parseInt(id));
+  const list = getActiveProducts();
+  return list.find(p => p.id === parseInt(id));
 }
 
 function getProductByCode(code) {
   if (!code) return null;
-  return PRODUCTS.find(p => p.code && p.code.toLowerCase() === code.trim().toLowerCase());
+  const list = getActiveProducts();
+  return list.find(p => p.code && p.code.toLowerCase() === code.trim().toLowerCase());
 }
 
 function getProductsByCategory(category) {
-  if (category === 'all') return PRODUCTS;
-  return PRODUCTS.filter(p => p.category === category);
+  const list = getActiveProducts();
+  if (category === 'all') return list;
+  return list.filter(p => p.category === category || p.type === category);
 }
 
 function getFeaturedProducts() {
-  return PRODUCTS.filter(p => p.featured);
+  const list = getActiveProducts();
+  return list.filter(p => p.featured);
 }
 
 function formatPrice(price) {
@@ -1161,4 +1222,33 @@ function getStarRating(rating) {
   if (hasHalf) stars += '\u00BD';
   stars += '\u2606'.repeat(Math.max(0, 5 - fullStars - (hasHalf ? 1 : 0)));
   return stars;
+}
+
+// Global live product catalog loader
+async function fetchLiveProducts() {
+  try {
+    const res = await fetch('/api/products');
+    if (res.ok) {
+      const data = await res.json();
+      if (Array.isArray(data) && data.length > 0) {
+        window.PRODUCTS = data;
+        return data;
+      }
+    }
+  } catch (e) {
+    console.warn('Live catalog fetch error:', e);
+  }
+  return (typeof window !== 'undefined' && window.PRODUCTS) || PRODUCTS;
+}
+
+// Auto-sync live products on page load
+if (typeof window !== 'undefined') {
+  window.fetchLiveProducts = fetchLiveProducts;
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      fetchLiveProducts().catch(() => {});
+    });
+  } else {
+    fetchLiveProducts().catch(() => {});
+  }
 }

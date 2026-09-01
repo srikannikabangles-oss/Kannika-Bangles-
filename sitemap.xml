@@ -7,6 +7,8 @@
   <url><loc>https://kannikabangles.com/pendant-sets</loc><lastmod>2026-08-21</lastmod><priority>0.95</priority></url>
   <url><loc>https://kannikabangles.com/necklaces</loc><lastmod>2026-08-21</lastmod><priority>0.95</priority></url>
   <url><loc>https://kannikabangles.com/earrings</loc><lastmod>2026-08-21</lastmod><priority>0.95</priority></url>
+  <url><loc>https://kannikabangles.com/bridal-jewellery-bangalore</loc><lastmod>2026-09-01</lastmod><priority>0.95</priority></url>
+  <url><loc>https://kannikabangles.com/temple-jewellery-bangalore</loc><lastmod>2026-09-01</lastmod><priority>0.95</priority></url>
   <url><loc>https://kannikabangles.com/about.html</loc><lastmod>2026-08-21</lastmod><priority>0.85</priority></url>
   <url><loc>https://kannikabangles.com/contact.html</loc><lastmod>2026-08-21</lastmod><priority>0.85</priority></url>
   <url><loc>https://kannikabangles.com/gallery.html</loc><lastmod>2026-08-21</lastmod><priority>0.80</priority></url>
@@ -15,6 +17,9 @@
 
   <!-- Locality / Area Landing Pages -->
   <url><loc>https://kannikabangles.com/areas/malleshwaram</loc><lastmod>2026-08-21</lastmod><priority>0.90</priority></url>
+  <url><loc>https://kannikabangles.com/areas/chickpet</loc><lastmod>2026-09-01</lastmod><priority>0.88</priority></url>
+  <url><loc>https://kannikabangles.com/areas/commercial-street</loc><lastmod>2026-09-01</lastmod><priority>0.88</priority></url>
+  <url><loc>https://kannikabangles.com/areas/whitefield</loc><lastmod>2026-09-01</lastmod><priority>0.88</priority></url>
   <url><loc>https://kannikabangles.com/areas/koramangala</loc><lastmod>2026-08-21</lastmod><priority>0.85</priority></url>
   <url><loc>https://kannikabangles.com/areas/indiranagar</loc><lastmod>2026-08-21</lastmod><priority>0.85</priority></url>
   <url><loc>https://kannikabangles.com/areas/jayanagar</loc><lastmod>2026-08-21</lastmod><priority>0.85</priority></url>
@@ -25,13 +30,15 @@
   <url><loc>https://kannikabangles.com/blog/bridal-jewellery-shopping-guide-malleshwaram-bangalore</loc><lastmod>2026-08-21</lastmod><priority>0.80</priority></url>
   <url><loc>https://kannikabangles.com/blog/kundan-vs-jadau-vs-ad-stone-bangles</loc><lastmod>2026-08-21</lastmod><priority>0.80</priority></url>
   <url><loc>https://kannikabangles.com/blog/south-indian-bridal-jewellery-ceremony-guide</loc><lastmod>2026-08-21</lastmod><priority>0.80</priority></url>
+  <url><loc>https://kannikabangles.com/blog/how-to-choose-bridal-jewellery-for-south-indian-weddings</loc><lastmod>2026-09-01</lastmod><priority>0.85</priority></url>
+  <url><loc>https://kannikabangles.com/blog/top-places-for-bridal-imitation-jewellery-shopping-bangalore</loc><lastmod>2026-09-01</lastmod><priority>0.85</priority></url>
 
   <!-- Policy Pages -->
   <url><loc>https://kannikabangles.com/delivery-policy.html</loc><lastmod>2026-08-21</lastmod><priority>0.50</priority></url>
   <url><loc>https://kannikabangles.com/exchange-policy.html</loc><lastmod>2026-08-21</lastmod><priority>0.50</priority></url>
   <url><loc>https://kannikabangles.com/no-return-policy.html</loc><lastmod>2026-08-21</lastmod><priority>0.50</priority></url>
 
-  <!-- Individual Products Catalog (1 to 46) -->
+  <!-- Individual Products Catalog (1 to 48) -->
   <url><loc>https://kannikabangles.com/product/1</loc><lastmod>2026-08-21</lastmod><priority>0.80</priority></url>
   <url><loc>https://kannikabangles.com/product/2</loc><lastmod>2026-08-21</lastmod><priority>0.80</priority></url>
   <url><loc>https://kannikabangles.com/product/3</loc><lastmod>2026-08-21</lastmod><priority>0.80</priority></url>
@@ -78,4 +85,6 @@
   <url><loc>https://kannikabangles.com/product/44</loc><lastmod>2026-08-21</lastmod><priority>0.80</priority></url>
   <url><loc>https://kannikabangles.com/product/45</loc><lastmod>2026-08-21</lastmod><priority>0.80</priority></url>
   <url><loc>https://kannikabangles.com/product/46</loc><lastmod>2026-08-21</lastmod><priority>0.80</priority></url>
+  <url><loc>https://kannikabangles.com/product/47</loc><lastmod>2026-09-01</lastmod><priority>0.85</priority></url>
+  <url><loc>https://kannikabangles.com/product/48</loc><lastmod>2026-09-01</lastmod><priority>0.85</priority></url>
 </urlset>

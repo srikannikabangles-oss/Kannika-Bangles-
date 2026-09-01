@@ -17,20 +17,29 @@ document.addEventListener('DOMContentLoaded', async () => {
     return;
   }
 
-  currentProduct = (typeof getProductById === 'function') ? getProductById(productId) : null;
-  if (!currentProduct) {
-    try {
-      const res = await fetch(`/api/products/${productId}`);
-      if (res.ok) currentProduct = await res.json();
-    } catch (e) {
-      console.warn('Could not fetch product from API:', e);
+  try {
+    const res = await fetch(`/api/products/${productId}`);
+    if (res.ok) {
+      currentProduct = await res.json();
     }
+  } catch (e) {
+    console.warn('Could not fetch product from API:', e);
+  }
+
+  if (!currentProduct && typeof getProductById === 'function') {
+    currentProduct = getProductById(productId);
   }
 
   if (!currentProduct) {
     showProductNotFound();
     return;
   }
+
+  try {
+    if (typeof fetchLiveProducts === 'function') {
+      await fetchLiveProducts();
+    }
+  } catch (e) {}
 
   try {
     if (typeof fetchAllProductRatings !== 'undefined') {
@@ -215,11 +224,81 @@ async function renderProductDetail() {
             <span>Micro Gold Polish</span>
           </div>
         </div>
+
+        <!-- 📍 BANGALORE & PAN-INDIA PINCODE DELIVERY ESTIMATOR -->
+        <div class="pd__pincode-checker" style="background: #FFFDF9; border: 1.5px solid rgba(212, 175, 55, 0.35); border-radius: 12px; padding: 14px 16px; margin-top: 18px;">
+          <label style="font-size: 0.85rem; font-weight: 700; color: var(--text-primary); display: flex; align-items: center; gap: 6px; margin-bottom: 8px;">
+            <i data-lucide="map-pin" style="width: 16px; height: 16px; color: var(--pink-primary);"></i>
+            Check Estimated Delivery Date
+          </label>
+          <div style="display: flex; gap: 8px;">
+            <input type="text" id="deliveryPincodeInput" placeholder="Enter 6-digit PIN code (e.g. 560003)" maxlength="6" style="flex: 1; min-width: 0; padding: 10px 14px; border: 1px solid var(--border-subtle); border-radius: 8px; font-size: 0.9rem; outline: none; background: #fff;">
+            <button type="button" onclick="checkDeliveryPincode()" class="btn btn--outline btn--sm" style="white-space: nowrap; padding: 10px 16px; font-weight: 700; border-color: var(--pink-primary); color: var(--pink-primary); cursor: pointer;">Check</button>
+          </div>
+          <div id="pincodeResult" style="margin-top: 8px; font-size: 0.84rem; display: none; line-height: 1.4;"></div>
+        </div>
+
+        <!-- 👗 SAREE MATCHING & 🎥 VIDEO CALL DUAL ACTION BOX -->
+        <div style="background: linear-gradient(135deg, rgba(255, 245, 248, 0.9) 0%, rgba(255, 252, 245, 0.9) 100%); border: 1px solid rgba(212, 69, 106, 0.25); border-radius: 12px; padding: 14px 16px; margin-top: 16px; display: flex; flex-direction: column; gap: 10px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap;">
+            <div style="font-size: 0.85rem; color: var(--text-primary);">
+              <strong style="display: block; color: var(--pink-primary); margin-bottom: 2px;">👗 Saree &amp; Lehenga Matching:</strong>
+              Need help matching your saree border or lehenga color?
+            </div>
+            <a href="https://wa.me/919844758450?text=Hi!%20I%20would%20like%20help%20matching%20my%20saree%20with%20${encodeURIComponent(currentProduct.name)}%20(ID:%20${prodCode}).%20Here%20is%20my%20outfit%20photo:" target="_blank" class="btn btn--sm btn--primary" style="font-size: 0.8rem; padding: 8px 12px; display: inline-flex; align-items: center; gap: 6px; text-decoration: none; white-space: nowrap;">
+              <i data-lucide="camera" style="width: 14px; height: 14px;"></i>
+              Send Saree Photo
+            </a>
+          </div>
+          <div style="border-top: 1px dashed rgba(212, 175, 55, 0.35); padding-top: 8px; display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap;">
+            <div style="font-size: 0.85rem; color: var(--text-primary);">
+              <strong style="display: block; color: #856404; margin-bottom: 2px;">🎥 Live 5-Min Video Call:</strong>
+              Inspect weight, luster &amp; stone shine in real-time.
+            </div>
+            <a href="https://wa.me/919844758450?text=Hi!%20I%20would%20like%20to%20schedule%20a%20quick%205-min%20video%20call%20to%20view%20${encodeURIComponent(currentProduct.name)}%20(ID:%20${prodCode})%20live." target="_blank" class="btn btn--sm btn--outline" style="font-size: 0.8rem; padding: 8px 12px; display: inline-flex; align-items: center; gap: 6px; text-decoration: none; border-color: #856404; color: #856404; white-space: nowrap;">
+              <i data-lucide="video" style="width: 14px; height: 14px;"></i>
+              Book Video Call
+            </a>
+          </div>
+        </div>
+
+        <!-- Studio Visuals & Raw Photo Transparency Box -->
+        <div class="pd__ai-transparency" style="background: rgba(255, 248, 235, 0.95); border: 1px solid rgba(212, 175, 55, 0.45); border-radius: 10px; padding: 14px 16px; margin-top: 16px;">
+          <div style="display: flex; align-items: flex-start; gap: 10px;">
+            <i data-lucide="camera" style="width: 20px; height: 20px; color: #B38F24; flex-shrink: 0; margin-top: 2px;"></i>
+            <div style="font-size: 0.84rem; line-height: 1.55; color: #4A3E30;">
+              <strong style="color: #2C1820; display: block; margin-bottom: 3px; font-weight: 700;">📸 Visual Authenticity &amp; Live Photos:</strong>
+              Our showcase photos are studio-enhanced with AI referencing our original handcrafted pieces. The actual physical product closely resembles these visuals. Want to see unedited raw photos or a live video before purchasing? 
+              <a href="https://wa.me/919844758450?text=Hi!%20Please%20share%20raw%20photos%20or%20a%20live%20video%20clip%20of%20${encodeURIComponent(currentProduct.name)}%20(ID:%20${prodCode})" target="_blank" style="color: #25D366; font-weight: 700; text-decoration: underline; margin-left: 4px;">Request Raw Images on WhatsApp &rarr;</a>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   `;
 
   if (typeof lucide !== 'undefined') lucide.createIcons();
+}
+
+function checkDeliveryPincode() {
+  const input = document.getElementById('deliveryPincodeInput');
+  const result = document.getElementById('pincodeResult');
+  if (!input || !result) return;
+  const pin = input.value.trim();
+  if (!/^\d{6}$/.test(pin)) {
+    result.style.display = 'block';
+    result.style.color = '#c0392b';
+    result.innerHTML = '⚠️ Please enter a valid 6-digit Indian PIN code.';
+    return;
+  }
+  result.style.display = 'block';
+  if (pin.startsWith('560') || pin.startsWith('561') || pin.startsWith('562')) {
+    result.style.color = '#1b7e41';
+    result.innerHTML = '🚀 <strong>Bangalore Express Delivery:</strong> Dispatched in 24–48 hours from our Malleshwaram showroom! Same-day courier option available.';
+  } else {
+    result.style.color = '#1b7e41';
+    result.innerHTML = '🚚 <strong>Pan-India Insured Express:</strong> Delivery in 7–10 days with live SMS/WhatsApp tracking and tamper-proof packaging.';
+  }
 }
 
 function switchImage(index, thumb) {
@@ -283,10 +362,12 @@ function renderRelatedProducts() {
   const container = document.getElementById('relatedProducts');
   if (!container || !currentProduct) return;
 
+  const catalog = (typeof getActiveProducts === 'function') ? getActiveProducts() : (typeof window !== 'undefined' && window.PRODUCTS ? window.PRODUCTS : PRODUCTS);
+
   // Filter 4 related products (prefer same category, then others)
-  let related = PRODUCTS.filter(p => p.id !== currentProduct.id && p.category === currentProduct.category);
+  let related = catalog.filter(p => p.id !== currentProduct.id && p.category === currentProduct.category);
   if (related.length < 4) {
-    const others = PRODUCTS.filter(p => p.id !== currentProduct.id && p.category !== currentProduct.category);
+    const others = catalog.filter(p => p.id !== currentProduct.id && p.category !== currentProduct.category);
     related = related.concat(others);
   }
   related = related.slice(0, 4);

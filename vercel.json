@@ -63,6 +63,14 @@
   },
   "rewrites": [
     {
+      "source": "/bridal-jewellery-bangalore",
+      "destination": "/bridal-jewellery-bangalore.html"
+    },
+    {
+      "source": "/temple-jewellery-bangalore",
+      "destination": "/temple-jewellery-bangalore.html"
+    },
+    {
       "source": "/bangles",
       "destination": "/api"
     },

@@ -12,7 +12,11 @@ document.addEventListener('DOMContentLoaded', () => {
           window.Clerk.openSignIn();
         }, 1500);
       } else {
-        renderWishlist();
+        if (typeof fetchLiveProducts === 'function') {
+          fetchLiveProducts().then(() => renderWishlist()).catch(() => renderWishlist());
+        } else {
+          renderWishlist();
+        }
       }
     }
   }, 100);

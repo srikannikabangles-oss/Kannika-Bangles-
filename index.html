@@ -208,10 +208,10 @@
       <ul class="navbar__links" id="navLinks" role="menubar">
         <li role="none"><a href="/index.html" class="navbar__link" role="menuitem">Home</a></li>
         
-        <!-- Jewellery Dropdown (New Category Pages) -->
+        <!-- Our Jewellery Dropdown -->
         <li role="none" class="navbar__dropdown-item">
           <a href="/shop" class="navbar__link navbar__link--has-dropdown" role="menuitem" aria-haspopup="true">
-            Jewellery <i data-lucide="chevron-down" style="width: 13px; height: 13px; margin-left: 2px;"></i>
+            Our Jewellery <i data-lucide="chevron-down" style="width: 13px; height: 13px; margin-left: 2px;"></i>
           </a>
           <ul class="navbar__dropdown-menu">
             <li>
@@ -219,7 +219,25 @@
                 <span class="navbar__dropdown-icon"><i data-lucide="gem"></i></span>
                 <span class="navbar__dropdown-text">
                   <span class="navbar__dropdown-title">All Collections</span>
-                  <span class="navbar__dropdown-desc">Explore complete bridal showcase</span>
+                  <span class="navbar__dropdown-desc">Explore complete 48-piece showcase</span>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="/bridal-jewellery-bangalore" class="navbar__dropdown-link">
+                <span class="navbar__dropdown-icon"><i data-lucide="sparkles"></i></span>
+                <span class="navbar__dropdown-text">
+                  <span class="navbar__dropdown-title">Bridal Jewellery Bangalore</span>
+                  <span class="navbar__dropdown-desc">Complete wedding sets &amp; suites</span>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="/temple-jewellery-bangalore" class="navbar__dropdown-link">
+                <span class="navbar__dropdown-icon"><i data-lucide="gem"></i></span>
+                <span class="navbar__dropdown-text">
+                  <span class="navbar__dropdown-title">Temple Jewellery</span>
+                  <span class="navbar__dropdown-desc">Antique matte Nakshi &amp; Lakshmi harams</span>
                 </span>
               </a>
             </li>
@@ -236,8 +254,8 @@
               <a href="/necklaces" class="navbar__dropdown-link">
                 <span class="navbar__dropdown-icon"><i data-lucide="gem"></i></span>
                 <span class="navbar__dropdown-text">
-                  <span class="navbar__dropdown-title">Bridal Necklaces &amp; Chokers</span>
-                  <span class="navbar__dropdown-desc">Royal choker sets, temple harams &amp; nakshi</span>
+                  <span class="navbar__dropdown-title">Necklaces &amp; Chokers</span>
+                  <span class="navbar__dropdown-desc">Royal choker sets &amp; layered harams</span>
                 </span>
               </a>
             </li>
@@ -276,6 +294,24 @@
                 <span class="navbar__dropdown-text">
                   <span class="navbar__dropdown-title">All Bridal Guides</span>
                   <span class="navbar__dropdown-desc">Explore styling tips &amp; jewellery advice</span>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="/blog/how-to-choose-bridal-jewellery-for-south-indian-weddings" class="navbar__dropdown-link">
+                <span class="navbar__dropdown-icon"><i data-lucide="sparkles"></i></span>
+                <span class="navbar__dropdown-text">
+                  <span class="navbar__dropdown-title">South Indian Bridal Guide</span>
+                  <span class="navbar__dropdown-desc">3-tier layering &amp; saree coordination</span>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="/blog/top-places-for-bridal-imitation-jewellery-shopping-bangalore" class="navbar__dropdown-link">
+                <span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span>
+                <span class="navbar__dropdown-text">
+                  <span class="navbar__dropdown-title">Bangalore Shopping Guide</span>
+                  <span class="navbar__dropdown-desc">Malleshwaram vs Chickpet vs Jayanagar</span>
                 </span>
               </a>
             </li>
@@ -339,6 +375,33 @@
                 <span class="navbar__dropdown-text">
                   <span class="navbar__dropdown-title">Malleshwaram</span>
                   <span class="navbar__dropdown-desc">Flagship showroom on Sampige Road</span>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="/areas/chickpet" class="navbar__dropdown-link">
+                <span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span>
+                <span class="navbar__dropdown-text">
+                  <span class="navbar__dropdown-title">Chickpet</span>
+                  <span class="navbar__dropdown-desc">Boutique alternative to wholesale rush</span>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="/areas/commercial-street" class="navbar__dropdown-link">
+                <span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span>
+                <span class="navbar__dropdown-text">
+                  <span class="navbar__dropdown-title">Commercial Street</span>
+                  <span class="navbar__dropdown-desc">Royal Polki &amp; Sangeet suites</span>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="/areas/whitefield" class="navbar__dropdown-link">
+                <span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span>
+                <span class="navbar__dropdown-text">
+                  <span class="navbar__dropdown-title">Whitefield</span>
+                  <span class="navbar__dropdown-desc">Express delivery to IT corridors</span>
                 </span>
               </a>
             </li>
@@ -449,7 +512,7 @@
 
       <!-- RIGHT COLUMN: 2x2 Square Product Cards Showcase Grid (1 from each category) -->
       <div class="hero__split-right">
-        <div class="hero-square-grid">
+        <div class="hero-square-grid" id="heroSquareGrid">
           
           <!-- 1. Bangle -->
           <a href="/product/1" class="hero-square-card">
@@ -818,7 +881,7 @@
   <!-- ═══════════════════════════════════════════════════
        FOOTER
        ═══════════════════════════════════════════════════ -->
-  <footer class="footer">
+    <footer class="footer">
     <div class="footer__grid">
       <div class="footer__col">
         <div class="footer__brand-name"><span>Kannika</span> Bangles</div>
@@ -826,16 +889,19 @@
       </div>
       <div class="footer__col">
         <h4 class="footer__heading">Quick Links</h4>
-        <a href="/index.html" class="footer__link">Home</a>
+        <a href="/" class="footer__link">Home</a>
         <a href="/shop" class="footer__link">Shop All</a>
-        <a href="/bangles" class="footer__link">Bangles Collection</a>
+        <a href="/bridal-jewellery-bangalore" class="footer__link">Bridal Jewellery</a>
+        <a href="/temple-jewellery-bangalore" class="footer__link">Temple Jewellery</a>
         <a href="/about.html" class="footer__link">Our Story</a>
         <a href="/contact.html" class="footer__link">Contact Us</a>
       </div>
       <div class="footer__col">
         <h4 class="footer__heading">Categories</h4>
         <a href="/bangles" class="footer__link">Bangles</a>
+        <a href="/necklaces" class="footer__link">Necklaces</a>
         <a href="/pendant-sets" class="footer__link">Pendant Sets</a>
+        <a href="/earrings" class="footer__link">Earrings</a>
       </div>
       <div class="footer__col">
         <h4 class="footer__heading">Policies</h4>
@@ -860,7 +926,7 @@
       </div>
     </div>
     <div class="footer__bottom">
-      <p>&copy; 2026 Kannika Bangles. All rights reserved. Crafted with ?? in Bangalore.</p>
+      <p>&copy; 2026 Kannika Bangles. All rights reserved. Crafted with 💛 in Bangalore.</p>
     </div>
   </footer>
 
@@ -976,10 +1042,78 @@
         if (typeof lucide !== 'undefined') lucide.createIcons();
       }
 
-      /* --- Initialize Everything --- */
+      /* --- Render Hero Square Grid (4 Signature Products - 1 from each Category) --- */
+      function renderHeroSquareGrid(allProducts) {
+        const container = document.getElementById('heroSquareGrid');
+        if (!container || !allProducts || allProducts.length === 0) return;
+
+        const categories = [
+          { cat: 'bangles', defaultBadge: '★ Bestseller' },
+          { cat: 'pendant-sets', defaultBadge: 'Featured' },
+          { cat: 'necklaces', defaultBadge: 'Royal Heritage' },
+          { cat: 'earrings', defaultBadge: 'New Design' }
+        ];
+
+        const heroItems = [];
+        categories.forEach(item => {
+          const prod = allProducts.find(p => (p.category === item.cat || p.type === item.cat) && p.featured) ||
+                       allProducts.find(p => p.category === item.cat || p.type === item.cat);
+          if (prod) {
+            let badgeText = item.defaultBadge;
+            if (prod.badge) {
+              badgeText = prod.badge === 'bestseller' ? '★ Bestseller' 
+                        : prod.badge === 'sale' ? 'Sale' 
+                        : prod.badge === 'new' ? 'New Design' 
+                        : prod.badge === 'featured' ? '★ Featured' 
+                        : prod.badge;
+            }
+            heroItems.push({ prod, badge: badgeText });
+          }
+        });
+
+        if (heroItems.length === 0) return;
+
+        container.innerHTML = heroItems.map(({ prod, badge }) => {
+          const imgSrc = (typeof getProductImageUrl === 'function') 
+            ? getProductImageUrl(prod.image) 
+            : (prod.image.startsWith('/') ? prod.image : '/' + prod.image);
+          return `
+            <a href="/product/${prod.id}" class="hero-square-card">
+              ${badge ? `<span class="hero-square-card__badge">${badge}</span>` : ''}
+              <div class="hero-square-card__img-wrap">
+                <img src="${imgSrc}" alt="${prod.name} - Kannika Bangles" loading="eager" fetchpriority="high">
+              </div>
+              <div class="hero-square-card__info">
+                <span class="hero-square-card__name">${prod.name}</span>
+                <span class="hero-square-card__price">${formatPrice(prod.price)}</span>
+              </div>
+            </a>
+          `;
+        }).join('');
+      }
+
+      /* --- Initialize Everything with Live MongoDB Catalog --- */
       async function init() {
+        try {
+          const res = await fetch('/api/products');
+          if (res.ok) {
+            const liveData = await res.json();
+            if (Array.isArray(liveData) && liveData.length > 0) {
+              window.PRODUCTS = liveData;
+            }
+          }
+        } catch(e) {
+          console.warn('Could not fetch live products on home:', e);
+        }
+
+        const activeCatalog = (typeof window !== 'undefined' && Array.isArray(window.PRODUCTS) && window.PRODUCTS.length > 0)
+          ? window.PRODUCTS
+          : (typeof PRODUCTS !== 'undefined' ? PRODUCTS : []);
+
+        renderHeroSquareGrid(activeCatalog);
+
         if (typeof fetchAllProductRatings !== 'undefined') {
-          await fetchAllProductRatings();
+          await fetchAllProductRatings().catch(() => {});
         }
         await renderTypeGrid('bangles', 'banglesGrid');
         await renderTypeGrid('pendant-sets', 'pendantSetsGrid');
