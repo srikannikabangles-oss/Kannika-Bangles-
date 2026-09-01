@@ -2185,16 +2185,24 @@ textarea.form-input {
 
 /* Nav backdrop overlay (created dynamically by JS) */
 .nav-backdrop {
-  display: block;
   position: fixed;
   inset: 0;
-  background: rgba(45, 28, 30, 0.45);
+  width: 100vw;
+  height: 100vh;
+  background: rgba(18, 4, 20, 0.65);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
-  z-index: 995;
+  z-index: 995 !important;
   opacity: 0;
+  visibility: hidden;
   pointer-events: none;
-  transition: opacity 0.35s ease;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.nav-backdrop.active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
 }
 
 .nav-backdrop.active {
