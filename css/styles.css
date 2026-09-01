@@ -1294,24 +1294,24 @@ textarea.form-input {
 /* ─── Back to Top ─── */
 .back-to-top {
   position: fixed;
-  bottom: 30px;
-  right: 30px;
-  width: 48px;
-  height: 48px;
-  background: var(--bg-glass);
-  backdrop-filter: blur(12px);
-  border: 1px solid var(--border-gold);
+  bottom: 86px;
+  right: 27px;
+  width: 44px;
+  height: 44px;
+  background: #FFFFFF;
+  border: 1px solid rgba(212, 175, 55, 0.5);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--gold-primary);
+  color: #8B6914;
   cursor: pointer;
   opacity: 0;
   visibility: hidden;
-  transform: translateY(20px);
+  transform: translateY(15px);
   transition: all var(--transition-normal);
-  z-index: 999;
+  z-index: 996;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
 }
 
 .back-to-top.visible {
@@ -1321,39 +1321,51 @@ textarea.form-input {
 }
 
 .back-to-top:hover {
-  background: var(--gold-primary);
-  color: var(--bg-primary);
+  background: #D4AF37;
+  color: #FFFFFF;
   transform: translateY(-3px);
-  box-shadow: var(--shadow-gold-strong);
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
 }
 
 .text-center {
-  text-align: center !important;
+  text-align: center;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
 }
 
 /* ─── Loading Screen ─── */
 .loader {
   position: fixed;
   inset: 0;
-  z-index: 9999;
   background: var(--bg-primary);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  transition: opacity 0.6s ease, visibility 0.6s ease;
+  z-index: 9999;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
 }
 
 .loader.hidden {
   opacity: 0;
   visibility: hidden;
+  pointer-events: none;
 }
 
-.loader__ring {
+.loader__spinner {
   width: 50px;
   height: 50px;
   border: 3px solid var(--border-subtle);
-  border-top-color: var(--gold-primary);
+  border-top-color: var(--pink-primary);
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -1365,13 +1377,13 @@ textarea.form-input {
   color: var(--pink-primary);
 }
 
-/* ─── WhatsApp Float ─── */
+/* ─── WhatsApp Float (Bottom Right Anchor) ─── */
 .whatsapp-float {
   position: fixed;
-  bottom: 90px;
-  right: 30px;
-  width: 56px;
-  height: 56px;
+  bottom: 24px;
+  right: 24px;
+  width: 54px;
+  height: 54px;
   background: #25D366;
   border-radius: 50%;
   display: flex;
@@ -1379,15 +1391,15 @@ textarea.form-input {
   justify-content: center;
   color: white;
   font-size: 1.5rem;
-  box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+  box-shadow: 0 6px 22px rgba(37, 211, 102, 0.45);
   z-index: 998;
   transition: all var(--transition-normal);
   animation: pulse-gold 2s infinite;
 }
 
 .whatsapp-float:hover {
-  transform: scale(1.1);
-  box-shadow: 0 6px 30px rgba(37, 211, 102, 0.5);
+  transform: scale(1.08) translateY(-2px);
+  box-shadow: 0 8px 28px rgba(37, 211, 102, 0.55);
 }
 
 .whatsapp-float svg {
@@ -2788,8 +2800,8 @@ main:not(.login-page):not(.not-found-section),
    ───────────────────────────────────────────────────── */
 .floating-enquiry-btn {
   position: fixed;
-  bottom: 160px;
-  right: 30px;
+  bottom: 24px;
+  right: 90px;
   z-index: 997;
   display: flex;
   align-items: center;
