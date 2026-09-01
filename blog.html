@@ -32,7 +32,8 @@
   <link rel="stylesheet" href="/css/styles.css?v=20260821_103">
   <link rel="stylesheet" href="/css/mobile.css?v=20260821_103">
   <link rel="stylesheet" href="/css/pages.css?v=20260821_103">
-  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js" defer></script>  <link rel="icon" type="image/png" sizes="64x64" href="/images/favicon-64.png">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js" defer></script>
+  <link rel="icon" type="image/png" sizes="64x64" href="/images/favicon-64.png">
   <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-180.png">
   <style>
@@ -43,9 +44,10 @@
     }
     .blog-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 20px;
-      margin-top: 20px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 26px;
+      margin-top: 24px;
+      margin-bottom: 40px;
     }
     .blog-card {
       background: #FFFFFF;
@@ -60,46 +62,46 @@
       transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
     }
     .blog-card:hover {
-      transform: translateY(-4px);
+      transform: translateY(-5px);
       border-color: var(--pink-primary, #800020);
-      box-shadow: 0 10px 30px rgba(212, 69, 106, 0.15);
+      box-shadow: 0 12px 32px rgba(212, 69, 106, 0.16);
     }
     .blog-card__img {
       width: 100%;
-      height: 190px;
+      height: 220px;
       object-fit: cover;
     }
     .blog-card__body {
-      padding: 20px;
+      padding: 24px;
       display: flex;
       flex-direction: column;
       flex-grow: 1;
     }
     .blog-card__tag {
-      font-size: 0.72rem;
+      font-size: 0.75rem;
       font-weight: 700;
       color: var(--pink-primary, #800020);
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
     }
     .blog-card__title {
       font-family: 'Cinzel', serif;
-      font-size: 1.08rem;
+      font-size: 1.15rem;
       font-weight: 700;
       color: var(--text-primary, #2C1820);
-      margin-bottom: 10px;
-      line-height: 1.35;
+      margin-bottom: 12px;
+      line-height: 1.4;
     }
     .blog-card__desc {
-      font-size: 0.88rem;
+      font-size: 0.9rem;
       color: var(--text-secondary, #66555C);
-      line-height: 1.55;
-      margin-bottom: 16px;
+      line-height: 1.6;
+      margin-bottom: 18px;
       flex-grow: 1;
     }
     .blog-card__link {
-      font-size: 0.85rem;
+      font-size: 0.88rem;
       font-weight: 700;
       color: var(--pink-primary, #800020);
       display: inline-flex;
@@ -109,11 +111,16 @@
     @media (max-width: 1100px) {
       .blog-grid {
         grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
       }
     }
-    @media (max-width: 600px) {
+    @media (max-width: 650px) {
       .blog-grid {
         grid-template-columns: 1fr;
+        gap: 18px;
+      }
+      .blog-card__img {
+        height: 190px;
       }
     }
   </style>
@@ -135,7 +142,7 @@
       <ul class="navbar__links" id="navLinks" role="menubar">
         <li role="none"><a href="/index.html" class="navbar__link" role="menuitem">Home</a></li>
         
-                <!-- Jewellery Dropdown (Our Collections) -->
+        <!-- Jewellery Dropdown (Our Collections) -->
         <li role="none" class="navbar__dropdown-item">
           <a href="/shop" class="navbar__link navbar__link--has-dropdown" role="menuitem" aria-haspopup="true">
             Jewellery <i data-lucide="chevron-down" style="width: 13px; height: 13px; margin-left: 2px;"></i>
@@ -234,6 +241,24 @@
               </a>
             </li>
             <li>
+              <a href="/blog/how-to-choose-bridal-jewellery-for-south-indian-weddings" class="navbar__dropdown-link">
+                <span class="navbar__dropdown-icon"><i data-lucide="gem"></i></span>
+                <span class="navbar__dropdown-text">
+                  <span class="navbar__dropdown-title">South Indian Bridal Guide</span>
+                  <span class="navbar__dropdown-desc">3-tier layering &amp; Kanjeevaram styling</span>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="/blog/top-places-for-bridal-imitation-jewellery-shopping-bangalore" class="navbar__dropdown-link">
+                <span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span>
+                <span class="navbar__dropdown-text">
+                  <span class="navbar__dropdown-title">Bangalore Shopping Guide</span>
+                  <span class="navbar__dropdown-desc">Malleshwaram vs Chickpet comparison</span>
+                </span>
+              </a>
+            </li>
+            <li>
               <a href="/blog/bridal-bangles-guide-bangalore-wedding.html" class="navbar__dropdown-link">
                 <span class="navbar__dropdown-icon"><i data-lucide="circle"></i></span>
                 <span class="navbar__dropdown-text">
@@ -293,6 +318,33 @@
                 <span class="navbar__dropdown-text">
                   <span class="navbar__dropdown-title">Malleshwaram</span>
                   <span class="navbar__dropdown-desc">Flagship showroom on Sampige Road</span>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="/areas/chickpet.html" class="navbar__dropdown-link">
+                <span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span>
+                <span class="navbar__dropdown-text">
+                  <span class="navbar__dropdown-title">Chickpet</span>
+                  <span class="navbar__dropdown-desc">Heritage wholesale jewellery corridor</span>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="/areas/commercial-street.html" class="navbar__dropdown-link">
+                <span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span>
+                <span class="navbar__dropdown-text">
+                  <span class="navbar__dropdown-title">Commercial Street</span>
+                  <span class="navbar__dropdown-desc">Trendy party &amp; sangeet jewellery suites</span>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="/areas/whitefield.html" class="navbar__dropdown-link">
+                <span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span>
+                <span class="navbar__dropdown-text">
+                  <span class="navbar__dropdown-title">Whitefield</span>
+                  <span class="navbar__dropdown-desc">East Bangalore express doorstep delivery</span>
                 </span>
               </a>
             </li>
@@ -357,7 +409,29 @@
     <div class="blog-grid-container">
       <div class="blog-grid">
 
-        <!-- Post 1: Bridal Bangles Guide -->
+        <!-- Post 1: South Indian Wedding Bridal Guide -->
+        <a href="/blog/how-to-choose-bridal-jewellery-for-south-indian-weddings" class="blog-card">
+          <img src="/images/hero-banner.png" alt="How to Choose Bridal Jewellery for South Indian Weddings" class="blog-card__img" loading="lazy">
+          <div class="blog-card__body">
+            <span class="blog-card__tag">South Indian Bridal Guide</span>
+            <h2 class="blog-card__title">How to Choose Bridal Jewellery for South Indian Weddings: Complete 2026 Guide</h2>
+            <p class="blog-card__desc">Master styling guide covering the 3-tier necklace layering formula (choker + medium haram + long Lakshmi haram), Kanjeevaram saree pairing, and kada stacking.</p>
+            <span class="blog-card__link">Read Full Guide <i data-lucide="arrow-right" style="width:16px;height:16px;"></i></span>
+          </div>
+        </a>
+
+        <!-- Post 2: Bangalore Imitation Jewellery Shopping Guide -->
+        <a href="/blog/top-places-for-bridal-imitation-jewellery-shopping-bangalore" class="blog-card">
+          <img src="/images/about-hero.png" alt="Top Places for Bridal Imitation Jewellery Shopping in Bangalore" class="blog-card__img" loading="lazy">
+          <div class="blog-card__body">
+            <span class="blog-card__tag">Bangalore Shopping Guide</span>
+            <h2 class="blog-card__title">Top Places for Bridal Imitation Jewellery Shopping in Bangalore (2026 Comparison)</h2>
+            <p class="blog-card__desc">An honest local comparison of Malleshwaram 8th Cross vs Chickpet vs Commercial Street vs Jayanagar, pricing comparison matrices, and 4 quality checkpoints.</p>
+            <span class="blog-card__link">Read Full Guide <i data-lucide="arrow-right" style="width:16px;height:16px;"></i></span>
+          </div>
+        </a>
+
+        <!-- Post 3: Bridal Bangles Guide -->
         <a href="/blog/bridal-bangles-guide-bangalore-wedding" class="blog-card">
           <img src="/images/blog/blog_1.jpg" alt="Bridal bangles set for Bangalore wedding by Kannika Bangles" class="blog-card__img" loading="lazy">
           <div class="blog-card__body">
@@ -368,7 +442,7 @@
           </div>
         </a>
 
-        <!-- Post 2: Kundan vs Jadau vs AD Stone -->
+        <!-- Post 4: Kundan vs Jadau vs AD Stone -->
         <a href="/blog/kundan-vs-jadau-vs-ad-stone-bangles" class="blog-card">
           <img src="/images/blog/blog_2.jpg" alt="Kundan Jadau and AD stone bangles compared side by side" class="blog-card__img" loading="lazy">
           <div class="blog-card__body">
@@ -379,7 +453,7 @@
           </div>
         </a>
 
-        <!-- Post 3: South Indian Ceremony Guide -->
+        <!-- Post 5: South Indian Ceremony Guide -->
         <a href="/blog/south-indian-bridal-jewellery-ceremony-guide" class="blog-card">
           <img src="/images/blog/blog_3.jpg" alt="South Indian bridal jewellery set for wedding ceremonies" class="blog-card__img" loading="lazy">
           <div class="blog-card__body">
@@ -390,7 +464,7 @@
           </div>
         </a>
 
-        <!-- Post 4: Malleshwaram Shopping Guide -->
+        <!-- Post 6: Malleshwaram Shopping Guide -->
         <a href="/blog/bridal-jewellery-shopping-guide-malleshwaram-bangalore" class="blog-card">
           <img src="/images/blog/blog_4.jpg" alt="Bridal jewellery shopping in Malleshwaram Bangalore" class="blog-card__img" loading="lazy">
           <div class="blog-card__body">
@@ -406,7 +480,7 @@
   </main>
 
   <!-- Footer -->
-    <footer class="footer">
+  <footer class="footer">
     <div class="footer__grid">
       <div class="footer__col">
         <div class="footer__brand-name"><span>Kannika</span> Bangles</div>
@@ -455,37 +529,6 @@
     </div>
   </footer>
 
-  <script src="/js/products.js?v=20260821_103"></script>
   <script src="/js/main.js?v=20260821_103"></script>
-
-  <!-- Mobile Bottom Navigation -->
-  <nav class="mobile-bottom-nav" aria-label="Mobile Bottom Navigation">
-    <a href="/index.html" class="mobile-bottom-nav__item" aria-label="Home">
-      <i data-lucide="home" style="width:20px;height:20px;"></i>
-      <span>Home</span>
-    </a>
-    <a href="/shop" class="mobile-bottom-nav__item" aria-label="Shop">
-      <i data-lucide="layout-grid" style="width:20px;height:20px;"></i>
-      <span>Shop</span>
-    </a>
-  </nav>
-
-  <!-- Structured Data JSON-LD (Blog) -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Blog",
-    "name": "Sri Kannika Bangles Jewellery Guides",
-    "description": "Expert insights and styling advice on South Indian bridal bangles, Kundan jewelry, and sizing guides.",
-    "url": "https://kannikabangles.com/blog",
-    "publisher": {
-      "@type": "Organization",
-      "name": "Sri Kannika Bangles",
-      "logo": "https://kannikabangles.com/images/kannika_logo.jpeg"
-    }
-  }
-  </script>
-
-
-  </body>
+</body>
 </html>
