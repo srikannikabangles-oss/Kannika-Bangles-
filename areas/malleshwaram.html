@@ -81,26 +81,10 @@
         <span></span>
       </div>
 
-      <!-- Center: Branding with Logo -->
+      <!-- Center / Left: Branding with Logo -->
       <a href="/index.html" class="navbar__brand" aria-label="Kannika Bangles Home">
         <img src="/images/kannika_logo.jpeg" alt="Kannika Bangles" class="navbar__logo-img">
       </a>
-
-      <!-- Right side: Actions row -->
-      <div class="navbar__actions">
-        <a href="/shop" class="navbar__action-btn" aria-label="Search">
-          <i data-lucide="search" style="width:20px;height:20px;"></i>
-        </a>
-        <div class="navbar__user-menu">
-          <a href="/login.html" class="navbar__user-btn" aria-label="Account">
-            <i data-lucide="user" style="width:20px;height:20px;"></i>
-          </a>
-        </div>
-        <a href="/cart.html" class="navbar__cart" aria-label="Shopping Cart">
-          <i data-lucide="shopping-bag" style="width:20px;height:20px;"></i>
-          <span class="navbar__cart-badge">0</span>
-        </a>
-      </div>
 
       <!-- Navigation Links / Slide-out Menu -->
       <ul class="navbar__links" id="navLinks" role="menubar">
@@ -111,16 +95,16 @@
             <span class="mobile-drawer__title">Sri Kannika Bangles</span>
           </div>
           <button class="mobile-drawer__close" id="navClose" aria-label="Close menu">
-            <i data-lucide="x" style="width:24px;height:24px;"></i>
+            <i data-lucide="x" style="width:22px;height:22px;"></i>
           </button>
         </li>
 
         <li role="none"><a href="/index.html" class="navbar__link" role="menuitem"><span class="navbar__link-text">Home</span></a></li>
         
-        <!-- Jewellery Dropdown (Our Collections) -->
+        <!-- Jewellery Dropdown -->
         <li role="none" class="navbar__dropdown-item">
           <a href="/shop" class="navbar__link navbar__link--has-dropdown" role="menuitem" aria-haspopup="true">
-            <span class="navbar__link-text">Jewellery Collections</span> <i data-lucide="chevron-down" class="dropdown-chevron"></i>
+            <span class="navbar__link-text">Jewellery</span> <i data-lucide="chevron-down" class="dropdown-chevron"></i>
           </a>
           <ul class="navbar__dropdown-menu">
             <li><a href="/shop" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="gem"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">All Collections</span><span class="navbar__dropdown-desc">Explore complete 48-piece showcase</span></span></a></li>
@@ -131,7 +115,7 @@
           </ul>
         </li>
 
-        <!-- Bangalore Bridal Dropdown (Specialized Bangalore Landing Pages) -->
+        <!-- Bangalore Bridal Dropdown -->
         <li role="none" class="navbar__dropdown-item">
           <a href="/bridal-jewellery-bangalore" class="navbar__link navbar__link--has-dropdown" role="menuitem" aria-haspopup="true">
             <span class="navbar__link-text">Bangalore Bridal</span> <i data-lucide="chevron-down" class="dropdown-chevron"></i>
@@ -144,10 +128,10 @@
 
         <li role="none"><a href="/gallery.html" class="navbar__link" role="menuitem"><span class="navbar__link-text">Gallery</span></a></li>
 
-        <!-- Bridal Guides / Blog Dropdown -->
+        <!-- Blog Dropdown -->
         <li role="none" class="navbar__dropdown-item">
           <a href="/blog" class="navbar__link navbar__link--has-dropdown" role="menuitem" aria-haspopup="true">
-            <span class="navbar__link-text">Bridal Guides &amp; Blog</span> <i data-lucide="chevron-down" class="dropdown-chevron"></i>
+            <span class="navbar__link-text">Blog</span> <i data-lucide="chevron-down" class="dropdown-chevron"></i>
           </a>
           <ul class="navbar__dropdown-menu">
             <li><a href="/blog" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="book-open"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">All Bridal Guides</span><span class="navbar__dropdown-desc">Explore styling tips &amp; jewellery advice</span></span></a></li>
@@ -195,8 +179,25 @@
           </div>
         </li>
       </ul>
+
+      <!-- Right side: Actions row -->
+      <div class="navbar__actions">
+        <a href="/shop" class="navbar__action-btn" aria-label="Search">
+          <i data-lucide="search" style="width:19px;height:19px;"></i>
+        </a>
+        <div class="navbar__user-menu">
+          <a href="/login.html" class="navbar__user-btn" aria-label="Account">
+            <i data-lucide="user" style="width:19px;height:19px;"></i>
+          </a>
+        </div>
+        <a href="/cart.html" class="navbar__cart" aria-label="Shopping Cart">
+          <i data-lucide="shopping-bag" style="width:19px;height:19px;"></i>
+          <span class="navbar__cart-badge">0</span>
+        </a>
+      </div>
     </div>
   </nav>
+
 
 
   <!-- Page Hero -->
