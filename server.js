@@ -36,12 +36,12 @@ app.use('/images', express.static(path.join(__dirname, 'images'), {
   immutable: true
 }));
 app.use('/css', express.static(path.join(__dirname, 'css'), {
-  maxAge: '365d',
-  immutable: true
+  maxAge: 0,
+  etag: false
 }));
 app.use('/js', express.static(path.join(__dirname, 'js'), {
-  maxAge: '365d',
-  immutable: true
+  maxAge: 0,
+  etag: false
 }));
 
 // Middleware to redirect .html requests to clean URLs (for SEO)

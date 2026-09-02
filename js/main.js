@@ -210,10 +210,10 @@ function initNavbar() {
       });
     }
 
-    // Mobile Accordion Toggle for Dropdowns (Screen <= 900px)
+    // Mobile Accordion Toggle for Dropdowns (Screen <= 991px)
     links.querySelectorAll('.navbar__link--has-dropdown').forEach(dropdownToggle => {
       dropdownToggle.addEventListener('click', (e) => {
-        if (window.innerWidth <= 900) {
+        if (window.innerWidth <= 991 || window.matchMedia('(max-width: 991px)').matches) {
           e.preventDefault();
           e.stopPropagation();
           const parentItem = dropdownToggle.closest('.navbar__dropdown-item');

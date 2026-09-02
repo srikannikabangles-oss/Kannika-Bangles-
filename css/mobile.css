@@ -203,14 +203,14 @@
     font-size: 0.6rem !important;
   }
 
-  /* Mobile side-drawer Menu */
+  /* Mobile side-drawer Menu (3/4th screen width) */
   .navbar__links {
     position: fixed !important;
     top: 0 !important;
     left: -115vw !important;
     right: auto !important;
-    width: 88vw !important;
-    max-width: 360px !important;
+    width: 78vw !important;
+    max-width: 330px !important;
     height: 100vh !important;
     height: 100dvh !important;
     background: #FFFFFF !important;
@@ -233,7 +233,7 @@
     border-left: none !important;
     box-shadow: 20px 0 60px rgba(0, 0, 0, 0.35) !important;
     margin: 0 !important;
-    z-index: 1001 !important;
+    z-index: 100000 !important;
   }
 
   .navbar__links.open {
@@ -339,6 +339,13 @@
     flex-shrink: 0 !important;
   }
 
+  .navbar__dropdown-item {
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    position: static !important;
+  }
+
   .navbar__dropdown-item.active-accordion > .navbar__link .dropdown-chevron {
     transform: rotate(180deg) !important;
     color: #800020 !important;
@@ -349,9 +356,12 @@
     color: #800020 !important;
   }
 
-  /* 4. Accordion Sub-Menu on Mobile */
+  /* 4. Accordion Sub-Menu on Mobile (Strictly inside drawer) */
   .navbar__dropdown-menu {
     position: static !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
     transform: none !important;
     opacity: 1 !important;
     visibility: visible !important;
@@ -361,18 +371,24 @@
     background: #FAF6F8 !important;
     border-left: 4px solid #D4AF37 !important;
     border-radius: 0 !important;
-    padding: 6px 0 !important;
+    padding: 4px 0 !important;
     margin: 0 !important;
     width: 100% !important;
     max-width: 100% !important;
-    min-width: unset !important;
+    min-width: 100% !important;
+    box-sizing: border-box !important;
     display: none !important;
     flex-direction: column !important;
     gap: 2px !important;
     animation: none !important;
   }
 
-  .navbar__dropdown-item.active-accordion > .navbar__dropdown-menu {
+  .navbar__dropdown-item:hover > .navbar__dropdown-menu {
+    display: none !important;
+  }
+
+  .navbar__dropdown-item.active-accordion > .navbar__dropdown-menu,
+  .navbar__dropdown-item.active-accordion:hover > .navbar__dropdown-menu {
     display: flex !important;
   }
 
@@ -537,19 +553,154 @@
     line-height: 1.5 !important;
   }
 
-  /* Home Page Hero - Perfect clearance under floating header & marquee */
+  /* Home Page Hero - Shifted slightly up with compact, balanced gap */
   .home-page .hero,
   .home-page .hero--royal-split,
   .hero--royal-split {
-    padding-top: calc(var(--nav-height, 64px) + var(--topbar-height, 36px) + 56px) !important;
-    padding-bottom: 60px !important;
+    padding-top: calc(var(--nav-height, 64px) + var(--topbar-height, 36px) + 20px) !important;
+    padding-bottom: 40px !important;
+    min-height: auto !important;
   }
 
   .home-page .hero__split-container,
   .hero__split-container,
   .home-page .hero__inner {
-    padding-top: 16px !important;
-    padding-bottom: 40px !important;
+    padding-top: 0 !important;
+    padding-bottom: 24px !important;
+    gap: 20px !important;
+  }
+
+  .hero__royal-crest {
+    margin-top: 0 !important;
+    margin-bottom: 10px !important;
+  }
+
+  .hero__title--split {
+    font-size: clamp(1.75rem, 6.5vw, 2.25rem) !important;
+    margin-bottom: 12px !important;
+  }
+
+  .hero__tagline-gold {
+    margin-bottom: 10px !important;
+  }
+
+  /* ── 4 Circular Categories in ONE Single Horizontal Line (Small & Shifted Up) ── */
+  .categories-row {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 6px !important;
+    margin-top: 8px !important;
+    margin-bottom: 18px !important;
+    padding: 0 4px !important;
+    width: 100% !important;
+    max-width: 480px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  .cat-circle-card {
+    flex: none !important;
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+  }
+
+  .cat-circle-card__box {
+    width: 62px !important;
+    height: 62px !important;
+    padding: 3px !important;
+    margin: 0 auto !important;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08) !important;
+  }
+
+  .cat-circle-card__name {
+    font-size: 0.65rem !important;
+    font-weight: 700 !important;
+    margin-top: 4px !important;
+    margin-bottom: 0 !important;
+    letter-spacing: 0.02em !important;
+    line-height: 1.2 !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+  }
+
+  .cat-circle-card__action {
+    display: none !important;
+  }
+
+  /* ── 2 Products per Row on Mobile View ── */
+  .featured__grid,
+  .products-grid,
+  .shop-grid,
+  .product-grid,
+  .collection-grid,
+  #banglesGrid,
+  #pendantSetsGrid,
+  #necklacesGrid,
+  #earringsGrid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
+    padding: 0 8px !important;
+  }
+
+  .product-card {
+    border-radius: 12px !important;
+    overflow: hidden !important;
+  }
+
+  .product-card__image {
+    aspect-ratio: 1 / 1 !important;
+  }
+
+  .product-card__image img {
+    aspect-ratio: 1 / 1 !important;
+    object-fit: cover !important;
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  .product-card__body {
+    padding: 10px 8px !important;
+  }
+
+  .product-card__name {
+    font-size: 0.84rem !important;
+    line-height: 1.3 !important;
+    margin-bottom: 4px !important;
+    min-height: 2.6em !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+  }
+
+  .product-card__price-row {
+    margin-bottom: 6px !important;
+    gap: 4px !important;
+    display: flex !important;
+    align-items: baseline !important;
+  }
+
+  .product-card__price {
+    font-size: 0.95rem !important;
+  }
+
+  .product-card__original-price {
+    font-size: 0.75rem !important;
+  }
+
+  .product-card__discount {
+    font-size: 0.65rem !important;
+    padding: 2px 5px !important;
+  }
+
+  .product-card__actions .btn,
+  .product-card__btn {
+    padding: 6px 8px !important;
+    font-size: 0.75rem !important;
   }
 
   /* Product Detail & Shop Pages */
