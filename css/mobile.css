@@ -537,14 +537,19 @@
     line-height: 1.5 !important;
   }
 
-  /* Home Page Hero */
-  .home-page .hero {
-    padding-top: 0 !important;
+  /* Home Page Hero - Perfect clearance under floating header & marquee */
+  .home-page .hero,
+  .home-page .hero--royal-split,
+  .hero--royal-split {
+    padding-top: calc(var(--nav-height, 64px) + var(--topbar-height, 36px) + 56px) !important;
+    padding-bottom: 60px !important;
   }
 
+  .home-page .hero__split-container,
+  .hero__split-container,
   .home-page .hero__inner {
-    padding-top: calc(var(--nav-height, 64px) + var(--topbar-height, 36px) + 36px) !important;
-    padding-bottom: 50px !important;
+    padding-top: 16px !important;
+    padding-bottom: 40px !important;
   }
 
   /* Product Detail & Shop Pages */
