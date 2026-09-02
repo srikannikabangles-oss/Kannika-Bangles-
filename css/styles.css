@@ -1145,6 +1145,16 @@ textarea.form-input {
   flex-shrink: 0;
 }
 
+.footer__contact-item a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.footer__contact-item a:hover {
+  color: var(--pink-primary);
+}
+
 .footer__bottom {
   border-top: 1px solid var(--border-subtle);
   padding: 24px;

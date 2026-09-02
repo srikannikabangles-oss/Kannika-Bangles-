@@ -1,25 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="robots" content="noindex, nofollow">
-  <title>Shop Collections — Kannika Bangles</title>
-  <script>window.location.replace('/shop');</script>
-  <!-- Google Fonts Preconnect -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+const fs = require('fs');
+const path = require('path');
 
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
-
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js" defer></script>  <link rel="icon" type="image/png" sizes="64x64" href="/images/favicon-64.png">
-  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-180.png">
-</head>
-<body>
-  <!-- ─── Navigation ─── -->
+// Common Header Navbar generator
+function getNavbarHtml(activeNav = '') {
+  return `  <!-- ─── Navigation ─── -->
   <nav class="navbar" id="navbar" role="navigation" aria-label="Main navigation">
     <div class="navbar__inner">
       <!-- Left side: hamburger menu button -->
@@ -63,9 +47,9 @@
           </ul>
         </li>
 
-                <!-- Bangalore Bridal Dropdown -->
+        <!-- Bangalore Bridal Dropdown -->
         <li role="none" class="navbar__dropdown-item">
-          <a href="/bridal-jewellery-bangalore" class="navbar__link navbar__link--has-dropdown" role="menuitem" aria-haspopup="true">
+          <a href="/bridal-jewellery-bangalore" class="navbar__link navbar__link--has-dropdown ${activeNav === 'bridal' ? 'active' : ''}" role="menuitem" aria-haspopup="true">
             <span class="navbar__link-text">Bangalore Bridal</span> <i data-lucide="chevron-down" class="dropdown-chevron"></i>
           </a>
           <ul class="navbar__dropdown-menu">
@@ -77,8 +61,8 @@
           </ul>
         </li>
 
-<!-- Simple Direct Blog Link -->
-        <li role="none"><a href="/blog" class="navbar__link" role="menuitem"><span class="navbar__link-text">Blog</span></a></li>
+        <!-- Simple Direct Blog Link -->
+        <li role="none"><a href="/blog" class="navbar__link ${activeNav === 'blog' ? 'active' : ''}" role="menuitem"><span class="navbar__link-text">Blog</span></a></li>
 
         <!-- Areas We Serve Dropdown -->
         <li role="none" class="navbar__dropdown-item">
@@ -130,96 +114,87 @@
         </a>
       </div>
     </div>
-  </nav>
+  </nav>`;
+}
 
-
-
-  <!-- --- Wishlist Page Section --- -->
-  <section class="wishlist-page">
-    <div class="wishlist-page__header">
-      <h1 class="wishlist-page__title">My <span class="text-gold">Wishlist</span></h1>
-      <p class="wishlist-page__subtitle"><span id="wishlistCount">0</span> saved items</p>
-    </div>
-    <div class="container">
-      <div id="wishlistContainer" class="wishlist-grid"></div>
-    </div>
-  </section>
-
-  <!-- --- Footer --- -->
-    <!-- ═══════════════════════════════════════════════════
-       FOOTER
-       ═══════════════════════════════════════════════════ -->
+// Common Footer
+function getFooterHtml() {
+  return `  <!-- ─── Footer ─── -->
   <footer class="footer">
-    <div class="footer__grid">
-      <div class="footer__col">
-        <div class="footer__brand-name"><span>Kannika</span> Bangles</div>
-        <p class="footer__desc">Turning every bride's dream into a beautiful reality. Handcrafted bangles blending tradition with modern style since generations.</p>
-        <div class="footer__social" style="margin-top: 16px;">
-          <a href="https://www.instagram.com/kannikabangles" target="_blank" rel="noopener" class="footer__social-link" aria-label="Instagram"><i data-lucide="instagram" style="width:18px;height:18px;"></i></a>
-          <a href="https://www.facebook.com/kannikabangles" target="_blank" rel="noopener" class="footer__social-link" aria-label="Facebook"><i data-lucide="facebook" style="width:18px;height:18px;"></i></a>
-          <a href="https://wa.me/919844758450" target="_blank" rel="noopener" class="footer__social-link" aria-label="WhatsApp" style="color:#25D366;border-color:rgba(37,211,102,0.4);"><i data-lucide="message-circle" style="width:18px;height:18px;"></i></a>
+    <div class="container footer__grid">
+      <div class="footer__col footer__col--brand">
+        <div class="footer__brand-logo">
+          <img src="/images/kannika_logo.jpeg" alt="Sri Kannika Bangles" style="width:48px;height:48px;border-radius:50%;object-fit:cover;border:2px solid #D4AF37;">
+          <span style="font-family:'Cinzel',serif;font-size:1.3rem;font-weight:700;color:#FDF9F9;">Sri Kannika Bangles</span>
+        </div>
+        <p class="footer__desc" style="margin-top:14px;color:rgba(255,255,255,0.7);font-size:0.9rem;line-height:1.6;">
+          Handcrafted bridal bangles, heritage temple jewellery, and antique bridal sets from Malleshwaram, Bangalore since 1991.
+        </p>
+        <div class="footer__socials" style="margin-top:16px;display:flex;gap:12px;">
+          <a href="https://www.instagram.com/kannikabangles" target="_blank" rel="noopener" aria-label="Instagram" style="color:#D4AF37;"><i data-lucide="instagram"></i></a>
+          <a href="https://www.facebook.com/kannikabangles" target="_blank" rel="noopener" aria-label="Facebook" style="color:#D4AF37;"><i data-lucide="facebook"></i></a>
+          <a href="https://wa.me/919844758450" target="_blank" rel="noopener" aria-label="WhatsApp" style="color:#25D366;"><i data-lucide="message-circle"></i></a>
         </div>
       </div>
+
       <div class="footer__col">
-        <h4 class="footer__heading">Quick Links</h4>
-        <a href="/" class="footer__link">Home</a>
-        <a href="/shop" class="footer__link">Shop All</a>
-        <a href="/bridal-jewellery-bangalore" class="footer__link">Bridal Jewellery</a>
-        <a href="/temple-jewellery-bangalore" class="footer__link">Temple Jewellery</a>
-        <a href="/muhurtham-jewellery-bangalore" class="footer__link">Muhurtham Jewellery</a>
-        <a href="/about.html" class="footer__link">Our Story</a>
-        <a href="/contact.html" class="footer__link">Contact Us</a>
-        <a href="/blog" class="footer__link">Blog &amp; Guides</a>
+        <h3 class="footer__heading" style="font-family:'Cinzel',serif;color:#D4AF37;font-size:1.1rem;margin-bottom:16px;">Quick Links</h3>
+        <ul class="footer__links" style="list-style:none;padding:0;margin:0;line-height:2;">
+          <li><a href="/shop" style="color:rgba(255,255,255,0.8);text-decoration:none;">All Collections</a></li>
+          <li><a href="/bangles" style="color:rgba(255,255,255,0.8);text-decoration:none;">Bridal Bangles &amp; Kadas</a></li>
+          <li><a href="/bridal-jewellery-bangalore" style="color:rgba(255,255,255,0.8);text-decoration:none;">Bridal Jewellery Bangalore</a></li>
+          <li><a href="/temple-jewellery-bangalore" style="color:rgba(255,255,255,0.8);text-decoration:none;">Temple Jewellery Bangalore</a></li>
+          <li><a href="/muhurtham-jewellery-bangalore" style="color:rgba(255,255,255,0.8);text-decoration:none;">Muhurtham Jewellery</a></li>
+          <li><a href="/blog" style="color:rgba(255,255,255,0.8);text-decoration:none;">Bridal Blog &amp; Guides</a></li>
+        </ul>
       </div>
+
       <div class="footer__col">
-        <h4 class="footer__heading">Categories</h4>
-        <a href="/bangles" class="footer__link">Bangles</a>
-        <a href="/necklaces" class="footer__link">Necklaces</a>
-        <a href="/pendant-sets" class="footer__link">Pendant Sets</a>
-        <a href="/earrings" class="footer__link">Earrings</a>
+        <h3 class="footer__heading" style="font-family:'Cinzel',serif;color:#D4AF37;font-size:1.1rem;margin-bottom:16px;">Bangalore Areas</h3>
+        <ul class="footer__links" style="list-style:none;padding:0;margin:0;line-height:2;">
+          <li><a href="/areas/malleshwaram.html" style="color:rgba(255,255,255,0.8);text-decoration:none;">Malleshwaram Flagship</a></li>
+          <li><a href="/areas/chickpet.html" style="color:rgba(255,255,255,0.8);text-decoration:none;">Chickpet Shopping</a></li>
+          <li><a href="/areas/commercial-street.html" style="color:rgba(255,255,255,0.8);text-decoration:none;">Commercial Street</a></li>
+          <li><a href="/areas/jayanagar.html" style="color:rgba(255,255,255,0.8);text-decoration:none;">Jayanagar</a></li>
+          <li><a href="/areas/koramangala.html" style="color:rgba(255,255,255,0.8);text-decoration:none;">Koramangala</a></li>
+          <li><a href="/areas/whitefield.html" style="color:rgba(255,255,255,0.8);text-decoration:none;">Whitefield Delivery</a></li>
+        </ul>
       </div>
+
       <div class="footer__col">
-        <h4 class="footer__heading">Policies</h4>
-        <a href="/no-return-policy.html" class="footer__link">No Return Policy</a>
-        <a href="/exchange-policy.html" class="footer__link">Exchange Policy</a>
-        <a href="/delivery-policy.html" class="footer__link">Delivery Policy</a>
-      </div>
-      <div class="footer__col">
-        <h4 class="footer__heading">Get in Touch</h4>
-        <div class="footer__contact-item">
-          <i data-lucide="map-pin" style="width:18px;height:18px;"></i>
-          <span>No. 157/108, 9th Cross, East Park Road, Malleshwaram, Bengaluru, Karnataka 560003</span>
-        </div>
-        <div class="footer__contact-item">
-          <i data-lucide="phone" style="width:18px;height:18px;"></i>
-          <a href="tel:+919844758450">+91 98447 58450</a>
-        </div>
-        <div class="footer__contact-item">
-          <i data-lucide="mail" style="width:18px;height:18px;"></i>
-          <a href="mailto:Srikannikabangles@gmail.com">Srikannikabangles@gmail.com</a>
-        </div>
+        <h3 class="footer__heading" style="font-family:'Cinzel',serif;color:#D4AF37;font-size:1.1rem;margin-bottom:16px;">Showroom Visit</h3>
+        <p style="color:rgba(255,255,255,0.8);font-size:0.9rem;line-height:1.6;margin-bottom:10px;">
+          <strong>No. 157/108, 9th Cross, East Park Road</strong><br>
+          Malleshwaram, Bangalore - 560003
+        </p>
+        <p style="color:rgba(255,255,255,0.8);font-size:0.9rem;margin-bottom:8px;">
+          <i data-lucide="phone" style="width:14px;height:14px;display:inline-block;vertical-align:middle;margin-right:4px;"></i> +91 98447 58450
+        </p>
+        <p style="color:rgba(255,255,255,0.8);font-size:0.9rem;">
+          <i data-lucide="clock" style="width:14px;height:14px;display:inline-block;vertical-align:middle;margin-right:4px;"></i> Mon–Sat: 10am–8pm | Sun: 11am–6pm
+        </p>
       </div>
     </div>
-    <div class="footer__bottom">
-      <p>&copy; 2026 Kannika Bangles. All rights reserved. Handcrafted in Bengaluru.</p>
+
+    <div class="footer__bottom" style="border-top:1px solid rgba(255,255,255,0.1);padding:20px;text-align:center;color:rgba(255,255,255,0.6);font-size:0.85rem;">
+      <div class="container" style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+        <div>&copy; 2026 Sri Kannika Bangles. All rights reserved. Handcrafted in Bengaluru.</div>
+        <div style="display:flex;gap:16px;">
+          <a href="/delivery-policy.html" style="color:inherit;text-decoration:none;">Delivery Policy</a>
+          <a href="/exchange-policy.html" style="color:inherit;text-decoration:none;">Exchange Policy</a>
+          <a href="/no-return-policy.html" style="color:inherit;text-decoration:none;">Hygiene &amp; Safety</a>
+        </div>
+      </div>
     </div>
   </footer>
 
-  <!-- --- WhatsApp Float --- -->
-  <a href="https://wa.me/919844758450?text=Hi! I'm interested in your bangles collection." class="whatsapp-float" target="_blank" aria-label="Chat on WhatsApp">
-    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-  </a>
+  <!-- Scripts -->
+  <script src="/js/main.js" defer></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.lucide) lucide.createIcons();
+    });
+  </script>`;
+}
 
-  <!-- --- Back to Top --- -->
-  <button class="back-to-top" aria-label="Back to top">
-    <i data-lucide="chevron-up" style="width:22px;height:22px;"></i>
-  </button>
-
-  <!-- --- Scripts --- -->
-  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js" defer></script>
-  <script src="/js/products.js?v=20260821_103"></script>
-  <script src="/js/main.js?v=20260821_103"></script>
-  <!-- MongoDB API backend - Supabase removed -->
-
-  </body>
-</html>
+module.exports = { getNavbarHtml, getFooterHtml };

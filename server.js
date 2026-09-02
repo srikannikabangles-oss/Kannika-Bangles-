@@ -65,6 +65,10 @@ app.use((req, res, next) => {
 });
 
 // 301 Redirects: old query-param URLs → clean category URLs
+app.get(['/gallery', '/gallery.html'], (req, res) => {
+  return res.redirect(301, '/shop');
+});
+
 app.get(['/shop.html', '/shop-template.html'], (req, res) => {
   const category = req.query.category;
   if (category === 'bangles') return res.redirect(301, '/bangles');
@@ -1402,6 +1406,18 @@ app.get('/bridal-jewellery-bangalore', (req, res) => {
 
 app.get('/temple-jewellery-bangalore', (req, res) => {
   res.sendFile(path.join(__dirname, 'temple-jewellery-bangalore.html'));
+});
+
+app.get('/muhurtham-jewellery-bangalore', (req, res) => {
+  res.sendFile(path.join(__dirname, 'muhurtham-jewellery-bangalore.html'));
+});
+
+app.get('/reception-and-sangeet-jewellery-bangalore', (req, res) => {
+  res.sendFile(path.join(__dirname, 'reception-and-sangeet-jewellery-bangalore.html'));
+});
+
+app.get('/haldi-and-mehendi-jewellery-bangalore', (req, res) => {
+  res.sendFile(path.join(__dirname, 'haldi-and-mehendi-jewellery-bangalore.html'));
 });
 
 // Serve blog guide pages

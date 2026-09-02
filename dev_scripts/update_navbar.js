@@ -30,7 +30,6 @@ const newNav = `<ul class="navbar__links" id="navLinks" role="menubar">
             <li><a href="/earrings" class="navbar__dropdown-link"><i data-lucide="sparkles" style="width: 14px; height: 14px;"></i> Earrings</a></li>
           </ul>
         </li>
-        <li role="none"><a href="/gallery.html" class="navbar__link" role="menuitem">Gallery</a></li>
         <li role="none"><a href="/blog" class="navbar__link" role="menuitem">Blog</a></li>
         <li role="none"><a href="/areas" class="navbar__link" role="menuitem">Areas We Serve</a></li>
         <li role="none"><a href="/about.html" class="navbar__link" role="menuitem">About Us</a></li>
