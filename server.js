@@ -696,7 +696,7 @@ app.post('/api/admin/products', requireAdminAuth, async (req, res) => {
 
     const newProduct = new Product({
       id: nextId,
-      type: category === 'pendant-sets' ? 'pendant-set' : 'bangle',
+      type: category === 'pendant-sets' ? 'pendant-set' : category === 'necklaces' ? 'necklace' : category === 'earrings' ? 'earring' : 'bangle',
       name: name.trim(),
       category: category.trim(),
       price: parseFloat(price),
@@ -707,7 +707,9 @@ app.post('/api/admin/products', requireAdminAuth, async (req, res) => {
       material: material || 'Brass / Copper Alloy with 24K Gold Micro-Plating',
       finish: finish || 'Antique Matte Gold',
       stones: stones || 'Hand-set Kundan & AD Stones',
-      sizes: Array.isArray(sizes) && sizes.length > 0 ? sizes : ['2.4', '2.6', '2.8'],
+      sizes: Array.isArray(sizes) && sizes.length > 0 
+        ? sizes 
+        : (category === 'bangles' ? ['2.4', '2.6', '2.8'] : ['Standard']),
       inStock: inStock !== undefined ? Boolean(inStock) : true,
       badge: badge || null,
       featured: Boolean(featured)
