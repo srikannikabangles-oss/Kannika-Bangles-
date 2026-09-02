@@ -27,7 +27,8 @@ if (!MONGODB_URI) {
 // Middleware
 app.use(compression());
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: '30mb' }));
+app.use(express.urlencoded({ limit: '30mb', extended: true }));
 
 // Cache-Control for static assets
 app.use('/images', express.static(path.join(__dirname, 'images'), {
@@ -679,6 +680,44 @@ app.get('/api/admin/products', requireAdminAuth, async (req, res) => {
     res.json(products);
   } catch (err) {
     res.status(500).json({ error: 'Failed to fetch products' });
+  }
+});
+
+// Admin: Upload Product Image
+app.post('/api/admin/upload-image', requireAdminAuth, async (req, res) => {
+  try {
+    const { base64Data, filename, category } = req.body;
+    if (!base64Data) {
+      return res.status(400).json({ error: 'No image data provided' });
+    }
+
+    const matches = base64Data.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
+    let ext = 'jpg';
+    let buffer;
+    if (matches && matches.length === 3) {
+      const mime = matches[1];
+      ext = mime.split('/')[1] || 'jpg';
+      if (ext === 'jpeg') ext = 'jpg';
+      buffer = Buffer.from(matches[2], 'base64');
+    } else {
+      buffer = Buffer.from(base64Data, 'base64');
+    }
+
+    const catFolder = (category && ['bangles', 'pendant-sets', 'necklaces', 'earrings'].includes(category)) ? category : 'products';
+    const targetDir = path.join(__dirname, 'images', catFolder);
+    if (!fs.existsSync(targetDir)) {
+      fs.mkdirSync(targetDir, { recursive: true });
+    }
+
+    const cleanFilename = `${Date.now()}_${(filename || 'product').replace(/[^a-zA-Z0-9_-]/g, '_')}.${ext}`;
+    const filePath = path.join(targetDir, cleanFilename);
+    fs.writeFileSync(filePath, buffer);
+
+    const publicPath = `images/${catFolder}/${cleanFilename}`;
+    res.json({ success: true, imagePath: publicPath });
+  } catch (err) {
+    console.error('[ERROR] uploading image:', err);
+    res.status(500).json({ error: 'Failed to upload image: ' + err.message });
   }
 });
 

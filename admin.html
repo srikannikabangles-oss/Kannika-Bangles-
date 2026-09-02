@@ -584,12 +584,207 @@
       border-bottom: 1px solid var(--border-subtle);
       padding-bottom: 12px;
     }
-    .modal-close {
-      background: none;
-      border: none;
-      color: var(--text-muted);
+    .modal-content--large {
+      max-width: 880px;
+    }
+    .product-modal-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 24px;
+      align-items: start;
+    }
+    .photo-dropzone {
+      border: 2px dashed rgba(212, 175, 55, 0.4);
+      background: rgba(212, 175, 55, 0.04);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      text-align: center;
       cursor: pointer;
-      font-size: 1.2rem;
+      transition: var(--transition);
+      position: relative;
+    }
+    .photo-dropzone:hover, .photo-dropzone.dragover {
+      border-color: var(--gold-primary);
+      background: rgba(212, 175, 55, 0.1);
+    }
+    .photo-dropzone__icon {
+      width: 32px;
+      height: 32px;
+      color: var(--gold-primary);
+      margin: 0 auto 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .photo-dropzone__text {
+      font-size: 0.86rem;
+      font-weight: 600;
+      color: var(--gold-light);
+      margin-bottom: 2px;
+    }
+    .photo-dropzone__subtext {
+      font-size: 0.74rem;
+      color: var(--text-muted);
+    }
+    .photo-preview-wrap {
+      display: none;
+      align-items: center;
+      gap: 12px;
+      background: rgba(0,0,0,0.4);
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-subtle);
+      margin-top: 8px;
+    }
+    .photo-preview-thumb {
+      width: 46px;
+      height: 46px;
+      object-fit: cover;
+      border-radius: 6px;
+      border: 1.5px solid var(--gold-primary);
+    }
+    .live-preview-box {
+      background: #191418;
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      border-radius: var(--radius-md);
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .live-preview-title {
+      font-family: 'Cinzel', serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--gold-light);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      width: 100%;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+      padding-bottom: 8px;
+    }
+    .live-preview-tag {
+      margin-left: auto;
+      background: rgba(16, 185, 129, 0.15);
+      color: #10B981;
+      font-size: 0.65rem;
+      padding: 2px 7px;
+      border-radius: 20px;
+      font-weight: 700;
+    }
+    .preview-card {
+      width: 100%;
+      max-width: 270px;
+      background: #FFFFFF;
+      color: #2C1820;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.35);
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+    .preview-card__image-container {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1;
+      background: #F5F5F5;
+      overflow: hidden;
+    }
+    .preview-card__image-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .preview-card__discount {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: #20B2AA;
+      color: #FFFFFF;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 3px 7px;
+      border-radius: 5px;
+    }
+    .preview-card__stock {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 3px 7px;
+      border-radius: 5px;
+      text-transform: uppercase;
+    }
+    .preview-card__stock.in-stock {
+      background: #10B981;
+      color: #FFFFFF;
+    }
+    .preview-card__stock.out-of-stock {
+      background: #EF4444;
+      color: #FFFFFF;
+    }
+    .preview-card__body {
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+    }
+    .preview-card__category {
+      font-size: 0.72rem;
+      color: #888888;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+    }
+    .preview-card__name {
+      font-family: 'Cinzel', serif;
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: #2C1820;
+      margin-bottom: 6px;
+      line-height: 1.35;
+      min-height: 2.7em;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .preview-card__price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .preview-card__price {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #B38F24;
+    }
+    .preview-card__original {
+      font-size: 0.85rem;
+      color: #999999;
+      text-decoration: line-through;
+    }
+    .preview-card__btn {
+      width: 100%;
+      background: transparent;
+      border: 1.5px solid #20B2AA;
+      color: #20B2AA;
+      padding: 7px 10px;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 0.8rem;
+      text-align: center;
+    }
+    @media (max-width: 768px) {
+      .product-modal-grid {
+        grid-template-columns: 1fr;
+      }
     }
 
     /* ─── TOAST ─── */
@@ -966,57 +1161,123 @@
 
   <!-- ─── ADD/EDIT PRODUCT MODAL ─── -->
   <div class="modal-backdrop" id="productModal">
-    <div class="modal-content">
+    <div class="modal-content modal-content--large">
       <div class="modal-header">
         <h3 class="panel-title" id="productModalTitle">Add New Product</h3>
         <button class="modal-close" onclick="closeModal('productModal')">&times;</button>
       </div>
-      <form id="productForm">
-        <input type="hidden" id="editProductId">
-        <div class="form-group">
-          <label class="form-label" for="prodName">Product Name</label>
-          <input type="text" id="prodName" class="form-control" style="padding-left:14px;" required placeholder="e.g. Royal Kundan Bangle Set">
-        </div>
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+      <div class="product-modal-grid">
+        
+        <!-- Left: Form Controls -->
+        <form id="productForm">
+          <input type="hidden" id="editProductId">
+          <input type="hidden" id="prodImage">
+          
           <div class="form-group">
-            <label class="form-label" for="prodCategory">Category</label>
-            <select id="prodCategory" class="form-control" style="padding-left:14px;" required>
-              <option value="bangles">Bangles</option>
-              <option value="pendant-sets">Pendant Sets</option>
-              <option value="necklaces">Necklaces</option>
-              <option value="earrings">Earrings</option>
-            </select>
+            <label class="form-label" for="prodName">Product Name</label>
+            <input type="text" id="prodName" class="form-control" style="padding-left:14px;" required placeholder="e.g. Royal Antique Kundan Bangle Set">
           </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+            <div class="form-group">
+              <label class="form-label" for="prodCategory">Category</label>
+              <select id="prodCategory" class="form-control" style="padding-left:14px;" required>
+                <option value="bangles">Bangles</option>
+                <option value="pendant-sets">Pendant Sets</option>
+                <option value="necklaces">Necklaces</option>
+                <option value="earrings">Earrings</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="prodPrice">Offer Price (₹)</label>
+              <input type="number" id="prodPrice" class="form-control" style="padding-left:14px;" required placeholder="1499">
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+            <div class="form-group">
+              <label class="form-label" for="prodOriginalPrice">Original Price (₹)</label>
+              <input type="number" id="prodOriginalPrice" class="form-control" style="padding-left:14px;" required placeholder="2499">
+            </div>
+            <div class="form-group">
+              <label class="form-label" style="display:flex; justify-content:space-between;">
+                <span>Product Photo</span>
+              </label>
+              <input type="file" id="prodImageFile" accept="image/*" style="display:none;">
+              <div class="photo-dropzone" id="photoDropzone">
+                <div id="dropzonePrompt">
+                  <div class="photo-dropzone__icon"><i data-lucide="upload-cloud"></i></div>
+                  <div class="photo-dropzone__text">Upload Photo</div>
+                  <div class="photo-dropzone__subtext">Drag & drop or Click to browse</div>
+                </div>
+                <div class="photo-preview-wrap" id="photoPreviewWrap">
+                  <img id="dropzoneThumb" class="photo-preview-thumb" src="/images/hero-banner.png" alt="Preview">
+                  <div style="text-align:left; flex:1; overflow:hidden;">
+                    <div id="dropzoneFileName" style="font-size:0.8rem; font-weight:600; color:var(--text-main); white-space:nowrap; text-overflow:ellipsis; overflow:hidden;">photo.jpg</div>
+                    <div style="font-size:0.7rem; color:var(--gold-primary);">Click to change photo</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Optional manual URL toggle -->
+          <div style="margin:-6px 0 14px; text-align:right;">
+            <span id="toggleManualUrl" style="font-size:0.75rem; color:var(--gold-light); cursor:pointer; text-decoration:underline;">+ Enter image URL or existing path manually</span>
+            <div id="manualUrlWrap" style="display:none; margin-top:8px;">
+              <input type="text" id="prodImageManual" class="form-control" style="padding-left:14px; font-size:0.85rem;" placeholder="e.g. images/bangles/IMG-20260805-WA0007.jpg">
+            </div>
+          </div>
+
           <div class="form-group">
-            <label class="form-label" for="prodPrice">Offer Price (₹)</label>
-            <input type="number" id="prodPrice" class="form-control" style="padding-left:14px;" required placeholder="1499">
+            <label class="form-label" for="prodDescription">Product Description</label>
+            <textarea id="prodDescription" class="form-control" rows="3" style="padding-left:14px;" required placeholder="Detailed handcrafted jewellery description..."></textarea>
+          </div>
+
+          <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
+            <label class="form-label" style="margin:0;">In Stock Availability:</label>
+            <label class="switch">
+              <input type="checkbox" id="prodInStock" checked>
+              <span class="slider"></span>
+            </label>
+            <span id="stockStatusText" style="font-size:0.82rem; color:#10B981; font-weight:600;">Available in Stock</span>
+          </div>
+
+          <button type="submit" class="btn-submit" id="btnSaveProduct">
+            <i data-lucide="save"></i> Save & Publish Product
+          </button>
+        </form>
+
+        <!-- Right: Live Website Card Preview -->
+        <div class="live-preview-box">
+          <div class="live-preview-title">
+            <i data-lucide="eye" style="width:16px;height:16px;"></i>
+            <span>Live Website Preview</span>
+            <span class="live-preview-tag">Real-time</span>
+          </div>
+
+          <div class="preview-card">
+            <div class="preview-card__image-container">
+              <img id="cardPreviewImg" src="/images/hero-banner.png" alt="Card Preview">
+              <div id="cardPreviewDiscount" class="preview-card__discount">-40% OFF</div>
+              <div id="cardPreviewStock" class="preview-card__stock in-stock">In Stock</div>
+            </div>
+            <div class="preview-card__body">
+              <span id="cardPreviewCategory" class="preview-card__category">Bangles</span>
+              <h4 id="cardPreviewName" class="preview-card__name">Royal Antique Kundan Bangle Set</h4>
+              <div class="preview-card__price-row">
+                <span id="cardPreviewPrice" class="preview-card__price">₹1,499</span>
+                <span id="cardPreviewOriginalPrice" class="preview-card__original">₹2,499</span>
+              </div>
+              <div class="preview-card__btn">View Details</div>
+            </div>
+          </div>
+          <div style="font-size:0.72rem; color:var(--text-dim); margin-top:12px; text-align:center;">
+            This is exactly how customers will see this item on the live shop.
           </div>
         </div>
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
-          <div class="form-group">
-            <label class="form-label" for="prodOriginalPrice">Original Price (₹)</label>
-            <input type="number" id="prodOriginalPrice" class="form-control" style="padding-left:14px;" required placeholder="2499">
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="prodImage">Image Path</label>
-            <input type="text" id="prodImage" class="form-control" style="padding-left:14px;" required placeholder="images/hero-banner.png">
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="prodDescription">Product Description</label>
-          <textarea id="prodDescription" class="form-control" rows="3" style="padding-left:14px;" required placeholder="Detailed description..."></textarea>
-        </div>
-        <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
-          <label class="form-label" style="margin:0;">In Stock Availability:</label>
-          <label class="switch">
-            <input type="checkbox" id="prodInStock" checked>
-            <span class="slider"></span>
-          </label>
-        </div>
-        <button type="submit" class="btn-submit">
-          <i data-lucide="save"></i> Save Product
-        </button>
-      </form>
+
+      </div>
     </div>
   </div>
 
@@ -1069,6 +1330,7 @@
       // Product Add/Edit Form
       document.getElementById('btnOpenAddProduct')?.addEventListener('click', openAddProductModal);
       document.getElementById('productForm')?.addEventListener('submit', handleSaveProduct);
+      initProductModalEvents();
     });
 
     function initClock() {
@@ -1592,11 +1854,159 @@
       }
     }
 
+    let pendingFileBase64 = null;
+    let pendingFileName = '';
+
+    function initProductModalEvents() {
+      const dropzone = document.getElementById('photoDropzone');
+      const fileInput = document.getElementById('prodImageFile');
+      const manualWrap = document.getElementById('manualUrlWrap');
+      const toggleManual = document.getElementById('toggleManualUrl');
+
+      if (dropzone && fileInput) {
+        dropzone.addEventListener('click', (e) => {
+          fileInput.click();
+        });
+        
+        dropzone.addEventListener('dragover', (e) => {
+          e.preventDefault();
+          dropzone.classList.add('dragover');
+        });
+        
+        dropzone.addEventListener('dragleave', () => {
+          dropzone.classList.remove('dragover');
+        });
+
+        dropzone.addEventListener('drop', (e) => {
+          e.preventDefault();
+          dropzone.classList.remove('dragover');
+          if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+            handleSelectedPhoto(e.dataTransfer.files[0]);
+          }
+        });
+
+        fileInput.addEventListener('change', (e) => {
+          if (e.target.files && e.target.files[0]) {
+            handleSelectedPhoto(e.target.files[0]);
+          }
+        });
+      }
+
+      if (toggleManual && manualWrap) {
+        toggleManual.addEventListener('click', () => {
+          const isHidden = manualWrap.style.display === 'none' || !manualWrap.style.display;
+          manualWrap.style.display = isHidden ? 'block' : 'none';
+          toggleManual.textContent = isHidden ? '- Hide manual URL option' : '+ Enter image URL or existing path manually';
+        });
+      }
+
+      // Live Card Preview Listeners
+      ['prodName', 'prodCategory', 'prodPrice', 'prodOriginalPrice', 'prodImageManual'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.addEventListener('input', updateLiveCardPreview);
+          el.addEventListener('change', updateLiveCardPreview);
+          el.addEventListener('keyup', updateLiveCardPreview);
+        }
+      });
+
+      const inStockToggle = document.getElementById('prodInStock');
+      if (inStockToggle) {
+        inStockToggle.addEventListener('change', () => {
+          const stockText = document.getElementById('stockStatusText');
+          if (stockText) {
+            stockText.textContent = inStockToggle.checked ? 'Available in Stock' : 'Out of Stock';
+            stockText.style.color = inStockToggle.checked ? '#10B981' : '#EF4444';
+          }
+          updateLiveCardPreview();
+        });
+      }
+    }
+
+    function handleSelectedPhoto(file) {
+      if (!file || !file.type.startsWith('image/')) {
+        showToast('Please select a valid image file (JPG, PNG, WEBP)', '⚠️');
+        return;
+      }
+      
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        pendingFileBase64 = e.target.result;
+        pendingFileName = file.name;
+
+        // Update dropzone UI
+        document.getElementById('dropzonePrompt').style.display = 'none';
+        document.getElementById('photoPreviewWrap').style.display = 'flex';
+        document.getElementById('dropzoneThumb').src = pendingFileBase64;
+        document.getElementById('dropzoneFileName').textContent = file.name;
+
+        // Update live card preview immediately
+        document.getElementById('cardPreviewImg').src = pendingFileBase64;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function updateLiveCardPreview() {
+      const name = document.getElementById('prodName').value.trim() || 'Royal Antique Kundan Bangle Set';
+      const catSelect = document.getElementById('prodCategory');
+      const catText = catSelect?.options[catSelect.selectedIndex]?.text || 'Bangles';
+      const priceVal = parseFloat(document.getElementById('prodPrice').value) || 1499;
+      const origVal = parseFloat(document.getElementById('prodOriginalPrice').value) || 2499;
+      const inStock = document.getElementById('prodInStock').checked;
+      const manualUrl = document.getElementById('prodImageManual')?.value.trim();
+
+      document.getElementById('cardPreviewName').textContent = name;
+      document.getElementById('cardPreviewCategory').textContent = catText;
+      document.getElementById('cardPreviewPrice').textContent = '₹' + priceVal.toLocaleString('en-IN');
+      document.getElementById('cardPreviewOriginalPrice').textContent = '₹' + origVal.toLocaleString('en-IN');
+
+      // Calculate discount %
+      if (origVal > priceVal && origVal > 0) {
+        const discountPct = Math.round(((origVal - priceVal) / origVal) * 100);
+        document.getElementById('cardPreviewDiscount').textContent = `-${discountPct}% OFF`;
+        document.getElementById('cardPreviewDiscount').style.display = 'block';
+      } else {
+        document.getElementById('cardPreviewDiscount').style.display = 'none';
+      }
+
+      // Stock status badge
+      const stockBadge = document.getElementById('cardPreviewStock');
+      stockBadge.textContent = inStock ? 'In Stock' : 'Out of Stock';
+      stockBadge.className = `preview-card__stock ${inStock ? 'in-stock' : 'out-of-stock'}`;
+
+      // Update image from manual URL if no pending file is loaded
+      if (!pendingFileBase64) {
+        if (manualUrl) {
+          document.getElementById('cardPreviewImg').src = manualUrl.startsWith('http') || manualUrl.startsWith('/') ? manualUrl : `/${manualUrl}`;
+        } else {
+          const currentImg = document.getElementById('prodImage').value.trim();
+          if (currentImg) {
+            document.getElementById('cardPreviewImg').src = currentImg.startsWith('http') || currentImg.startsWith('/') ? currentImg : `/${currentImg}`;
+          } else {
+            document.getElementById('cardPreviewImg').src = '/images/hero-banner.png';
+          }
+        }
+      }
+    }
+
     function openAddProductModal() {
       document.getElementById('productForm').reset();
       document.getElementById('editProductId').value = '';
+      document.getElementById('prodImage').value = '';
+      if (document.getElementById('prodImageManual')) document.getElementById('prodImageManual').value = '';
+      if (document.getElementById('manualUrlWrap')) document.getElementById('manualUrlWrap').style.display = 'none';
       document.getElementById('productModalTitle').textContent = 'Add New Product';
       document.getElementById('prodInStock').checked = true;
+      document.getElementById('stockStatusText').textContent = 'Available in Stock';
+      document.getElementById('stockStatusText').style.color = '#10B981';
+      
+      pendingFileBase64 = null;
+      pendingFileName = '';
+      document.getElementById('dropzonePrompt').style.display = 'block';
+      document.getElementById('photoPreviewWrap').style.display = 'none';
+      document.getElementById('cardPreviewImg').src = '/images/hero-banner.png';
+      
+      updateLiveCardPreview();
       openModal('productModal');
     }
 
@@ -1610,28 +2020,95 @@
       document.getElementById('prodCategory').value = p.category;
       document.getElementById('prodPrice').value = p.price;
       document.getElementById('prodOriginalPrice').value = p.originalPrice;
-      document.getElementById('prodImage').value = p.image;
+      document.getElementById('prodImage').value = p.image || '';
+      if (document.getElementById('prodImageManual')) document.getElementById('prodImageManual').value = p.image || '';
+      if (document.getElementById('manualUrlWrap')) document.getElementById('manualUrlWrap').style.display = 'none';
       document.getElementById('prodDescription').value = p.description;
       document.getElementById('prodInStock').checked = p.inStock;
+      
+      const stockText = document.getElementById('stockStatusText');
+      if (stockText) {
+        stockText.textContent = p.inStock ? 'Available in Stock' : 'Out of Stock';
+        stockText.style.color = p.inStock ? '#10B981' : '#EF4444';
+      }
 
+      pendingFileBase64 = null;
+      pendingFileName = '';
+
+      if (p.image) {
+        document.getElementById('dropzonePrompt').style.display = 'none';
+        document.getElementById('photoPreviewWrap').style.display = 'flex';
+        const fullImg = p.image.startsWith('http') || p.image.startsWith('/') ? p.image : `/${p.image}`;
+        document.getElementById('dropzoneThumb').src = fullImg;
+        document.getElementById('dropzoneFileName').textContent = p.image.split('/').pop() || 'product_image.jpg';
+        document.getElementById('cardPreviewImg').src = fullImg;
+      } else {
+        document.getElementById('dropzonePrompt').style.display = 'block';
+        document.getElementById('photoPreviewWrap').style.display = 'none';
+        document.getElementById('cardPreviewImg').src = '/images/hero-banner.png';
+      }
+
+      updateLiveCardPreview();
       openModal('productModal');
     }
 
     async function handleSaveProduct(e) {
       e.preventDefault();
+      const saveBtn = document.getElementById('btnSaveProduct');
+      const originalBtnHtml = saveBtn.innerHTML;
       const editId = document.getElementById('editProductId').value;
-
-      const payload = {
-        name: document.getElementById('prodName').value.trim(),
-        category: document.getElementById('prodCategory').value,
-        price: parseFloat(document.getElementById('prodPrice').value),
-        originalPrice: parseFloat(document.getElementById('prodOriginalPrice').value),
-        image: document.getElementById('prodImage').value.trim(),
-        description: document.getElementById('prodDescription').value.trim(),
-        inStock: document.getElementById('prodInStock').checked
-      };
+      const category = document.getElementById('prodCategory').value;
 
       try {
+        let imagePath = document.getElementById('prodImage').value.trim();
+        const manualPath = document.getElementById('prodImageManual')?.value.trim();
+        if (manualPath) imagePath = manualPath;
+
+        // If user uploaded a new photo file, upload it to the server first
+        if (pendingFileBase64) {
+          saveBtn.disabled = true;
+          saveBtn.innerHTML = '<i data-lucide="loader-2"></i> Uploading Photo...';
+          if (window.lucide) lucide.createIcons();
+
+          const uploadRes = await fetch('/api/admin/upload-image', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${adminToken}`
+            },
+            body: JSON.stringify({
+              base64Data: pendingFileBase64,
+              filename: pendingFileName || 'product',
+              category: category
+            })
+          });
+
+          if (!uploadRes.ok) {
+            const errData = await uploadRes.json();
+            throw new Error(errData.error || 'Failed to upload product photo');
+          }
+
+          const uploadJson = await uploadRes.json();
+          imagePath = uploadJson.imagePath;
+        }
+
+        if (!imagePath) {
+          imagePath = 'images/hero-banner.png';
+        }
+
+        saveBtn.innerHTML = '<i data-lucide="loader-2"></i> Saving Product...';
+        if (window.lucide) lucide.createIcons();
+
+        const payload = {
+          name: document.getElementById('prodName').value.trim(),
+          category: category,
+          price: parseFloat(document.getElementById('prodPrice').value),
+          originalPrice: parseFloat(document.getElementById('prodOriginalPrice').value),
+          image: imagePath,
+          description: document.getElementById('prodDescription').value.trim(),
+          inStock: document.getElementById('prodInStock').checked
+        };
+
         let res;
         if (editId) {
           res = await fetch(`/api/admin/products/${editId}`, {
@@ -1657,13 +2134,17 @@
           closeModal('productModal');
           await loadProducts();
           loadStats();
-          showToast(editId ? 'Product updated successfully' : 'New product created!', '🎉');
+          showToast(editId ? 'Product updated successfully' : 'New product created & published!', '🎉');
         } else {
           const err = await res.json();
           showToast(err.error || 'Failed to save product', '⚠️');
         }
       } catch (e) {
-        showToast('Network error saving product', '⚠️');
+        showToast(e.message || 'Network error saving product', '⚠️');
+      } finally {
+        saveBtn.disabled = false;
+        saveBtn.innerHTML = originalBtnHtml;
+        if (window.lucide) lucide.createIcons();
       }
     }
 
