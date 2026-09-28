@@ -47,6 +47,12 @@ app.use('/images', express.static(path.join(__dirname, 'images'), {
   maxAge: '365d',
   immutable: true
 }));
+// Alias /css/style.css to /css/styles.css to avoid 404s
+app.get(['/css/style.css', '/css/styles.css'], (req, res) => {
+  res.setHeader('Content-Type', 'text/css');
+  res.sendFile(path.join(__dirname, 'css', 'styles.css'));
+});
+
 app.use('/css', express.static(path.join(__dirname, 'css'), {
   maxAge: 0,
   etag: false
@@ -1847,6 +1853,34 @@ app.get('/reception-and-sangeet-jewellery-bangalore', (req, res) => {
 
 app.get('/haldi-and-mehendi-jewellery-bangalore', (req, res) => {
   res.sendFile(path.join(__dirname, 'haldi-and-mehendi-jewellery-bangalore.html'));
+});
+
+app.get('/bangle-size-chart-calculator', (req, res) => {
+  res.sendFile(path.join(__dirname, 'bangle-size-chart-calculator.html'));
+});
+
+app.get('/temple-vaddanam-kamarbandh', (req, res) => {
+  res.sendFile(path.join(__dirname, 'temple-vaddanam-kamarbandh.html'));
+});
+
+app.get('/bridal-matha-patti-maang-tikka', (req, res) => {
+  res.sendFile(path.join(__dirname, 'bridal-matha-patti-maang-tikka.html'));
+});
+
+app.get('/antique-vanki-baajuband', (req, res) => {
+  res.sendFile(path.join(__dirname, 'antique-vanki-baajuband.html'));
+});
+
+app.get('/wedding-glass-bangle-stacks', (req, res) => {
+  res.sendFile(path.join(__dirname, 'wedding-glass-bangle-stacks.html'));
+});
+
+app.get('/wedding-return-gifts-bangles-bangalore', (req, res) => {
+  res.sendFile(path.join(__dirname, 'wedding-return-gifts-bangles-bangalore.html'));
+});
+
+app.get('/south-indian-bridal-jewellery-set', (req, res) => {
+  res.sendFile(path.join(__dirname, 'south-indian-bridal-jewellery-set.html'));
 });
 
 // Serve blog guide pages with path-traversal protection

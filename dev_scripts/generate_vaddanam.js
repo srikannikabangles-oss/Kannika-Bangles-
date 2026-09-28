@@ -1,0 +1,620 @@
+const fs = require('fs');
+
+// Shared components
+const sharedNavbar = `  <nav class="navbar" id="navbar" role="navigation" aria-label="Main navigation">
+    <div class="navbar__inner">
+      <div class="navbar__toggle-left" id="navToggle" role="button" aria-label="Open navigation menu" aria-expanded="false" tabindex="0">
+        <span></span><span></span><span></span>
+      </div>
+      <a href="/" class="navbar__brand navbar__brand--royal" aria-label="Kannika Bangles Home">
+        <img src="/images/kannika_logo.jpeg" alt="Kannika Bangles" class="navbar__logo-img">
+        <div class="navbar__brand-text">
+          <span class="brand-text__title">SRI KANNIKA</span>
+          <span class="brand-text__subtitle">BANGLES &amp; JEWELS</span>
+        </div>
+      </a>
+      <ul class="navbar__links" id="navLinks" role="menubar">
+        <li class="mobile-drawer__header">
+          <div class="mobile-drawer__brand">
+            <img src="/images/kannika_logo.jpeg" alt="Kannika Bangles" class="mobile-drawer__logo-img">
+            <span class="mobile-drawer__title">Sri Kannika Bangles</span>
+          </div>
+          <button class="mobile-drawer__close" id="navClose" aria-label="Close menu">
+            <i data-lucide="x" style="width:22px;height:22px;"></i>
+          </button>
+        </li>
+        <li role="none"><a href="/" class="navbar__link" role="menuitem"><span class="navbar__link-text">Home</span></a></li>
+        <li role="none" class="navbar__dropdown-item">
+          <a href="/shop" class="navbar__link navbar__link--has-dropdown" role="menuitem" aria-haspopup="true">
+            <span class="navbar__link-text">Jewellery</span> <i data-lucide="chevron-down" class="dropdown-chevron"></i>
+          </a>
+          <ul class="navbar__dropdown-menu">
+            <li><a href="/bangles" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="circle"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Bangles</span></span></a></li>
+            <li><a href="/wedding-glass-bangle-stacks" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="layers"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Bridal Glass Bangle Stacks</span></span></a></li>
+            <li><a href="/wedding-return-gifts-bangles-bangalore" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="gift"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Wedding Return Gifts</span></span></a></li>
+            <li><a href="/necklaces" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="gem"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Necklaces</span></span></a></li>
+            <li><a href="/pendant-sets" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="sparkles"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Pendant Sets</span></span></a></li>
+            <li><a href="/earrings" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="sparkles"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Earrings</span></span></a></li>
+            <li><a href="/shop" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="grid"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">All Jewellery</span></span></a></li>
+          </ul>
+        </li>
+        <li role="none" class="navbar__dropdown-item">
+          <a href="/bridal-jewellery-bangalore" class="navbar__link navbar__link--has-dropdown" role="menuitem" aria-haspopup="true">
+            <span class="navbar__link-text">Bridal</span> <i data-lucide="chevron-down" class="dropdown-chevron"></i>
+          </a>
+          <ul class="navbar__dropdown-menu">
+            <li><a href="/bridal-jewellery-bangalore" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="sparkles"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Bridal Jewellery Bangalore</span></span></a></li>
+            <li><a href="/south-indian-bridal-jewellery-set" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="crown"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Complete Bridal Sets</span></span></a></li>
+            <li><a href="/temple-vaddanam-kamarbandh" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="shield"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Temple Vaddanam (Waist Belt)</span></span></a></li>
+            <li><a href="/bridal-matha-patti-maang-tikka" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="sparkles"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Matha Patti &amp; Maang Tikka</span></span></a></li>
+            <li><a href="/antique-vanki-baajuband" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="award"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Antique Vanki &amp; Bajuband</span></span></a></li>
+            <li><a href="/temple-jewellery-bangalore" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="gem"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Temple Jewellery Bangalore</span></span></a></li>
+            <li><a href="/muhurtham-jewellery-bangalore" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="heart"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Muhurtham Jewellery</span></span></a></li>
+            <li><a href="/reception-and-sangeet-jewellery-bangalore" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="sparkles"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Reception &amp; Sangeet</span></span></a></li>
+            <li><a href="/haldi-and-mehendi-jewellery-bangalore" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="sun"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Haldi &amp; Mehendi</span></span></a></li>
+            <li><a href="/cz-and-ad-diamond-jewellery-bangalore" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="sparkles"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">CZ &amp; AD Diamond</span></span></a></li>
+            <li><a href="/kundan-and-jadau-jewellery-bangalore" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="gem"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Kundan &amp; Jadau</span></span></a></li>
+            <li><a href="/antique-matte-finish-jewellery-bangalore" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="crown"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Antique Matte Finish</span></span></a></li>
+          </ul>
+        </li>
+        <li role="none"><a href="/bangle-size-chart-calculator" class="navbar__link" role="menuitem"><span class="navbar__link-text">Size Guide</span></a></li>
+        <li role="none"><a href="/blog" class="navbar__link" role="menuitem"><span class="navbar__link-text">Blog</span></a></li>
+        <li role="none" class="navbar__dropdown-item">
+          <a href="/about" class="navbar__link navbar__link--has-dropdown" role="menuitem" aria-haspopup="true">
+            <span class="navbar__link-text">About &amp; Contact</span> <i data-lucide="chevron-down" class="dropdown-chevron"></i>
+          </a>
+          <ul class="navbar__dropdown-menu navbar__dropdown-menu--right">
+            <li><a href="/about" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="info"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">About Us</span></span></a></li>
+            <li><a href="/contact" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="phone"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Contact Us</span></span></a></li>
+          </ul>
+        </li>
+      </ul>
+      <div class="navbar__actions">
+        <a href="https://wa.me/919844758450?text=Hi%20Kannika%20Bangles,%20I'm%20visiting%20your%20website" class="btn btn--primary" style="padding: 8px 16px; font-size: 0.85rem;" target="_blank" rel="noopener">
+          <i data-lucide="message-circle" style="width:16px;height:16px;margin-right:6px;"></i> WhatsApp Stylist
+        </a>
+      </div>
+    </div>
+  </nav>`;
+
+const sharedCrossLinks = `  <section class="section" style="background: #FAF7F2; padding: 60px 20px; border-top: 1px solid rgba(212,175,55,0.2);">
+    <div class="container" style="max-width: 1200px; margin: 0 auto;">
+      <div style="text-align: center; margin-bottom: 40px;">
+        <span style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; color: #b38728; font-weight: 600;">Complete Kalyana Ensemble</span>
+        <h2 style="font-family: 'Cinzel', serif; font-size: 2rem; color: #2e2216; margin-top: 8px;">Explore Specialized Bridal Categories</h2>
+        <div style="width: 60px; height: 2px; background: #d4af37; margin: 12px auto;"></div>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px;">
+        <a href="/bangle-size-chart-calculator" style="background: #fff; padding: 24px; border-radius: 12px; border: 1px solid rgba(212,175,55,0.25); text-decoration: none; color: inherit; display: block; transition: transform 0.2s, box-shadow 0.2s;">
+          <div style="font-size: 1.5rem; margin-bottom: 8px;">📏</div>
+          <h3 style="font-family: 'Cinzel', serif; font-size: 1.1rem; color: #2e2216; margin-bottom: 6px;">Bangle Size Calculator</h3>
+          <p style="font-size: 0.88rem; color: #665235; margin: 0; line-height: 1.5;">Dual-method wrist sizing chart with millimeter to Indian sizing conversions.</p>
+        </a>
+        <a href="/south-indian-bridal-jewellery-set" style="background: #fff; padding: 24px; border-radius: 12px; border: 1px solid rgba(212,175,55,0.25); text-decoration: none; color: inherit; display: block; transition: transform 0.2s, box-shadow 0.2s;">
+          <div style="font-size: 1.5rem; margin-bottom: 8px;">👑</div>
+          <h3 style="font-family: 'Cinzel', serif; font-size: 1.1rem; color: #2e2216; margin-bottom: 6px;">7-Piece Bridal Set</h3>
+          <p style="font-size: 0.88rem; color: #665235; margin: 0; line-height: 1.5;">Complete Muhurtham Kalyana package crafted in antique matte micro gold.</p>
+        </a>
+        <a href="/temple-vaddanam-kamarbandh" style="background: #fff; padding: 24px; border-radius: 12px; border: 1px solid rgba(212,175,55,0.25); text-decoration: none; color: inherit; display: block; transition: transform 0.2s, box-shadow 0.2s;">
+          <div style="font-size: 1.5rem; margin-bottom: 8px;">✨</div>
+          <h3 style="font-family: 'Cinzel', serif; font-size: 1.1rem; color: #2e2216; margin-bottom: 6px;">Temple Vaddanam</h3>
+          <p style="font-size: 0.88rem; color: #665235; margin: 0; line-height: 1.5;">Adjustable waist belts (Ottiyanam) with Lakshmi &amp; peacock Nakshi carvings.</p>
+        </a>
+        <a href="/bridal-matha-patti-maang-tikka" style="background: #fff; padding: 24px; border-radius: 12px; border: 1px solid rgba(212,175,55,0.25); text-decoration: none; color: inherit; display: block; transition: transform 0.2s, box-shadow 0.2s;">
+          <div style="font-size: 1.5rem; margin-bottom: 8px;">🌸</div>
+          <h3 style="font-family: 'Cinzel', serif; font-size: 1.1rem; color: #2e2216; margin-bottom: 6px;">Matha Patti &amp; Tikka</h3>
+          <p style="font-size: 0.88rem; color: #665235; margin: 0; line-height: 1.5;">Temple Nethi Chutti and multi-tier Kundan forehead adornments.</p>
+        </a>
+        <a href="/antique-vanki-baajuband" style="background: #fff; padding: 24px; border-radius: 12px; border: 1px solid rgba(212,175,55,0.25); text-decoration: none; color: inherit; display: block; transition: transform 0.2s, box-shadow 0.2s;">
+          <div style="font-size: 1.5rem; margin-bottom: 8px;">💎</div>
+          <h3 style="font-family: 'Cinzel', serif; font-size: 1.1rem; color: #2e2216; margin-bottom: 6px;">Antique Vanki &amp; Bajuband</h3>
+          <p style="font-size: 0.88rem; color: #665235; margin: 0; line-height: 1.5;">Traditional inverted V-shaped bridal armlets with non-slip velvet linings.</p>
+        </a>
+        <a href="/wedding-glass-bangle-stacks" style="background: #fff; padding: 24px; border-radius: 12px; border: 1px solid rgba(212,175,55,0.25); text-decoration: none; color: inherit; display: block; transition: transform 0.2s, box-shadow 0.2s;">
+          <div style="font-size: 1.5rem; margin-bottom: 8px;">🔴</div>
+          <h3 style="font-family: 'Cinzel', serif; font-size: 1.1rem; color: #2e2216; margin-bottom: 6px;">Glass Bangle Stacks</h3>
+          <p style="font-size: 0.88rem; color: #665235; margin: 0; line-height: 1.5;">Emerald green &amp; ruby red Muhurtham glass churi sets with antique kadas.</p>
+        </a>
+        <a href="/wedding-return-gifts-bangles-bangalore" style="background: #fff; padding: 24px; border-radius: 12px; border: 1px solid rgba(212,175,55,0.25); text-decoration: none; color: inherit; display: block; transition: transform 0.2s, box-shadow 0.2s;">
+          <div style="font-size: 1.5rem; margin-bottom: 8px;">🎁</div>
+          <h3 style="font-family: 'Cinzel', serif; font-size: 1.1rem; color: #2e2216; margin-bottom: 6px;">Wedding Return Gifts</h3>
+          <p style="font-size: 0.88rem; color: #665235; margin: 0; line-height: 1.5;">Wholesale Thamboolam gift bangle sets in assorted sizes with potli pouches.</p>
+        </a>
+      </div>
+    </div>
+  </section>`;
+
+const sharedFooter = `  <footer class="footer">
+    <div class="container" style="margin-bottom: 40px; padding-bottom: 30px; border-bottom: 1px solid rgba(212, 175, 55, 0.25);">
+      <div class="superpower-trust-strip">
+        <div class="superpower-trust-pill">
+          <div class="superpower-trust-pill-icon"><i data-lucide="shield-check" style="width:20px;height:20px;"></i></div>
+          <div class="superpower-trust-pill-text"><strong>Zero Blind Payment</strong><span>Pay ₹0 today online</span></div>
+        </div>
+        <div class="superpower-trust-pill">
+          <div class="superpower-trust-pill-icon"><i data-lucide="video" style="width:20px;height:20px;"></i></div>
+          <div class="superpower-trust-pill-text"><strong>Live Video Call</strong><span>Inspect in 4K before paying</span></div>
+        </div>
+        <div class="superpower-trust-pill">
+          <div class="superpower-trust-pill-icon"><i data-lucide="camera" style="width:20px;height:20px;"></i></div>
+          <div class="superpower-trust-pill-text"><strong>Bridal Saree Match</strong><span>1-on-1 stylist color pairing</span></div>
+        </div>
+        <div class="superpower-trust-pill">
+          <div class="superpower-trust-pill-icon"><i data-lucide="ruler" style="width:20px;height:20px;"></i></div>
+          <div class="superpower-trust-pill-text"><strong>Exact Wrist Sizing</strong><span>Custom fit from 2.2 to 2.10</span></div>
+        </div>
+        <div class="superpower-trust-pill">
+          <div class="superpower-trust-pill-icon"><i data-lucide="map-pin" style="width:20px;height:20px;"></i></div>
+          <div class="superpower-trust-pill-text"><strong>Malleshwaram Store</strong><span>Real Bangalore showroom</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer__grid">
+      <div class="footer__col">
+        <div class="footer__brand-name"><span>Kannika</span> Bangles</div>
+        <p class="footer__desc">Turning every bride's dream into a beautiful reality. Handcrafted bangles blending tradition with modern style since generations.</p>
+        <div class="footer__social" style="margin-top: 16px;">
+          <a href="https://wa.me/919844758450" target="_blank" rel="noopener" class="footer__social-link" aria-label="WhatsApp" style="color:#25D366;border-color:rgba(37,211,102,0.4);"><i data-lucide="message-circle" style="width:18px;height:18px;"></i></a>
+        </div>
+      </div>
+      <div class="footer__col">
+        <h4 class="footer__heading">Quick Links</h4>
+        <a href="/" class="footer__link">Home</a>
+        <a href="/shop" class="footer__link">Shop All</a>
+        <a href="/bangle-size-chart-calculator" class="footer__link">Bangle Size Calculator</a>
+        <a href="/bridal-jewellery-bangalore" class="footer__link">Bridal Jewellery</a>
+        <a href="/temple-jewellery-bangalore" class="footer__link">Temple Jewellery</a>
+        <a href="/muhurtham-jewellery-bangalore" class="footer__link">Muhurtham Jewellery</a>
+        <a href="/about.html" class="footer__link">Our Story</a>
+        <a href="/contact.html" class="footer__link">Contact Us</a>
+        <a href="/blog" class="footer__link">Blog &amp; Guides</a>
+      </div>
+      <div class="footer__col">
+        <h4 class="footer__heading">Bridal Special</h4>
+        <a href="/south-indian-bridal-jewellery-set" class="footer__link">Complete Bridal Sets</a>
+        <a href="/temple-vaddanam-kamarbandh" class="footer__link">Temple Vaddanam</a>
+        <a href="/bridal-matha-patti-maang-tikka" class="footer__link">Matha Patti &amp; Tikka</a>
+        <a href="/antique-vanki-baajuband" class="footer__link">Antique Vanki Armlets</a>
+        <a href="/wedding-glass-bangle-stacks" class="footer__link">Glass Bangle Stacks</a>
+        <a href="/wedding-return-gifts-bangles-bangalore" class="footer__link">Wedding Return Gifts</a>
+      </div>
+      <div class="footer__col">
+        <h4 class="footer__heading">Policies</h4>
+        <a href="/no-return-policy.html" class="footer__link">No Return Policy</a>
+        <a href="/exchange-policy.html" class="footer__link">Exchange Policy</a>
+        <a href="/delivery-policy.html" class="footer__link">Delivery Policy</a>
+      </div>
+      <div class="footer__col">
+        <h4 class="footer__heading">Get in Touch</h4>
+        <div class="footer__contact-item">
+          <i data-lucide="map-pin" style="width:18px;height:18px;"></i>
+          <span>No. 157/108, 9th Cross, East Park Road, Malleshwaram, Bengaluru, Karnataka 560003</span>
+        </div>
+        <div class="footer__contact-item">
+          <i data-lucide="phone" style="width:18px;height:18px;"></i>
+          <a href="tel:+919844758450">+91 98447 58450</a>
+        </div>
+        <div class="footer__contact-item">
+          <i data-lucide="mail" style="width:18px;height:18px;"></i>
+          <a href="mailto:Srikannikabangles@gmail.com">Srikannikabangles@gmail.com</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <p>&copy; 2026 Kannika Bangles. All rights reserved. Handcrafted in Bengaluru.</p>
+    </div>
+  </footer>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.lucide) lucide.createIcons();
+    });
+  </script>`;
+
+// ==========================================
+// 1. TEMPLE VADDANAM & KAMARBANDH
+// ==========================================
+const vaddanamPage = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Temple Vaddanam &amp; Bridal Kamarbandh Bangalore | Kannika</title>
+  <meta name="description" content="Shop handcrafted temple Vaddanam &amp; bridal Kamarbandh in Bangalore. 24K micro gold Nakshi Lakshmi waist belts with Kemp stones. Visit Malleshwaram showroom.">
+  <link rel="canonical" href="https://kannikabangles.com/temple-vaddanam-kamarbandh">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Temple Vaddanam &amp; Bridal Kamarbandh Bangalore | Sri Kannika">
+  <meta property="og:description" content="Discover majestic 1 gram gold temple Vaddanams, antique Ottiyanams, and bridal Kamarbandh waist belts in Bangalore. Adjustable fit 26 to 44 inches with zero blind payment.">
+  <meta property="og:url" content="https://kannikabangles.com/temple-vaddanam-kamarbandh">
+  <meta property="og:image" content="https://kannikabangles.com/images/temple_vaddanam.jpg">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Temple Vaddanam &amp; Bridal Kamarbandh Bangalore | Sri Kannika">
+  <meta name="twitter:description" content="Discover majestic 1 gram gold temple Vaddanams, antique Ottiyanams, and bridal Kamarbandh waist belts in Bangalore. Adjustable fit 26 to 44 inches with zero blind payment.">
+  <meta name="twitter:image" content="https://kannikabangles.com/images/temple_vaddanam.jpg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css?v=20260929">
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Product",
+        "name": "Handcrafted Temple Vaddanam & Bridal Kamarbandh",
+        "description": "Authentic South Indian bridal waist belt crafted in copper alloy with 24K micro gold plating, antique Nakshi Goddess Lakshmi motifs, Kemp rubies, and adjustable link chains.",
+        "image": "https://kannikabangles.com/images/temple_vaddanam.jpg",
+        "brand": { "@type": "Brand", "name": "Sri Kannika Bangles & Jewels" },
+        "offers": {
+          "@type": "AggregateOffer",
+          "priceCurrency": "INR",
+          "lowPrice": "4200",
+          "highPrice": "14500",
+          "offerCount": "24",
+          "availability": "https://schema.org/InStock",
+          "itemCondition": "https://schema.org/NewCondition"
+        },
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "4.9",
+          "reviewCount": "88"
+        }
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://kannikabangles.com/temple-vaddanam-kamarbandh#webpage",
+        "url": "https://kannikabangles.com/temple-vaddanam-kamarbandh",
+        "name": "Temple Vaddanam & Bridal Kamarbandh Bangalore | Sri Kannika",
+        "breadcrumb": {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://kannikabangles.com/" },
+            { "@type": "ListItem", "position": 2, "name": "Bridal Jewellery", "item": "https://kannikabangles.com/bridal-jewellery-bangalore" },
+            { "@type": "ListItem", "position": 3, "name": "Temple Vaddanam & Kamarbandh", "item": "https://kannikabangles.com/temple-vaddanam-kamarbandh" }
+          ]
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is a temple Vaddanam or Ottiyanam in South Indian weddings?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A temple Vaddanam (also known as Ottiyanam in Tamil or Kamarbandh in Hindi) is an auspicious bridal waist belt designed to cinch heavy Kanjivaram silk sarees. It features sculpted Nakshi motifs of Goddess Lakshmi and peacocks to bless the bride with prosperity and grace."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How does Sri Kannika ensure the waist belt fits different body types?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Every temple Vaddanam from Sri Kannika includes an adjustable brass link extension chain with dual heavy-duty S-hooks, allowing the waist belt to expand seamlessly from 26 inches up to 44 inches over heavy saree pleats."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the difference between solid gold and 1 gram gold temple Vaddanams?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A solid 22K gold Vaddanam weighs 150 to 300 grams and costs upwards of ₹12 to ₹25 Lakhs, making it stressful to wear at busy wedding choultries. Sri Kannika 1-gram micro gold Vaddanams offer identical artisanal Nakshi detailing and weight balance for ₹4,200 to ₹14,500, with zero security risk."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I inspect the Vaddanam before paying any money?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes! Sri Kannika pioneered the Zero-Blind-Payment policy in Bangalore. Schedule a free 4K WhatsApp video call with our Malleshwaram boutique stylists to inspect front embossing, stone clarity, flexible link joints, and back latch mechanism before confirming."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    .vaddanam-hero {
+      background: linear-gradient(135deg, #2b180d 0%, #442a17 100%);
+      color: #fff;
+      padding: 70px 20px 80px;
+      text-align: center;
+    }
+    .anatomy-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-top: 36px;
+    }
+    .anatomy-card {
+      background: #ffffff;
+      border: 1px solid #ebdccb;
+      border-radius: 14px;
+      padding: 28px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.03);
+      position: relative;
+    }
+    .anatomy-icon {
+      width: 48px;
+      height: 48px;
+      background: #fbf5ea;
+      border: 1px solid #d4af37;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #8B6914;
+      margin-bottom: 16px;
+    }
+    .comparison-table-wrapper {
+      overflow-x: auto;
+      margin-top: 30px;
+      border-radius: 12px;
+      border: 1px solid #ebdccb;
+    }
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.95rem;
+      background: #fff;
+    }
+    .comparison-table th {
+      background: #2e2216;
+      color: #f7e7ce;
+      padding: 14px 18px;
+      font-family: 'Cinzel', serif;
+      font-weight: 600;
+    }
+    .comparison-table td {
+      padding: 14px 18px;
+      border-bottom: 1px solid #f0eae1;
+      color: #443322;
+    }
+    .comparison-table tr:nth-child(even) {
+      background: #faf7f2;
+    }
+  </style>
+</head>
+<body class="category-seo-page">
+
+${sharedNavbar}
+
+  <!-- --- Hero Header --- -->
+  <section class="vaddanam-hero">
+    <div class="container" style="max-width: 860px;">
+      <span class="badge" style="background: rgba(212, 175, 55, 0.2); color: #e6ca65; border: 1px solid rgba(212, 175, 55, 0.4); padding: 6px 18px; border-radius: 30px; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; display: inline-block; margin-bottom: 16px;">
+        Royal South Indian Heritage &bull; Malleshwaram Showroom
+      </span>
+      <h1 style="font-family: 'Cinzel', serif; font-size: 2.5rem; line-height: 1.25; margin-bottom: 16px; color: #fff;">
+        Temple Vaddanam &amp; Bridal Kamarbandh in Bangalore
+      </h1>
+      <p style="font-size: 1.1rem; color: #e0d5c1; line-height: 1.6; max-width: 740px; margin: 0 auto;">
+        Grace your bridal Kanjivaram saree with majestic Goddess Lakshmi, dancing peacock, and Nakshi repoussé waist belts. Handcrafted in pure copper alloy with 24K micro gold finish, antique matte polish, genuine Kemp rubies, and adjustable 26" to 44" extension chains.
+      </p>
+    </div>
+  </section>
+
+  <!-- --- Quick Feature Highlights --- -->
+  <section style="background: #FAF7F2; padding: 30px 20px; border-bottom: 1px solid #ebdccb;">
+    <div class="container" style="max-width: 1100px; display: flex; flex-wrap: wrap; justify-content: space-around; gap: 20px; text-align: center;">
+      <div>
+        <div style="font-size: 1.5rem; color: #8B6914; font-weight: 700; font-family: 'Cinzel', serif;">26" &ndash; 44"</div>
+        <div style="font-size: 0.85rem; color: #665235; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">Adjustable Saree Fit</div>
+      </div>
+      <div>
+        <div style="font-size: 1.5rem; color: #8B6914; font-weight: 700; font-family: 'Cinzel', serif;">24K Micro Gold</div>
+        <div style="font-size: 0.85rem; color: #665235; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">Anti-Tarnish Matte Polish</div>
+      </div>
+      <div>
+        <div style="font-size: 1.5rem; color: #8B6914; font-weight: 700; font-family: 'Cinzel', serif;">₹0 Advance</div>
+        <div style="font-size: 0.85rem; color: #665235; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">Zero Blind Payment</div>
+      </div>
+      <div>
+        <div style="font-size: 1.5rem; color: #8B6914; font-weight: 700; font-family: 'Cinzel', serif;">4K Video Trial</div>
+        <div style="font-size: 0.85rem; color: #665235; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">Live WhatsApp Inspection</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- --- Section 1: Anatomy of a Temple Vaddanam --- -->
+  <section style="padding: 70px 20px; background: #ffffff;">
+    <div class="container" style="max-width: 1100px;">
+      <div style="text-align: center; margin-bottom: 40px;">
+        <span style="color: #b38728; font-weight: 600; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1.5px;">Master Craftsmanship</span>
+        <h2 style="font-family: 'Cinzel', serif; font-size: 2.1rem; color: #2e2216; margin-top: 6px;">
+          Anatomy of an Authentic South Indian Temple Vaddanam
+        </h2>
+        <div style="width: 60px; height: 2px; background: #d4af37; margin: 12px auto;"></div>
+        <p style="color: #665235; font-size: 1rem; max-width: 720px; margin: 0 auto; line-height: 1.6;">
+          A traditional <strong>temple Vaddanam</strong> is not merely an accessory; it is a sacred talisman rooted in Chola and Vijayanagara temple architecture designed to anchor the bridal silhouette.
+        </p>
+      </div>
+
+      <div class="anatomy-grid">
+        <div class="anatomy-card">
+          <div class="anatomy-icon"><i data-lucide="crown"></i></div>
+          <h3 style="font-family: 'Cinzel', serif; font-size: 1.2rem; color: #2e2216; margin-bottom: 10px;">Repoussé Lakshmi Medallion</h3>
+          <p style="color: #665235; font-size: 0.92rem; line-height: 1.6;">
+            The centerpiece features deeply carved Gajalakshmi seated upon a lotus flanked by celestial elephants, handcrafted using traditional temple Nakshi repoussé techniques that evoke timeless divinity.
+          </p>
+        </div>
+
+        <div class="anatomy-card">
+          <div class="anatomy-icon"><i data-lucide="sparkles"></i></div>
+          <h3 style="font-family: 'Cinzel', serif; font-size: 1.2rem; color: #2e2216; margin-bottom: 10px;">Kemp &amp; Spinel Inlay</h3>
+          <p style="color: #665235; font-size: 0.92rem; line-height: 1.6;">
+            Closed-back bezel settings holding raw-cut crimson kemp rubies and emerald cabochons. Each stone catches the flash of wedding photography without reflection glare.
+          </p>
+        </div>
+
+        <div class="anatomy-card">
+          <div class="anatomy-icon"><i data-lucide="link"></i></div>
+          <h3 style="font-family: 'Cinzel', serif; font-size: 1.2rem; color: #2e2216; margin-bottom: 10px;">Articulated Flexible Panels</h3>
+          <p style="color: #665235; font-size: 0.92rem; line-height: 1.6;">
+            Unlike stiff modern copies that dig painfully into the hips, our <strong>bridal waist belt</strong> incorporates multi-hinged side plates that naturally bend with your posture while walking or sitting during Muhurtham homams.
+          </p>
+        </div>
+
+        <div class="anatomy-card">
+          <div class="anatomy-icon"><i data-lucide="shield"></i></div>
+          <h3 style="font-family: 'Cinzel', serif; font-size: 1.2rem; color: #2e2216; margin-bottom: 10px;">Heavy-Duty Extension Chain</h3>
+          <p style="color: #665235; font-size: 0.92rem; line-height: 1.6;">
+            Equipped with reinforced brass links and double S-hook clasps. Easily adjusted from 26 inches up to 44 inches to comfortably accommodate heavy 9-yard or 6-yard Kanjivaram pleats.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- --- Section 2: Real Gold vs 1-Gram Micro Gold Comparison Table --- -->
+  <section style="padding: 70px 20px; background: #faf7f2;">
+    <div class="container" style="max-width: 980px;">
+      <div style="text-align: center; margin-bottom: 36px;">
+        <span style="color: #b38728; font-weight: 600; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1.5px;">Smart Bridal Economics</span>
+        <h2 style="font-family: 'Cinzel', serif; font-size: 2rem; color: #2e2216; margin-top: 6px;">
+          Solid Gold vs. 1 Gram Micro Gold Temple Vaddanam
+        </h2>
+        <div style="width: 60px; height: 2px; background: #d4af37; margin: 12px auto;"></div>
+        <p style="color: #665235; font-size: 0.98rem; max-width: 680px; margin: 0 auto; line-height: 1.6;">
+          Why modern Bangalore brides prefer our <strong>1 gram gold temple Vaddanams</strong> over locking lakhs of rupees in bank security lockers.
+        </p>
+      </div>
+
+      <div class="comparison-table-wrapper">
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>Solid 22K Gold Vaddanam</th>
+              <th>Sri Kannika 1-Gram Micro Gold Vaddanam</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Typical Cost</strong></td>
+              <td>₹15,00,000 &ndash; ₹28,00,000+</td>
+              <td><span style="color: #8B6914; font-weight: 700;">₹4,200 &ndash; ₹14,500</span></td>
+            </tr>
+            <tr>
+              <td><strong>Visual Appearance</strong></td>
+              <td>Traditional antique finish</td>
+              <td>Indistinguishable from real gold under 4K lenses</td>
+            </tr>
+            <tr>
+              <td><strong>Wedding Hall Security</strong></td>
+              <td>High anxiety, requires bodyguard/safe</td>
+              <td>100% stress-free celebratory confidence</td>
+            </tr>
+            <tr>
+              <td><strong>Weight on Saree</strong></td>
+              <td>250g &ndash; 450g (can tear delicate silk)</td>
+              <td>Balanced 140g &ndash; 190g (featherweight comfort)</td>
+            </tr>
+            <tr>
+              <td><strong>Size Adjustability</strong></td>
+              <td>Fixed gold link (expensive to resize)</td>
+              <td>Multi-link chain fits 26" to 44" instantly</td>
+            </tr>
+            <tr>
+              <td><strong>Inspection Experience</strong></td>
+              <td>Store visit mandatory</td>
+              <td>Live 4K WhatsApp video call before ₹0 payment</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- --- Section 3: How to Drape & Size Your Saree Waist Belt --- -->
+  <section style="padding: 70px 20px; background: #ffffff;">
+    <div class="container" style="max-width: 900px;">
+      <div style="text-align: center; margin-bottom: 36px;">
+        <span style="color: #b38728; font-weight: 600; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1.5px;">Stylist Protocol</span>
+        <h2 style="font-family: 'Cinzel', serif; font-size: 2rem; color: #2e2216; margin-top: 6px;">
+          How to Measure &amp; Position Your Vaddanam over Kanjivaram Sarees
+        </h2>
+        <div style="width: 60px; height: 2px; background: #d4af37; margin: 12px auto;"></div>
+      </div>
+
+      <div style="background: #fdfaf5; border: 1px solid #e8dbc9; border-radius: 14px; padding: 32px 30px; line-height: 1.7; color: #55412b; font-size: 0.95rem;">
+        <h3 style="font-family: 'Cinzel', serif; font-size: 1.25rem; color: #2e2216; margin-bottom: 12px;">The Golden Saree Pleat Allowance Rule</h3>
+        <p>
+          When shopping for a <strong>nakshi kamarbandh</strong> or <strong>temple vaddanam</strong>, never measure your bare skin waist! A traditional bridal Kanjivaram silk saree with zari border adds between <strong>1.5 inches to 2.2 inches</strong> of bulk across the navel pleats.
+        </p>
+        <ol style="padding-left: 20px; margin-top: 14px;">
+          <li><strong>Positioning:</strong> Rest the central Lakshmi motif exactly 1 inch below the navel or directly over the saree pleat knot for optimal spinal posture and photographic symmetry.</li>
+          <li><strong>Anchor Pinning:</strong> Secure the side link chains to your petticoat using two safety pins hidden under the saree folds. This prevents the waist belt from tilting when you sit for wedding ceremonies.</li>
+          <li><strong>Lehenga Styling:</strong> For reception lehengas, position the Vaddanam at your natural high waistline (2 inches above navel) to create an elongated, regal silhouette.</li>
+        </ol>
+      </div>
+
+      <!-- Live Video Inspection CTA Box -->
+      <div style="margin-top: 40px; background: linear-gradient(135deg, #fdfbf7 0%, #f6efe2 100%); border: 2px dashed #d4af37; border-radius: 16px; padding: 40px; text-align: center;">
+        <h3 style="font-family: 'Cinzel', serif; font-size: 1.7rem; color: #2e2216; margin-bottom: 12px;">
+          Inspect Your Vaddanam on Live 4K Video Before Paying
+        </h3>
+        <p style="color: #665235; font-size: 1.05rem; max-width: 680px; margin: 0 auto 24px; line-height: 1.6;">
+          Share your bridal saree color swatch with our Malleshwaram showroom stylists. We will display front Lakshmi motifs, link flexibility, and back clasps on a private 1-on-1 video call before you spend a single rupee.
+        </p>
+        <a href="https://wa.me/919844758450?text=Hi%20Kannika%20Bangles,%20please%20show%20me%20your%20bridal%20temple%20Vaddanam%20and%20Kamarbandh%20designs%20on%20video%20call" class="btn btn--primary" style="padding: 14px 34px; font-size: 1rem;" target="_blank" rel="noopener">
+          <i data-lucide="video" style="width: 18px; height: 18px; margin-right: 8px;"></i> Book Free 4K WhatsApp Video Trial
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- --- Section 4: Frequently Asked Questions --- -->
+  <section style="padding: 70px 20px; background: #faf7f2;">
+    <div class="container" style="max-width: 860px;">
+      <div style="text-align: center; margin-bottom: 36px;">
+        <span style="color: #b38728; font-weight: 600; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1.5px;">Customer Clarifications</span>
+        <h2 style="font-family: 'Cinzel', serif; font-size: 2rem; color: #2e2216; margin-top: 6px;">
+          Temple Vaddanam &amp; Kamarbandh FAQs
+        </h2>
+        <div style="width: 60px; height: 2px; background: #d4af37; margin: 12px auto;"></div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 14px;">
+        <div style="background: #fff; border-radius: 10px; border: 1px solid #ebdccb; padding: 22px 26px;">
+          <h3 style="font-family: 'Cinzel', serif; font-size: 1.1rem; color: #2e2216; margin-bottom: 8px;">Will the 1 gram gold micro plating tarnish or fade with sweat?</h3>
+          <p style="color: #665235; font-size: 0.92rem; line-height: 1.6; margin: 0;">
+            No. Sri Kannika temple Vaddanams are shielded with an advanced electrolytic anti-tarnish protective e-coating over 24K micro gold. It resists moisture, body oils, and humidity during long wedding muhurthams. With standard velvet pouch storage, the antique luster endures for years.
+          </p>
+        </div>
+
+        <div style="background: #fff; border-radius: 10px; border: 1px solid #ebdccb; padding: 22px 26px;">
+          <h3 style="font-family: 'Cinzel', serif; font-size: 1.1rem; color: #2e2216; margin-bottom: 8px;">What waist sizes can your bridal Ottiyanams accommodate?</h3>
+          <p style="color: #665235; font-size: 0.92rem; line-height: 1.6; margin: 0;">
+            Our waist belts fit waist sizes from 26 inches up to 44 inches right out of the box using our dual-ring extension chain. For custom plus sizing above 44 inches or teenage half-saree sizing below 26 inches, our Bangalore artisans provide custom link attachments on request.
+          </p>
+        </div>
+
+        <div style="background: #fff; border-radius: 10px; border: 1px solid #ebdccb; padding: 22px 26px;">
+          <h3 style="font-family: 'Cinzel', serif; font-size: 1.1rem; color: #2e2216; margin-bottom: 8px;">How quickly can you deliver across Bangalore?</h3>
+          <p style="color: #665235; font-size: 0.92rem; line-height: 1.6; margin: 0;">
+            We offer express same-day or 24-hour doorstep delivery across all Bangalore localities including Malleshwaram, Rajajinagar, Jayanagar, Indiranagar, Whitefield, Chickpet, and Commercial Street wedding choultries.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+${sharedCrossLinks}
+
+${sharedFooter}
+
+</body>
+</html>
+`;
+
+fs.writeFileSync('temple-vaddanam-kamarbandh.html', vaddanamPage, 'utf8');
+console.log('✅ Generated comprehensive temple-vaddanam-kamarbandh.html');

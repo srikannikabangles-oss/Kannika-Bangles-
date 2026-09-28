@@ -1,0 +1,3592 @@
+{
+  "tool": "SEO Monster (seo_mcp)",
+  "target": "http://localhost:3001",
+  "pages_audited": 13,
+  "robots_audit": {
+    "ok": true,
+    "data": {
+      "robots_url": "http://localhost:3001/robots.txt",
+      "status": 200,
+      "groups": [
+        {
+          "user_agents": [
+            "*"
+          ],
+          "rules": [
+            {
+              "type": "allow",
+              "path": "/"
+            },
+            {
+              "type": "disallow",
+              "path": "/admin"
+            },
+            {
+              "type": "disallow",
+              "path": "/admin.html"
+            },
+            {
+              "type": "disallow",
+              "path": "/cart"
+            },
+            {
+              "type": "disallow",
+              "path": "/cart.html"
+            },
+            {
+              "type": "disallow",
+              "path": "/checkout"
+            },
+            {
+              "type": "disallow",
+              "path": "/checkout.html"
+            },
+            {
+              "type": "disallow",
+              "path": "/wishlist"
+            },
+            {
+              "type": "disallow",
+              "path": "/wishlist.html"
+            },
+            {
+              "type": "disallow",
+              "path": "/login"
+            },
+            {
+              "type": "disallow",
+              "path": "/login.html"
+            },
+            {
+              "type": "disallow",
+              "path": "/node_modules/"
+            },
+            {
+              "type": "disallow",
+              "path": "/api/"
+            },
+            {
+              "type": "disallow",
+              "path": "/.env"
+            }
+          ],
+          "crawl_delay": null
+        }
+      ],
+      "sitemaps": [
+        "https://kannikabangles.com/sitemap.xml"
+      ],
+      "content_signals": {},
+      "edge_cache": {
+        "normal": {
+          "cf_cache_status": null,
+          "age": null,
+          "last_modified": "Fri, 21 Aug 2026 00:58:38 GMT"
+        },
+        "cache_busted": {
+          "cf_cache_status": null,
+          "age": null,
+          "last_modified": "Fri, 21 Aug 2026 00:58:38 GMT"
+        },
+        "stale_edge_cache": false
+      },
+      "probes": [],
+      "findings": [],
+      "advisories": []
+    },
+    "error": null
+  },
+  "sitemap_audit": {
+    "ok": true,
+    "data": {
+      "sitemap_url": "http://localhost:3001/sitemap.xml",
+      "final_url": "http://localhost:3001/sitemap.xml",
+      "kind": "urlset",
+      "entry_count": 88,
+      "byte_size": 11762,
+      "cross_host_count": 88,
+      "missing_lastmod_count": 0,
+      "findings": [
+        "cross_host_entries"
+      ],
+      "sample_entries": [
+        {
+          "loc": "https://kannikabangles.com/",
+          "lastmod": "2026-08-21"
+        },
+        {
+          "loc": "https://kannikabangles.com/shop",
+          "lastmod": "2026-08-21"
+        },
+        {
+          "loc": "https://kannikabangles.com/bangles",
+          "lastmod": "2026-08-21"
+        },
+        {
+          "loc": "https://kannikabangles.com/pendant-sets",
+          "lastmod": "2026-08-21"
+        },
+        {
+          "loc": "https://kannikabangles.com/necklaces",
+          "lastmod": "2026-08-21"
+        }
+      ]
+    },
+    "error": null
+  },
+  "ai_readiness": {
+    "ok": true,
+    "data": {
+      "url": "http://localhost:3001/",
+      "final_url": "http://localhost:3001/",
+      "status": 200,
+      "rendered_blind": false,
+      "word_count": 1925,
+      "readiness": {
+        "band": "high",
+        "score": 0.8,
+        "components": {
+          "extractable": 1.0,
+          "statistics": 1.0,
+          "quotations": 0.0,
+          "cited_sources": 1.0,
+          "no_keyword_stuffing": 1.0
+        },
+        "weights": {
+          "extractable": 0.25,
+          "statistics": 0.2,
+          "quotations": 0.2,
+          "cited_sources": 0.15,
+          "no_keyword_stuffing": 0.2
+        },
+        "applied_weight": 1.0,
+        "evidence_tier": "A",
+        "caveats": [
+          "Scores on-page signals with documented causal support (GEO paper, KDD 2024). It does not measure off-page brand mentions -- the strongest known correlate of AI visibility -- which an on-page tool cannot see.",
+          "The render-blindness check is a heuristic (low server-rendered word count + multiple scripts); confirm with a 'view source' if it flags."
+        ]
+      },
+      "secondary": {
+        "evidence_tier": "B",
+        "heading_levels": {
+          "1": 1,
+          "2": 16,
+          "3": 26,
+          "4": 4
+        },
+        "list_items": 36,
+        "tables": 0,
+        "paragraphs": 61,
+        "has_time_markup": false,
+        "note": "Structure / freshness signals: correlational, not weighted."
+      },
+      "informational": {
+        "evidence_tier": "C",
+        "schema_types": [
+          "JewelryStore",
+          "WebPage",
+          "FAQPage",
+          "Question"
+        ],
+        "faq_detected": true,
+        "note": "schema.org and FAQ are reported but NOT scored as AI-citation drivers: 2026 controlled evidence finds them neutral-to-negative for AI Overviews. FAQ rich results were dropped by Google 2026-05-07; keep FAQPage only for AI extraction, not Google snippets. llms.txt is not consumed by any engine."
+      },
+      "stuffing": {
+        "top_term": "bridal",
+        "top_term_ratio": 0.0337,
+        "flagged": false
+      }
+    },
+    "error": null
+  },
+  "page_audits": [
+    {
+      "name": "Home Page",
+      "url": "http://localhost:3001/",
+      "meta": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/",
+          "final_url": "http://localhost:3001/",
+          "status": 200,
+          "title": "Jewellery Shop in Bangalore | Bridal Bangles | Kannika",
+          "title_length": 54,
+          "meta_description": "Explore handcrafted bridal bangles, kundan kadas & festive jewellery in Bangalore. Visit our Malleshwaram showroom or shop online with fast city delivery.",
+          "meta_description_length": 154,
+          "meta_robots": "index, follow",
+          "canonical": "https://kannikabangles.com/",
+          "h1_count": 1,
+          "open_graph": {
+            "og:title": "Jewellery Shop in Bangalore | Bridal Bangles | Kannika",
+            "og:description": "Explore handcrafted bridal bangles, kundan kadas & festive jewellery in Bangalore. Visit our Malleshwaram showroom or shop online with fast city delivery.",
+            "og:image": "https://kannikabangles.com/images/hero-banner.png",
+            "og:url": "https://kannikabangles.com/",
+            "og:type": "website",
+            "og:site_name": "Kannika Bangles",
+            "og:locale": "en_IN"
+          },
+          "twitter": {
+            "twitter:card": "summary_large_image",
+            "twitter:title": "Jewellery Shop in Bangalore | Bridal Bangles | Kannika",
+            "twitter:description": "Explore handcrafted bridal bangles, kundan kadas & festive jewellery in Bangalore. Visit our Malleshwaram showroom or shop online with fast city delivery.",
+            "twitter:image": "https://kannikabangles.com/images/hero-banner.png"
+          },
+          "hreflang": []
+        },
+        "error": null
+      },
+      "canonical": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/",
+          "final_url": "http://localhost:3001/",
+          "canonical_declared": "https://kannikabangles.com/",
+          "canonical_resolved": "https://kannikabangles.com/",
+          "canonical_status": 200,
+          "is_self_referential": false,
+          "findings": [
+            "cross_url",
+            "cross_host",
+            "protocol_mismatch"
+          ]
+        },
+        "error": null
+      },
+      "mixed_content": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/",
+          "verdict": "not_https",
+          "violations": []
+        },
+        "error": null
+      },
+      "schema": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/",
+          "final_url": "http://localhost:3001/",
+          "block_count": 3,
+          "type_counts": {
+            "JewelryStore": 1,
+            "WebPage": 1,
+            "FAQPage": 1
+          },
+          "samples": {
+            "JewelryStore": {
+              "@type": "JewelryStore",
+              "@id": "https://kannikabangles.com/#organization",
+              "name": "Sri Kannika Bangles",
+              "alternateName": "Kannika Bangles",
+              "url": "https://kannikabangles.com/",
+              "logo": "https://kannikabangles.com/images/kannika_logo.jpeg",
+              "image": "https://kannikabangles.com/images/hero-banner.png",
+              "description": "Bangalore's finest handcrafted bridal and fashion bangles. Specialising in Kundan, Jadau, AD Stone, Micro Gold Plated, and Antique bangles.",
+              "foundingDate": "1991",
+              "telephone": "+919844758450",
+              "email": "Srikannikabangles@gmail.com",
+              "priceRange": "\u20b9\u20b9",
+              "currenciesAccepted": "INR",
+              "paymentAccepted": "Cash, UPI, Credit Card, Debit Card",
+              "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "No. 157/108, 9th Cross, East Park Road",
+                "addressLocality": "Malleshwaram",
+                "addressRegion": "Karnataka",
+                "postalCode": "560003",
+                "addressCountry": "IN"
+              },
+              "sameAs": [
+                "https://wa.me/919844758450"
+              ],
+              "@context": "https://schema.org"
+            },
+            "WebPage": {
+              "@type": "WebPage",
+              "@id": "https://kannikabangles.com/#webpage",
+              "url": "https://kannikabangles.com/",
+              "name": "Sri Kannika Bangles & Jewels \u2014 Handcrafted Bridal & Temple Jewellery Bangalore",
+              "isPartOf": {
+                "@id": "https://kannikabangles.com/#organization"
+              },
+              "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                  {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Home",
+                    "item": "https://kannikabangles.com/"
+                  }
+                ]
+              },
+              "@context": "https://schema.org"
+            },
+            "FAQPage": {
+              "@type": "FAQPage",
+              "mainEntity": [
+                {
+                  "@type": "Question",
+                  "name": "Where is Sri Kannika Bangles showroom located in Bangalore?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Our flagship boutique is located at No. 157/108, 9th Cross, East Park Road, Malleshwaram, Bengaluru, Karnataka 560003. We are open Monday through Sunday, 10:00 AM to 9:00 PM."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Can I bring my wedding saree or lehenga to the Malleshwaram showroom to match jewellery?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes, absolutely! We encourage brides and families to bring their Muhurtham Kanjivaram sarees, reception lehengas, or blouse swatches to our showroom for personalized matching with our master stylists."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Do you offer doorstep delivery or express shipping across Bangalore?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes, we provide 24 to 48 hour express doorstep delivery across all Bangalore neighbourhoods including Malleshwaram, Jayanagar, Indiranagar, Koramangala, Whitefield, Rajajinagar, and Commercial Street, as well as insured pan-India shipping."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "How durable is your 1-Gram micro gold plating and anti-tarnish finish?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Our jewellery is crafted using high-grade brass/copper bases finished with 24K micro gold plating and a proprietary anti-tarnish protective coating. With proper care, the luster lasts for years across multiple weddings and festive celebrations."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Can I order custom bangle sizes if I have very small or large wrists?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes, we cater to all standard Indian bangle sizes from 2.2 to 2.10, and also craft customized sizes for delicate or broad wrists upon request."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "How do I schedule a personalized bridal styling consultation?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "You can fill out our bridal consultation form on our website or message us directly on WhatsApp at +91 9844758450 to schedule an in-store session or WhatsApp styling appointment."
+                  }
+                }
+              ],
+              "@context": "https://schema.org"
+            }
+          },
+          "parse_errors": 0
+        },
+        "error": null
+      },
+      "schema_validation": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/",
+          "final_url": "http://localhost:3001/",
+          "block_count": 3,
+          "summary": {
+            "pass": 1,
+            "fail": 0,
+            "unknown_type": 2,
+            "parse_error": 0
+          },
+          "findings": [
+            {
+              "index": 0,
+              "types": [
+                "JewelryStore"
+              ],
+              "verdict": "unknown_type"
+            },
+            {
+              "index": 1,
+              "types": [
+                "WebPage"
+              ],
+              "verdict": "unknown_type"
+            },
+            {
+              "index": 2,
+              "type": "FAQPage",
+              "verdict": "pass",
+              "missing_required": [],
+              "missing_recommended": []
+            }
+          ]
+        },
+        "error": null
+      }
+    },
+    {
+      "name": "Bridal Jewellery Bangalore",
+      "url": "http://localhost:3001/bridal-jewellery-bangalore",
+      "meta": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/bridal-jewellery-bangalore",
+          "final_url": "http://localhost:3001/bridal-jewellery-bangalore",
+          "status": 200,
+          "title": "Bridal Jewellery in Bangalore | Wedding Sets | Kannika",
+          "title_length": 54,
+          "meta_description": "Explore bridal jewellery in Bangalore: handcrafted Kundan chokers, antique temple harams, bangles & jhumkas. Visit our Malleshwaram showroom.",
+          "meta_description_length": 141,
+          "meta_robots": "index, follow",
+          "canonical": "https://kannikabangles.com/bridal-jewellery-bangalore",
+          "h1_count": 1,
+          "open_graph": {
+            "og:title": "Bridal Jewellery in Bangalore | Wedding Sets | Kannika",
+            "og:description": "Explore bridal jewellery in Bangalore: handcrafted Kundan chokers, antique temple harams, bangles & jhumkas. Visit our Malleshwaram showroom or order online.",
+            "og:image": "https://kannikabangles.com/images/hero-banner.png",
+            "og:url": "https://kannikabangles.com/bridal-jewellery-bangalore",
+            "og:type": "website",
+            "og:site_name": "Kannika Bangles",
+            "og:locale": "en_IN"
+          },
+          "twitter": {
+            "twitter:card": "summary_large_image",
+            "twitter:title": "Bridal Jewellery in Bangalore | Wedding Sets | Kannika",
+            "twitter:description": "Explore bridal jewellery in Bangalore: handcrafted Kundan chokers, antique temple harams, bangles & jhumkas. Visit our Malleshwaram showroom.",
+            "twitter:image": "https://kannikabangles.com/images/hero-banner.png"
+          },
+          "hreflang": []
+        },
+        "error": null
+      },
+      "canonical": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/bridal-jewellery-bangalore",
+          "final_url": "http://localhost:3001/bridal-jewellery-bangalore",
+          "canonical_declared": "https://kannikabangles.com/bridal-jewellery-bangalore",
+          "canonical_resolved": "https://kannikabangles.com/bridal-jewellery-bangalore",
+          "canonical_status": 200,
+          "is_self_referential": false,
+          "findings": [
+            "cross_url",
+            "cross_host",
+            "protocol_mismatch"
+          ]
+        },
+        "error": null
+      },
+      "mixed_content": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/bridal-jewellery-bangalore",
+          "verdict": "not_https",
+          "violations": []
+        },
+        "error": null
+      },
+      "schema": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/bridal-jewellery-bangalore",
+          "final_url": "http://localhost:3001/bridal-jewellery-bangalore",
+          "block_count": 3,
+          "type_counts": {
+            "JewelryStore": 1,
+            "WebPage": 1,
+            "FAQPage": 1
+          },
+          "samples": {
+            "JewelryStore": {
+              "@type": "JewelryStore",
+              "@id": "https://kannikabangles.com/#organization",
+              "name": "Sri Kannika Bangles",
+              "url": "https://kannikabangles.com/",
+              "logo": "https://kannikabangles.com/images/kannika_logo.jpeg",
+              "image": "https://kannikabangles.com/images/hero-banner.png",
+              "telephone": "+919844758450",
+              "email": "Srikannikabangles@gmail.com",
+              "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "No. 157/108, 9th Cross, East Park Road, Malleshwaram",
+                "addressLocality": "Bangalore",
+                "addressRegion": "Karnataka",
+                "postalCode": "560003",
+                "addressCountry": "IN"
+              },
+              "priceRange": "\u20b9\u20b9",
+              "@context": "https://schema.org"
+            },
+            "WebPage": {
+              "@type": "WebPage",
+              "@id": "https://kannikabangles.com/bridal-jewellery-bangalore#webpage",
+              "url": "https://kannikabangles.com/bridal-jewellery-bangalore",
+              "name": "Bridal Jewellery in Bangalore | Handcrafted Wedding Sets | Sri Kannika",
+              "description": "Comprehensive bridal jewellery collection in Bangalore featuring antique temple sets, Kundan chokers, kada stacks, and custom wedding ornaments.",
+              "isPartOf": {
+                "@id": "https://kannikabangles.com/#website"
+              },
+              "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                  {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Home",
+                    "item": "https://kannikabangles.com/"
+                  },
+                  {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "Bridal Jewellery Bangalore",
+                    "item": "https://kannikabangles.com/bridal-jewellery-bangalore"
+                  }
+                ]
+              },
+              "@context": "https://schema.org"
+            },
+            "FAQPage": {
+              "@type": "FAQPage",
+              "mainEntity": [
+                {
+                  "@type": "Question",
+                  "name": "Where can I buy the best bridal imitation jewellery in Bangalore?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Sri Kannika Bangles on Sampige Road, Malleshwaram is one of Bangalore's most trusted showrooms for handcrafted bridal jewellery, offering antique matte gold necklace sets, Kundan chokers, temple harams, and bridal kada stacks since 1991."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "What type of polish is used on your bridal jewellery sets?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "All our jewellery pieces feature premium 24K micro gold plating with an anti-tarnish protective coat, providing the authentic radiant luster of real heirloom gold while being skin-friendly."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Do you deliver bridal jewellery across Bangalore and India?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes! We offer 24\u201348 hour express courier dispatch across all Bangalore localities (Malleshwaram, Indiranagar, Jayanagar, Koramangala, Whitefield) and 10-day insured delivery across India."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Can I get custom bridal bangle stacks curated for my wedding saree?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. You can send photos of your wedding saree / lehenga via WhatsApp (+91 98447 58450) or visit our Malleshwaram showroom for bespoke bridal stack curation matching your exact wrist size and color palette."
+                  }
+                }
+              ],
+              "@context": "https://schema.org"
+            }
+          },
+          "parse_errors": 0
+        },
+        "error": null
+      },
+      "schema_validation": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/bridal-jewellery-bangalore",
+          "final_url": "http://localhost:3001/bridal-jewellery-bangalore",
+          "block_count": 3,
+          "summary": {
+            "pass": 1,
+            "fail": 0,
+            "unknown_type": 2,
+            "parse_error": 0
+          },
+          "findings": [
+            {
+              "index": 0,
+              "types": [
+                "JewelryStore"
+              ],
+              "verdict": "unknown_type"
+            },
+            {
+              "index": 1,
+              "types": [
+                "WebPage"
+              ],
+              "verdict": "unknown_type"
+            },
+            {
+              "index": 2,
+              "type": "FAQPage",
+              "verdict": "pass",
+              "missing_required": [],
+              "missing_recommended": []
+            }
+          ]
+        },
+        "error": null
+      }
+    },
+    {
+      "name": "Temple Jewellery Bangalore",
+      "url": "http://localhost:3001/temple-jewellery-bangalore",
+      "meta": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/temple-jewellery-bangalore",
+          "final_url": "http://localhost:3001/temple-jewellery-bangalore",
+          "status": 200,
+          "title": "Temple Jewellery in Bangalore | Antique Nakshi Sets | Sri Kannika",
+          "title_length": 65,
+          "meta_description": "Authentic temple jewellery in Bangalore: handcrafted Nakshi Lakshmi harams, Kemp stone chokers & bridal kadas. Visit our Malleshwaram showroom today.",
+          "meta_description_length": 149,
+          "meta_robots": "index, follow",
+          "canonical": "https://kannikabangles.com/temple-jewellery-bangalore",
+          "h1_count": 1,
+          "open_graph": {
+            "og:title": "Temple Jewellery in Bangalore | Antique Nakshi Sets | Sri Kannika",
+            "og:description": "Authentic temple jewellery in Bangalore: handcrafted Nakshi Lakshmi harams, Kemp stone chokers & bridal kadas. Visit our Malleshwaram showroom today.",
+            "og:image": "https://kannikabangles.com/images/hero-banner.png",
+            "og:url": "https://kannikabangles.com/temple-jewellery-bangalore",
+            "og:type": "website",
+            "og:site_name": "Kannika Bangles",
+            "og:locale": "en_IN"
+          },
+          "twitter": {
+            "twitter:card": "summary_large_image",
+            "twitter:title": "Temple Jewellery in Bangalore | Antique Nakshi Sets | Sri Kannika",
+            "twitter:description": "Authentic temple jewellery in Bangalore: handcrafted Nakshi Lakshmi harams, Kemp stone chokers & bridal kadas.",
+            "twitter:image": "https://kannikabangles.com/images/hero-banner.png"
+          },
+          "hreflang": []
+        },
+        "error": null
+      },
+      "canonical": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/temple-jewellery-bangalore",
+          "final_url": "http://localhost:3001/temple-jewellery-bangalore",
+          "canonical_declared": "https://kannikabangles.com/temple-jewellery-bangalore",
+          "canonical_resolved": "https://kannikabangles.com/temple-jewellery-bangalore",
+          "canonical_status": 200,
+          "is_self_referential": false,
+          "findings": [
+            "cross_url",
+            "cross_host",
+            "protocol_mismatch"
+          ]
+        },
+        "error": null
+      },
+      "mixed_content": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/temple-jewellery-bangalore",
+          "verdict": "not_https",
+          "violations": []
+        },
+        "error": null
+      },
+      "schema": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/temple-jewellery-bangalore",
+          "final_url": "http://localhost:3001/temple-jewellery-bangalore",
+          "block_count": 3,
+          "type_counts": {
+            "JewelryStore": 1,
+            "WebPage": 1,
+            "FAQPage": 1
+          },
+          "samples": {
+            "JewelryStore": {
+              "@type": "JewelryStore",
+              "@id": "https://kannikabangles.com/#organization",
+              "name": "Sri Kannika Bangles",
+              "url": "https://kannikabangles.com/",
+              "logo": "https://kannikabangles.com/images/kannika_logo.jpeg",
+              "image": "https://kannikabangles.com/images/hero-banner.png",
+              "telephone": "+919844758450",
+              "email": "Srikannikabangles@gmail.com",
+              "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "No. 157/108, 9th Cross, East Park Road, Malleshwaram",
+                "addressLocality": "Bangalore",
+                "addressRegion": "Karnataka",
+                "postalCode": "560003",
+                "addressCountry": "IN"
+              },
+              "priceRange": "\u20b9\u20b9",
+              "@context": "https://schema.org"
+            },
+            "WebPage": {
+              "@type": "WebPage",
+              "@id": "https://kannikabangles.com/temple-jewellery-bangalore#webpage",
+              "url": "https://kannikabangles.com/temple-jewellery-bangalore",
+              "name": "Temple Jewellery in Bangalore | Antique Nakshi Sets | Sri Kannika",
+              "description": "Handcrafted traditional temple jewellery in Bangalore including antique matte finish Lakshmi harams, Kemp stone chokers, temple jhumkas, and peacock kadas.",
+              "isPartOf": {
+                "@id": "https://kannikabangles.com/#website"
+              },
+              "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                  {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Home",
+                    "item": "https://kannikabangles.com/"
+                  },
+                  {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "Temple Jewellery Bangalore",
+                    "item": "https://kannikabangles.com/temple-jewellery-bangalore"
+                  }
+                ]
+              },
+              "@context": "https://schema.org"
+            },
+            "FAQPage": {
+              "@type": "FAQPage",
+              "mainEntity": [
+                {
+                  "@type": "Question",
+                  "name": "What makes temple jewellery unique for South Indian weddings?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Temple jewellery originated in the Chola and Pandya dynasties to adorn deities. It features intricate hand-carved Nakshi motifs of Goddess Lakshmi, peacocks, elephants, and Kemp spinels, symbolizing prosperity and divine grace on the wedding day."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Does antique temple jewellery look like real gold in wedding photography?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. Our temple jewellery collection uses authentic matte reddish-gold micro plating that diffuses flash reflection, creating the rich, warm, heirloom radiance of traditional temple gold in 4K photography."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Is your temple jewellery suitable for classical dance (Bharatanatyam / Kuchipudi)?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Absolutely. Dancers and brides alike appreciate our durable brass-alloy base with lightweight hollow-embossed backings, preventing ear-lobe stretching or neck fatigue during long performances or ceremonies."
+                  }
+                }
+              ],
+              "@context": "https://schema.org"
+            }
+          },
+          "parse_errors": 0
+        },
+        "error": null
+      },
+      "schema_validation": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/temple-jewellery-bangalore",
+          "final_url": "http://localhost:3001/temple-jewellery-bangalore",
+          "block_count": 3,
+          "summary": {
+            "pass": 1,
+            "fail": 0,
+            "unknown_type": 2,
+            "parse_error": 0
+          },
+          "findings": [
+            {
+              "index": 0,
+              "types": [
+                "JewelryStore"
+              ],
+              "verdict": "unknown_type"
+            },
+            {
+              "index": 1,
+              "types": [
+                "WebPage"
+              ],
+              "verdict": "unknown_type"
+            },
+            {
+              "index": 2,
+              "type": "FAQPage",
+              "verdict": "pass",
+              "missing_required": [],
+              "missing_recommended": []
+            }
+          ]
+        },
+        "error": null
+      }
+    },
+    {
+      "name": "Muhurtham Jewellery Bangalore",
+      "url": "http://localhost:3001/muhurtham-jewellery-bangalore",
+      "meta": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/muhurtham-jewellery-bangalore",
+          "final_url": "http://localhost:3001/muhurtham-jewellery-bangalore",
+          "status": 200,
+          "title": "Muhurtham Jewellery Bangalore | Bridal Sets | Sri Kannika",
+          "title_length": 57,
+          "meta_description": "Authentic Muhurtham bridal jewellery in Bangalore. Kemp stone chokers, Nakshi Lakshmi harams & wedding bangles. Visit our Malleshwaram showroom.",
+          "meta_description_length": 144,
+          "meta_robots": "index, follow",
+          "canonical": "https://kannikabangles.com/muhurtham-jewellery-bangalore",
+          "h1_count": 1,
+          "open_graph": {
+            "og:title": "Muhurtham Jewellery Bangalore | Bridal Sets | Sri Kannika",
+            "og:description": "Authentic Muhurtham bridal jewellery in Bangalore. Kemp stone chokers, Nakshi Lakshmi harams & wedding bangles. Visit our Malleshwaram showroom.",
+            "og:image": "https://kannikabangles.com/images/hero-banner.png",
+            "og:url": "https://kannikabangles.com/muhurtham-jewellery-bangalore",
+            "og:type": "website",
+            "og:site_name": "Kannika Bangles",
+            "og:locale": "en_IN"
+          },
+          "twitter": {
+            "twitter:card": "summary_large_image",
+            "twitter:title": "Muhurtham Jewellery Bangalore | Bridal Sets | Sri Kannika",
+            "twitter:description": "Authentic Muhurtham bridal jewellery in Bangalore. Kemp stone chokers, Nakshi Lakshmi harams & wedding bangles.",
+            "twitter:image": "https://kannikabangles.com/images/hero-banner.png"
+          },
+          "hreflang": []
+        },
+        "error": null
+      },
+      "canonical": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/muhurtham-jewellery-bangalore",
+          "final_url": "http://localhost:3001/muhurtham-jewellery-bangalore",
+          "canonical_declared": "https://kannikabangles.com/muhurtham-jewellery-bangalore",
+          "canonical_resolved": "https://kannikabangles.com/muhurtham-jewellery-bangalore",
+          "canonical_status": 200,
+          "is_self_referential": false,
+          "findings": [
+            "cross_url",
+            "cross_host",
+            "protocol_mismatch"
+          ]
+        },
+        "error": null
+      },
+      "mixed_content": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/muhurtham-jewellery-bangalore",
+          "verdict": "not_https",
+          "violations": []
+        },
+        "error": null
+      },
+      "schema": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/muhurtham-jewellery-bangalore",
+          "final_url": "http://localhost:3001/muhurtham-jewellery-bangalore",
+          "block_count": 3,
+          "type_counts": {
+            "JewelryStore": 1,
+            "WebPage": 1,
+            "FAQPage": 1
+          },
+          "samples": {
+            "JewelryStore": {
+              "@type": "JewelryStore",
+              "@id": "https://kannikabangles.com/#organization",
+              "name": "Sri Kannika Bangles",
+              "url": "https://kannikabangles.com/",
+              "logo": "https://kannikabangles.com/images/kannika_logo.jpeg",
+              "image": "https://kannikabangles.com/images/hero-banner.png",
+              "telephone": "+919844758450",
+              "email": "Srikannikabangles@gmail.com",
+              "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "No. 157/108, 9th Cross, East Park Road, Malleshwaram",
+                "addressLocality": "Bangalore",
+                "addressRegion": "Karnataka",
+                "postalCode": "560003",
+                "addressCountry": "IN"
+              },
+              "priceRange": "\u20b9\u20b9",
+              "@context": "https://schema.org"
+            },
+            "WebPage": {
+              "@type": "WebPage",
+              "@id": "https://kannikabangles.com/muhurtham-jewellery-bangalore#webpage",
+              "url": "https://kannikabangles.com/muhurtham-jewellery-bangalore",
+              "name": "Muhurtham Jewellery Bangalore | Traditional Wedding Bangles & Sets | Sri Kannika",
+              "description": "Authentic South Indian Muhurtham bridal jewellery collection featuring antique Nakshi harams, ruby Kemp chokers, Lakshmi kadas, and traditional bridal bangle stacks.",
+              "isPartOf": {
+                "@id": "https://kannikabangles.com/#website"
+              },
+              "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                  {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Home",
+                    "item": "https://kannikabangles.com/"
+                  },
+                  {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "Bangalore Bridal",
+                    "item": "https://kannikabangles.com/bridal-jewellery-bangalore"
+                  },
+                  {
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "Muhurtham Jewellery",
+                    "item": "https://kannikabangles.com/muhurtham-jewellery-bangalore"
+                  }
+                ]
+              },
+              "@context": "https://schema.org"
+            },
+            "FAQPage": {
+              "@type": "FAQPage",
+              "mainEntity": [
+                {
+                  "@type": "Question",
+                  "name": "What jewellery is essential for a South Indian Muhurtham ceremony?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "A traditional South Indian Muhurtham ensemble requires a high Kemp choker (Kante / Hasli), a long Nakshi Lakshmi or mango haram, antique temple jhumkas with maattal, a traditional Mathapatti (Damini), and full Muhurtham bridal bangle stacks with green/red glass and gold kadas."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Why are green glass bangles worn with gold kadas for Muhurtham?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "In Karnataka and South Indian wedding traditions, green glass bangles symbolize fertility, prosperity, and marital auspiciousness (Saubhagya). They are traditionally paired with handcrafted antique gold kadas at both ends for structural beauty."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Can I customize my Muhurtham bangle stack to match my Kanjeevaram saree?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes! At Sri Kannika Bangles Malleshwaram, our bridal stylists create custom stacks matching your silk saree border, pallu zari, and wrist size. You can also share saree photos on WhatsApp (+91 98447 58450) for online curation."
+                  }
+                }
+              ],
+              "@context": "https://schema.org"
+            }
+          },
+          "parse_errors": 0
+        },
+        "error": null
+      },
+      "schema_validation": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/muhurtham-jewellery-bangalore",
+          "final_url": "http://localhost:3001/muhurtham-jewellery-bangalore",
+          "block_count": 3,
+          "summary": {
+            "pass": 1,
+            "fail": 0,
+            "unknown_type": 2,
+            "parse_error": 0
+          },
+          "findings": [
+            {
+              "index": 0,
+              "types": [
+                "JewelryStore"
+              ],
+              "verdict": "unknown_type"
+            },
+            {
+              "index": 1,
+              "types": [
+                "WebPage"
+              ],
+              "verdict": "unknown_type"
+            },
+            {
+              "index": 2,
+              "type": "FAQPage",
+              "verdict": "pass",
+              "missing_required": [],
+              "missing_recommended": []
+            }
+          ]
+        },
+        "error": null
+      }
+    },
+    {
+      "name": "Reception & Sangeet Jewellery",
+      "url": "http://localhost:3001/reception-and-sangeet-jewellery-bangalore",
+      "meta": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/reception-and-sangeet-jewellery-bangalore",
+          "final_url": "http://localhost:3001/reception-and-sangeet-jewellery-bangalore",
+          "status": 200,
+          "title": "Reception & Sangeet Jewellery Bangalore | Sri Kannika",
+          "title_length": 53,
+          "meta_description": "Luxury reception & Sangeet jewellery in Bangalore. Handcrafted Kundan suites, sparkling AD diamond sets & cocktail kadas. Visit Malleshwaram showroom.",
+          "meta_description_length": 150,
+          "meta_robots": "index, follow",
+          "canonical": "https://kannikabangles.com/reception-and-sangeet-jewellery-bangalore",
+          "h1_count": 1,
+          "open_graph": {
+            "og:title": "Reception & Sangeet Jewellery Bangalore | Sri Kannika",
+            "og:description": "Luxury reception & Sangeet jewellery in Bangalore. Handcrafted Kundan suites, sparkling AD diamond sets & cocktail kadas. Visit Malleshwaram showroom.",
+            "og:image": "https://kannikabangles.com/images/hero-banner.png",
+            "og:url": "https://kannikabangles.com/reception-and-sangeet-jewellery-bangalore",
+            "og:type": "website",
+            "og:site_name": "Kannika Bangles",
+            "og:locale": "en_IN"
+          },
+          "twitter": {
+            "twitter:card": "summary_large_image",
+            "twitter:title": "Reception & Sangeet Jewellery Bangalore | Sri Kannika",
+            "twitter:description": "Luxury reception & Sangeet jewellery in Bangalore. Handcrafted Kundan suites, sparkling AD diamond sets & cocktail kadas.",
+            "twitter:image": "https://kannikabangles.com/images/hero-banner.png"
+          },
+          "hreflang": []
+        },
+        "error": null
+      },
+      "canonical": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/reception-and-sangeet-jewellery-bangalore",
+          "final_url": "http://localhost:3001/reception-and-sangeet-jewellery-bangalore",
+          "canonical_declared": "https://kannikabangles.com/reception-and-sangeet-jewellery-bangalore",
+          "canonical_resolved": "https://kannikabangles.com/reception-and-sangeet-jewellery-bangalore",
+          "canonical_status": 200,
+          "is_self_referential": false,
+          "findings": [
+            "cross_url",
+            "cross_host",
+            "protocol_mismatch"
+          ]
+        },
+        "error": null
+      },
+      "mixed_content": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/reception-and-sangeet-jewellery-bangalore",
+          "verdict": "not_https",
+          "violations": []
+        },
+        "error": null
+      },
+      "schema": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/reception-and-sangeet-jewellery-bangalore",
+          "final_url": "http://localhost:3001/reception-and-sangeet-jewellery-bangalore",
+          "block_count": 3,
+          "type_counts": {
+            "JewelryStore": 1,
+            "WebPage": 1,
+            "FAQPage": 1
+          },
+          "samples": {
+            "JewelryStore": {
+              "@type": "JewelryStore",
+              "@id": "https://kannikabangles.com/#organization",
+              "name": "Sri Kannika Bangles",
+              "url": "https://kannikabangles.com/",
+              "logo": "https://kannikabangles.com/images/kannika_logo.jpeg",
+              "image": "https://kannikabangles.com/images/hero-banner.png",
+              "telephone": "+919844758450",
+              "email": "Srikannikabangles@gmail.com",
+              "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "No. 157/108, 9th Cross, East Park Road, Malleshwaram",
+                "addressLocality": "Bangalore",
+                "addressRegion": "Karnataka",
+                "postalCode": "560003",
+                "addressCountry": "IN"
+              },
+              "priceRange": "\u20b9\u20b9",
+              "@context": "https://schema.org"
+            },
+            "WebPage": {
+              "@type": "WebPage",
+              "@id": "https://kannikabangles.com/reception-and-sangeet-jewellery-bangalore#webpage",
+              "url": "https://kannikabangles.com/reception-and-sangeet-jewellery-bangalore",
+              "name": "Reception & Sangeet Jewellery Bangalore | Kundan & AD Sets | Sri Kannika",
+              "description": "Exclusive reception & Sangeet jewellery in Bangalore: uncut Polki Kundan chokers, sparkling AD diamond suites, pastel bead strings, and cocktail designer kadas.",
+              "isPartOf": {
+                "@id": "https://kannikabangles.com/#website"
+              },
+              "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                  {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Home",
+                    "item": "https://kannikabangles.com/"
+                  },
+                  {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "Bangalore Bridal",
+                    "item": "https://kannikabangles.com/bridal-jewellery-bangalore"
+                  },
+                  {
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "Reception & Sangeet",
+                    "item": "https://kannikabangles.com/reception-and-sangeet-jewellery-bangalore"
+                  }
+                ]
+              },
+              "@context": "https://schema.org"
+            },
+            "FAQPage": {
+              "@type": "FAQPage",
+              "mainEntity": [
+                {
+                  "@type": "Question",
+                  "name": "What jewellery is best for a wedding reception in Bangalore?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "For evening receptions, brides usually pair lehengas or contemporary gowns with royal Kundan-Polki chokers, American Diamond (CZ) necklace sets, or Russian emerald accent strings paired with sleek designer kadas and chandelier earrings."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "How is Sangeet jewellery different from Muhurtham jewellery?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "While Muhurtham demands heavy traditional antique temple gold and kemp stones, Sangeet jewellery is dynamic, lightweight, and sparkling\u2014featuring mirror-finish Kundan, pastel enamels, and lightweight dance-friendly earrings that catch evening party lights."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Do your Kundan sets have meenakari back-work?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes! All our premium Kundan and Jadau pieces feature exquisite hand-painted Meenakari enamel on the reverse side, ensuring skin comfort and authentic artisan heritage."
+                  }
+                }
+              ],
+              "@context": "https://schema.org"
+            }
+          },
+          "parse_errors": 0
+        },
+        "error": null
+      },
+      "schema_validation": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/reception-and-sangeet-jewellery-bangalore",
+          "final_url": "http://localhost:3001/reception-and-sangeet-jewellery-bangalore",
+          "block_count": 3,
+          "summary": {
+            "pass": 1,
+            "fail": 0,
+            "unknown_type": 2,
+            "parse_error": 0
+          },
+          "findings": [
+            {
+              "index": 0,
+              "types": [
+                "JewelryStore"
+              ],
+              "verdict": "unknown_type"
+            },
+            {
+              "index": 1,
+              "types": [
+                "WebPage"
+              ],
+              "verdict": "unknown_type"
+            },
+            {
+              "index": 2,
+              "type": "FAQPage",
+              "verdict": "pass",
+              "missing_required": [],
+              "missing_recommended": []
+            }
+          ]
+        },
+        "error": null
+      }
+    },
+    {
+      "name": "Haldi & Mehendi Jewellery",
+      "url": "http://localhost:3001/haldi-and-mehendi-jewellery-bangalore",
+      "meta": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/haldi-and-mehendi-jewellery-bangalore",
+          "final_url": "http://localhost:3001/haldi-and-mehendi-jewellery-bangalore",
+          "status": 200,
+          "title": "Haldi & Mehendi Jewellery Bangalore | Sri Kannika",
+          "title_length": 49,
+          "meta_description": "Vibrant Haldi & Mehendi jewellery in Bangalore: lightweight floral chokers, silk thread & gold bangle sets. Visit our Malleshwaram showroom.",
+          "meta_description_length": 140,
+          "meta_robots": "index, follow",
+          "canonical": "https://kannikabangles.com/haldi-and-mehendi-jewellery-bangalore",
+          "h1_count": 1,
+          "open_graph": {
+            "og:title": "Haldi & Mehendi Jewellery Bangalore | Sri Kannika",
+            "og:description": "Vibrant Haldi & Mehendi jewellery in Bangalore: lightweight floral chokers, silk thread & gold bangle sets. Visit our Malleshwaram showroom.",
+            "og:image": "https://kannikabangles.com/images/hero-banner.png",
+            "og:url": "https://kannikabangles.com/haldi-and-mehendi-jewellery-bangalore",
+            "og:type": "website",
+            "og:site_name": "Kannika Bangles",
+            "og:locale": "en_IN"
+          },
+          "twitter": {
+            "twitter:card": "summary_large_image",
+            "twitter:title": "Haldi & Mehendi Jewellery Bangalore | Sri Kannika",
+            "twitter:description": "Lightweight floral antique sets, colourful bangle combos & maang tikkas for Haldi & Mehendi celebrations.",
+            "twitter:image": "https://kannikabangles.com/images/hero-banner.png"
+          },
+          "hreflang": []
+        },
+        "error": null
+      },
+      "canonical": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/haldi-and-mehendi-jewellery-bangalore",
+          "final_url": "http://localhost:3001/haldi-and-mehendi-jewellery-bangalore",
+          "canonical_declared": "https://kannikabangles.com/haldi-and-mehendi-jewellery-bangalore",
+          "canonical_resolved": "https://kannikabangles.com/haldi-and-mehendi-jewellery-bangalore",
+          "canonical_status": 200,
+          "is_self_referential": false,
+          "findings": [
+            "cross_url",
+            "cross_host",
+            "protocol_mismatch"
+          ]
+        },
+        "error": null
+      },
+      "mixed_content": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/haldi-and-mehendi-jewellery-bangalore",
+          "verdict": "not_https",
+          "violations": []
+        },
+        "error": null
+      },
+      "schema": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/haldi-and-mehendi-jewellery-bangalore",
+          "final_url": "http://localhost:3001/haldi-and-mehendi-jewellery-bangalore",
+          "block_count": 3,
+          "type_counts": {
+            "JewelryStore": 1,
+            "WebPage": 1,
+            "FAQPage": 1
+          },
+          "samples": {
+            "JewelryStore": {
+              "@type": "JewelryStore",
+              "@id": "https://kannikabangles.com/#organization",
+              "name": "Sri Kannika Bangles",
+              "url": "https://kannikabangles.com/",
+              "logo": "https://kannikabangles.com/images/kannika_logo.jpeg",
+              "image": "https://kannikabangles.com/images/hero-banner.png",
+              "telephone": "+919844758450",
+              "email": "Srikannikabangles@gmail.com",
+              "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "No. 157/108, 9th Cross, East Park Road, Malleshwaram",
+                "addressLocality": "Bangalore",
+                "addressRegion": "Karnataka",
+                "postalCode": "560003",
+                "addressCountry": "IN"
+              },
+              "priceRange": "\u20b9\u20b9",
+              "@context": "https://schema.org"
+            },
+            "WebPage": {
+              "@type": "WebPage",
+              "@id": "https://kannikabangles.com/haldi-and-mehendi-jewellery-bangalore#webpage",
+              "url": "https://kannikabangles.com/haldi-and-mehendi-jewellery-bangalore",
+              "name": "Haldi & Mehendi Jewellery Bangalore | Floral & Antique Bangles | Sri Kannika",
+              "description": "Vibrant and lightweight Haldi and Mehendi jewellery sets in Bangalore featuring floral antique chokers, colourful yellow & green bangle stacks, mathapattis, and haathphools.",
+              "isPartOf": {
+                "@id": "https://kannikabangles.com/#website"
+              },
+              "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                  {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Home",
+                    "item": "https://kannikabangles.com/"
+                  },
+                  {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "Bangalore Bridal",
+                    "item": "https://kannikabangles.com/bridal-jewellery-bangalore"
+                  },
+                  {
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "Haldi & Mehendi",
+                    "item": "https://kannikabangles.com/haldi-and-mehendi-jewellery-bangalore"
+                  }
+                ]
+              },
+              "@context": "https://schema.org"
+            },
+            "FAQPage": {
+              "@type": "FAQPage",
+              "mainEntity": [
+                {
+                  "@type": "Question",
+                  "name": "What jewellery is best for Haldi and Mehendi functions?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "For Haldi, brides prefer yellow & gold lightweight floral antique chokers, pearl drop maang tikkas, and bright yellow/marigold bangle combos. For Mehendi, openable floral cuffs, haathphools, and green glass bangles with kundan spacers are most popular."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Is your Haldi jewellery safe from water and turmeric stains?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes! Our high-grade micro gold plating and anti-tarnish protective coatings are designed to resist water splashes and turmeric paste without discoloring or reacting with sensitive skin."
+                  }
+                }
+              ],
+              "@context": "https://schema.org"
+            }
+          },
+          "parse_errors": 0
+        },
+        "error": null
+      },
+      "schema_validation": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/haldi-and-mehendi-jewellery-bangalore",
+          "final_url": "http://localhost:3001/haldi-and-mehendi-jewellery-bangalore",
+          "block_count": 3,
+          "summary": {
+            "pass": 1,
+            "fail": 0,
+            "unknown_type": 2,
+            "parse_error": 0
+          },
+          "findings": [
+            {
+              "index": 0,
+              "types": [
+                "JewelryStore"
+              ],
+              "verdict": "unknown_type"
+            },
+            {
+              "index": 1,
+              "types": [
+                "WebPage"
+              ],
+              "verdict": "unknown_type"
+            },
+            {
+              "index": 2,
+              "type": "FAQPage",
+              "verdict": "pass",
+              "missing_required": [],
+              "missing_recommended": []
+            }
+          ]
+        },
+        "error": null
+      }
+    },
+    {
+      "name": "CZ & AD Diamond Jewellery",
+      "url": "http://localhost:3001/cz-and-ad-diamond-jewellery-bangalore",
+      "meta": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/cz-and-ad-diamond-jewellery-bangalore",
+          "final_url": "http://localhost:3001/cz-and-ad-diamond-jewellery-bangalore",
+          "status": 200,
+          "title": "American Diamond & CZ Jewellery in Bangalore | Kannika Bangles",
+          "title_length": 62,
+          "meta_description": "Discover high-sparkle American Diamond (AD) & Cubic Zirconia (CZ) bridal jewellery in Bangalore. Handcrafted choker sets, cocktail earrings & tennis bangles.",
+          "meta_description_length": 157,
+          "meta_robots": "index, follow",
+          "canonical": "https://kannikabangles.com/cz-and-ad-diamond-jewellery-bangalore",
+          "h1_count": 1,
+          "open_graph": {
+            "og:title": "American Diamond & CZ Jewellery in Bangalore | Kannika Bangles",
+            "og:description": "Discover high-sparkle American Diamond (AD) & Cubic Zirconia (CZ) bridal jewellery in Bangalore. Handcrafted choker sets, cocktail earrings & tennis bangles.",
+            "og:image": "https://kannikabangles.com/images/earrings/IMG-20260720-WA0017.jpg",
+            "og:url": "https://kannikabangles.com/cz-and-ad-diamond-jewellery-bangalore",
+            "og:site_name": "Kannika Bangles",
+            "og:locale": "en_IN",
+            "og:type": "website"
+          },
+          "twitter": {
+            "twitter:card": "summary_large_image",
+            "twitter:title": "American Diamond & CZ Jewellery in Bangalore | Kannika Bangles",
+            "twitter:description": "Discover high-sparkle American Diamond (AD) & Cubic Zirconia (CZ) bridal jewellery in Bangalore. Handcrafted choker sets, cocktail earrings & tennis bangles.",
+            "twitter:image": "https://kannikabangles.com/images/earrings/IMG-20260720-WA0017.jpg"
+          },
+          "hreflang": []
+        },
+        "error": null
+      },
+      "canonical": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/cz-and-ad-diamond-jewellery-bangalore",
+          "final_url": "http://localhost:3001/cz-and-ad-diamond-jewellery-bangalore",
+          "canonical_declared": "https://kannikabangles.com/cz-and-ad-diamond-jewellery-bangalore",
+          "canonical_resolved": "https://kannikabangles.com/cz-and-ad-diamond-jewellery-bangalore",
+          "canonical_status": 200,
+          "is_self_referential": false,
+          "findings": [
+            "cross_url",
+            "cross_host",
+            "protocol_mismatch"
+          ]
+        },
+        "error": null
+      },
+      "mixed_content": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/cz-and-ad-diamond-jewellery-bangalore",
+          "verdict": "not_https",
+          "violations": []
+        },
+        "error": null
+      },
+      "schema": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/cz-and-ad-diamond-jewellery-bangalore",
+          "final_url": "http://localhost:3001/cz-and-ad-diamond-jewellery-bangalore",
+          "block_count": 3,
+          "type_counts": {
+            "JewelryStore": 1,
+            "WebPage": 1,
+            "FAQPage": 1
+          },
+          "samples": {
+            "JewelryStore": {
+              "@type": "JewelryStore",
+              "@id": "https://kannikabangles.com/#organization",
+              "name": "Sri Kannika Bangles",
+              "url": "https://kannikabangles.com/",
+              "logo": "https://kannikabangles.com/images/kannika_logo.jpeg",
+              "image": "https://kannikabangles.com/images/hero-banner.png",
+              "telephone": "+919844758450",
+              "email": "Srikannikabangles@gmail.com",
+              "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "No. 157/108, 9th Cross, East Park Road, Malleshwaram",
+                "addressLocality": "Bangalore",
+                "addressRegion": "Karnataka",
+                "postalCode": "560003",
+                "addressCountry": "IN"
+              },
+              "priceRange": "\u20b9\u20b9",
+              "@context": "https://schema.org"
+            },
+            "WebPage": {
+              "@type": "WebPage",
+              "@id": "https://kannikabangles.com/cz-and-ad-diamond-jewellery-bangalore#webpage",
+              "url": "https://kannikabangles.com/cz-and-ad-diamond-jewellery-bangalore",
+              "name": "American Diamond & CZ Jewellery in Bangalore | Kannika Bangles",
+              "description": "High-sparkle American Diamond (AD) and Cubic Zirconia (CZ) bridal jewellery collection in Bangalore featuring chokers, cocktail earrings, and tennis bangles.",
+              "isPartOf": {
+                "@id": "https://kannikabangles.com/#website"
+              },
+              "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                  {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Home",
+                    "item": "https://kannikabangles.com/"
+                  },
+                  {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "Collections",
+                    "item": "https://kannikabangles.com/shop"
+                  },
+                  {
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "American Diamond & CZ Jewellery in Bangalore",
+                    "item": "https://kannikabangles.com/cz-and-ad-diamond-jewellery-bangalore"
+                  }
+                ]
+              },
+              "@context": "https://schema.org"
+            },
+            "FAQPage": {
+              "@type": "FAQPage",
+              "mainEntity": [
+                {
+                  "@type": "Question",
+                  "name": "What is the difference between CZ and American Diamond jewellery?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Cubic Zirconia (CZ) and American Diamond (AD) are high-grade simulated diamonds engineered to replicate the exceptional brilliance, fire, and clarity of real diamonds with durable prong settings in micro gold or rhodium polish."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Where can I buy American Diamond bridal sets in Bangalore?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Sri Kannika Bangles in Malleshwaram, Bangalore offers handcrafted American Diamond and CZ bridal chokers, cocktail earrings, and tennis bangles with personalized styling consultations."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Can I inspect the AD stone jewellery over video call before ordering?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes! We offer live 1-on-1 HD video consultations so you can examine the stone cut, sparkle, and craftsmanship in real time before placing your order."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Do you deliver CZ diamond jewellery across Bangalore?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes, we provide 24 to 48 hour express doorstep delivery across all Bangalore localities, as well as insured pan-India delivery."
+                  }
+                }
+              ],
+              "@context": "https://schema.org"
+            }
+          },
+          "parse_errors": 0
+        },
+        "error": null
+      },
+      "schema_validation": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/cz-and-ad-diamond-jewellery-bangalore",
+          "final_url": "http://localhost:3001/cz-and-ad-diamond-jewellery-bangalore",
+          "block_count": 3,
+          "summary": {
+            "pass": 1,
+            "fail": 0,
+            "unknown_type": 2,
+            "parse_error": 0
+          },
+          "findings": [
+            {
+              "index": 0,
+              "types": [
+                "JewelryStore"
+              ],
+              "verdict": "unknown_type"
+            },
+            {
+              "index": 1,
+              "types": [
+                "WebPage"
+              ],
+              "verdict": "unknown_type"
+            },
+            {
+              "index": 2,
+              "type": "FAQPage",
+              "verdict": "pass",
+              "missing_required": [],
+              "missing_recommended": []
+            }
+          ]
+        },
+        "error": null
+      }
+    },
+    {
+      "name": "Kundan & Jadau Jewellery",
+      "url": "http://localhost:3001/kundan-and-jadau-jewellery-bangalore",
+      "meta": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/kundan-and-jadau-jewellery-bangalore",
+          "final_url": "http://localhost:3001/kundan-and-jadau-jewellery-bangalore",
+          "status": 200,
+          "title": "Kundan & Jadau Jewellery Bangalore | Bridal Sets | Kannika",
+          "title_length": 58,
+          "meta_description": "Royal Kundan & Jadau bridal jewellery in Bangalore. Handcrafted Meenakari chokers, Jadau kadas & Polki suites. Visit our Malleshwaram showroom.",
+          "meta_description_length": 143,
+          "meta_robots": "index, follow",
+          "canonical": "https://kannikabangles.com/kundan-and-jadau-jewellery-bangalore",
+          "h1_count": 1,
+          "open_graph": {
+            "og:title": "Kundan & Jadau Jewellery Bangalore | Bridal Sets | Kannika",
+            "og:description": "Royal Kundan & Jadau bridal jewellery in Bangalore. Handcrafted Meenakari chokers, Jadau kadas & Polki suites. Visit our Malleshwaram showroom.",
+            "og:image": "https://kannikabangles.com/images/bangles/IMG-20260805-WA0007.jpg",
+            "og:url": "https://kannikabangles.com/kundan-and-jadau-jewellery-bangalore",
+            "og:site_name": "Kannika Bangles",
+            "og:locale": "en_IN",
+            "og:type": "website"
+          },
+          "twitter": {
+            "twitter:card": "summary_large_image",
+            "twitter:title": "Kundan & Jadau Jewellery Bangalore | Bridal Sets | Kannika",
+            "twitter:description": "Royal Kundan & Jadau bridal jewellery in Bangalore. Handcrafted Meenakari chokers, Jadau kadas & Polki suites. Visit our Malleshwaram showroom.",
+            "twitter:image": "https://kannikabangles.com/images/bangles/IMG-20260805-WA0007.jpg"
+          },
+          "hreflang": []
+        },
+        "error": null
+      },
+      "canonical": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/kundan-and-jadau-jewellery-bangalore",
+          "final_url": "http://localhost:3001/kundan-and-jadau-jewellery-bangalore",
+          "canonical_declared": "https://kannikabangles.com/kundan-and-jadau-jewellery-bangalore",
+          "canonical_resolved": "https://kannikabangles.com/kundan-and-jadau-jewellery-bangalore",
+          "canonical_status": 200,
+          "is_self_referential": false,
+          "findings": [
+            "cross_url",
+            "cross_host",
+            "protocol_mismatch"
+          ]
+        },
+        "error": null
+      },
+      "mixed_content": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/kundan-and-jadau-jewellery-bangalore",
+          "verdict": "not_https",
+          "violations": []
+        },
+        "error": null
+      },
+      "schema": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/kundan-and-jadau-jewellery-bangalore",
+          "final_url": "http://localhost:3001/kundan-and-jadau-jewellery-bangalore",
+          "block_count": 3,
+          "type_counts": {
+            "JewelryStore": 1,
+            "WebPage": 1,
+            "FAQPage": 1
+          },
+          "samples": {
+            "JewelryStore": {
+              "@type": "JewelryStore",
+              "@id": "https://kannikabangles.com/#organization",
+              "name": "Sri Kannika Bangles",
+              "url": "https://kannikabangles.com/",
+              "logo": "https://kannikabangles.com/images/kannika_logo.jpeg",
+              "image": "https://kannikabangles.com/images/hero-banner.png",
+              "telephone": "+919844758450",
+              "email": "Srikannikabangles@gmail.com",
+              "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "No. 157/108, 9th Cross, East Park Road, Malleshwaram",
+                "addressLocality": "Bangalore",
+                "addressRegion": "Karnataka",
+                "postalCode": "560003",
+                "addressCountry": "IN"
+              },
+              "priceRange": "\u20b9\u20b9",
+              "@context": "https://schema.org"
+            },
+            "WebPage": {
+              "@type": "WebPage",
+              "@id": "https://kannikabangles.com/kundan-and-jadau-jewellery-bangalore#webpage",
+              "url": "https://kannikabangles.com/kundan-and-jadau-jewellery-bangalore",
+              "name": "Kundan & Jadau Jewellery Bangalore | Bridal Sets | Kannika",
+              "description": "Royal Kundan and Jadau bridal jewellery collection in Bangalore featuring Meenakari chokers, Jadau kadas, and Polki suites.",
+              "isPartOf": {
+                "@id": "https://kannikabangles.com/#website"
+              },
+              "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                  {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Home",
+                    "item": "https://kannikabangles.com/"
+                  },
+                  {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "Collections",
+                    "item": "https://kannikabangles.com/shop"
+                  },
+                  {
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "Kundan & Jadau Jewellery in Bangalore",
+                    "item": "https://kannikabangles.com/kundan-and-jadau-jewellery-bangalore"
+                  }
+                ]
+              },
+              "@context": "https://schema.org"
+            },
+            "FAQPage": {
+              "@type": "FAQPage",
+              "mainEntity": [
+                {
+                  "@type": "Question",
+                  "name": "What is the distinction between Kundan and Jadau jewellery?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Kundan refers to the refined method of setting polished uncut stones with pure gold foil, while Jadau is the regal technique used to embed Kundan stones and Meenakari enamel into handcrafted jewellery."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Where can I buy authentic Kundan bridal jewellery in Bangalore?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Sri Kannika Bangles at Malleshwaram, Bangalore offers handcrafted Kundan choker necklaces, Jadau bangles, and bridal suites crafted with anti-tarnish micro gold polish."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Can I customize Kundan bangles to match my wedding lehenga?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. Brides can visit our Malleshwaram boutique or share bridal outfit swatches over WhatsApp for personalized stone color matching and custom wrist sizing."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "What is your doorstep delivery timeline across Bangalore?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "We offer 24 to 48 hour express doorstep delivery across all Bangalore localities, plus insured pan-India shipping."
+                  }
+                }
+              ],
+              "@context": "https://schema.org"
+            }
+          },
+          "parse_errors": 0
+        },
+        "error": null
+      },
+      "schema_validation": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/kundan-and-jadau-jewellery-bangalore",
+          "final_url": "http://localhost:3001/kundan-and-jadau-jewellery-bangalore",
+          "block_count": 3,
+          "summary": {
+            "pass": 1,
+            "fail": 0,
+            "unknown_type": 2,
+            "parse_error": 0
+          },
+          "findings": [
+            {
+              "index": 0,
+              "types": [
+                "JewelryStore"
+              ],
+              "verdict": "unknown_type"
+            },
+            {
+              "index": 1,
+              "types": [
+                "WebPage"
+              ],
+              "verdict": "unknown_type"
+            },
+            {
+              "index": 2,
+              "type": "FAQPage",
+              "verdict": "pass",
+              "missing_required": [],
+              "missing_recommended": []
+            }
+          ]
+        },
+        "error": null
+      }
+    },
+    {
+      "name": "Antique Matte Finish Jewellery",
+      "url": "http://localhost:3001/antique-matte-finish-jewellery-bangalore",
+      "meta": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/antique-matte-finish-jewellery-bangalore",
+          "final_url": "http://localhost:3001/antique-matte-finish-jewellery-bangalore",
+          "status": 200,
+          "title": "Antique Matte Finish Jewellery Bangalore | Sri Kannika",
+          "title_length": 54,
+          "meta_description": "Authentic antique matte finish jewellery in Bangalore: 1 gram micro gold temple harams, Nakshi kadas & Kemp ruby sets. Visit Malleshwaram showroom.",
+          "meta_description_length": 147,
+          "meta_robots": "index, follow",
+          "canonical": "https://kannikabangles.com/antique-matte-finish-jewellery-bangalore",
+          "h1_count": 1,
+          "open_graph": {
+            "og:title": "Antique Matte Finish Jewellery Bangalore | Sri Kannika",
+            "og:description": "Authentic antique matte finish jewellery in Bangalore: 1 gram micro gold temple harams, Nakshi kadas & Kemp ruby sets. Visit Malleshwaram showroom.",
+            "og:image": "https://kannikabangles.com/images/bangles/IMG-20260805-WA0010.jpg",
+            "og:url": "https://kannikabangles.com/antique-matte-finish-jewellery-bangalore",
+            "og:site_name": "Kannika Bangles",
+            "og:locale": "en_IN",
+            "og:type": "website"
+          },
+          "twitter": {
+            "twitter:card": "summary_large_image",
+            "twitter:title": "Antique Matte Finish Jewellery Bangalore | Sri Kannika",
+            "twitter:description": "Authentic antique matte finish jewellery in Bangalore: 1 gram micro gold temple harams, Nakshi kadas & Kemp ruby sets. Visit Malleshwaram showroom.",
+            "twitter:image": "https://kannikabangles.com/images/bangles/IMG-20260805-WA0010.jpg"
+          },
+          "hreflang": []
+        },
+        "error": null
+      },
+      "canonical": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/antique-matte-finish-jewellery-bangalore",
+          "final_url": "http://localhost:3001/antique-matte-finish-jewellery-bangalore",
+          "canonical_declared": "https://kannikabangles.com/antique-matte-finish-jewellery-bangalore",
+          "canonical_resolved": "https://kannikabangles.com/antique-matte-finish-jewellery-bangalore",
+          "canonical_status": 200,
+          "is_self_referential": false,
+          "findings": [
+            "cross_url",
+            "cross_host",
+            "protocol_mismatch"
+          ]
+        },
+        "error": null
+      },
+      "mixed_content": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/antique-matte-finish-jewellery-bangalore",
+          "verdict": "not_https",
+          "violations": []
+        },
+        "error": null
+      },
+      "schema": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/antique-matte-finish-jewellery-bangalore",
+          "final_url": "http://localhost:3001/antique-matte-finish-jewellery-bangalore",
+          "block_count": 3,
+          "type_counts": {
+            "JewelryStore": 1,
+            "WebPage": 1,
+            "FAQPage": 1
+          },
+          "samples": {
+            "JewelryStore": {
+              "@type": "JewelryStore",
+              "@id": "https://kannikabangles.com/#organization",
+              "name": "Sri Kannika Bangles",
+              "url": "https://kannikabangles.com/",
+              "logo": "https://kannikabangles.com/images/kannika_logo.jpeg",
+              "image": "https://kannikabangles.com/images/hero-banner.png",
+              "telephone": "+919844758450",
+              "email": "Srikannikabangles@gmail.com",
+              "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "No. 157/108, 9th Cross, East Park Road, Malleshwaram",
+                "addressLocality": "Bangalore",
+                "addressRegion": "Karnataka",
+                "postalCode": "560003",
+                "addressCountry": "IN"
+              },
+              "priceRange": "\u20b9\u20b9",
+              "@context": "https://schema.org"
+            },
+            "WebPage": {
+              "@type": "WebPage",
+              "@id": "https://kannikabangles.com/antique-matte-finish-jewellery-bangalore#webpage",
+              "url": "https://kannikabangles.com/antique-matte-finish-jewellery-bangalore",
+              "name": "Antique Matte Finish Jewellery Bangalore | Sri Kannika",
+              "description": "Authentic antique matte finish jewellery in Bangalore crafted with 1 gram micro gold plating, temple harams, and Nakshi kadas.",
+              "isPartOf": {
+                "@id": "https://kannikabangles.com/#website"
+              },
+              "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                  {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Home",
+                    "item": "https://kannikabangles.com/"
+                  },
+                  {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "Collections",
+                    "item": "https://kannikabangles.com/shop"
+                  },
+                  {
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "Antique Matte Finish Jewellery in Bangalore",
+                    "item": "https://kannikabangles.com/antique-matte-finish-jewellery-bangalore"
+                  }
+                ]
+              },
+              "@context": "https://schema.org"
+            },
+            "FAQPage": {
+              "@type": "FAQPage",
+              "mainEntity": [
+                {
+                  "@type": "Question",
+                  "name": "What is antique matte finish jewellery?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Antique matte finish jewellery features a warm, non-reflective heritage gold finish created with high-grade micro gold plating over copper/brass alloys to replicate timeless temple heirloom ornaments."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "How long does 1-gram micro gold antique matte polish last?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "With our protective anti-tarnish coating and standard jewellery care, the antique matte luster remains radiant for years across multiple weddings and celebrations."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Where can I view antique matte jewellery in Bangalore?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "You can visit Sri Kannika Bangles showroom at No. 157/108, 9th Cross, East Park Road, Malleshwaram, Bengaluru, or connect with our master stylists via WhatsApp live video call."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Do you deliver antique matte sets across Bangalore?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes, we offer express 24 to 48 hour doorstep delivery across Bangalore and fully insured delivery pan-India."
+                  }
+                }
+              ],
+              "@context": "https://schema.org"
+            }
+          },
+          "parse_errors": 0
+        },
+        "error": null
+      },
+      "schema_validation": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/antique-matte-finish-jewellery-bangalore",
+          "final_url": "http://localhost:3001/antique-matte-finish-jewellery-bangalore",
+          "block_count": 3,
+          "summary": {
+            "pass": 1,
+            "fail": 0,
+            "unknown_type": 2,
+            "parse_error": 0
+          },
+          "findings": [
+            {
+              "index": 0,
+              "types": [
+                "JewelryStore"
+              ],
+              "verdict": "unknown_type"
+            },
+            {
+              "index": 1,
+              "types": [
+                "WebPage"
+              ],
+              "verdict": "unknown_type"
+            },
+            {
+              "index": 2,
+              "type": "FAQPage",
+              "verdict": "pass",
+              "missing_required": [],
+              "missing_recommended": []
+            }
+          ]
+        },
+        "error": null
+      }
+    },
+    {
+      "name": "Bridal Bangles & Kadas",
+      "url": "http://localhost:3001/bangles",
+      "meta": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/bangles",
+          "final_url": "http://localhost:3001/bangles",
+          "status": 200,
+          "title": "Bridal Bangles & Kundan Kadas Bangalore | Sri Kannika Bangles",
+          "title_length": 61,
+          "meta_description": "Shop handcrafted bridal bangles & Kundan kadas in Bangalore. Premium antique gold polish, AD stone spacer sets & 24\u201348 hr express Bangalore delivery. Visit Malleshwaram showroom.",
+          "meta_description_length": 178,
+          "meta_robots": "index, follow",
+          "canonical": "https://kannikabangles.com/bangles",
+          "h1_count": 1,
+          "open_graph": {
+            "og:title": "Bridal Bangles & Kundan Kadas Bangalore | Sri Kannika Bangles",
+            "og:description": "Shop handcrafted bridal bangles & Kundan kadas in Bangalore. Premium antique gold polish, AD stone spacer sets & 24\u201348 hr express Bangalore delivery. Visit Malleshwaram showroom.",
+            "og:image": "https://kannikabangles.com/images/hero-banner.png",
+            "og:url": "https://kannikabangles.com/bangles",
+            "og:type": "website",
+            "og:site_name": "Kannika Bangles",
+            "og:locale": "en_IN"
+          },
+          "twitter": {
+            "twitter:card": "summary_large_image",
+            "twitter:title": "Bridal Bangles & Kundan Kadas Bangalore | Sri Kannika Bangles",
+            "twitter:description": "Shop handcrafted bridal bangles & Kundan kadas in Bangalore. Premium antique gold polish, AD stone spacer sets & 24\u201348 hr express Bangalore delivery. Visit Malleshwaram showroom.",
+            "twitter:image": "https://kannikabangles.com/images/hero-banner.png"
+          },
+          "hreflang": []
+        },
+        "error": null
+      },
+      "canonical": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/bangles",
+          "final_url": "http://localhost:3001/bangles",
+          "canonical_declared": "https://kannikabangles.com/bangles",
+          "canonical_resolved": "https://kannikabangles.com/bangles",
+          "canonical_status": 200,
+          "is_self_referential": false,
+          "findings": [
+            "cross_url",
+            "cross_host",
+            "protocol_mismatch"
+          ]
+        },
+        "error": null
+      },
+      "mixed_content": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/bangles",
+          "verdict": "not_https",
+          "violations": []
+        },
+        "error": null
+      },
+      "schema": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/bangles",
+          "final_url": "http://localhost:3001/bangles",
+          "block_count": 3,
+          "type_counts": {
+            "CollectionPage": 1,
+            "ItemList": 1,
+            "FAQPage": 1
+          },
+          "samples": {
+            "CollectionPage": {
+              "@type": "CollectionPage",
+              "@id": "https://kannikabangles.com/shop#webpage",
+              "url": "https://kannikabangles.com/shop",
+              "name": "Shop Luxury Jewellery Collections \u2014 Kannika Bangles",
+              "description": "Explore handcrafted bangles and pendant sets at Kannika Bangles, Malleshwaram, Bangalore.",
+              "isPartOf": {
+                "@id": "https://kannikabangles.com/#website"
+              },
+              "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                  {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Home",
+                    "item": "https://kannikabangles.com/"
+                  },
+                  {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "Shop",
+                    "item": "https://kannikabangles.com/shop"
+                  }
+                ]
+              },
+              "@context": "https://schema.org"
+            },
+            "ItemList": {
+              "@context": "https://schema.org",
+              "@type": "ItemList",
+              "name": "Bridal Bangles & Kundan Kadas Bangalore | Sri Kannika Bangles",
+              "numberOfItems": 14,
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "item": {
+                    "@type": "Product",
+                    "name": "Antique Gold Kada",
+                    "url": "https://kannikabangles.com/product/1",
+                    "image": "https://kannikabangles.com/images/bangles/IMG-20260805-WA0007.jpg",
+                    "offers": {
+                      "@type": "Offer",
+                      "price": 960,
+                      "priceCurrency": "INR",
+                      "availability": "https://schema.org/InStock"
+                    }
+                  }
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 2,
+                  "item": {
+                    "@type": "Product",
+                    "name": "Ruby Bridal Bangle",
+                    "url": "https://kannikabangles.com/product/2",
+                    "image": "https://kannikabangles.com/images/bangles/IMG-20260805-WA0008.jpg",
+                    "offers": {
+                      "@type": "Offer",
+                      "price": 1060,
+                      "priceCurrency": "INR",
+                      "availability": "https://schema.org/InStock"
+                    }
+                  }
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 3,
+                  "item": {
+                    "@type": "Product",
+                    "name": "Floral Diamond Bangle",
+                    "url": "https://kannikabangles.com/product/3",
+                    "image": "https://kannikabangles.com/images/bangles/IMG-20260805-WA0009.jpg",
+                    "offers": {
+                      "@type": "Offer",
+                      "price": 1040,
+                      "priceCurrency": "INR",
+                      "availability": "https://schema.org/InStock"
+                    }
+                  }
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 4,
+                  "item": {
+                    "@type": "Product",
+                    "name": "Classic Temple Kada",
+                    "url": "https://kannikabangles.com/product/4",
+                    "image": "https://kannikabangles.com/images/bangles/IMG-20260805-WA0010.jpg",
+                    "offers": {
+                      "@type": "Offer",
+                      "price": 1050,
+                      "priceCurrency": "INR",
+                      "availability": "https://schema.org/InStock"
+                    }
+                  }
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 5,
+                  "item": {
+                    "@type": "Product",
+                    "name": "Grand Royal Kada",
+                    "url": "https://kannikabangles.com/product/5",
+                    "image": "https://kannikabangles.com/images/bangles/IMG-20260805-WA0011.jpg",
+                    "offers": {
+                      "@type": "Offer",
+                      "price": 1900,
+                      "priceCurrency": "INR",
+                      "availability": "https://schema.org/InStock"
+                    }
+                  }
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 6,
+                  "item": {
+                    "@type": "Product",
+                    "name": "Peacock Gold Bangle",
+                    "url": "https://kannikabangles.com/product/6",
+                    "image": "https://kannikabangles.com/images/bangles/IMG-20260805-WA0012.jpg",
+                    "offers": {
+                      "@type": "Offer",
+                      "price": 1120,
+                      "priceCurrency": "INR",
+                      "availability": "https://schema.org/InStock"
+                    }
+                  }
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 7,
+                  "item": {
+                    "@type": "Product",
+                    "name": "Kundan Bridal Bangle",
+                    "url": "https://kannikabangles.com/product/7",
+                    "image": "https://kannikabangles.com/images/bangles/IMG-20260805-WA0013.jpg",
+                    "offers": {
+                      "@type": "Offer",
+                      "price": 1050,
+                      "priceCurrency": "INR",
+                      "availability": "https://schema.org/InStock"
+                    }
+                  }
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 8,
+                  "item": {
+                    "@type": "Product",
+                    "name": "Traditional Gold Kada",
+                    "url": "https://kannikabangles.com/product/8",
+                    "image": "https://kannikabangles.com/images/bangles/IMG-20260805-WA0014.jpg",
+                    "offers": {
+                      "@type": "Offer",
+                      "price": 1430,
+                      "priceCurrency": "INR",
+                      "availability": "https://schema.org/InStock"
+                    }
+                  }
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 9,
+                  "item": {
+                    "@type": "Product",
+                    "name": "Heritage Kemp Bangle",
+                    "url": "https://kannikabangles.com/product/9",
+                    "image": "https://kannikabangles.com/images/bangles/IMG-20260805-WA0015.jpg",
+                    "offers": {
+                      "@type": "Offer",
+                      "price": 1700,
+                      "priceCurrency": "INR",
+                      "availability": "https://schema.org/InStock"
+                    }
+                  }
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 10,
+                  "item": {
+                    "@type": "Product",
+                    "name": "Floral Stone Bangle",
+                    "url": "https://kannikabangles.com/product/10",
+                    "image": "https://kannikabangles.com/images/bangles/IMG-20260805-WA0016.jpg",
+                    "offers": {
+                      "@type": "Offer",
+                      "price": 980,
+                      "priceCurrency": "INR",
+                      "availability": "https://schema.org/InStock"
+                    }
+                  }
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 11,
+                  "item": {
+                    "@type": "Product",
+                    "name": "Filigree Gold Kada",
+                    "url": "https://kannikabangles.com/product/11",
+                    "image": "https://kannikabangles.com/images/bangles/IMG-20260805-WA0017.jpg",
+                    "offers": {
+                      "@type": "Offer",
+                      "price": 1200,
+                      "priceCurrency": "INR",
+                      "availability": "https://schema.org/InStock"
+                    }
+                  }
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 12,
+                  "item": {
+                    "@type": "Product",
+                    "name": "Imperial Bridal Kada",
+                    "url": "https://kannikabangles.com/product/12",
+                    "image": "https://kannikabangles.com/images/bangles/IMG-20260805-WA0018.jpg",
+                    "offers": {
+                      "@type": "Offer",
+                      "price": 1980,
+                      "priceCurrency": "INR",
+                      "availability": "https://schema.org/InStock"
+                    }
+                  }
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 13,
+                  "item": {
+                    "@type": "Product",
+                    "name": "Delicate Stone Bangle",
+                    "url": "https://kannikabangles.com/product/13",
+                    "image": "https://kannikabangles.com/images/bangles/IMG-20260805-WA0019.jpg",
+                    "offers": {
+                      "@type": "Offer",
+                      "price": 900,
+                      "priceCurrency": "INR",
+                      "availability": "https://schema.org/InStock"
+                    }
+                  }
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 14,
+                  "item": {
+                    "@type": "Product",
+                    "name": "Royal Antique Bangle",
+                    "url": "https://kannikabangles.com/product/14",
+                    "image": "https://kannikabangles.com/images/bangles/IMG-20260805-WA0020.jpg",
+                    "offers": {
+                      "@type": "Offer",
+                      "price": 1200,
+                      "priceCurrency": "INR",
+                      "availability": "https://schema.org/InStock"
+                    }
+                  }
+                }
+              ]
+            },
+            "FAQPage": {
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              "mainEntity": [
+                {
+                  "@type": "Question",
+                  "name": "What makes Sri Kannika Bangles the best bridal bangles shop in Bangalore?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Sri Kannika Bangles has been an established jewellery institution in Malleshwaram, Bangalore for over three decades. Unlike mass-produced commercial sellers, we specialize in artisanal heritage metalcrafting, heavy 24k micro gold polish, authentic kemp and glass Kundan settings, and personalized bridal bangle stacking consultations both in-store and via WhatsApp personalized shopping."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Can I bring or send photos of my wedding saree to customize a matching bangle stack?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Absolutely! Most of our bridal clients coordinate their bangle stack by sharing high-resolution photos of their wedding saree blouse, zari borders, or bridal lehenga. Our styling consultants match the exact gemstone undertones (ruby red, emerald bottle green, sapphire blue, or antique champagne gold) to build a harmonious set."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "How long does the 24k micro gold finish last on your antique and Kundan bangles?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "With proper care, our micro gold plated jewellery retains its lustrous golden tone for many years. Because we apply a protective anti-oxidation lacquer over thick gold deposits, normal festive and ceremonial wear will not cause premature fading. We recommend storing bangles in separate dry plastic pouches away from perfumes, hairsprays, and moisture."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Do you offer screw-open / hinged kadas for brides with wider knuckles?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes! Many of our statement bridal kadas feature precision side-screw mechanisms or spring-hinged locks. This allows brides with broad knuckles but slender wrists to wear a snug, custom-fitting kada that sits elegantly without rolling loosely up the arm."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "What is your shipping timeline for online orders in Bangalore and across India?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Orders within Bangalore are dispatched promptly via express courier, typically arriving in 1 to 2 business days. Pan-India orders are carefully packed in protective hard jewelry cases and delivered within 10 days via insured express logistics partners with live tracking updates."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "How should I clean and preserve my bridal bangles after the wedding ceremonies?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "After use, wipe each bangle gently with a soft microfiber cloth to remove sweat and skin oils. Store each piece in a separate zip-lock pouch with a silica gel packet to prevent moisture exposure. Never immerse gold-plated jewellery in liquid soaps, chlorine, or ultrasonic chemical baths."
+                  }
+                }
+              ]
+            }
+          },
+          "parse_errors": 0
+        },
+        "error": null
+      },
+      "schema_validation": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/bangles",
+          "final_url": "http://localhost:3001/bangles",
+          "block_count": 3,
+          "summary": {
+            "pass": 1,
+            "fail": 0,
+            "unknown_type": 2,
+            "parse_error": 0
+          },
+          "findings": [
+            {
+              "index": 0,
+              "types": [
+                "CollectionPage"
+              ],
+              "verdict": "unknown_type"
+            },
+            {
+              "index": 1,
+              "types": [
+                "ItemList"
+              ],
+              "verdict": "unknown_type"
+            },
+            {
+              "index": 2,
+              "type": "FAQPage",
+              "verdict": "pass",
+              "missing_required": [],
+              "missing_recommended": []
+            }
+          ]
+        },
+        "error": null
+      }
+    },
+    {
+      "name": "Bridal Necklaces & Chokers",
+      "url": "http://localhost:3001/necklaces",
+      "meta": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/necklaces",
+          "final_url": "http://localhost:3001/necklaces",
+          "status": 200,
+          "title": "Bridal Necklaces & Kundan Choker Sets Bangalore | Kannika",
+          "title_length": 57,
+          "meta_description": "Explore luxury bridal necklace sets & antique harams in Bangalore. Handcrafted Kundan chokers, temple nakshi designs & micro gold finish with 24\u201348 hr express Bangalore delivery.",
+          "meta_description_length": 178,
+          "meta_robots": "index, follow",
+          "canonical": "https://kannikabangles.com/necklaces",
+          "h1_count": 1,
+          "open_graph": {
+            "og:title": "Bridal Necklaces & Kundan Choker Sets Bangalore | Kannika",
+            "og:description": "Explore luxury bridal necklace sets & antique harams in Bangalore. Handcrafted Kundan chokers, temple nakshi designs & micro gold finish with 24\u201348 hr express Bangalore delivery.",
+            "og:image": "https://kannikabangles.com/images/hero-banner.png",
+            "og:url": "https://kannikabangles.com/necklaces",
+            "og:type": "website",
+            "og:site_name": "Kannika Bangles",
+            "og:locale": "en_IN"
+          },
+          "twitter": {
+            "twitter:card": "summary_large_image",
+            "twitter:title": "Bridal Necklaces & Kundan Choker Sets Bangalore | Kannika",
+            "twitter:description": "Explore luxury bridal necklace sets & antique harams in Bangalore. Handcrafted Kundan chokers, temple nakshi designs & micro gold finish with 24\u201348 hr express Bangalore delivery.",
+            "twitter:image": "https://kannikabangles.com/images/hero-banner.png"
+          },
+          "hreflang": []
+        },
+        "error": null
+      },
+      "canonical": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/necklaces",
+          "final_url": "http://localhost:3001/necklaces",
+          "canonical_declared": "https://kannikabangles.com/necklaces",
+          "canonical_resolved": "https://kannikabangles.com/necklaces",
+          "canonical_status": 200,
+          "is_self_referential": false,
+          "findings": [
+            "cross_url",
+            "cross_host",
+            "protocol_mismatch"
+          ]
+        },
+        "error": null
+      },
+      "mixed_content": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/necklaces",
+          "verdict": "not_https",
+          "violations": []
+        },
+        "error": null
+      },
+      "schema": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/necklaces",
+          "final_url": "http://localhost:3001/necklaces",
+          "block_count": 3,
+          "type_counts": {
+            "CollectionPage": 1,
+            "ItemList": 1,
+            "FAQPage": 1
+          },
+          "samples": {
+            "CollectionPage": {
+              "@type": "CollectionPage",
+              "@id": "https://kannikabangles.com/shop#webpage",
+              "url": "https://kannikabangles.com/shop",
+              "name": "Shop Luxury Jewellery Collections \u2014 Kannika Bangles",
+              "description": "Explore handcrafted bangles and pendant sets at Kannika Bangles, Malleshwaram, Bangalore.",
+              "isPartOf": {
+                "@id": "https://kannikabangles.com/#website"
+              },
+              "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                  {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Home",
+                    "item": "https://kannikabangles.com/"
+                  },
+                  {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "Shop",
+                    "item": "https://kannikabangles.com/shop"
+                  }
+                ]
+              },
+              "@context": "https://schema.org"
+            },
+            "ItemList": {
+              "@context": "https://schema.org",
+              "@type": "ItemList",
+              "name": "Bridal Necklaces & Kundan Choker Sets Bangalore | Kannika",
+              "numberOfItems": 5,
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "item": {
+                    "@type": "Product",
+                    "name": "Ruby Pearl Tikka",
+                    "url": "https://kannikabangles.com/product/30",
+                    "image": "https://kannikabangles.com/images/necklaces/IMG-20260717-WA0003.jpg",
+                    "offers": {
+                      "@type": "Offer",
+                      "price": 1080,
+                      "priceCurrency": "INR",
+                      "availability": "https://schema.org/InStock"
+                    }
+                  }
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 2,
+                  "item": {
+                    "@type": "Product",
+                    "name": "Royal Pearl Passa",
+                    "url": "https://kannikabangles.com/product/32",
+                    "image": "https://kannikabangles.com/images/necklaces/IMG-20260717-WA0007.jpg",
+                    "offers": {
+                      "@type": "Offer",
+                      "price": 1680,
+                      "priceCurrency": "INR",
+                      "availability": "https://schema.org/InStock"
+                    }
+                  }
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 3,
+                  "item": {
+                    "@type": "Product",
+                    "name": "Grand Bridal Choker",
+                    "url": "https://kannikabangles.com/product/33",
+                    "image": "https://kannikabangles.com/images/necklaces/IMG-20260717-WA0012.jpg",
+                    "offers": {
+                      "@type": "Offer",
+                      "price": 4640,
+                      "priceCurrency": "INR",
+                      "availability": "https://schema.org/InStock"
+                    }
+                  }
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 4,
+                  "item": {
+                    "@type": "Product",
+                    "name": "Kundan Pearl Choker",
+                    "url": "https://kannikabangles.com/product/34",
+                    "image": "https://kannikabangles.com/images/necklaces/IMG-20260717-WA0013.jpg",
+                    "offers": {
+                      "@type": "Offer",
+                      "price": 2360,
+                      "priceCurrency": "INR",
+                      "availability": "https://schema.org/InStock"
+                    }
+                  }
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 5,
+                  "item": {
+                    "@type": "Product",
+                    "name": "Heritage Lakshmi Temple Haram",
+                    "url": "https://kannikabangles.com/product/47",
+                    "image": "https://kannikabangles.com/images/necklaces/IMG-20260717-WA0004.jpg",
+                    "offers": {
+                      "@type": "Offer",
+                      "price": 3450,
+                      "priceCurrency": "INR",
+                      "availability": "https://schema.org/InStock"
+                    }
+                  }
+                }
+              ]
+            },
+            "FAQPage": {
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              "mainEntity": [
+                {
+                  "@type": "Question",
+                  "name": "Are your bridal necklace sets sold with matching earrings included?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes! All our bridal necklace and choker sets come complete with curated matching earrings (either traditional jhumkas, chandbalis, or designer drop studs) crafted in identical gemstone cuts, pearl fringes, and gold plating tones."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "How do I choose between antique matte gold and high-polish Kundan for my wedding?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "For morning Muhurtham ceremonies with pure Kanjivaram silk sarees, antique matte temple necklaces with reddish-gold undertones offer traditional sacred grace. For evening Sangeet, Mehendi, or Reception events under modern banquet lighting, high-polish Kundan and AD diamond suites reflect light brilliantly."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Can I order custom combinations of choker + long haram sets online?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes! You can connect with our Malleshwaram styling consultants via WhatsApp (+91 98447 58450). We can show you curated combinations on WhatsApp, coordinate matching bangles and maang tikkas, and prepare a unified bridal suite."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "How should I care for and store my bridal necklace sets after the wedding?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "After wearing, wipe your necklace gently with a soft cotton cloth to remove any skin oils or sweat. Store it flat in its original padded velvet hard box or an airtight zip-lock bag. Never spray perfume, deodorant, or hairspray directly onto the jewellery."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "What is the delivery timeframe for bridal necklaces in Bangalore and across India?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Bangalore city deliveries arrive within 24 to 48 hours via local express courier. All pan-India orders are dispatched in velvet-lined protective cases and delivered within 10 days with end-to-end tracking and transit insurance."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Can your long Harams be adjusted in length for different heights and saree draping styles?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes! Our long harams feature heavy-duty adjustable zari back cords (Dori) with secure slide beads, allowing you to shorten the drop to 20 inches for mid-length placement or lengthen it up to 32 inches for classic royal waist draping."
+                  }
+                }
+              ]
+            }
+          },
+          "parse_errors": 0
+        },
+        "error": null
+      },
+      "schema_validation": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/necklaces",
+          "final_url": "http://localhost:3001/necklaces",
+          "block_count": 3,
+          "summary": {
+            "pass": 1,
+            "fail": 0,
+            "unknown_type": 2,
+            "parse_error": 0
+          },
+          "findings": [
+            {
+              "index": 0,
+              "types": [
+                "CollectionPage"
+              ],
+              "verdict": "unknown_type"
+            },
+            {
+              "index": 1,
+              "types": [
+                "ItemList"
+              ],
+              "verdict": "unknown_type"
+            },
+            {
+              "index": 2,
+              "type": "FAQPage",
+              "verdict": "pass",
+              "missing_required": [],
+              "missing_recommended": []
+            }
+          ]
+        },
+        "error": null
+      }
+    },
+    {
+      "name": "Pendant Sets",
+      "url": "http://localhost:3001/pendant-sets",
+      "meta": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/pendant-sets",
+          "final_url": "http://localhost:3001/pendant-sets",
+          "status": 200,
+          "title": "Handcrafted Pendant Sets in Bangalore | Sri Kannika Bangles",
+          "title_length": 59,
+          "meta_description": "Buy handcrafted pendant sets with matching earrings in Bangalore. Discover Kundan, antique matte & CZ stone lockets with 24k micro gold polish. Order online today.",
+          "meta_description_length": 163,
+          "meta_robots": "index, follow",
+          "canonical": "https://kannikabangles.com/pendant-sets",
+          "h1_count": 1,
+          "open_graph": {
+            "og:title": "Handcrafted Pendant Sets in Bangalore | Sri Kannika Bangles",
+            "og:description": "Buy handcrafted pendant sets with matching earrings in Bangalore. Discover Kundan, antique matte & CZ stone lockets with 24k micro gold polish. Order online today.",
+            "og:image": "https://kannikabangles.com/images/hero-banner.png",
+            "og:url": "https://kannikabangles.com/pendant-sets",
+            "og:type": "website",
+            "og:site_name": "Kannika Bangles",
+            "og:locale": "en_IN"
+          },
+          "twitter": {
+            "twitter:card": "summary_large_image",
+            "twitter:title": "Handcrafted Pendant Sets in Bangalore | Sri Kannika Bangles",
+            "twitter:description": "Buy handcrafted pendant sets with matching earrings in Bangalore. Discover Kundan, antique matte & CZ stone lockets with 24k micro gold polish. Order online today.",
+            "twitter:image": "https://kannikabangles.com/images/hero-banner.png"
+          },
+          "hreflang": []
+        },
+        "error": null
+      },
+      "canonical": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/pendant-sets",
+          "final_url": "http://localhost:3001/pendant-sets",
+          "canonical_declared": "https://kannikabangles.com/pendant-sets",
+          "canonical_resolved": "https://kannikabangles.com/pendant-sets",
+          "canonical_status": 200,
+          "is_self_referential": false,
+          "findings": [
+            "cross_url",
+            "cross_host",
+            "protocol_mismatch"
+          ]
+        },
+        "error": null
+      },
+      "mixed_content": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/pendant-sets",
+          "verdict": "not_https",
+          "violations": []
+        },
+        "error": null
+      },
+      "schema": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/pendant-sets",
+          "final_url": "http://localhost:3001/pendant-sets",
+          "block_count": 3,
+          "type_counts": {
+            "CollectionPage": 1,
+            "ItemList": 1,
+            "FAQPage": 1
+          },
+          "samples": {
+            "CollectionPage": {
+              "@type": "CollectionPage",
+              "@id": "https://kannikabangles.com/shop#webpage",
+              "url": "https://kannikabangles.com/shop",
+              "name": "Shop Luxury Jewellery Collections \u2014 Kannika Bangles",
+              "description": "Explore handcrafted bangles and pendant sets at Kannika Bangles, Malleshwaram, Bangalore.",
+              "isPartOf": {
+                "@id": "https://kannikabangles.com/#website"
+              },
+              "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                  {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Home",
+                    "item": "https://kannikabangles.com/"
+                  },
+                  {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "Shop",
+                    "item": "https://kannikabangles.com/shop"
+                  }
+                ]
+              },
+              "@context": "https://schema.org"
+            },
+            "ItemList": {
+              "@context": "https://schema.org",
+              "@type": "ItemList",
+              "name": "Handcrafted Pendant Sets in Bangalore | Sri Kannika Bangles",
+              "numberOfItems": 14,
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "item": {
+                    "@type": "Product",
+                    "name": "Floral AD Pendant",
+                    "url": "https://kannikabangles.com/product/15",
+                    "image": "https://kannikabangles.com/images/pendant-sets/IMG-20260821-WA0005.jpg",
+                    "offers": {
+                      "@type": "Offer",
+                      "price": 1380,
+                      "priceCurrency": "INR",
+                      "availability": "https://schema.org/InStock"
+                    }
+                  }
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 2,
+                  "item": {
+                    "@type": "Product",
+                    "name": "Peacock Jadau Set",
+                    "url": "https://kannikabangles.com/product/16",
+                    "image": "https://kannikabangles.com/images/pendant-sets/IMG-20260821-WA0006.jpg",
+                    "offers": {
+                      "@type": "Offer",
+                      "price": 1500,
+                      "priceCurrency": "INR",
+                      "availability": "https://schema.org/InStock"
+                    }
+                  }
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 3,
+                  "item": {
+                    "@type": "Product",
+                    "name": "Emerald Drop Pendant",
+                    "url": "https://kannikabangles.com/product/17",
+                    "image": "https://kannikabangles.com/images/pendant-sets/IMG-20260821-WA0007.jpg",
+                    "offers": {
+                      "@type": "Offer",
+                      "price": 1100,
+                      "priceCurrency": "INR",
+                      "availability": "https://schema.org/InStock"
+                    }
+                  }
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 4,
+                  "item": {
+                    "@type": "Product",
+                    "name": "Royal Ruby Pendant",
+                    "url": "https://kannikabangles.com/product/18",
+                    "image": "https://kannikabangles.com/images/pendant-sets/IMG-20260821-WA0008.jpg",
+                    "offers": {
+                      "@type": "Offer",
+                      "price": 1480,
+                      "priceCurrency": "INR",
+                      "availability": "https://schema.org/InStock"
+                    }
+                  }
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 5,
+                  "item": {
+                    "@type": "Product",
+                    "name": "Kundan Temple Set",
+                    "url": "https://kannikabangles.com/product/19",
+                    "image": "https://kannikabangles.com/images/pendant-sets/IMG-20260821-WA0009.jpg",
+                    "offers": {
+                      "@type": "Offer",
+                      "price": 1620,
+                      "priceCurrency": "INR",
+                      "availability": "https://schema.org/InStock"
+                    }
+                  }
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 6,
+                  "item": {
+                    "@type": "Product",
+                    "name": "Classic Pearl Pendant",
+                    "url": "https://kannikabangles.com/product/20",
+                    "image": "https://kannikabangles.com/images/pendant-sets/IMG-20260821-WA0010.jpg",
+                    "offers": {
+                      "@type": "Offer",
+                      "price": 1380,
+                      "priceCurrency": "INR",
+                      "availability": "https://schema.org/InStock"
+                    }
+                  }
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 7,
+                  "item": {
+                    "@type": "Product",
+                    "name": "Antique Gold Set",
+                    "url": "https://kannikabangles.com/product/21",
+                    "image": "https://kannikabangles.com/images/pendant-sets/IMG-20260821-WA0011.jpg",
+                    "offers": {
+                      "@type": "Offer",
+                      "price": 1260,
+                      "priceCurrency": "INR",
+                      "availability": "https://schema.org/InStock"
+                    }
+                  }
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 8,
+                  "item": {
+                    "@type": "Product",
+                    "name": "Grand Floral Pendant",
+                    "url": "https://kannikabangles.com/product/22",
+                    "image": "https://kannikabangles.com/images/pendant-sets/IMG-20260821-WA0012.jpg",
+                    "offers": {
+                      "@type": "Offer",
+                      "price": 1440,
+                      "priceCurrency": "INR",
+                      "availability": "https://schema.org/InStock"
+                    }
+                  }
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 9,
+                  "item": {
+                    "@type": "Product",
+                    "name": "Bridal Diamond Set",
+                    "url": "https://kannikabangles.com/product/23",
+                    "image": "https://kannikabangles.com/images/pendant-sets/IMG-20260821-WA0013.jpg",
+                    "offers": {
+                      "@type": "Offer",
+                      "price": 1750,
+                      "priceCurrency": "INR",
+                      "availability": "https://schema.org/InStock"
+                    }
+                  }
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 10,
+                  "item": {
+                    "@type": "Product",
+                    "name": "Heritage Kemp Pendant",
+                    "url": "https://kannikabangles.com/product/24",
+                    "image": "https://kannikabangles.com/images/pendant-sets/IMG-20260821-WA0014.jpg",
+                    "offers": {
+                      "@type": "Offer",
+                      "price": 1500,
+                      "priceCurrency": "INR",
+                      "availability": "https://schema.org/InStock"
+                    }
+                  }
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 11,
+                  "item": {
+                    "@type": "Product",
+                    "name": "Imperial Jadau Set",
+                    "url": "https://kannikabangles.com/product/25",
+                    "image": "https://kannikabangles.com/images/pendant-sets/IMG-20260821-WA0015.jpg",
+                    "offers": {
+                      "@type": "Offer",
+                      "price": 2200,
+                      "priceCurrency": "INR",
+                      "availability": "https://schema.org/InStock"
+                    }
+                  }
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 12,
+                  "item": {
+                    "@type": "Product",
+                    "name": "Royal Crown Pendant",
+                    "url": "https://kannikabangles.com/product/26",
+                    "image": "https://kannikabangles.com/images/pendant-sets/IMG-20260821-WA0016.jpg",
+                    "offers": {
+                      "@type": "Offer",
+                      "price": 2000,
+                      "priceCurrency": "INR",
+                      "availability": "https://schema.org/InStock"
+                    }
+                  }
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 13,
+                  "item": {
+                    "@type": "Product",
+                    "name": "Emerald Pearl Set",
+                    "url": "https://kannikabangles.com/product/27",
+                    "image": "https://kannikabangles.com/images/pendant-sets/IMG-20260821-WA0017.jpg",
+                    "offers": {
+                      "@type": "Offer",
+                      "price": 1380,
+                      "priceCurrency": "INR",
+                      "availability": "https://schema.org/InStock"
+                    }
+                  }
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 14,
+                  "item": {
+                    "@type": "Product",
+                    "name": "Classic Gold Pendant",
+                    "url": "https://kannikabangles.com/product/28",
+                    "image": "https://kannikabangles.com/images/pendant-sets/IMG-20260821-WA0018.jpg",
+                    "offers": {
+                      "@type": "Offer",
+                      "price": 1100,
+                      "priceCurrency": "INR",
+                      "availability": "https://schema.org/InStock"
+                    }
+                  }
+                }
+              ]
+            },
+            "FAQPage": {
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              "mainEntity": [
+                {
+                  "@type": "Question",
+                  "name": "Does the pendant set come with a chain included?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes! Our pendant sets are delivered with a complementary matching gold-plated chain (standard 18-inch length with an adjustable 2-inch extender link). The pendant can also be easily removed and threaded onto your personal gold chains or pearl strands."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Are the earrings heavy on the earlobes?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "No. Unlike heavy bridal jhumkas, our pendant set earrings are specifically engineered for lightweight daily and festive comfort, typically weighing between 4 to 8 grams per pair with secure push-back closures."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Can I wear these pendant sets daily without the color fading?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Our 24k micro gold plating is highly durable and tarnish-resistant. To maintain its showroom shine for years, simply avoid direct contact with water, sweat, perfumes, and harsh chemicals, and wipe it dry with a soft cloth after use."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Do you offer corporate or bulk bridesmaid gifting options?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes! We frequently customize bulk bridesmaid gift hampers and festive corporate orders with special packaging. Contact our WhatsApp support team (+91 98447 58450) to explore volume curated selections."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "What is the delivery speed for pendant sets in Bangalore?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Orders across Bangalore are dispatched via express courier, arriving within 24 to 48 hours. Pan-India shipping is completed within 10 days in tamper-proof protective packaging."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Can I detach the pendant medallion and wear it with my own black-bead mangalsutra chain?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes! All our pendant bails are constructed with wide inner clearance (minimum 4mm to 6mm opening) to effortlessly accommodate standard black bead mangalsutra chains, twisted pearl strings, and thick gold ropes."
+                  }
+                }
+              ]
+            }
+          },
+          "parse_errors": 0
+        },
+        "error": null
+      },
+      "schema_validation": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/pendant-sets",
+          "final_url": "http://localhost:3001/pendant-sets",
+          "block_count": 3,
+          "summary": {
+            "pass": 1,
+            "fail": 0,
+            "unknown_type": 2,
+            "parse_error": 0
+          },
+          "findings": [
+            {
+              "index": 0,
+              "types": [
+                "CollectionPage"
+              ],
+              "verdict": "unknown_type"
+            },
+            {
+              "index": 1,
+              "types": [
+                "ItemList"
+              ],
+              "verdict": "unknown_type"
+            },
+            {
+              "index": 2,
+              "type": "FAQPage",
+              "verdict": "pass",
+              "missing_required": [],
+              "missing_recommended": []
+            }
+          ]
+        },
+        "error": null
+      }
+    },
+    {
+      "name": "Earrings & Jhumkas",
+      "url": "http://localhost:3001/earrings",
+      "meta": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/earrings",
+          "final_url": "http://localhost:3001/earrings",
+          "status": 200,
+          "title": "Designer Bridal Earrings & Jhumkas Bangalore | Kannika",
+          "title_length": 54,
+          "meta_description": "Shop authentic bridal jhumkas, chandbalis & AD studs in Bangalore. Handcrafted temple & Kundan earrings with skin-friendly micro gold polish. Visit Malleshwaram.",
+          "meta_description_length": 161,
+          "meta_robots": "index, follow",
+          "canonical": "https://kannikabangles.com/earrings",
+          "h1_count": 1,
+          "open_graph": {
+            "og:title": "Designer Bridal Earrings & Jhumkas Bangalore | Kannika",
+            "og:description": "Shop authentic bridal jhumkas, chandbalis & AD studs in Bangalore. Handcrafted temple & Kundan earrings with skin-friendly micro gold polish. Visit Malleshwaram.",
+            "og:image": "https://kannikabangles.com/images/hero-banner.png",
+            "og:url": "https://kannikabangles.com/earrings",
+            "og:type": "website",
+            "og:site_name": "Kannika Bangles",
+            "og:locale": "en_IN"
+          },
+          "twitter": {
+            "twitter:card": "summary_large_image",
+            "twitter:title": "Designer Bridal Earrings & Jhumkas Bangalore | Kannika",
+            "twitter:description": "Shop authentic bridal jhumkas, chandbalis & AD studs in Bangalore. Handcrafted temple & Kundan earrings with skin-friendly micro gold polish. Visit Malleshwaram.",
+            "twitter:image": "https://kannikabangles.com/images/hero-banner.png"
+          },
+          "hreflang": []
+        },
+        "error": null
+      },
+      "canonical": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/earrings",
+          "final_url": "http://localhost:3001/earrings",
+          "canonical_declared": "https://kannikabangles.com/earrings",
+          "canonical_resolved": "https://kannikabangles.com/earrings",
+          "canonical_status": 200,
+          "is_self_referential": false,
+          "findings": [
+            "cross_url",
+            "cross_host",
+            "protocol_mismatch"
+          ]
+        },
+        "error": null
+      },
+      "mixed_content": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/earrings",
+          "verdict": "not_https",
+          "violations": []
+        },
+        "error": null
+      },
+      "schema": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/earrings",
+          "final_url": "http://localhost:3001/earrings",
+          "block_count": 3,
+          "type_counts": {
+            "CollectionPage": 1,
+            "ItemList": 1,
+            "FAQPage": 1
+          },
+          "samples": {
+            "CollectionPage": {
+              "@type": "CollectionPage",
+              "@id": "https://kannikabangles.com/shop#webpage",
+              "url": "https://kannikabangles.com/shop",
+              "name": "Shop Luxury Jewellery Collections \u2014 Kannika Bangles",
+              "description": "Explore handcrafted bangles and pendant sets at Kannika Bangles, Malleshwaram, Bangalore.",
+              "isPartOf": {
+                "@id": "https://kannikabangles.com/#website"
+              },
+              "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                  {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Home",
+                    "item": "https://kannikabangles.com/"
+                  },
+                  {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "Shop",
+                    "item": "https://kannikabangles.com/shop"
+                  }
+                ]
+              },
+              "@context": "https://schema.org"
+            },
+            "ItemList": {
+              "@context": "https://schema.org",
+              "@type": "ItemList",
+              "name": "Designer Bridal Earrings & Jhumkas Bangalore | Kannika",
+              "numberOfItems": 12,
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "item": {
+                    "@type": "Product",
+                    "name": "Floral Pearl Jhumka",
+                    "url": "https://kannikabangles.com/product/35",
+                    "image": "https://kannikabangles.com/images/earrings/IMG-20260717-WA0006.jpg",
+                    "offers": {
+                      "@type": "Offer",
+                      "price": 760,
+                      "priceCurrency": "INR",
+                      "availability": "https://schema.org/InStock"
+                    }
+                  }
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 2,
+                  "item": {
+                    "@type": "Product",
+                    "name": "Classic Temple Jhumka",
+                    "url": "https://kannikabangles.com/product/36",
+                    "image": "https://kannikabangles.com/images/earrings/IMG-20260720-WA0017.jpg",
+                    "offers": {
+                      "@type": "Offer",
+                      "price": 2620,
+                      "priceCurrency": "INR",
+                      "availability": "https://schema.org/InStock"
+                    }
+                  }
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 3,
+                  "item": {
+                    "@type": "Product",
+                    "name": "Grand Kemp Jhumka",
+                    "url": "https://kannikabangles.com/product/37",
+                    "image": "https://kannikabangles.com/images/earrings/IMG-20260720-WA0019.jpg",
+                    "offers": {
+                      "@type": "Offer",
+                      "price": 3750,
+                      "priceCurrency": "INR",
+                      "availability": "https://schema.org/InStock"
+                    }
+                  }
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 4,
+                  "item": {
+                    "@type": "Product",
+                    "name": "Royal Peacock Jhumka",
+                    "url": "https://kannikabangles.com/product/38",
+                    "image": "https://kannikabangles.com/images/earrings/IMG-20260720-WA0020.jpg",
+                    "offers": {
+                      "@type": "Offer",
+                      "price": 3950,
+                      "priceCurrency": "INR",
+                      "availability": "https://schema.org/InStock"
+                    }
+                  }
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 5,
+                  "item": {
+                    "@type": "Product",
+                    "name": "Ruby Stone Jhumka",
+                    "url": "https://kannikabangles.com/product/39",
+                    "image": "https://kannikabangles.com/images/earrings/IMG-20260720-WA0023.jpg",
+                    "offers": {
+                      "@type": "Offer",
+                      "price": 3220,
+                      "priceCurrency": "INR",
+                      "availability": "https://schema.org/InStock"
+                    }
+                  }
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 6,
+                  "item": {
+                    "@type": "Product",
+                    "name": "Emerald Stud Jhumka",
+                    "url": "https://kannikabangles.com/product/40",
+                    "image": "https://kannikabangles.com/images/earrings/IMG-20260720-WA0025.jpg",
+                    "offers": {
+                      "@type": "Offer",
+                      "price": 2850,
+                      "priceCurrency": "INR",
+                      "availability": "https://schema.org/InStock"
+                    }
+                  }
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 7,
+                  "item": {
+                    "@type": "Product",
+                    "name": "Pearl Drop Earring",
+                    "url": "https://kannikabangles.com/product/41",
+                    "image": "https://kannikabangles.com/images/earrings/IMG-20260720-WA0026.jpg",
+                    "offers": {
+                      "@type": "Offer",
+                      "price": 2250,
+                      "priceCurrency": "INR",
+                      "availability": "https://schema.org/InStock"
+                    }
+                  }
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 8,
+                  "item": {
+                    "@type": "Product",
+                    "name": "Heritage Jadau Jhumka",
+                    "url": "https://kannikabangles.com/product/42",
+                    "image": "https://kannikabangles.com/images/earrings/IMG-20260720-WA0027.jpg",
+                    "offers": {
+                      "@type": "Offer",
+                      "price": 4760,
+                      "priceCurrency": "INR",
+                      "availability": "https://schema.org/InStock"
+                    }
+                  }
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 9,
+                  "item": {
+                    "@type": "Product",
+                    "name": "Floral Gold Earring",
+                    "url": "https://kannikabangles.com/product/43",
+                    "image": "https://kannikabangles.com/images/earrings/IMG-20260720-WA0028.jpg",
+                    "offers": {
+                      "@type": "Offer",
+                      "price": 2160,
+                      "priceCurrency": "INR",
+                      "availability": "https://schema.org/InStock"
+                    }
+                  }
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 10,
+                  "item": {
+                    "@type": "Product",
+                    "name": "Antique Ruby Studs",
+                    "url": "https://kannikabangles.com/product/44",
+                    "image": "https://kannikabangles.com/images/earrings/IMG-20260720-WA0031.jpg",
+                    "offers": {
+                      "@type": "Offer",
+                      "price": 2400,
+                      "priceCurrency": "INR",
+                      "availability": "https://schema.org/InStock"
+                    }
+                  }
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 11,
+                  "item": {
+                    "@type": "Product",
+                    "name": "Bridal Kemp Drops",
+                    "url": "https://kannikabangles.com/product/45",
+                    "image": "https://kannikabangles.com/images/earrings/IMG-20260720-WA0032.jpg",
+                    "offers": {
+                      "@type": "Offer",
+                      "price": 3760,
+                      "priceCurrency": "INR",
+                      "availability": "https://schema.org/InStock"
+                    }
+                  }
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 12,
+                  "item": {
+                    "@type": "Product",
+                    "name": "Peacock Temple Studs",
+                    "url": "https://kannikabangles.com/product/46",
+                    "image": "https://kannikabangles.com/images/earrings/IMG-20260720-WA0033.jpg",
+                    "offers": {
+                      "@type": "Offer",
+                      "price": 2600,
+                      "priceCurrency": "INR",
+                      "availability": "https://schema.org/InStock"
+                    }
+                  }
+                }
+              ]
+            },
+            "FAQPage": {
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              "mainEntity": [
+                {
+                  "@type": "Question",
+                  "name": "Are your heavy bridal jhumkas comfortable to wear for full-day wedding rituals?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes! We utilize lightweight hollow-core crafting and wide-disc support backings that distribute weight evenly. For very large statement jhumkas, we also provide matching ear-chains (Mattal) that hook securely into your hair to carry 70% of the earring weight."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Can I purchase matching ear-chains (Mattals) for these earrings?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes! We offer matching kemp, pearl-strand, and gold-plated Mattals (hair extension chains) that attach seamlessly to our jhumkas and chandbalis for a complete traditional bridal look."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "What type of back closures do your earrings have?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Our collection features either traditional screw-back posts (Bombay screws) or premium push-backs with wide comfort silicone stabilizers that keep the earrings standing upright without drooping forward."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Can I match earrings to a necklace I already own?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes! Simply send a photo of your existing necklace or saree to our WhatsApp styling team (+91 98447 58450). We will recommend earrings with matching stone settings, gold finish tones, and drop proportions."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "What is the delivery timeline for earrings ordered in Bangalore and across India?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Bangalore city deliveries arrive in 24 to 48 hours via express courier. Pan-India orders are dispatched in padded, damage-proof hard jewelry boxes and delivered within 10 days with complete tracking."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Are your ear studs suitable for newly pierced or sensitive ears?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes! All our earring posts are 100% nickel-free and electroplated in pure 24k hypoallergenic micro gold, making them gentle and safe even for sensitive ear lobes prone to redness or irritation."
+                  }
+                }
+              ]
+            }
+          },
+          "parse_errors": 0
+        },
+        "error": null
+      },
+      "schema_validation": {
+        "ok": true,
+        "data": {
+          "url": "http://localhost:3001/earrings",
+          "final_url": "http://localhost:3001/earrings",
+          "block_count": 3,
+          "summary": {
+            "pass": 1,
+            "fail": 0,
+            "unknown_type": 2,
+            "parse_error": 0
+          },
+          "findings": [
+            {
+              "index": 0,
+              "types": [
+                "CollectionPage"
+              ],
+              "verdict": "unknown_type"
+            },
+            {
+              "index": 1,
+              "types": [
+                "ItemList"
+              ],
+              "verdict": "unknown_type"
+            },
+            {
+              "index": 2,
+              "type": "FAQPage",
+              "verdict": "pass",
+              "missing_required": [],
+              "missing_recommended": []
+            }
+          ]
+        },
+        "error": null
+      }
+    }
+  ]
+}
