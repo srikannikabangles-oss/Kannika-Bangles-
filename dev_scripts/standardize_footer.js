@@ -2,9 +2,59 @@ const fs = require('fs');
 const path = require('path');
 
 const standardFooter = `  <!-- ═══════════════════════════════════════════════════
-       FOOTER
+       FOOTER & GLOBAL SUPERPOWER TRUST EMBLEMS
        ═══════════════════════════════════════════════════ -->
   <footer class="footer">
+    <div class="container" style="margin-bottom: 40px; padding-bottom: 30px; border-bottom: 1px solid rgba(212, 175, 55, 0.25);">
+      <div class="superpower-trust-strip">
+        <div class="superpower-trust-pill">
+          <div class="superpower-trust-pill-icon">
+            <i data-lucide="shield-check" style="width:20px;height:20px;"></i>
+          </div>
+          <div class="superpower-trust-pill-text">
+            <strong>Zero Blind Payment</strong>
+            <span>Pay ₹0 today online</span>
+          </div>
+        </div>
+        <div class="superpower-trust-pill">
+          <div class="superpower-trust-pill-icon">
+            <i data-lucide="video" style="width:20px;height:20px;"></i>
+          </div>
+          <div class="superpower-trust-pill-text">
+            <strong>Live Video Call</strong>
+            <span>Inspect in 4K before paying</span>
+          </div>
+        </div>
+        <div class="superpower-trust-pill">
+          <div class="superpower-trust-pill-icon">
+            <i data-lucide="camera" style="width:20px;height:20px;"></i>
+          </div>
+          <div class="superpower-trust-pill-text">
+            <strong>Bridal Saree Match</strong>
+            <span>1-on-1 stylist color pairing</span>
+          </div>
+        </div>
+        <div class="superpower-trust-pill">
+          <div class="superpower-trust-pill-icon">
+            <i data-lucide="ruler" style="width:20px;height:20px;"></i>
+          </div>
+          <div class="superpower-trust-pill-text">
+            <strong>Exact Wrist Sizing</strong>
+            <span>Custom fit from 2.2 to 2.10</span>
+          </div>
+        </div>
+        <div class="superpower-trust-pill">
+          <div class="superpower-trust-pill-icon">
+            <i data-lucide="map-pin" style="width:20px;height:20px;"></i>
+          </div>
+          <div class="superpower-trust-pill-text">
+            <strong>Malleshwaram Store</strong>
+            <span>Real Bangalore showroom</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="footer__grid">
       <div class="footer__col">
         <div class="footer__brand-name"><span>Kannika</span> Bangles</div>
@@ -63,7 +113,7 @@ function updateFooterInFile(filePath) {
   let original = content;
 
   // Replace any existing <footer ... </footer> with standardFooter
-  const footerRegex = /<!--\s*───\s*Footer\s*───\s*-->[\s\S]*?<\/footer>|<!--\s*═+\s*FOOTER\s*═+\s*-->[\s\S]*?<\/footer>|<footer class="footer">[\s\S]*?<\/footer>/i;
+  const footerRegex = /<!--\s*───\s*Footer\s*───\s*-->[\s\S]*?<\/footer>|<!--\s*═+\s*FOOTER[\s\S]*?═+\s*-->[\s\S]*?<\/footer>|<footer class="footer">[\s\S]*?<\/footer>/i;
   
   if (footerRegex.test(content)) {
     content = content.replace(footerRegex, standardFooter);
@@ -71,7 +121,7 @@ function updateFooterInFile(filePath) {
 
   if (content !== original) {
     fs.writeFileSync(filePath, content, 'utf8');
-    console.log(`Standardized footer in: ${path.relative(path.join(__dirname, '..'), filePath)}`);
+    console.log(`Standardized footer with Trust Emblems in: ${path.relative(path.join(__dirname, '..'), filePath)}`);
   }
 }
 
@@ -92,4 +142,4 @@ function walkDir(dir) {
 
 const rootDir = path.join(__dirname, '..');
 walkDir(rootDir);
-console.log('✅ Footer standardization completed across all HTML pages!');
+console.log('✅ Footer standardization with Trust Emblems completed across all HTML pages!');

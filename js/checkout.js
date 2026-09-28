@@ -118,8 +118,12 @@ async function renderCheckout() {
       <p class="cart-summary__note">${shipping === 0 ? 'Free express doorstep delivery unlocked!' : 'Insured local Bangalore dispatch within 24–48 hours'}</p>
       <div class="cart-summary__divider"></div>
       <div class="cart-summary__row cart-summary__total">
-        <span>Total Payable</span>
+        <span>Total Value</span>
         <span>${formatPrice(total)}</span>
+      </div>
+      <div class="cart-summary__row" style="background: rgba(37, 211, 102, 0.1); border: 1px solid rgba(37, 211, 102, 0.35); padding: 8px 12px; border-radius: 6px; margin-top: 10px; font-weight: 700;">
+        <span style="color: #0A6C38; display: flex; align-items: center; gap: 6px;"><i data-lucide="shield-check" style="width: 16px; height: 16px;"></i> Due Today:</span>
+        <span style="color: #0A6C38; font-size: 1.05rem;">₹0 (Pay After Video Approval)</span>
       </div>
     `;
   }

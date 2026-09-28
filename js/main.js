@@ -822,7 +822,8 @@ async function buildWhatsAppOrderMessage(shippingDetails = null, orderId = null)
   const { items, subtotal, savings, shipping, total } = await getCartOrderDetails();
   if (items.length === 0) return '';
 
-  let message = `👑 *SRI KANNIKA BANGLES & JEWELS — BENGALURU*\n*Online Order Booking Request*\n`;
+  let message = `👑 *SRI KANNIKA BANGLES & JEWELS — BENGALURU*\n*Jewellery Reservation & Live Video Consultation Request*
+*(Zero Blind Payment Guarantee — ₹0 Advance Paid)*\n`;
   if (orderId) {
     const formattedId = orderId.startsWith('#') ? orderId : `#${orderId}`;
     message += `🔖 *Order Reference:* ${formattedId}\n`;

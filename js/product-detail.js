@@ -218,11 +218,11 @@ async function renderProductDetail() {
           <div class="pd__actions-row">
             <button class="btn btn--primary btn--lg pd__add-btn" onclick="addProductToCart()" style="flex: 1; min-width: 0; padding: 14px 16px; font-size: 0.95rem; display: flex; align-items: center; justify-content: center; gap: 8px;">
               <i data-lucide="shopping-bag" style="width:18px;height:18px;"></i>
-              Add to Cart
+              Reserve Piece (₹0 Due)
             </button>
             <button class="btn btn--lg pd__whatsapp-btn" onclick="buyViaWhatsAppDirect()" style="background: #25D366; color: white; border: none; display: flex; align-items: center; justify-content: center; gap: 8px; flex: 1; min-width: 0; font-weight: 600; cursor: pointer; transition: all var(--transition-fast); padding: 14px 16px; font-size: 0.95rem;">
               <i data-lucide="message-circle" style="width:18px;height:18px;"></i>
-              Buy via WhatsApp
+              Inspect via Live Video
             </button>
           </div>
           <div class="pd__actions-row">
@@ -239,15 +239,15 @@ async function renderProductDetail() {
         <div class="pd__trust" style="display: flex; justify-content: space-between; gap: 12px; margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border-subtle); flex-wrap: wrap;">
           <div class="pd__trust-item" style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 600; color: var(--text-primary);">
             <i data-lucide="shield-check" style="width:20px;height:20px;color:var(--gold-primary);"></i>
-            <span>100% Handcrafted</span>
+            <span>Zero Blind Payment (Pay ₹0 Today)</span>
           </div>
           <div class="pd__trust-item" style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 600; color: var(--text-primary);">
-            <i data-lucide="truck" style="width:20px;height:20px;color:var(--gold-primary);"></i>
-            <span>Delivery in 10 Days</span>
+            <i data-lucide="video" style="width:20px;height:20px;color:var(--gold-primary);"></i>
+            <span>Live HD Video Inspection</span>
           </div>
           <div class="pd__trust-item" style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 600; color: var(--text-primary);">
             <i data-lucide="sparkles" style="width:20px;height:20px;color:var(--gold-primary);"></i>
-            <span>Micro Gold Polish</span>
+            <span>Free Saree &amp; Size Matching</span>
           </div>
         </div>
 
@@ -288,15 +288,23 @@ async function renderProductDetail() {
           </div>
         </div>
 
-        <!-- Studio Visuals & Raw Photo Transparency Box -->
-        <div class="pd__ai-transparency" style="background: rgba(255, 248, 235, 0.95); border: 1px solid rgba(212, 175, 55, 0.45); border-radius: 10px; padding: 14px 16px; margin-top: 16px;">
-          <div style="display: flex; align-items: flex-start; gap: 10px;">
-            <i data-lucide="camera" style="width: 20px; height: 20px; color: #B38F24; flex-shrink: 0; margin-top: 2px;"></i>
-            <div style="font-size: 0.84rem; line-height: 1.55; color: #4A3E30;">
-              <strong style="color: #2C1820; display: block; margin-bottom: 3px; font-weight: 700;">📸 Visual Authenticity &amp; Live Photos:</strong>
-              Our showcase photos are studio-enhanced with AI referencing our original handcrafted pieces. The actual physical product closely resembles these visuals. Want to see unedited raw photos before purchasing? 
-              <a href="https://wa.me/919844758450?text=Hi!%20Please%20share%20raw%20photos%20of%20${encodeURIComponent(currentProduct.name)}%20(ID:%20${prodCode})" target="_blank" style="color: #25D366; font-weight: 700; text-decoration: underline; margin-left: 4px;">Request Raw Images on WhatsApp &rarr;</a>
+        <!-- Superpower Concierge & Zero Blind Payment Box -->
+        <div class="superpower-callout-card" style="margin-top: 18px;">
+          <div class="superpower-callout-card__header">
+            <div class="superpower-callout-card__header-icon">
+              <i data-lucide="shield-check" style="width: 18px; height: 18px;"></i>
             </div>
+            <h4 class="superpower-callout-card__title">Our Superpower: Zero Blind Payments</h4>
+            <span class="superpower-callout-card__badge">₹0 Due Today</span>
+          </div>
+          <div class="superpower-callout-card__body">
+            You never have to pay for jewellery you haven't seen in real life. When you reserve this piece or click WhatsApp, our Malleshwaram showroom stylists connect on live HD video to show you every stone, test the bangle size on sizing cones, and match with your wedding outfit before you pay!
+            <ul class="superpower-callout-card__bullets">
+              <li><i data-lucide="check-circle-2"></i> 1-on-1 Live WhatsApp Video Call</li>
+              <li><i data-lucide="check-circle-2"></i> 4K Close-up Stone &amp; Polish Check</li>
+              <li><i data-lucide="check-circle-2"></i> Free Bridal Saree &amp; Bangle Matching</li>
+              <li><i data-lucide="check-circle-2"></i> Pay Only After 100% Satisfaction</li>
+            </ul>
           </div>
         </div>
       </div>

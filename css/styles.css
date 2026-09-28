@@ -4586,3 +4586,371 @@ main:not(.login-page):not(.not-found-section),
 .navbar__auth-greeting:hover {
   color: #FFDF8C !important;
 }
+
+/* =====================================================
+   KANNIKA BANGLES — ZERO BLIND PAYMENT & CONCIERGE SUPERPOWER SYSTEM
+   Trust Emblems, 4-Step Concierge Journey & Reassurance Badges
+   ===================================================== */
+
+/* ─── Top Trust Banner (Sleek Royal Announcement Strip) ─── */
+.royal-trust-bar {
+  background: linear-gradient(90deg, #2A0812 0%, #4A1020 50%, #2A0812 100%);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.4);
+  color: #F7E7CE;
+  padding: 8px 16px;
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
+  text-align: center;
+  position: relative;
+  z-index: 1001;
+}
+.royal-trust-bar__inner {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px 24px;
+}
+.royal-trust-bar__pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+}
+.royal-trust-bar__pill strong {
+  color: #FFDF8C;
+  font-weight: 700;
+}
+.royal-trust-bar__pill-badge {
+  background: rgba(37, 211, 102, 0.2);
+  color: #25D366;
+  border: 1px solid rgba(37, 211, 102, 0.4);
+  border-radius: 999px;
+  padding: 1px 8px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* ─── Superpower Section (Homepage Feature) ─── */
+.superpower-section {
+  padding: 80px 0;
+  background: linear-gradient(180deg, #FFFDF9 0%, #FBF6EE 100%);
+  position: relative;
+  overflow: hidden;
+  border-top: 1px solid rgba(212, 175, 55, 0.25);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.25);
+}
+.superpower-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #D4AF37, transparent);
+}
+.superpower-header {
+  text-align: center;
+  max-width: 840px;
+  margin: 0 auto 50px;
+}
+.superpower-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  background: rgba(59, 12, 24, 0.08);
+  border: 1.5px solid rgba(212, 175, 55, 0.6);
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #3B0C18;
+  margin-bottom: 14px;
+}
+.superpower-title {
+  font-family: 'Cinzel', serif, 'Poppins';
+  font-size: clamp(1.8rem, 3.5vw, 2.7rem);
+  font-weight: 700;
+  color: #1A1A1A;
+  line-height: 1.25;
+  margin-bottom: 14px;
+}
+.superpower-title span {
+  color: #8C1D40;
+  position: relative;
+  display: inline-block;
+}
+.superpower-subtitle {
+  font-size: 1.05rem;
+  color: #4A3E3D;
+  line-height: 1.7;
+}
+
+/* 4-Step Concierge Grid */
+.concierge-steps-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-bottom: 50px;
+  position: relative;
+}
+@media (max-width: 992px) {
+  .concierge-steps-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 580px) {
+  .concierge-steps-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.concierge-step-card {
+  background: #FFFFFF;
+  border: 1.5px solid rgba(212, 175, 55, 0.35);
+  border-radius: 16px;
+  padding: 28px 22px;
+  position: relative;
+  box-shadow: 0 10px 30px rgba(59, 12, 24, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+.concierge-step-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 36px rgba(59, 12, 24, 0.1);
+  border-color: #D4AF37;
+}
+.concierge-step-num {
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  font-family: 'Cinzel', serif;
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: rgba(212, 175, 55, 0.35);
+}
+.concierge-step-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #3B0C18, #5A1425);
+  color: #FFDF8C;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  box-shadow: 0 6px 16px rgba(59, 12, 24, 0.2);
+}
+.concierge-step-title {
+  font-family: 'Cinzel', serif, 'Poppins';
+  font-size: 1.08rem;
+  font-weight: 700;
+  color: #1A1A1A;
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+.concierge-step-badge {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #0A6C38;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-bottom: 12px;
+  width: fit-content;
+}
+.concierge-step-desc {
+  font-size: 0.88rem;
+  color: #554A49;
+  line-height: 1.6;
+  flex-grow: 1;
+}
+
+/* Superpower Trust Emblems Bar (5 Emblems Strip) */
+.superpower-trust-strip {
+  background: #3B0C18;
+  border-radius: 16px;
+  padding: 24px 28px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+  color: #FFFFFF;
+  box-shadow: 0 12px 35px rgba(59, 12, 24, 0.25);
+}
+@media (max-width: 1024px) {
+  .superpower-trust-strip {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (max-width: 640px) {
+  .superpower-trust-strip {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    padding: 20px;
+  }
+}
+
+.superpower-trust-pill {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.superpower-trust-pill-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(212, 175, 55, 0.15);
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  color: #FFDF8C;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.superpower-trust-pill-text strong {
+  display: block;
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: #FFDF8C;
+  line-height: 1.2;
+}
+.superpower-trust-pill-text span {
+  font-size: 0.74rem;
+  color: #E8D5B5;
+  line-height: 1.2;
+}
+
+/* Superpower Callout Box (Used in Product Detail, Cart & Checkout) */
+.superpower-callout-card {
+  background: linear-gradient(135deg, rgba(255, 252, 245, 0.98) 0%, rgba(255, 245, 248, 0.95) 100%);
+  border: 1.5px solid rgba(212, 175, 55, 0.5);
+  border-radius: 14px;
+  padding: 18px 20px;
+  margin: 18px 0;
+  box-shadow: 0 4px 18px rgba(59, 12, 24, 0.05);
+}
+.superpower-callout-card__header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.superpower-callout-card__header-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #25D366;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.superpower-callout-card__title {
+  font-family: 'Cinzel', serif, 'Poppins';
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #3B0C18;
+  margin: 0;
+}
+.superpower-callout-card__badge {
+  background: #E8F8F0;
+  color: #0A6C38;
+  border: 1px solid #A3E4BF;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+.superpower-callout-card__body {
+  font-size: 0.84rem;
+  color: #4A3E3D;
+  line-height: 1.55;
+  margin-left: 42px;
+}
+@media (max-width: 580px) {
+  .superpower-callout-card__body {
+    margin-left: 0;
+    margin-top: 8px;
+  }
+}
+.superpower-callout-card__bullets {
+  list-style: none;
+  margin: 10px 0 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+@media (max-width: 640px) {
+  .superpower-callout-card__bullets {
+    grid-template-columns: 1fr;
+  }
+}
+.superpower-callout-card__bullets li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #2C1820;
+}
+.superpower-callout-card__bullets li i {
+  color: #25D366;
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+/* Checkout Progress Indicator */
+.concierge-progress-steps {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  padding: 14px 18px;
+  background: #FFFFFF;
+  border: 1.5px solid rgba(212, 175, 55, 0.35);
+  border-radius: 12px;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.concierge-progress-step {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #4A3E3D;
+}
+.concierge-progress-step.active {
+  color: #8C1D40;
+  font-weight: 700;
+}
+.concierge-progress-step-num {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #F0EAE1;
+  color: #6B5B5A;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+.concierge-progress-step.active .concierge-progress-step-num {
+  background: #8C1D40;
+  color: #FFFFFF;
+}
+
