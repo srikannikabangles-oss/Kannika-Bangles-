@@ -10,8 +10,6 @@ const standardFooter = `  <!-- ════════════════�
         <div class="footer__brand-name"><span>Kannika</span> Bangles</div>
         <p class="footer__desc">Turning every bride's dream into a beautiful reality. Handcrafted bangles blending tradition with modern style since generations.</p>
         <div class="footer__social" style="margin-top: 16px;">
-          <a href="https://www.instagram.com/kannikabangles" target="_blank" rel="noopener" class="footer__social-link" aria-label="Instagram"><i data-lucide="instagram" style="width:18px;height:18px;"></i></a>
-          <a href="https://www.facebook.com/kannikabangles" target="_blank" rel="noopener" class="footer__social-link" aria-label="Facebook"><i data-lucide="facebook" style="width:18px;height:18px;"></i></a>
           <a href="https://wa.me/919844758450" target="_blank" rel="noopener" class="footer__social-link" aria-label="WhatsApp" style="color:#25D366;border-color:rgba(37,211,102,0.4);"><i data-lucide="message-circle" style="width:18px;height:18px;"></i></a>
         </div>
       </div>

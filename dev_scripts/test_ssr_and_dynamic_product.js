@@ -11,15 +11,15 @@ function testUrl(url) {
 }
 
 (async () => {
-  // Test /product/29 (The one in user screenshot!)
-  const p29 = await testUrl('http://localhost:3001/product/29');
-  console.log('\n--- TESTING /product/29 (Floral Kundan Tikka) ---');
+  // Test /product/30 (The one in user screenshot!)
+  const p29 = await testUrl('http://localhost:3001/product/30');
+  console.log('\n--- TESTING /product/30 (Ruby Pearl Tikka) ---');
   console.log('Status Code:', p29.status);
-  console.log('Has Product Name in H1:', p29.data.includes('Floral Kundan Tikka'));
-  console.log('Has Product ID Badge KB-NEC-029:', p29.data.includes('KB-NEC-029'));
+  console.log('Has Product Name in H1:', p29.data.includes('Ruby Pearl Tikka'));
+  console.log('Has Product ID Badge KB-NEC-030:', p29.data.includes('KB-NEC-030'));
   console.log('Has 10-Day Delivery Banner:', p29.data.includes('Delivery Across India Within 10 Days'));
   console.log('Has Shining & Polishing Assurance:', p29.data.includes('Premium Micro Gold Polish'));
-  console.log('Has Price ?920:', p29.data.includes('?920'));
+  console.log('Has Price ?1,080:', p29.data.includes('?1,080'));
   console.log('Has Related Products Grid Content:', p29.data.includes('View Details'));
   console.log('Has Pre-rendered Product Detail Div (not empty):', !p29.data.includes('<div id="productDetail" class="product-detail__content"></div>'));
 

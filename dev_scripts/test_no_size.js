@@ -12,7 +12,7 @@ function get(url) {
 
 (async () => {
   const p1 = await get('http://localhost:3001/product/1');
-  const p29 = await get('http://localhost:3001/product/29');
+  const p29 = await get('http://localhost:3001/product/30');
 
   console.log('p1 contains "Select Size":', p1.includes('Select Size'));
   console.log('p1 contains "Size & Fit":', p1.includes('Size & Fit'));

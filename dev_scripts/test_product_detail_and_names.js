@@ -15,9 +15,9 @@ function get(url) {
   const p1 = await get('http://localhost:3001/product/1');
   console.log('GET /product/1 -> status:', p1.status, '| contains title:', p1.data.includes('Antique Gold Kada'));
 
-  // Test /product/29 (Necklace)
-  const p29 = await get('http://localhost:3001/product/29');
-  console.log('GET /product/29 -> status:', p29.status, '| contains title:', p29.data.includes('Floral Kundan Tikka'));
+  // Test /product/30 (Necklace)
+  const p29 = await get('http://localhost:3001/product/30');
+  console.log('GET /product/30 -> status:', p29.status, '| contains title:', p29.data.includes('Ruby Pearl Tikka'));
 
   // Test /product/35 (Earring)
   const p35 = await get('http://localhost:3001/product/35');

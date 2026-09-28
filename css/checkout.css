@@ -56,7 +56,7 @@
 }
 
 .checkout-card__title {
-  font-family: 'Cinzel', serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 1.3rem;
   font-weight: 600;
   color: var(--text-primary);

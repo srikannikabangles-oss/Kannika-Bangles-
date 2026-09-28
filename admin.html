@@ -12,7 +12,7 @@
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Cinzel:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
@@ -43,7 +43,7 @@
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-family: 'Poppins', sans-serif;
       background-color: var(--bg-dark);
       color: var(--text-main);
       min-height: 100vh;
@@ -88,7 +88,7 @@
       object-fit: cover;
     }
     .auth-title {
-      font-family: 'Cinzel', serif;
+      font-family: 'Poppins', sans-serif;
       font-size: 1.5rem;
       color: var(--gold-light);
       margin-bottom: 6px;
@@ -202,7 +202,7 @@
       border: 1.5px solid var(--gold-primary);
     }
     .sidebar-brand {
-      font-family: 'Cinzel', serif;
+      font-family: 'Poppins', sans-serif;
       font-weight: 700;
       font-size: 1.05rem;
       color: var(--gold-light);
@@ -210,7 +210,7 @@
     }
     .sidebar-brand span {
       display: block;
-      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-family: 'Poppins', sans-serif;
       font-size: 0.7rem;
       font-weight: 500;
       color: var(--text-muted);
@@ -399,7 +399,7 @@
       gap: 12px;
     }
     .panel-title {
-      font-family: 'Cinzel', serif;
+      font-family: 'Poppins', sans-serif;
       font-size: 1.1rem;
       font-weight: 700;
       color: var(--gold-light);
@@ -653,7 +653,7 @@
       align-items: center;
     }
     .live-preview-title {
-      font-family: 'Cinzel', serif;
+      font-family: 'Poppins', sans-serif;
       font-size: 0.8rem;
       font-weight: 700;
       color: var(--gold-light);
@@ -742,7 +742,7 @@
       margin-bottom: 4px;
     }
     .preview-card__name {
-      font-family: 'Cinzel', serif;
+      font-family: 'Poppins', sans-serif;
       font-size: 0.92rem;
       font-weight: 700;
       color: #2C1820;
@@ -1269,7 +1269,10 @@
                 <span id="cardPreviewPrice" class="preview-card__price">₹1,499</span>
                 <span id="cardPreviewOriginalPrice" class="preview-card__original">₹2,499</span>
               </div>
-              <div class="preview-card__btn">View Details</div>
+              <div class="preview-card__cta-row" style="display: flex; gap: 6px; margin-top: 10px;">
+                <div class="preview-card__btn preview-card__btn--view" style="flex: 1; text-align: center; font-size: 0.72rem; padding: 6px 4px; border-radius: 6px; border: 1px solid rgba(0,0,0,0.25); font-weight: 600; color: #2C1820; background: #FFFFFF; line-height: 1.2;">View Details</div>
+                <div class="preview-card__btn preview-card__btn--add" style="flex: 1; text-align: center; font-size: 0.72rem; padding: 6px 4px; border-radius: 6px; font-weight: 600; background: linear-gradient(135deg, #3B0C18 0%, #5C1528 100%); color: #FFFFFF; border: 1px solid rgba(212,175,55,0.35); line-height: 1.2;">Add to Cart</div>
+              </div>
             </div>
           </div>
           <div style="font-size:0.72rem; color:var(--text-dim); margin-top:12px; text-align:center;">
@@ -1797,11 +1800,12 @@
       tbody.innerHTML = filtered.map(p => {
         const prodCode = p.code || p.sku || (p.category === 'bangles' ? `KB-BAN-${String(p.id).padStart(3,'0')}` : p.category === 'pendant-sets' ? `KB-PEN-${String(p.id).padStart(3,'0')}` : p.category === 'necklaces' ? `KB-NEC-${String(p.id).padStart(3,'0')}` : `KB-EAR-${String(p.id).padStart(3,'0')}`);
         const waMsg = encodeURIComponent(`Hi Sri Kannika Bangles! I am interested in inquiring about:\n\n✨ Product: ${p.name}\n🏷️ Product ID: ${prodCode}\n💰 Price: ₹${p.price.toLocaleString('en-IN')}\n🔗 Link: https://kannikabangles.com/product/${p.id}\n\nPlease confirm availability and delivery details.`);
+        const imgSrc = (p.image || '').startsWith('/') ? p.image : `/${p.image || 'images/kannika_logo.jpeg'}`;
         return `
         <tr>
           <td>
-            <a href="/${p.image}" target="_blank">
-              <img src="/${p.image}" alt="${escapeHTML(p.name)}" style="width:48px; height:48px; border-radius:8px; object-fit:cover; border:1.5px solid rgba(212,175,55,0.4); box-shadow:0 2px 8px rgba(0,0,0,0.3);">
+            <a href="${imgSrc}" target="_blank">
+              <img src="${imgSrc}" alt="${escapeHTML(p.name)}" style="width:48px; height:48px; border-radius:8px; object-fit:cover; border:1.5px solid rgba(212,175,55,0.4); box-shadow:0 2px 8px rgba(0,0,0,0.3);">
             </a>
           </td>
           <td>

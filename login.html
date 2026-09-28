@@ -11,30 +11,43 @@
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Cinzel:wght@400;500;600;700;800&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="/css/styles.css?v=20260821_103">
   <link rel="stylesheet" href="/css/mobile.css?v=20260821_103">
-  <link rel="stylesheet" href="/css/login.css?v=20260821_103">
+  <link rel="stylesheet" href="/css/login.css?v=20260916_301">
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js" defer></script>
   <link rel="icon" type="image/png" sizes="64x64" href="/images/favicon-64.png">
   <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-180.png">
 </head>
 <body>
-  <!-- ─── Navigation ─── -->
+    <!-- --- Top Announcement Bar --- -->
+    <!-- --- Top Announcement Bar --- -->
+    <!-- --- Top Announcement Bar --- -->
+    <!-- --- Top Announcement Bar --- -->
+    <!-- --- Top Announcement Bar --- -->
+    <!-- --- Top Announcement Bar --- -->
+  
+  </div>
+
+        <!-- ─── Navigation ─── -->
   <nav class="navbar" id="navbar" role="navigation" aria-label="Main navigation">
     <div class="navbar__inner">
-      <!-- Left side: hamburger menu button -->
+      <!-- Left side: hamburger menu button (Mobile only) -->
       <div class="navbar__toggle-left" id="navToggle" role="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="navLinks" tabindex="0">
         <span></span>
         <span></span>
         <span></span>
       </div>
 
-      <!-- Center / Left: Branding with Logo -->
-      <a href="/index.html" class="navbar__brand" aria-label="Kannika Bangles Home">
+      <!-- Center / Left: Branding with Logo & Royal Typography -->
+      <a href="/" class="navbar__brand navbar__brand--royal" aria-label="Kannika Bangles Home">
         <img src="/images/kannika_logo.jpeg" alt="Kannika Bangles" class="navbar__logo-img">
+        <div class="navbar__brand-text">
+          <span class="brand-text__title">SRI KANNIKA</span>
+          <span class="brand-text__subtitle">BANGLES &amp; JEWELS</span>
+        </div>
       </a>
 
       <!-- Navigation Links / Slide-out Menu -->
@@ -50,59 +63,69 @@
           </button>
         </li>
 
-        <li role="none"><a href="/index.html" class="navbar__link" role="menuitem"><span class="navbar__link-text">Home</span></a></li>
-        
+        <li role="none"><a href="/" class="navbar__link" role="menuitem"><span class="navbar__link-text">Home</span></a></li>
+
         <!-- Jewellery Dropdown -->
         <li role="none" class="navbar__dropdown-item">
           <a href="/shop" class="navbar__link navbar__link--has-dropdown" role="menuitem" aria-haspopup="true">
             <span class="navbar__link-text">Jewellery</span> <i data-lucide="chevron-down" class="dropdown-chevron"></i>
           </a>
           <ul class="navbar__dropdown-menu">
-            <li><a href="/shop" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="gem"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">All Collections</span><span class="navbar__dropdown-desc">Explore complete 48-piece showcase</span></span></a></li>
-            <li><a href="/bangles" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="circle"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Bridal Bangles &amp; Kadas</span><span class="navbar__dropdown-desc">Traditional stacks, Jadau kadas &amp; spacers</span></span></a></li>
-            <li><a href="/necklaces" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="gem"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Necklaces &amp; Chokers</span><span class="navbar__dropdown-desc">Royal choker sets &amp; layered harams</span></span></a></li>
-            <li><a href="/pendant-sets" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="sparkles"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Handcrafted Pendant Sets</span><span class="navbar__dropdown-desc">Heritage lockets with matching earrings</span></span></a></li>
-            <li><a href="/earrings" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="sparkles"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Designer Bridal Earrings</span><span class="navbar__dropdown-desc">Traditional jhumkas, chandbalis &amp; studs</span></span></a></li>
+            <li><a href="/bangles" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="circle"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Bangles</span></span></a></li>
+            <li><a href="/necklaces" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="gem"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Necklaces</span></span></a></li>
+            <li><a href="/pendant-sets" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="sparkles"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Pendant Sets</span></span></a></li>
+            <li><a href="/earrings" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="sparkles"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Earrings</span></span></a></li>
+            <li><a href="/shop" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="grid"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">All Jewellery</span></span></a></li>
           </ul>
         </li>
 
-                <!-- Bangalore Bridal Dropdown -->
+        <!-- Bridal Dropdown -->
         <li role="none" class="navbar__dropdown-item">
           <a href="/bridal-jewellery-bangalore" class="navbar__link navbar__link--has-dropdown" role="menuitem" aria-haspopup="true">
-            <span class="navbar__link-text">Bangalore Bridal</span> <i data-lucide="chevron-down" class="dropdown-chevron"></i>
+            <span class="navbar__link-text">Bridal</span> <i data-lucide="chevron-down" class="dropdown-chevron"></i>
           </a>
           <ul class="navbar__dropdown-menu">
-            <li><a href="/bridal-jewellery-bangalore" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="sparkles"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Bridal Jewellery Bangalore</span><span class="navbar__dropdown-desc">Complete South Indian wedding suites &amp; sets</span></span></a></li>
-            <li><a href="/temple-jewellery-bangalore" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="gem"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Temple Jewellery Bangalore</span><span class="navbar__dropdown-desc">Antique matte Nakshi &amp; Lakshmi harams</span></span></a></li>
-            <li><a href="/muhurtham-jewellery-bangalore" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="heart"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Muhurtham Jewellery</span><span class="navbar__dropdown-desc">Traditional wedding bangles &amp; Kemp chokers</span></span></a></li>
-            <li><a href="/reception-and-sangeet-jewellery-bangalore" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="sparkles"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Reception &amp; Sangeet</span><span class="navbar__dropdown-desc">Kundan, AD diamonds &amp; cocktail bridal sets</span></span></a></li>
-            <li><a href="/haldi-and-mehendi-jewellery-bangalore" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="sun"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Haldi &amp; Mehendi</span><span class="navbar__dropdown-desc">Floral antique jewellery &amp; colourful bangles</span></span></a></li>
+            <li><a href="/bridal-jewellery-bangalore" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="sparkles"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Bridal Jewellery Bangalore</span></span></a></li>
+            <li><a href="/temple-jewellery-bangalore" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="gem"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Temple Jewellery Bangalore</span></span></a></li>
+            <li><a href="/muhurtham-jewellery-bangalore" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="heart"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Muhurtham Jewellery</span></span></a></li>
+            <li><a href="/reception-and-sangeet-jewellery-bangalore" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="sparkles"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Reception &amp; Sangeet</span></span></a></li>
+            <li><a href="/haldi-and-mehendi-jewellery-bangalore" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="sun"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Haldi &amp; Mehendi</span></span></a></li>
+            <li><a href="/cz-and-ad-diamond-jewellery-bangalore" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="sparkles"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">CZ &amp; AD Diamond</span></span></a></li>
+            <li><a href="/kundan-and-jadau-jewellery-bangalore" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="gem"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Kundan &amp; Jadau</span></span></a></li>
+            <li><a href="/antique-matte-finish-jewellery-bangalore" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="crown"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Antique Matte Finish</span></span></a></li>
           </ul>
         </li>
 
-<!-- Simple Direct Blog Link -->
-        <li role="none"><a href="/blog" class="navbar__link" role="menuitem"><span class="navbar__link-text">Blog</span></a></li>
-
-        <!-- Areas We Serve Dropdown -->
+        <!-- Areas Dropdown -->
         <li role="none" class="navbar__dropdown-item">
           <a href="/areas" class="navbar__link navbar__link--has-dropdown" role="menuitem" aria-haspopup="true">
-            <span class="navbar__link-text">Areas We Serve</span> <i data-lucide="chevron-down" class="dropdown-chevron"></i>
+            <span class="navbar__link-text">Areas</span> <i data-lucide="chevron-down" class="dropdown-chevron"></i>
           </a>
           <ul class="navbar__dropdown-menu navbar__dropdown-menu--right">
-            <li><a href="/areas" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">All Bangalore Areas</span><span class="navbar__dropdown-desc">City-wide express delivery</span></span></a></li>
-            <li><a href="/areas/malleshwaram.html" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Malleshwaram</span><span class="navbar__dropdown-desc">Flagship showroom on Sampige Rd</span></span></a></li>
-            <li><a href="/areas/chickpet.html" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Chickpet</span><span class="navbar__dropdown-desc">Heritage wholesale jewellery corridor</span></span></a></li>
-            <li><a href="/areas/commercial-street.html" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Commercial Street</span><span class="navbar__dropdown-desc">Trendy party &amp; sangeet jewellery suites</span></span></a></li>
-            <li><a href="/areas/whitefield.html" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Whitefield</span><span class="navbar__dropdown-desc">East Bangalore express doorstep delivery</span></span></a></li>
-            <li><a href="/areas/indiranagar.html" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Indiranagar</span><span class="navbar__dropdown-desc">24-48 hr express delivery hub</span></span></a></li>
-            <li><a href="/areas/jayanagar.html" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Jayanagar</span><span class="navbar__dropdown-desc">South Bangalore bridal consultations</span></span></a></li>
-            <li><a href="/areas/koramangala.html" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Koramangala</span><span class="navbar__dropdown-desc">Contemporary &amp; sangeet party suites</span></span></a></li>
-            <li><a href="/areas/rajajinagar.html" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Rajajinagar</span><span class="navbar__dropdown-desc">West Bangalore same-day courier dispatch</span></span></a></li>
+            <li><a href="/areas" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">All Bangalore Areas</span></span></a></li>
+            <li><a href="/areas/malleshwaram" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Malleshwaram</span></span></a></li>
+            <li><a href="/areas/jayanagar" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Jayanagar</span></span></a></li>
+            <li><a href="/areas/commercial-street" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Commercial Street</span></span></a></li>
+            <li><a href="/areas/chickpet" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Chickpet</span></span></a></li>
+            <li><a href="/areas/indiranagar" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Indiranagar</span></span></a></li>
+            <li><a href="/areas/koramangala" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Koramangala</span></span></a></li>
+            <li><a href="/areas/rajajinagar" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Rajajinagar</span></span></a></li>
+            <li><a href="/areas/whitefield" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Whitefield</span></span></a></li>
           </ul>
         </li>
 
-        <li role="none"><a href="/about.html" class="navbar__link" role="menuitem"><span class="navbar__link-text">About Us</span></a></li>
-        <li role="none"><a href="/contact.html" class="navbar__link" role="menuitem"><span class="navbar__link-text">Contact Us</span></a></li>
+        <li role="none"><a href="/blog" class="navbar__link" role="menuitem"><span class="navbar__link-text">Blog</span></a></li>
+
+        <!-- About & Contact Combined Dropdown -->
+        <li role="none" class="navbar__dropdown-item">
+          <a href="/about" class="navbar__link navbar__link--has-dropdown" role="menuitem" aria-haspopup="true">
+            <span class="navbar__link-text">About &amp; Contact</span> <i data-lucide="chevron-down" class="dropdown-chevron"></i>
+          </a>
+          <ul class="navbar__dropdown-menu navbar__dropdown-menu--right">
+            <li><a href="/about" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="info"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">About Us</span></span></a></li>
+            <li><a href="/contact" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="phone"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Contact Us</span></span></a></li>
+          </ul>
+        </li>
 
         <!-- Mobile Drawer Quick Actions Footer -->
         <li class="mobile-drawer__footer">
@@ -117,17 +140,16 @@
         </li>
       </ul>
 
-      <!-- Right side: Actions row -->
+      <!-- Right side: Actions row (No Search Option) -->
       <div class="navbar__actions">
-        <a href="/shop" class="navbar__action-btn" aria-label="Search">
-          <i data-lucide="search" style="width:19px;height:19px;"></i>
+        <a href="/wishlist" class="navbar__action-btn navbar__wishlist-btn" aria-label="Wishlist" title="Wishlist">
+          <i data-lucide="heart" style="width:19px;height:19px;"></i>
+          <span class="navbar__wishlist-badge" id="wishlistBadge">0</span>
         </a>
         <div class="navbar__user-menu">
-          <a href="/login.html" class="navbar__user-btn" aria-label="Account">
-            <i data-lucide="user" style="width:19px;height:19px;"></i>
-          </a>
+          <a href="/login" class="navbar__auth-btn" id="navbarAuthBtn">Login / Register</a>
         </div>
-        <a href="/cart.html" class="navbar__cart" aria-label="Shopping Cart">
+        <a href="/cart" class="navbar__cart" aria-label="Shopping Bag" title="Bag">
           <i data-lucide="shopping-bag" style="width:19px;height:19px;"></i>
           <span class="navbar__cart-badge">0</span>
         </a>
@@ -137,25 +159,358 @@
 
 
 
-  <!-- Login Main Container -->
-  <main class="login-page-container" style="min-height: 70vh; display: flex; align-items: center; justify-content: center; padding: 40px 20px;">
-    <div class="login-card" style="max-width: 440px; width: 100%; background: #FFF; border-radius: 16px; padding: 36px 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.06); border: 1px solid #EFE2E6; text-align: center;">
-      <h1 style="font-family: 'Cinzel', serif; color: #3B183E; font-size: 1.6rem; margin-bottom: 8px;">Customer Portal</h1>
-      <p style="color: #666; font-size: 0.95rem; margin-bottom: 24px;">Sign in to access your orders, saved wishlist items, and personal consultations.</p>
-      <div id="authPortal"></div>
-      <div id="profileCard" style="display: none;">
-        <h3 id="profileName" style="color: #3B183E; margin-bottom: 4px;"></h3>
-        <p id="profileEmail" style="color: #777; font-size: 0.9rem; margin-bottom: 2px;"></p>
-        <p id="profilePhone" style="color: #777; font-size: 0.9rem; margin-bottom: 20px;"></p>
-        <button id="btnProfileSignOut" class="btn btn--outline" style="width: 100%; justify-content: center; gap: 8px;">
-          <i data-lucide="log-out" style="width: 18px; height: 18px;"></i> Sign Out
-        </button>
+  <!-- Customer Portal & Dashboard Main Container -->
+  <main class="login-page-container">
+    
+    <!-- 1. AUTH VIEW (Shown when guest/logged out) -->
+    <div id="authView" style="display: none; width: 100%; max-width: 420px; margin: 0 auto;">
+      <div class="auth-card">
+        <div class="auth-card__header">
+          <div class="auth-card__badge">✨ Sri Kannika Bangles</div>
+          <h1 class="auth-card__title">Welcome Back</h1>
+          <p class="auth-card__subtitle">Sign in to track orders, saved wishlist &amp; express checkout.</p>
+        </div>
+
+        <!-- Auth Tabs Switcher -->
+        <div class="auth-tabs" role="tablist">
+          <button type="button" class="auth-tab active" id="tabSignIn" onclick="switchAuthTab('signin')" role="tab" aria-selected="true">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" x2="3" y1="12" y2="12"/></svg>
+            <span>Sign In</span>
+          </button>
+          <button type="button" class="auth-tab" id="tabRegister" onclick="switchAuthTab('register')" role="tab" aria-selected="false">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" x2="19" y1="8" y2="14"/><line x1="22" x2="16" y1="11" y2="11"/></svg>
+            <span>Create Account</span>
+          </button>
+        </div>
+
+        <!-- Alert Notification Box -->
+        <div id="authAlert" class="auth-alert" style="display: none;"></div>
+
+        <!-- SIGN IN FORM -->
+        <form id="signInForm" class="auth-form" onsubmit="handleCustomerSignIn(event)">
+          <div class="auth-form__group">
+            <label class="auth-form__label" for="loginEmail">Email or Phone Number</label>
+            <div class="auth-form__input-wrapper">
+              <span class="auth-input-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+              </span>
+              <input type="text" id="loginEmail" class="auth-form__input" placeholder="e.g. ananya@example.com or 9844758450" required autocomplete="username">
+            </div>
+          </div>
+
+          <div class="auth-form__group">
+            <label class="auth-form__label" for="loginPassword">Password</label>
+            <div class="auth-form__input-wrapper">
+              <span class="auth-input-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              </span>
+              <input type="password" id="loginPassword" class="auth-form__input" placeholder="Enter your password" required autocomplete="current-password">
+              <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility('loginPassword', this)" aria-label="Show password" title="Show password" tabindex="-1">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.82rem; margin: 2px 0 2px;">
+            <label style="display:flex; align-items:center; gap:6px; cursor:pointer; color: #4A3538; user-select:none;">
+              <input type="checkbox" id="rememberMe" checked style="accent-color: #AA7C11; width:14px; height:14px;"> Remember me
+            </label>
+            <a href="https://wa.me/919844758450?text=Hi%20Kannika%20Bangles,%20I%20need%20help%20with%20my%20account%20password" target="_blank" rel="noopener" style="color: #AA7C11; text-decoration:none; font-weight:600;">Forgot Password?</a>
+          </div>
+
+          <button type="submit" id="btnSignInSubmit" class="auth-form__submit">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" x2="3" y1="12" y2="12"/></svg>
+            <span>Sign In to Account</span>
+          </button>
+        </form>
+
+        <!-- CREATE ACCOUNT FORM -->
+        <form id="registerForm" class="auth-form" onsubmit="handleCustomerRegister(event)" style="display: none;">
+          <div class="auth-form__group">
+            <label class="auth-form__label" for="regName">Full Name <span style="color:#d32f2f;">*</span></label>
+            <div class="auth-form__input-wrapper">
+              <span class="auth-input-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              </span>
+              <input type="text" id="regName" class="auth-form__input" placeholder="e.g. Ananya Sharma" required autocomplete="name">
+            </div>
+          </div>
+
+          <div class="auth-form__row">
+            <div class="auth-form__group">
+              <label class="auth-form__label" for="regPhone">WhatsApp / Mobile <span style="color:#d32f2f;">*</span></label>
+              <div class="auth-form__input-wrapper">
+                <span class="auth-input-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                </span>
+                <input type="tel" id="regPhone" class="auth-form__input" placeholder="+91 98447 58450" required autocomplete="tel">
+              </div>
+            </div>
+
+            <div class="auth-form__group">
+              <label class="auth-form__label" for="regEmail">Email Address <span style="color:#d32f2f;">*</span></label>
+              <div class="auth-form__input-wrapper">
+                <span class="auth-input-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                </span>
+                <input type="email" id="regEmail" class="auth-form__input" placeholder="ananya@example.com" required autocomplete="email">
+              </div>
+            </div>
+          </div>
+
+          <div class="auth-form__group">
+            <label class="auth-form__label" for="regPassword">Create Password <span style="color:#d32f2f;">*</span></label>
+            <div class="auth-form__input-wrapper">
+              <span class="auth-input-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              </span>
+              <input type="password" id="regPassword" class="auth-form__input" placeholder="At least 6 characters" required minlength="6" autocomplete="new-password">
+              <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility('regPassword', this)" aria-label="Show password" title="Show password" tabindex="-1">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Optional Collapsible Delivery Address -->
+          <div style="margin-top: 2px;">
+            <button type="button" class="auth-address-toggle" onclick="toggleAddressSection(this)">
+              <span id="addressToggleIcon" style="font-weight:700; font-size:1rem; line-height:1;">+</span>
+              <span>Add Delivery Address (Optional)</span>
+            </button>
+            <div id="optionalAddressFields" class="auth-address-fields" style="display: none;">
+              <div class="auth-form__group">
+                <label class="auth-form__label" for="regStreet">Street Address</label>
+                <div class="auth-form__input-wrapper">
+                  <span class="auth-input-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                  </span>
+                  <input type="text" id="regStreet" class="auth-form__input" placeholder="Flat, building, street">
+                </div>
+              </div>
+              <div class="auth-form__row">
+                <div class="auth-form__group">
+                  <label class="auth-form__label" for="regCity">City</label>
+                  <div class="auth-form__input-wrapper">
+                    <span class="auth-input-icon">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="16" height="20" x="4" y="2" rx="2" ry="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01"/><path d="M16 6h.01"/><path d="M8 10h.01"/><path d="M16 10h.01"/></svg>
+                    </span>
+                    <input type="text" id="regCity" class="auth-form__input" placeholder="Bengaluru" value="Bengaluru">
+                  </div>
+                </div>
+                <div class="auth-form__group">
+                  <label class="auth-form__label" for="regPin">Pincode</label>
+                  <div class="auth-form__input-wrapper">
+                    <span class="auth-input-icon">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" x2="20" y1="9" y2="9"/><line x1="4" x2="20" y1="15" y2="15"/><line x1="10" x2="8" y1="3" y2="21"/><line x1="16" x2="14" y1="3" y2="21"/></svg>
+                    </span>
+                    <input type="text" id="regPin" class="auth-form__input" placeholder="560003" maxlength="6">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" id="btnRegisterSubmit" class="auth-form__submit">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" x2="19" y1="8" y2="14"/><line x1="22" x2="16" y1="11" y2="11"/></svg>
+            <span>Create My Account</span>
+          </button>
+        </form>
+
+        <div class="auth-footer-badge">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#AA7C11" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span>100% Secure &bull; Sri Kannika Bangles Malleshwaram</span>
+        </div>
       </div>
     </div>
+
+    <!-- 2. CUSTOMER DASHBOARD VIEW (Shown when logged in) -->
+    <div id="dashboardView" class="customer-portal" style="display: none;">
+      
+      <!-- Welcome Hero Banner -->
+      <div class="dashboard-hero">
+        <div>
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:4px;">
+            <span style="background:rgba(212,175,55,0.2); color:var(--gold-dark); padding:3px 10px; border-radius:12px; font-size:0.75rem; font-weight:700; text-transform:uppercase;">
+              ⭐ Valued Client
+            </span>
+          </div>
+          <h1 class="dashboard-hero__title" id="dashGreeting">Namaskara</h1>
+          <div class="dashboard-hero__meta">
+            <span id="dashEmail"><i data-lucide="mail" style="width:14px;height:14px;display:inline-block;vertical-align:middle;"></i> -</span>
+            <span id="dashPhone"><i data-lucide="phone" style="width:14px;height:14px;display:inline-block;vertical-align:middle;"></i> -</span>
+          </div>
+        </div>
+        <div class="dashboard-hero__actions">
+          <a href="/shop" class="btn btn--primary btn--sm" style="text-decoration:none;">
+            <i data-lucide="gem" style="width:15px;height:15px;"></i> Browse Collections
+          </a>
+          <a href="/cart.html" class="btn btn--outline btn--sm" style="text-decoration:none;">
+            <i data-lucide="shopping-bag" style="width:15px;height:15px;"></i> My Bag
+          </a>
+          <button onclick="customerLogout()" class="btn btn--ghost btn--sm" style="color:#d32f2f;">
+            <i data-lucide="log-out" style="width:15px;height:15px;"></i> Sign Out
+          </button>
+        </div>
+      </div>
+
+      <!-- Dashboard 2-Column Grid -->
+      <div class="dashboard-grid">
+        
+        <!-- Left: Order History & Tracking -->
+        <div class="dashboard-panel">
+          <h2 class="dashboard-panel__title">
+            <span><i data-lucide="package" style="width:20px;height:20px;color:var(--gold-primary);vertical-align:middle;margin-right:6px;"></i> My Orders &amp; Tracking</span>
+            <span id="dashOrderCount" style="font-size:0.85rem; font-family:'Poppins', sans-serif; background:rgba(212,175,55,0.15); color:var(--gold-dark); padding:3px 8px; border-radius:10px;">0 Orders</span>
+          </h2>
+          
+          <div id="dashOrdersLoading" style="text-align:center; padding:30px 0; color:var(--text-muted);">
+            <div class="loader__ring" style="width:28px;height:28px;border-width:2px;margin:0 auto 10px;"></div>
+            <p>Loading your order history...</p>
+          </div>
+
+          <div id="dashOrdersEmpty" style="display:none; text-align:center; padding:36px 16px;">
+            <div style="width:54px;height:54px;background:rgba(212,175,55,0.08);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;color:var(--gold-primary);">
+              <i data-lucide="shopping-bag" style="width:26px;height:26px;"></i>
+            </div>
+            <h3 style="font-size:1.1rem;margin-bottom:6px;color:var(--text-primary);">No Orders Placed Yet</h3>
+            <p style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:18px;">Your orders and tracking statuses will appear here once you place a booking.</p>
+            <a href="/shop" class="btn btn--primary btn--sm" style="text-decoration:none;">Explore Bridal Jewellery</a>
+          </div>
+
+          <div id="dashOrdersList" class="order-cards-list" style="display:none;"></div>
+        </div>
+
+        <!-- Right: Profile & Delivery Address -->
+        <div class="dashboard-panel">
+          <h2 class="dashboard-panel__title">
+            <span><i data-lucide="map-pin" style="width:20px;height:20px;color:var(--gold-primary);vertical-align:middle;margin-right:6px;"></i> Delivery Address</span>
+          </h2>
+
+          <div id="dashAddressDisplay">
+            <div class="profile-field">
+              <label>Full Name</label>
+              <div class="profile-field-value" id="profileNameVal">-</div>
+            </div>
+            <div class="profile-field">
+              <label>WhatsApp Number</label>
+              <div class="profile-field-value" id="profilePhoneVal">-</div>
+            </div>
+            <div class="profile-field">
+              <label>Registered Email</label>
+              <div class="profile-field-value" id="profileEmailVal">-</div>
+            </div>
+
+            <div class="profile-field">
+              <label>Saved Shipping Address</label>
+              <div class="address-box" id="profileAddressVal">
+                No delivery address saved yet. Add one below for faster checkout.
+              </div>
+            </div>
+
+            <button type="button" class="btn btn--outline btn--sm" onclick="toggleEditAddress(true)" style="width:100%;justify-content:center;margin-top:16px;">
+              <i data-lucide="edit-3" style="width:15px;height:15px;"></i> Edit Delivery Details
+            </button>
+          </div>
+
+          <!-- Edit Address Form (Collapsible) -->
+          <form id="dashAddressForm" onsubmit="handleSaveAddress(event)" style="display:none; margin-top:12px;">
+            <div class="auth-form__group" style="margin-bottom:12px;">
+              <label class="auth-form__label" for="editStreet">Street Address</label>
+              <input type="text" id="editStreet" class="auth-form__input" placeholder="e.g. 12th Main, 4th Block" style="padding-left:14px;" required>
+            </div>
+
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-bottom:12px;">
+              <div class="auth-form__group">
+                <label class="auth-form__label" for="editCity">City</label>
+                <input type="text" id="editCity" class="auth-form__input" placeholder="Bengaluru" style="padding-left:14px;" required>
+              </div>
+              <div class="auth-form__group">
+                <label class="auth-form__label" for="editState">State</label>
+                <input type="text" id="editState" class="auth-form__input" placeholder="Karnataka" style="padding-left:14px;" required>
+              </div>
+            </div>
+
+            <div class="auth-form__group" style="margin-bottom:16px;">
+              <label class="auth-form__label" for="editPin">Pincode</label>
+              <input type="text" id="editPin" class="auth-form__input" placeholder="e.g. 560003" style="padding-left:14px;" maxlength="6" required>
+            </div>
+
+            <div style="display:flex; gap:10px;">
+              <button type="submit" class="btn btn--primary btn--sm" style="flex:1;justify-content:center;">
+                <i data-lucide="check" style="width:14px;height:14px;"></i> Save Address
+              </button>
+              <button type="button" class="btn btn--ghost btn--sm" onclick="toggleEditAddress(false)">
+                Cancel
+              </button>
+            </div>
+          </form>
+
+          <div style="margin-top:24px; padding:16px; background:rgba(212,175,55,0.06); border-radius:var(--radius-md); border:1px solid rgba(212,175,55,0.18);">
+            <div style="display:flex; align-items:flex-start; gap:10px;">
+              <i data-lucide="help-circle" style="width:18px;height:18px;color:var(--gold-primary);flex-shrink:0;margin-top:2px;"></i>
+              <div style="font-size:0.85rem; color:var(--text-secondary); line-height:1.4;">
+                <strong>Need custom bridal sizing or styling advice?</strong><br>
+                Chat directly with our Malleshwaram showroom consultants on WhatsApp at 
+                <a href="https://wa.me/919844758450?text=Hi%20Kannika%20Bangles,%20I'm%20logged%20into%20my%20account%20and%20need%20bridal%20styling%20advice" target="_blank" rel="noopener" style="color:var(--gold-dark);font-weight:600;">+91 98447 58450</a>.
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
   </main>
 
   <!-- Footer -->
-    <!-- ═══════════════════════════════════════════════════
+      <!-- ═══════════════════════════════════════════════════
+       VIP BRIDAL CONSULTATION & CONTACT FORM
+       ═══════════════════════════════════════════════════ -->
+  <section class="section contact-section" id="consultationSection" style="padding: 60px 0; background: var(--bg-primary, #FFFDF9);">
+    <div class="container">
+      <div style="max-width: 680px; margin: 0 auto;">
+        <div class="text-center" style="margin-bottom: 30px;">
+          <span class="section-subtitle">Bridal Consultation &amp; Enquiries</span>
+          <h2 class="section-title">Connect with Our Stylists for <span class="text-gold">Custom Sizing &amp; Matching</span></h2>
+          <div class="divider"></div>
+          <p style="font-size: 0.95rem; color: var(--text-secondary); margin-top: 8px;">
+            Need assistance with bangle sizing, saree matching, or arranging express 24–48 hr doorstep delivery in Bangalore? Drop your details below and our stylists will assist you directly.
+          </p>
+        </div>
+
+        <form class="contact-form" id="pageContactForm" style="box-shadow: 0 10px 30px rgba(0,0,0,0.06);">
+          <!-- Invisible Honeypot Field (Blocks Spam Bots) -->
+          <input type="text" name="hp_check" id="contactHpCheck" style="display:none !important;" tabindex="-1" autocomplete="off">
+
+          <div class="form-group">
+            <label class="form-label" for="contactName">Your Full Name *</label>
+            <input type="text" id="contactName" name="name" class="form-input" placeholder="Enter your full name" required>
+          </div>
+          <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+            <div class="form-group">
+              <label class="form-label" for="contactPhone">Phone / WhatsApp *</label>
+              <input type="tel" id="contactPhone" name="phone" class="form-input" placeholder="+91 98447 58450" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="contactEmail">Email Address</label>
+              <input type="email" id="contactEmail" name="email" class="form-input" placeholder="name@example.com">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="contactMessage">Ceremony Details / Preferred Sizing &amp; Queries *</label>
+            <textarea id="contactMessage" name="message" class="form-input" rows="4" placeholder="Mention your bridal requirements, bangle sizes, or queries..." required></textarea>
+          </div>
+          <button type="submit" class="btn btn--primary" style="width: 100%; justify-content: center; font-size: 1rem; padding: 14px;">
+            <i data-lucide="send" style="width: 18px; height: 18px; margin-right: 8px;"></i> Submit Consultation Request
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+<!-- ═══════════════════════════════════════════════════
        FOOTER
        ═══════════════════════════════════════════════════ -->
   <footer class="footer">
@@ -164,8 +519,6 @@
         <div class="footer__brand-name"><span>Kannika</span> Bangles</div>
         <p class="footer__desc">Turning every bride's dream into a beautiful reality. Handcrafted bangles blending tradition with modern style since generations.</p>
         <div class="footer__social" style="margin-top: 16px;">
-          <a href="https://www.instagram.com/kannikabangles" target="_blank" rel="noopener" class="footer__social-link" aria-label="Instagram"><i data-lucide="instagram" style="width:18px;height:18px;"></i></a>
-          <a href="https://www.facebook.com/kannikabangles" target="_blank" rel="noopener" class="footer__social-link" aria-label="Facebook"><i data-lucide="facebook" style="width:18px;height:18px;"></i></a>
           <a href="https://wa.me/919844758450" target="_blank" rel="noopener" class="footer__social-link" aria-label="WhatsApp" style="color:#25D366;border-color:rgba(37,211,102,0.4);"><i data-lucide="message-circle" style="width:18px;height:18px;"></i></a>
         </div>
       </div>
@@ -214,6 +567,293 @@
     </div>
   </footer>
 
-  <script src="/js/main.js?v=20260821_103"></script>
+  <!-- Scripts -->
+  <script src="/js/auth.js?v=20260916_201"></script>
+  <script src="/js/main.js?v=20260916_201"></script>
+  
+  <script>
+    // ─── LOGIN PAGE CONTROLLER ───
+    document.addEventListener('DOMContentLoaded', () => {
+      initCustomerPortal();
+    });
+
+    function switchAuthTab(tab) {
+      const tabSignIn = document.getElementById('tabSignIn');
+      const tabRegister = document.getElementById('tabRegister');
+      const formSignIn = document.getElementById('signInForm');
+      const formRegister = document.getElementById('registerForm');
+      const alertBox = document.getElementById('authAlert');
+      if (alertBox) alertBox.style.display = 'none';
+
+      if (tab === 'signin') {
+        tabSignIn.classList.add('active');
+        tabSignIn.setAttribute('aria-selected', 'true');
+        tabRegister.classList.remove('active');
+        tabRegister.setAttribute('aria-selected', 'false');
+        formSignIn.style.display = 'flex';
+        formRegister.style.display = 'none';
+      } else {
+        tabRegister.classList.add('active');
+        tabRegister.setAttribute('aria-selected', 'true');
+        tabSignIn.classList.remove('active');
+        tabSignIn.setAttribute('aria-selected', 'false');
+        formRegister.style.display = 'flex';
+        formSignIn.style.display = 'none';
+      }
+
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    const EYE_OPEN_SVG = `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>`;
+    const EYE_CLOSED_SVG = `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><line x1="2" x2="22" y1="2" y2="22"/></svg>`;
+
+    function togglePasswordVisibility(inputId, btn) {
+      const input = document.getElementById(inputId);
+      if (!input) return;
+      const isCurrentlyPassword = input.type === 'password';
+      input.type = isCurrentlyPassword ? 'text' : 'password';
+      btn.innerHTML = isCurrentlyPassword ? EYE_CLOSED_SVG : EYE_OPEN_SVG;
+      btn.setAttribute('aria-label', isCurrentlyPassword ? 'Hide password' : 'Show password');
+      btn.setAttribute('title', isCurrentlyPassword ? 'Hide password' : 'Show password');
+    }
+
+    function toggleAddressSection(btn) {
+      const fields = document.getElementById('optionalAddressFields');
+      const icon = document.getElementById('addressToggleIcon');
+      if (!fields) return;
+      const isHidden = fields.style.display === 'none';
+      fields.style.display = isHidden ? 'block' : 'none';
+      if (icon) icon.textContent = isHidden ? '−' : '+';
+    }
+
+    function showAuthAlert(message, type = 'error') {
+      const alertBox = document.getElementById('authAlert');
+      if (!alertBox) return;
+      alertBox.className = `auth-alert auth-alert--${type}`;
+      alertBox.innerHTML = `
+        <i data-lucide="${type === 'success' ? 'check-circle' : 'alert-circle'}" style="width:18px;height:18px;flex-shrink:0;"></i>
+        <span>${message}</span>
+      `;
+      alertBox.style.display = 'flex';
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    async function handleCustomerSignIn(e) {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value.trim();
+      const password = document.getElementById('loginPassword').value;
+      const btn = document.getElementById('btnSignInSubmit');
+      const originalText = btn.innerHTML;
+
+      btn.disabled = true;
+      btn.innerHTML = `<span class="loader__ring" style="width:16px;height:16px;border-width:2px;display:inline-block;vertical-align:middle;margin-right:6px;"></span> Signing in...`;
+
+      const result = await customerLogin(email, password);
+      btn.disabled = false;
+      btn.innerHTML = originalText;
+
+      if (result.success) {
+        showAuthAlert('Welcome back! Loading your profile...', 'success');
+        setTimeout(() => {
+          const params = new URLSearchParams(window.location.search);
+          const redirectUrl = params.get('redirect');
+          if (redirectUrl && redirectUrl !== '/login' && redirectUrl !== '/login.html') {
+            window.location.href = redirectUrl;
+            return;
+          }
+          renderCustomerDashboard(result.user);
+        }, 600);
+      } else {
+        showAuthAlert(result.error || 'Invalid credentials. Please try again.');
+      }
+    }
+
+    async function handleCustomerRegister(e) {
+      e.preventDefault();
+      const name = document.getElementById('regName').value.trim();
+      const email = document.getElementById('regEmail').value.trim();
+      const phone = document.getElementById('regPhone').value.trim();
+      const password = document.getElementById('regPassword').value;
+      const street = document.getElementById('regStreet').value.trim();
+      const city = document.getElementById('regCity').value.trim();
+      const pincode = document.getElementById('regPin').value.trim();
+
+      const btn = document.getElementById('btnRegisterSubmit');
+      const originalText = btn.innerHTML;
+
+      btn.disabled = true;
+      btn.innerHTML = `<span class="loader__ring" style="width:16px;height:16px;border-width:2px;display:inline-block;vertical-align:middle;margin-right:6px;"></span> Creating account...`;
+
+      const address = { street, city, state: 'Karnataka', pincode };
+      const result = await customerRegister(name, email, phone, password, address);
+      btn.disabled = false;
+      btn.innerHTML = originalText;
+
+      if (result.success) {
+        showAuthAlert('Account created successfully! Welcome to Sri Kannika Bangles.', 'success');
+        setTimeout(() => {
+          const params = new URLSearchParams(window.location.search);
+          const redirectUrl = params.get('redirect');
+          if (redirectUrl && redirectUrl !== '/login' && redirectUrl !== '/login.html') {
+            window.location.href = redirectUrl;
+            return;
+          }
+          renderCustomerDashboard(result.user);
+        }, 600);
+      } else {
+        showAuthAlert(result.error || 'Failed to create account. Please check details.');
+      }
+    }
+
+    function initCustomerPortal() {
+      const user = getCurrentCustomer();
+      const token = getCustomerToken();
+
+      if (user && token) {
+        renderCustomerDashboard(user);
+      } else {
+        document.getElementById('authView').style.display = 'block';
+        document.getElementById('dashboardView').style.display = 'none';
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+      }
+    }
+
+    async function renderCustomerDashboard(user) {
+      document.getElementById('authView').style.display = 'none';
+      const dashView = document.getElementById('dashboardView');
+      dashView.style.display = 'block';
+
+      // Fill Hero
+      document.getElementById('dashGreeting').textContent = `Namaskara, ${user.name}!`;
+      document.getElementById('dashEmail').innerHTML = `<i data-lucide="mail" style="width:14px;height:14px;display:inline-block;vertical-align:middle;"></i> ${user.email}`;
+      document.getElementById('dashPhone').innerHTML = `<i data-lucide="phone" style="width:14px;height:14px;display:inline-block;vertical-align:middle;"></i> ${user.phone || 'Phone not set'}`;
+
+      // Fill Profile Details
+      document.getElementById('profileNameVal').textContent = user.name;
+      document.getElementById('profilePhoneVal').textContent = user.phone || 'Not added';
+      document.getElementById('profileEmailVal').textContent = user.email;
+
+      // Fill Address
+      const addr = user.address || {};
+      const addrText = [addr.street, addr.city, addr.state, addr.pincode ? `- ${addr.pincode}` : ''].filter(Boolean).join(', ');
+      document.getElementById('profileAddressVal').textContent = addrText || 'No delivery address saved yet.';
+
+      // Pre-fill form
+      document.getElementById('editStreet').value = addr.street || '';
+      document.getElementById('editCity').value = addr.city || 'Bengaluru';
+      document.getElementById('editState').value = addr.state || 'Karnataka';
+      document.getElementById('editPin').value = addr.pincode || '';
+
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+
+      // Load Orders
+      await loadCustomerOrders();
+    }
+
+    async function loadCustomerOrders() {
+      const loadingEl = document.getElementById('dashOrdersLoading');
+      const emptyEl = document.getElementById('dashOrdersEmpty');
+      const listEl = document.getElementById('dashOrdersList');
+      const countEl = document.getElementById('dashOrderCount');
+
+      try {
+        const orders = await fetchCustomerOrders();
+        loadingEl.style.display = 'none';
+
+        if (!orders || orders.length === 0) {
+          emptyEl.style.display = 'block';
+          listEl.style.display = 'none';
+          countEl.textContent = '0 Orders';
+        } else {
+          emptyEl.style.display = 'none';
+          listEl.style.display = 'flex';
+          countEl.textContent = `${orders.length} Order${orders.length > 1 ? 's' : ''}`;
+
+          listEl.innerHTML = orders.map(order => {
+            const dateStr = new Date(order.createdAt).toLocaleDateString('en-IN', {
+              day: 'numeric',
+              month: 'short',
+              year: 'numeric'
+            });
+
+            const statusClass = `order-status-badge--${order.status || 'pending'}`;
+            const statusLabel = (order.status || 'pending').charAt(0).toUpperCase() + (order.status || 'pending').slice(1);
+
+            const itemsHtml = (order.items || []).map(item => `
+              <div class="order-item-row">
+                <span><strong>${item.name}</strong> (Size: ${item.size || 'Standard'}, Qty: ${item.quantity})</span>
+                <span>₹${item.price.toLocaleString('en-IN')}</span>
+              </div>
+            `).join('');
+
+            const orderIdDisplay = order.orderId || `KB-${(order._id || '').slice(-6).toUpperCase()}`;
+            const waText = encodeURIComponent(`Hi Kannika Bangles, I would like to inquire about my order #${orderIdDisplay}. Please provide an update.`);
+
+            return `
+              <div class="order-card">
+                <div class="order-card__header">
+                  <div>
+                    <span class="order-card__id">Order #${orderIdDisplay}</span>
+                    <span class="order-card__date" style="margin-left: 8px;">• ${dateStr}</span>
+                  </div>
+                  <span class="order-status-badge ${statusClass}">
+                    <span style="width:6px;height:6px;border-radius:50%;background:currentColor;display:inline-block;"></span>
+                    ${statusLabel}
+                  </span>
+                </div>
+
+                <div class="order-items-summary">
+                  ${itemsHtml}
+                </div>
+
+                <div class="order-card__footer">
+                  <div>
+                    <span style="font-size:0.8rem;color:var(--text-muted);display:block;">Total Amount</span>
+                    <span class="order-card__total">₹${(order.total || 0).toLocaleString('en-IN')}</span>
+                  </div>
+                  <a href="https://wa.me/919844758450?text=${waText}" target="_blank" rel="noopener" class="btn btn--outline btn--sm" style="text-decoration:none;gap:6px;padding:6px 12px;font-size:0.82rem;">
+                    <i data-lucide="message-circle" style="width:14px;height:14px;color:#25D366;"></i> Track on WhatsApp
+                  </a>
+                </div>
+              </div>
+            `;
+          }).join('');
+
+          if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+      } catch (err) {
+        console.error('Error loading orders:', err);
+        loadingEl.style.display = 'none';
+        emptyEl.style.display = 'block';
+      }
+    }
+
+    function toggleEditAddress(show) {
+      document.getElementById('dashAddressDisplay').style.display = show ? 'none' : 'block';
+      document.getElementById('dashAddressForm').style.display = show ? 'block' : 'none';
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    async function handleSaveAddress(e) {
+      e.preventDefault();
+      const street = document.getElementById('editStreet').value.trim();
+      const city = document.getElementById('editCity').value.trim();
+      const state = document.getElementById('editState').value.trim();
+      const pincode = document.getElementById('editPin').value.trim();
+
+      try {
+        const updated = await updateCustomerProfile({
+          address: { street, city, state, pincode }
+        });
+        if (typeof showToast === 'function') {
+          showToast('Delivery address updated! 🏡', '✓');
+        }
+        toggleEditAddress(false);
+        renderCustomerDashboard(updated);
+      } catch (err) {
+        alert('Failed to update address: ' + err.message);
+      }
+    }
+  </script>
 </body>
 </html>

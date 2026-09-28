@@ -165,7 +165,7 @@
 
 /* ─── Product Name ─── */
 .pd__name {
-  font-family: 'Cinzel', serif;
+  font-family: 'Poppins', sans-serif;
   font-size: clamp(1.75rem, 3.5vw, 2.5rem);
   font-weight: 700;
   line-height: 1.2;
@@ -201,7 +201,7 @@
 }
 
 .pd__price {
-  font-family: 'Cinzel', serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 2rem;
   font-weight: 700;
   color: var(--pink-primary);
@@ -315,7 +315,7 @@
   transition: all var(--transition-normal);
   position: relative;
   overflow: hidden;
-  font-family: 'Lora', serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 .pd__size-btn::before {
@@ -378,7 +378,7 @@
   border: none;
   cursor: pointer;
   transition: all var(--transition-fast);
-  font-family: 'Lora', serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 .pd__qty-btn:hover {
@@ -482,7 +482,7 @@
 }
 
 .pd__not-found h2 {
-  font-family: 'Cinzel', serif;
+  font-family: 'Poppins', sans-serif;
   font-size: clamp(1.5rem, 3vw, 2rem);
   color: var(--text-primary);
   margin-top: 8px;
@@ -504,7 +504,7 @@
    ===================================================== */
 
 .section--alt .section-subtitle {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 .section--alt .divider {
@@ -709,4 +709,35 @@
     padding: 12px 20px;
     font-size: 0.8rem;
   }
+}
+
+/* ─── Responsive Action Buttons Row ─── */
+.pd__actions-row {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+}
+@media (max-width: 480px) {
+  .pd__actions-row {
+    flex-direction: column !important;
+    gap: 10px !important;
+  }
+  .pd__actions-row .btn {
+    width: 100% !important;
+    white-space: normal !important;
+  }
+}
+
+/* ─── Visibility Safeguards: Eliminate Blank Space ─── */
+#reviewsContainer .reveal,
+#productDetail .reveal,
+.product-detail .reveal,
+.review-form.reveal,
+.reviews-summary.reveal,
+.reviews-list.reveal,
+#relatedProducts .reveal,
+.product-reviews .reveal {
+  opacity: 1 !important;
+  transform: none !important;
+  visibility: visible !important;
 }

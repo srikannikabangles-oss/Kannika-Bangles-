@@ -39,11 +39,11 @@ function getNavbarHtml(activeNav = '') {
             <span class="navbar__link-text">Jewellery</span> <i data-lucide="chevron-down" class="dropdown-chevron"></i>
           </a>
           <ul class="navbar__dropdown-menu">
-            <li><a href="/shop" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="gem"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">All Collections</span><span class="navbar__dropdown-desc">Explore complete 48-piece showcase</span></span></a></li>
-            <li><a href="/bangles" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="circle"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Bridal Bangles &amp; Kadas</span><span class="navbar__dropdown-desc">Traditional stacks, Jadau kadas &amp; spacers</span></span></a></li>
-            <li><a href="/necklaces" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="gem"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Necklaces &amp; Chokers</span><span class="navbar__dropdown-desc">Royal choker sets &amp; layered harams</span></span></a></li>
-            <li><a href="/pendant-sets" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="sparkles"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Handcrafted Pendant Sets</span><span class="navbar__dropdown-desc">Heritage lockets with matching earrings</span></span></a></li>
-            <li><a href="/earrings" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="sparkles"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Designer Bridal Earrings</span><span class="navbar__dropdown-desc">Traditional jhumkas, chandbalis &amp; studs</span></span></a></li>
+            <li><a href="/shop" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="gem"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">All Collections</span></span></a></li>
+            <li><a href="/bangles" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="circle"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Bridal Bangles &amp; Kadas</span></span></a></li>
+            <li><a href="/necklaces" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="gem"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Necklaces &amp; Chokers</span></span></a></li>
+            <li><a href="/pendant-sets" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="sparkles"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Handcrafted Pendant Sets</span></span></a></li>
+            <li><a href="/earrings" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="sparkles"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Designer Bridal Earrings</span></span></a></li>
           </ul>
         </li>
 
@@ -53,11 +53,11 @@ function getNavbarHtml(activeNav = '') {
             <span class="navbar__link-text">Bangalore Bridal</span> <i data-lucide="chevron-down" class="dropdown-chevron"></i>
           </a>
           <ul class="navbar__dropdown-menu">
-            <li><a href="/bridal-jewellery-bangalore" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="sparkles"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Bridal Jewellery Bangalore</span><span class="navbar__dropdown-desc">Complete South Indian wedding suites &amp; sets</span></span></a></li>
-            <li><a href="/temple-jewellery-bangalore" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="gem"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Temple Jewellery Bangalore</span><span class="navbar__dropdown-desc">Antique matte Nakshi &amp; Lakshmi harams</span></span></a></li>
-            <li><a href="/muhurtham-jewellery-bangalore" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="heart"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Muhurtham Jewellery</span><span class="navbar__dropdown-desc">Traditional wedding bangles &amp; Kemp chokers</span></span></a></li>
-            <li><a href="/reception-and-sangeet-jewellery-bangalore" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="sparkles"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Reception &amp; Sangeet</span><span class="navbar__dropdown-desc">Kundan, AD diamonds &amp; cocktail bridal sets</span></span></a></li>
-            <li><a href="/haldi-and-mehendi-jewellery-bangalore" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="sun"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Haldi &amp; Mehendi</span><span class="navbar__dropdown-desc">Floral antique jewellery &amp; colourful bangles</span></span></a></li>
+            <li><a href="/bridal-jewellery-bangalore" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="sparkles"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Bridal Jewellery Bangalore</span></span></a></li>
+            <li><a href="/temple-jewellery-bangalore" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="gem"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Temple Jewellery Bangalore</span></span></a></li>
+            <li><a href="/muhurtham-jewellery-bangalore" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="heart"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Muhurtham Jewellery</span></span></a></li>
+            <li><a href="/reception-and-sangeet-jewellery-bangalore" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="sparkles"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Reception &amp; Sangeet</span></span></a></li>
+            <li><a href="/haldi-and-mehendi-jewellery-bangalore" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="sun"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Haldi &amp; Mehendi</span></span></a></li>
           </ul>
         </li>
 
@@ -70,15 +70,15 @@ function getNavbarHtml(activeNav = '') {
             <span class="navbar__link-text">Areas We Serve</span> <i data-lucide="chevron-down" class="dropdown-chevron"></i>
           </a>
           <ul class="navbar__dropdown-menu navbar__dropdown-menu--right">
-            <li><a href="/areas" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">All Bangalore Areas</span><span class="navbar__dropdown-desc">City-wide express delivery</span></span></a></li>
-            <li><a href="/areas/malleshwaram.html" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Malleshwaram</span><span class="navbar__dropdown-desc">Flagship showroom on Sampige Rd</span></span></a></li>
-            <li><a href="/areas/chickpet.html" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Chickpet</span><span class="navbar__dropdown-desc">Heritage wholesale jewellery corridor</span></span></a></li>
-            <li><a href="/areas/commercial-street.html" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Commercial Street</span><span class="navbar__dropdown-desc">Trendy party &amp; sangeet jewellery suites</span></span></a></li>
-            <li><a href="/areas/whitefield.html" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Whitefield</span><span class="navbar__dropdown-desc">East Bangalore express doorstep delivery</span></span></a></li>
-            <li><a href="/areas/indiranagar.html" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Indiranagar</span><span class="navbar__dropdown-desc">24-48 hr express delivery hub</span></span></a></li>
-            <li><a href="/areas/jayanagar.html" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Jayanagar</span><span class="navbar__dropdown-desc">South Bangalore bridal consultations</span></span></a></li>
-            <li><a href="/areas/koramangala.html" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Koramangala</span><span class="navbar__dropdown-desc">Contemporary &amp; sangeet party suites</span></span></a></li>
-            <li><a href="/areas/rajajinagar.html" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Rajajinagar</span><span class="navbar__dropdown-desc">West Bangalore same-day courier dispatch</span></span></a></li>
+            <li><a href="/areas" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">All Bangalore Areas</span></span></a></li>
+            <li><a href="/areas/malleshwaram.html" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Malleshwaram</span></span></a></li>
+            <li><a href="/areas/chickpet.html" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Chickpet</span></span></a></li>
+            <li><a href="/areas/commercial-street.html" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Commercial Street</span></span></a></li>
+            <li><a href="/areas/whitefield.html" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Whitefield</span></span></a></li>
+            <li><a href="/areas/indiranagar.html" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Indiranagar</span></span></a></li>
+            <li><a href="/areas/jayanagar.html" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Jayanagar</span></span></a></li>
+            <li><a href="/areas/koramangala.html" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Koramangala</span></span></a></li>
+            <li><a href="/areas/rajajinagar.html" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Rajajinagar</span></span></a></li>
           </ul>
         </li>
 
@@ -104,9 +104,7 @@ function getNavbarHtml(activeNav = '') {
           <i data-lucide="search" style="width:19px;height:19px;"></i>
         </a>
         <div class="navbar__user-menu">
-          <a href="/login.html" class="navbar__user-btn" aria-label="Account">
-            <i data-lucide="user" style="width:19px;height:19px;"></i>
-          </a>
+          <a href="/login" class="navbar__auth-btn" id="navbarAuthBtn">Login / Register</a>
         </div>
         <a href="/cart.html" class="navbar__cart" aria-label="Shopping Cart">
           <i data-lucide="shopping-bag" style="width:19px;height:19px;"></i>
@@ -131,8 +129,6 @@ function getFooterHtml() {
           Handcrafted bridal bangles, heritage temple jewellery, and antique bridal sets from Malleshwaram, Bangalore since 1991.
         </p>
         <div class="footer__socials" style="margin-top:16px;display:flex;gap:12px;">
-          <a href="https://www.instagram.com/kannikabangles" target="_blank" rel="noopener" aria-label="Instagram" style="color:#D4AF37;"><i data-lucide="instagram"></i></a>
-          <a href="https://www.facebook.com/kannikabangles" target="_blank" rel="noopener" aria-label="Facebook" style="color:#D4AF37;"><i data-lucide="facebook"></i></a>
           <a href="https://wa.me/919844758450" target="_blank" rel="noopener" aria-label="WhatsApp" style="color:#25D366;"><i data-lucide="message-circle"></i></a>
         </div>
       </div>

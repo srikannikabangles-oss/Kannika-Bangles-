@@ -1,252 +1,265 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Page Not Found — Kannika Bangles</title>
-  <meta name="description" content="The page you are looking for does not exist. Explore handcrafted bridal bangles and pendant sets at Kannika Bangles.">
-  <meta name="robots" content="noindex, follow">
-
-  <!-- Google Fonts Preconnect & Preloads -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-  <!-- Favicon -->  <link rel="icon" type="image/png" sizes="64x64" href="/images/favicon-64.png">
-  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-180.png">
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
-
-  <!-- Stylesheets -->
-  <link rel="stylesheet" href="/css/styles.css?v=20260821_103">
-  <link rel="stylesheet" href="/css/mobile.css?v=20260821_103">
-  
-  <!-- Custom 404 CSS -->
-  <style>
-    .not-found-section {
-      min-height: 70vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 80px 20px;
-      position: relative;
-      background: radial-gradient(circle at 50% 50%, rgba(255, 242, 244, 0.4) 0%, rgba(253, 249, 249, 1) 70%);
-      overflow: hidden;
-    }
-
-    .not-found-section::before {
-      content: '';
-      position: absolute;
-      width: 300px;
-      height: 300px;
-      background: radial-gradient(circle, rgba(212, 175, 55, 0.08) 0%, transparent 70%);
-      top: 15%;
-      left: 15%;
-      border-radius: 50%;
-      pointer-events: none;
-    }
-
-    .not-found-section::after {
-      content: '';
-      position: absolute;
-      width: 400px;
-      height: 400px;
-      background: radial-gradient(circle, rgba(212, 69, 106, 0.05) 0%, transparent 70%);
-      bottom: 10%;
-      right: 10%;
-      border-radius: 50%;
-      pointer-events: none;
-    }
-
-    .not-found-card {
-      background: var(--bg-glass);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid var(--border-gold);
-      border-radius: var(--radius-lg);
-      padding: 60px 40px;
-      max-width: 650px;
-      width: 100%;
-      text-align: center;
-      box-shadow: var(--shadow-gold-strong);
-      position: relative;
-      z-index: 2;
-      animation: floatAnimation 6s ease-in-out infinite alternate;
-    }
-
-    @keyframes floatAnimation {
-      0% { transform: translateY(0); }
-      100% { transform: translateY(-10px); }
-    }
-
-    .not-found-graphic {
-      position: relative;
-      width: 140px;
-      height: 140px;
-      margin: 0 auto 30px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .bangle-ring-1 {
-      position: absolute;
-      width: 120px;
-      height: 120px;
-      border: 2px dashed var(--gold-primary);
-      border-radius: 50%;
-      animation: spinClockwise 25s linear infinite;
-    }
-
-    .bangle-ring-2 {
-      position: absolute;
-      width: 100px;
-      height: 100px;
-      border: 1.5px solid var(--pink-primary);
-      opacity: 0.75;
-      border-radius: 50%;
-      animation: spinCounterClockwise 15s linear infinite;
-    }
-
-    .bangle-ring-3 {
-      position: absolute;
-      width: 80px;
-      height: 80px;
-      border: 3px double var(--gold-primary);
-      border-radius: 50%;
-    }
-
-    .not-found-icon-center {
-      position: absolute;
-      color: var(--pink-primary);
-      animation: pulseScale 3s ease-in-out infinite alternate;
-    }
-
-    @keyframes spinClockwise {
-      100% { transform: rotate(360deg); }
-    }
-
-    @keyframes spinCounterClockwise {
-      100% { transform: rotate(-360deg); }
-    }
-
-    @keyframes pulseScale {
-      0% { transform: scale(0.9); opacity: 0.8; }
-      100% { transform: scale(1.1); opacity: 1; }
-    }
-
-    .not-found-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 3rem;
-      font-weight: 600;
-      color: var(--text-primary);
-      margin-bottom: 15px;
-      letter-spacing: -0.5px;
-    }
-
-    .not-found-subtitle {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.5rem;
-      font-style: italic;
-      color: var(--gold-dark);
-      margin-bottom: 20px;
-      font-weight: 600;
-    }
-
-    .not-found-desc {
-      font-size: 1.05rem;
-      color: var(--text-secondary);
-      margin-bottom: 40px;
-      line-height: 1.6;
-    }
-
-    .not-found-actions {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 15px;
-      justify-content: center;
-      max-width: 480px;
-      margin: 0 auto;
-    }
-
-    @media (min-width: 480px) {
-      .not-found-actions {
-        grid-template-columns: 1fr 1fr;
-      }
-      .btn-primary-span {
-        grid-column: span 2;
-      }
-    }
-
-    .btn-notfound {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      padding: 14px 28px;
-      font-size: 0.95rem;
-      font-weight: 600;
-      border-radius: var(--radius-md);
-      transition: var(--transition-normal);
-      cursor: pointer;
-      text-decoration: none;
-      font-family: 'Inter', sans-serif;
-    }
-
-    .btn-notfound--primary {
-      background: var(--pink-gradient);
-      color: white;
-      border: none;
-      box-shadow: 0 4px 15px rgba(212, 69, 106, 0.2);
-    }
-
-    .btn-notfound--primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(212, 69, 106, 0.35);
-      background: var(--pink-dark);
-    }
-
-    .btn-notfound--secondary {
-      background: white;
-      color: var(--text-primary);
-      border: 1px solid var(--border-gold);
-    }
-
-    .btn-notfound--secondary:hover {
-      border-color: var(--gold-primary);
-      background: var(--bg-secondary);
-      color: var(--pink-primary);
-      transform: translateY(-2px);
-    }
-
-    @media (max-width: 576px) {
-      .not-found-card {
-        padding: 40px 20px;
-      }
-      .not-found-title {
-        font-size: 2.2rem;
-      }
-    }
-  </style>
-
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js" defer></script>
-</head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page Not Found — Kannika Bangles</title>
+  <meta name="description" content="The page you are looking for does not exist. Explore handcrafted bridal bangles and pendant sets at Kannika Bangles.">
+  <meta name="robots" content="noindex, follow">
+
+  <!-- Google Fonts Preconnect & Preloads -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Favicon -->  <link rel="icon" type="image/png" sizes="64x64" href="/images/favicon-64.png">
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-180.png">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Cinzel:wght@400;500;600;700;800&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="/css/styles.css?v=20260821_103">
+  <link rel="stylesheet" href="/css/mobile.css?v=20260821_103">
+  
+  <!-- Custom 404 CSS -->
+  <style>
+    .not-found-section {
+      min-height: 70vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 20px;
+      position: relative;
+      background: radial-gradient(circle at 50% 50%, rgba(255, 242, 244, 0.4) 0%, rgba(253, 249, 249, 1) 70%);
+      overflow: hidden;
+    }
+
+    .not-found-section::before {
+      content: '';
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(212, 175, 55, 0.08) 0%, transparent 70%);
+      top: 15%;
+      left: 15%;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .not-found-section::after {
+      content: '';
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(212, 69, 106, 0.05) 0%, transparent 70%);
+      bottom: 10%;
+      right: 10%;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .not-found-card {
+      background: var(--bg-glass);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border-gold);
+      border-radius: var(--radius-lg);
+      padding: 60px 40px;
+      max-width: 650px;
+      width: 100%;
+      text-align: center;
+      box-shadow: var(--shadow-gold-strong);
+      position: relative;
+      z-index: 2;
+      animation: floatAnimation 6s ease-in-out infinite alternate;
+    }
+
+    @keyframes floatAnimation {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-10px); }
+    }
+
+    .not-found-graphic {
+      position: relative;
+      width: 140px;
+      height: 140px;
+      margin: 0 auto 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .bangle-ring-1 {
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      border: 2px dashed var(--gold-primary);
+      border-radius: 50%;
+      animation: spinClockwise 25s linear infinite;
+    }
+
+    .bangle-ring-2 {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      border: 1.5px solid var(--pink-primary);
+      opacity: 0.75;
+      border-radius: 50%;
+      animation: spinCounterClockwise 15s linear infinite;
+    }
+
+    .bangle-ring-3 {
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      border: 3px double var(--gold-primary);
+      border-radius: 50%;
+    }
+
+    .not-found-icon-center {
+      position: absolute;
+      color: var(--pink-primary);
+      animation: pulseScale 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes spinClockwise {
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes spinCounterClockwise {
+      100% { transform: rotate(-360deg); }
+    }
+
+    @keyframes pulseScale {
+      0% { transform: scale(0.9); opacity: 0.8; }
+      100% { transform: scale(1.1); opacity: 1; }
+    }
+
+    .not-found-title {
+      font-family: 'Poppins', sans-serif;
+      font-size: 3rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 15px;
+      letter-spacing: -0.5px;
+    }
+
+    .not-found-subtitle {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.5rem;
+      font-style: italic;
+      color: var(--gold-dark);
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+
+    .not-found-desc {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      margin-bottom: 40px;
+      line-height: 1.6;
+    }
+
+    .not-found-actions {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 15px;
+      justify-content: center;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    @media (min-width: 480px) {
+      .not-found-actions {
+        grid-template-columns: 1fr 1fr;
+      }
+      .btn-primary-span {
+        grid-column: span 2;
+      }
+    }
+
+    .btn-notfound {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px 28px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      border-radius: var(--radius-md);
+      transition: var(--transition-normal);
+      cursor: pointer;
+      text-decoration: none;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .btn-notfound--primary {
+      background: var(--pink-gradient);
+      color: white;
+      border: none;
+      box-shadow: 0 4px 15px rgba(212, 69, 106, 0.2);
+    }
+
+    .btn-notfound--primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(212, 69, 106, 0.35);
+      background: var(--pink-dark);
+    }
+
+    .btn-notfound--secondary {
+      background: white;
+      color: var(--text-primary);
+      border: 1px solid var(--border-gold);
+    }
+
+    .btn-notfound--secondary:hover {
+      border-color: var(--gold-primary);
+      background: var(--bg-secondary);
+      color: var(--pink-primary);
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 576px) {
+      .not-found-card {
+        padding: 40px 20px;
+      }
+      .not-found-title {
+        font-size: 2.2rem;
+      }
+    }
+  </style>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js" defer></script>
+</head>
 <body class="not-found-page">
-  <!-- ─── Navigation ─── -->
+    <!-- --- Top Announcement Bar --- -->
+    <!-- --- Top Announcement Bar --- -->
+    <!-- --- Top Announcement Bar --- -->
+    <!-- --- Top Announcement Bar --- -->
+    <!-- --- Top Announcement Bar --- -->
+    <!-- --- Top Announcement Bar --- -->
+  
+  </div>
+
+        <!-- ─── Navigation ─── -->
   <nav class="navbar" id="navbar" role="navigation" aria-label="Main navigation">
     <div class="navbar__inner">
-      <!-- Left side: hamburger menu button -->
+      <!-- Left side: hamburger menu button (Mobile only) -->
       <div class="navbar__toggle-left" id="navToggle" role="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="navLinks" tabindex="0">
         <span></span>
         <span></span>
         <span></span>
       </div>
 
-      <!-- Center / Left: Branding with Logo -->
-      <a href="/index.html" class="navbar__brand" aria-label="Kannika Bangles Home">
+      <!-- Center / Left: Branding with Logo & Royal Typography -->
+      <a href="/" class="navbar__brand navbar__brand--royal" aria-label="Kannika Bangles Home">
         <img src="/images/kannika_logo.jpeg" alt="Kannika Bangles" class="navbar__logo-img">
+        <div class="navbar__brand-text">
+          <span class="brand-text__title">SRI KANNIKA</span>
+          <span class="brand-text__subtitle">BANGLES &amp; JEWELS</span>
+        </div>
       </a>
 
       <!-- Navigation Links / Slide-out Menu -->
@@ -262,59 +275,69 @@
           </button>
         </li>
 
-        <li role="none"><a href="/index.html" class="navbar__link" role="menuitem"><span class="navbar__link-text">Home</span></a></li>
-        
+        <li role="none"><a href="/" class="navbar__link" role="menuitem"><span class="navbar__link-text">Home</span></a></li>
+
         <!-- Jewellery Dropdown -->
         <li role="none" class="navbar__dropdown-item">
           <a href="/shop" class="navbar__link navbar__link--has-dropdown" role="menuitem" aria-haspopup="true">
             <span class="navbar__link-text">Jewellery</span> <i data-lucide="chevron-down" class="dropdown-chevron"></i>
           </a>
           <ul class="navbar__dropdown-menu">
-            <li><a href="/shop" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="gem"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">All Collections</span><span class="navbar__dropdown-desc">Explore complete 48-piece showcase</span></span></a></li>
-            <li><a href="/bangles" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="circle"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Bridal Bangles &amp; Kadas</span><span class="navbar__dropdown-desc">Traditional stacks, Jadau kadas &amp; spacers</span></span></a></li>
-            <li><a href="/necklaces" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="gem"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Necklaces &amp; Chokers</span><span class="navbar__dropdown-desc">Royal choker sets &amp; layered harams</span></span></a></li>
-            <li><a href="/pendant-sets" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="sparkles"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Handcrafted Pendant Sets</span><span class="navbar__dropdown-desc">Heritage lockets with matching earrings</span></span></a></li>
-            <li><a href="/earrings" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="sparkles"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Designer Bridal Earrings</span><span class="navbar__dropdown-desc">Traditional jhumkas, chandbalis &amp; studs</span></span></a></li>
+            <li><a href="/bangles" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="circle"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Bangles</span></span></a></li>
+            <li><a href="/necklaces" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="gem"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Necklaces</span></span></a></li>
+            <li><a href="/pendant-sets" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="sparkles"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Pendant Sets</span></span></a></li>
+            <li><a href="/earrings" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="sparkles"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Earrings</span></span></a></li>
+            <li><a href="/shop" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="grid"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">All Jewellery</span></span></a></li>
           </ul>
         </li>
 
-                <!-- Bangalore Bridal Dropdown -->
+        <!-- Bridal Dropdown -->
         <li role="none" class="navbar__dropdown-item">
           <a href="/bridal-jewellery-bangalore" class="navbar__link navbar__link--has-dropdown" role="menuitem" aria-haspopup="true">
-            <span class="navbar__link-text">Bangalore Bridal</span> <i data-lucide="chevron-down" class="dropdown-chevron"></i>
+            <span class="navbar__link-text">Bridal</span> <i data-lucide="chevron-down" class="dropdown-chevron"></i>
           </a>
           <ul class="navbar__dropdown-menu">
-            <li><a href="/bridal-jewellery-bangalore" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="sparkles"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Bridal Jewellery Bangalore</span><span class="navbar__dropdown-desc">Complete South Indian wedding suites &amp; sets</span></span></a></li>
-            <li><a href="/temple-jewellery-bangalore" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="gem"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Temple Jewellery Bangalore</span><span class="navbar__dropdown-desc">Antique matte Nakshi &amp; Lakshmi harams</span></span></a></li>
-            <li><a href="/muhurtham-jewellery-bangalore" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="heart"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Muhurtham Jewellery</span><span class="navbar__dropdown-desc">Traditional wedding bangles &amp; Kemp chokers</span></span></a></li>
-            <li><a href="/reception-and-sangeet-jewellery-bangalore" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="sparkles"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Reception &amp; Sangeet</span><span class="navbar__dropdown-desc">Kundan, AD diamonds &amp; cocktail bridal sets</span></span></a></li>
-            <li><a href="/haldi-and-mehendi-jewellery-bangalore" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="sun"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Haldi &amp; Mehendi</span><span class="navbar__dropdown-desc">Floral antique jewellery &amp; colourful bangles</span></span></a></li>
+            <li><a href="/bridal-jewellery-bangalore" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="sparkles"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Bridal Jewellery Bangalore</span></span></a></li>
+            <li><a href="/temple-jewellery-bangalore" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="gem"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Temple Jewellery Bangalore</span></span></a></li>
+            <li><a href="/muhurtham-jewellery-bangalore" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="heart"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Muhurtham Jewellery</span></span></a></li>
+            <li><a href="/reception-and-sangeet-jewellery-bangalore" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="sparkles"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Reception &amp; Sangeet</span></span></a></li>
+            <li><a href="/haldi-and-mehendi-jewellery-bangalore" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="sun"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Haldi &amp; Mehendi</span></span></a></li>
+            <li><a href="/cz-and-ad-diamond-jewellery-bangalore" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="sparkles"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">CZ &amp; AD Diamond</span></span></a></li>
+            <li><a href="/kundan-and-jadau-jewellery-bangalore" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="gem"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Kundan &amp; Jadau</span></span></a></li>
+            <li><a href="/antique-matte-finish-jewellery-bangalore" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="crown"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Antique Matte Finish</span></span></a></li>
           </ul>
         </li>
 
-<!-- Simple Direct Blog Link -->
-        <li role="none"><a href="/blog" class="navbar__link" role="menuitem"><span class="navbar__link-text">Blog</span></a></li>
-
-        <!-- Areas We Serve Dropdown -->
+        <!-- Areas Dropdown -->
         <li role="none" class="navbar__dropdown-item">
           <a href="/areas" class="navbar__link navbar__link--has-dropdown" role="menuitem" aria-haspopup="true">
-            <span class="navbar__link-text">Areas We Serve</span> <i data-lucide="chevron-down" class="dropdown-chevron"></i>
+            <span class="navbar__link-text">Areas</span> <i data-lucide="chevron-down" class="dropdown-chevron"></i>
           </a>
           <ul class="navbar__dropdown-menu navbar__dropdown-menu--right">
-            <li><a href="/areas" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">All Bangalore Areas</span><span class="navbar__dropdown-desc">City-wide express delivery</span></span></a></li>
-            <li><a href="/areas/malleshwaram.html" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Malleshwaram</span><span class="navbar__dropdown-desc">Flagship showroom on Sampige Rd</span></span></a></li>
-            <li><a href="/areas/chickpet.html" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Chickpet</span><span class="navbar__dropdown-desc">Heritage wholesale jewellery corridor</span></span></a></li>
-            <li><a href="/areas/commercial-street.html" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Commercial Street</span><span class="navbar__dropdown-desc">Trendy party &amp; sangeet jewellery suites</span></span></a></li>
-            <li><a href="/areas/whitefield.html" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Whitefield</span><span class="navbar__dropdown-desc">East Bangalore express doorstep delivery</span></span></a></li>
-            <li><a href="/areas/indiranagar.html" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Indiranagar</span><span class="navbar__dropdown-desc">24-48 hr express delivery hub</span></span></a></li>
-            <li><a href="/areas/jayanagar.html" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Jayanagar</span><span class="navbar__dropdown-desc">South Bangalore bridal consultations</span></span></a></li>
-            <li><a href="/areas/koramangala.html" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Koramangala</span><span class="navbar__dropdown-desc">Contemporary &amp; sangeet party suites</span></span></a></li>
-            <li><a href="/areas/rajajinagar.html" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Rajajinagar</span><span class="navbar__dropdown-desc">West Bangalore same-day courier dispatch</span></span></a></li>
+            <li><a href="/areas" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">All Bangalore Areas</span></span></a></li>
+            <li><a href="/areas/malleshwaram" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Malleshwaram</span></span></a></li>
+            <li><a href="/areas/jayanagar" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Jayanagar</span></span></a></li>
+            <li><a href="/areas/commercial-street" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Commercial Street</span></span></a></li>
+            <li><a href="/areas/chickpet" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Chickpet</span></span></a></li>
+            <li><a href="/areas/indiranagar" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Indiranagar</span></span></a></li>
+            <li><a href="/areas/koramangala" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Koramangala</span></span></a></li>
+            <li><a href="/areas/rajajinagar" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Rajajinagar</span></span></a></li>
+            <li><a href="/areas/whitefield" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="map-pin"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Whitefield</span></span></a></li>
           </ul>
         </li>
 
-        <li role="none"><a href="/about.html" class="navbar__link" role="menuitem"><span class="navbar__link-text">About Us</span></a></li>
-        <li role="none"><a href="/contact.html" class="navbar__link" role="menuitem"><span class="navbar__link-text">Contact Us</span></a></li>
+        <li role="none"><a href="/blog" class="navbar__link" role="menuitem"><span class="navbar__link-text">Blog</span></a></li>
+
+        <!-- About & Contact Combined Dropdown -->
+        <li role="none" class="navbar__dropdown-item">
+          <a href="/about" class="navbar__link navbar__link--has-dropdown" role="menuitem" aria-haspopup="true">
+            <span class="navbar__link-text">About &amp; Contact</span> <i data-lucide="chevron-down" class="dropdown-chevron"></i>
+          </a>
+          <ul class="navbar__dropdown-menu navbar__dropdown-menu--right">
+            <li><a href="/about" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="info"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">About Us</span></span></a></li>
+            <li><a href="/contact" class="navbar__dropdown-link"><span class="navbar__dropdown-icon"><i data-lucide="phone"></i></span><span class="navbar__dropdown-text"><span class="navbar__dropdown-title">Contact Us</span></span></a></li>
+          </ul>
+        </li>
 
         <!-- Mobile Drawer Quick Actions Footer -->
         <li class="mobile-drawer__footer">
@@ -329,17 +352,16 @@
         </li>
       </ul>
 
-      <!-- Right side: Actions row -->
+      <!-- Right side: Actions row (No Search Option) -->
       <div class="navbar__actions">
-        <a href="/shop" class="navbar__action-btn" aria-label="Search">
-          <i data-lucide="search" style="width:19px;height:19px;"></i>
+        <a href="/wishlist" class="navbar__action-btn navbar__wishlist-btn" aria-label="Wishlist" title="Wishlist">
+          <i data-lucide="heart" style="width:19px;height:19px;"></i>
+          <span class="navbar__wishlist-badge" id="wishlistBadge">0</span>
         </a>
         <div class="navbar__user-menu">
-          <a href="/login.html" class="navbar__user-btn" aria-label="Account">
-            <i data-lucide="user" style="width:19px;height:19px;"></i>
-          </a>
+          <a href="/login" class="navbar__auth-btn" id="navbarAuthBtn">Login / Register</a>
         </div>
-        <a href="/cart.html" class="navbar__cart" aria-label="Shopping Cart">
+        <a href="/cart" class="navbar__cart" aria-label="Shopping Bag" title="Bag">
           <i data-lucide="shopping-bag" style="width:19px;height:19px;"></i>
           <span class="navbar__cart-badge">0</span>
         </a>
@@ -347,43 +369,88 @@
     </div>
   </nav>
 
+
+
+  <!-- ─── 404 CONTENT AREA ─── -->
+  <main class="not-found-section">
+    <div class="not-found-card reveal">
+      <div class="not-found-graphic">
+        <div class="bangle-ring-1"></div>
+        <div class="bangle-ring-2"></div>
+        <div class="bangle-ring-3"></div>
+        <i data-lucide="help-circle" class="not-found-icon-center" style="width:36px;height:36px;"></i>
+      </div>
+      
+      <h1 class="not-found-title">404 Error</h1>
+      <p class="not-found-subtitle">Lost in the Collections...</p>
+      
+      <p class="not-found-desc">
+        The elegant handcrafted design or page you are seeking seems to have wandered off our showcase. Allow us to lead you back to our premium, authentic collections.
+      </p>
+      
+      <div class="not-found-actions">
+        <a href="/" class="btn-notfound btn-notfound--primary btn-primary-span">
+          <i data-lucide="home" style="width:18px;height:18px;"></i>
+          Return to Home Showcase
+        </a>
+        <a href="/bangles" class="btn-notfound btn-notfound--secondary">
+          <i data-lucide="gem" style="width:16px;height:16px;"></i>
+          Explore Bangles
+        </a>
+        <a href="/shop" class="btn-notfound btn-notfound--secondary">
+          <i data-lucide="shopping-bag" style="width:16px;height:16px;"></i>
+          Browse Shop All
+        </a>
+      </div>
+    </div>
+  </main>
+
+        <!-- ═══════════════════════════════════════════════════
+       VIP BRIDAL CONSULTATION & CONTACT FORM
+       ═══════════════════════════════════════════════════ -->
+  <section class="section contact-section" id="consultationSection" style="padding: 60px 0; background: var(--bg-primary, #FFFDF9);">
+    <div class="container">
+      <div style="max-width: 680px; margin: 0 auto;">
+        <div class="text-center" style="margin-bottom: 30px;">
+          <span class="section-subtitle">Bridal Consultation &amp; Enquiries</span>
+          <h2 class="section-title">Connect with Our Stylists for <span class="text-gold">Custom Sizing &amp; Matching</span></h2>
+          <div class="divider"></div>
+          <p style="font-size: 0.95rem; color: var(--text-secondary); margin-top: 8px;">
+            Need assistance with bangle sizing, saree matching, or arranging express 24–48 hr doorstep delivery in Bangalore? Drop your details below and our stylists will assist you directly.
+          </p>
+        </div>
 
+        <form class="contact-form" id="pageContactForm" style="box-shadow: 0 10px 30px rgba(0,0,0,0.06);">
+          <!-- Invisible Honeypot Field (Blocks Spam Bots) -->
+          <input type="text" name="hp_check" id="contactHpCheck" style="display:none !important;" tabindex="-1" autocomplete="off">
 
-  <!-- ─── 404 CONTENT AREA ─── -->
-  <main class="not-found-section">
-    <div class="not-found-card reveal">
-      <div class="not-found-graphic">
-        <div class="bangle-ring-1"></div>
-        <div class="bangle-ring-2"></div>
-        <div class="bangle-ring-3"></div>
-        <i data-lucide="help-circle" class="not-found-icon-center" style="width:36px;height:36px;"></i>
-      </div>
-      
-      <h1 class="not-found-title">404 Error</h1>
-      <p class="not-found-subtitle">Lost in the Collections...</p>
-      
-      <p class="not-found-desc">
-        The elegant handcrafted design or page you are seeking seems to have wandered off our showcase. Allow us to lead you back to our premium, authentic collections.
-      </p>
-      
-      <div class="not-found-actions">
-        <a href="/" class="btn-notfound btn-notfound--primary btn-primary-span">
-          <i data-lucide="home" style="width:18px;height:18px;"></i>
-          Return to Home Showcase
-        </a>
-        <a href="/bangles" class="btn-notfound btn-notfound--secondary">
-          <i data-lucide="gem" style="width:16px;height:16px;"></i>
-          Explore Bangles
-        </a>
-        <a href="/shop" class="btn-notfound btn-notfound--secondary">
-          <i data-lucide="shopping-bag" style="width:16px;height:16px;"></i>
-          Browse Shop All
-        </a>
+          <div class="form-group">
+            <label class="form-label" for="contactName">Your Full Name *</label>
+            <input type="text" id="contactName" name="name" class="form-input" placeholder="Enter your full name" required>
+          </div>
+          <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+            <div class="form-group">
+              <label class="form-label" for="contactPhone">Phone / WhatsApp *</label>
+              <input type="tel" id="contactPhone" name="phone" class="form-input" placeholder="+91 98447 58450" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="contactEmail">Email Address</label>
+              <input type="email" id="contactEmail" name="email" class="form-input" placeholder="name@example.com">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="contactMessage">Ceremony Details / Preferred Sizing &amp; Queries *</label>
+            <textarea id="contactMessage" name="message" class="form-input" rows="4" placeholder="Mention your bridal requirements, bangle sizes, or queries..." required></textarea>
+          </div>
+          <button type="submit" class="btn btn--primary" style="width: 100%; justify-content: center; font-size: 1rem; padding: 14px;">
+            <i data-lucide="send" style="width: 18px; height: 18px; margin-right: 8px;"></i> Submit Consultation Request
+          </button>
+        </form>
       </div>
     </div>
-  </main>
+  </section>
 
-    <!-- ═══════════════════════════════════════════════════
+<!-- ═══════════════════════════════════════════════════
        FOOTER
        ═══════════════════════════════════════════════════ -->
   <footer class="footer">
@@ -392,8 +459,6 @@
         <div class="footer__brand-name"><span>Kannika</span> Bangles</div>
         <p class="footer__desc">Turning every bride's dream into a beautiful reality. Handcrafted bangles blending tradition with modern style since generations.</p>
         <div class="footer__social" style="margin-top: 16px;">
-          <a href="https://www.instagram.com/kannikabangles" target="_blank" rel="noopener" class="footer__social-link" aria-label="Instagram"><i data-lucide="instagram" style="width:18px;height:18px;"></i></a>
-          <a href="https://www.facebook.com/kannikabangles" target="_blank" rel="noopener" class="footer__social-link" aria-label="Facebook"><i data-lucide="facebook" style="width:18px;height:18px;"></i></a>
           <a href="https://wa.me/919844758450" target="_blank" rel="noopener" class="footer__social-link" aria-label="WhatsApp" style="color:#25D366;border-color:rgba(37,211,102,0.4);"><i data-lucide="message-circle" style="width:18px;height:18px;"></i></a>
         </div>
       </div>
@@ -440,22 +505,23 @@
     <div class="footer__bottom">
       <p>&copy; 2026 Kannika Bangles. All rights reserved. Handcrafted in Bengaluru.</p>
     </div>
-  </footer>
-
-  <!-- WhatsApp Float Button -->
-  <a href="https://wa.me/919844758450?text=Hi! I'm interested in your bangles collection." class="whatsapp-float" target="_blank" aria-label="Chat on WhatsApp">
-    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-  </a>
-
-  <!-- Back to Top -->
-  <button class="back-to-top" aria-label="Back to top">
-    <i data-lucide="chevron-up" style="width:22px;height:22px;"></i>
-  </button>
-
-  <!-- Scripts -->
-  <script src="/js/products.js?v=20260821_103"></script>
-  <script src="/js/main.js?v=20260821_103"></script>
-  <!-- MongoDB API backend - Supabase removed -->
-
-  </body>
-</html>
+  </footer>
+
+  <!-- WhatsApp Float Button -->
+  <a href="https://wa.me/919844758450?text=Hi! I'm interested in your bangles collection." class="whatsapp-float" target="_blank" aria-label="Chat on WhatsApp">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </a>
+
+  <!-- Back to Top -->
+  <button class="back-to-top" aria-label="Back to top">
+    <i data-lucide="chevron-up" style="width:22px;height:22px;"></i>
+  </button>
+
+  <!-- Scripts -->
+  <script src="/js/products.js?v=20260821_103"></script>
+  <script src="/js/auth.js?v=20260916_201"></script>
+  <script src="/js/main.js?v=20260821_103"></script>
+  <!-- MongoDB API backend - Supabase removed -->
+
+  </body>
+</html>

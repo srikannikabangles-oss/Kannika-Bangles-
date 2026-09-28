@@ -88,7 +88,7 @@
   font-size: 0.78rem;
   color: var(--text-muted);
   margin-bottom: 36px;
-  font-family: 'Lora', serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 .policy-updated i {
@@ -142,7 +142,7 @@
 }
 
 .policy-intro-card__title {
-  font-family: 'Cinzel', serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 1.2rem;
   font-weight: 600;
   color: var(--text-primary);
@@ -182,7 +182,7 @@
 }
 
 .policy-summary-card strong {
-  font-family: 'Cinzel', serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 1rem;
   font-weight: 700;
   color: var(--text-primary);
@@ -243,7 +243,7 @@
 }
 
 .policy-section__number {
-  font-family: 'Cinzel', serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -260,7 +260,7 @@
 }
 
 .policy-section__title {
-  font-family: 'Cinzel', serif;
+  font-family: 'Poppins', sans-serif;
   font-size: clamp(1.05rem, 2vw, 1.25rem);
   font-weight: 600;
   color: var(--text-primary);
@@ -378,7 +378,7 @@
   justify-content: center;
   font-size: 0.85rem;
   font-weight: 700;
-  font-family: 'Cinzel', serif;
+  font-family: 'Poppins', sans-serif;
   flex-shrink: 0;
   position: relative;
   z-index: 1;
@@ -421,7 +421,7 @@
 
 .policy-table__row--header {
   background: var(--bg-secondary);
-  font-family: 'Cinzel', serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.06em;
@@ -503,7 +503,7 @@
 }
 
 .policy-timeline__title {
-  font-family: 'Cinzel', serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 1.1rem;
   font-weight: 600;
   color: var(--text-primary);
@@ -579,7 +579,7 @@
 
 .policy-timeline__content strong {
   display: block;
-  font-family: 'Cinzel', serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 0.92rem;
   font-weight: 600;
   color: var(--text-primary);
@@ -629,7 +629,7 @@
 }
 
 .policy-cta__title {
-  font-family: 'Cinzel', serif;
+  font-family: 'Poppins', sans-serif;
   font-size: clamp(1.2rem, 2.5vw, 1.6rem);
   font-weight: 700;
   color: var(--text-primary);
@@ -657,7 +657,7 @@
 }
 
 .policy-related__title {
-  font-family: 'Cinzel', serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 1rem;
   font-weight: 600;
   color: var(--text-muted);

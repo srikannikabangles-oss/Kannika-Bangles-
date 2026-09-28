@@ -2,6 +2,17 @@
    KANNIKA BANGLES — Product Detail Page Logic
    ===================================================== */
 
+function escapeHTML(str) {
+  if (typeof window.escapeHTML === 'function') return window.escapeHTML(str);
+  if (str === null || str === undefined) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
 let currentProduct = null;
 let selectedSize = '2.6';
 let selectedQuantity = 1;
@@ -122,14 +133,14 @@ async function renderProductDetail() {
 
         <p class="pd__description" style="color: var(--text-secondary); line-height: 1.7; font-size: 0.96rem; margin-bottom: 20px;">${currentProduct.description}</p>
 
-        <!-- 🚚 10-DAY PAN-INDIA DELIVERY BANNER -->
-        <div class="pd__delivery-box" style="margin-bottom: 16px; padding: 16px 18px; background: rgba(212, 175, 55, 0.08); border: 1.5px solid rgba(212, 175, 55, 0.35); border-radius: 12px; display: flex; align-items: center; gap: 14px;">
-          <div style="width: 44px; height: 44px; border-radius: 50%; background: #ffffff; display: flex; align-items: center; justify-content: center; color: #B38F24; box-shadow: 0 4px 12px rgba(0,0,0,0.06); flex-shrink: 0;">
+        <!-- 🚚 BANGALORE EXPRESS DELIVERY BANNER -->
+        <div class="pd__delivery-box" style="margin-bottom: 16px; padding: 16px 18px; background: rgba(59, 12, 24, 0.05); border: 1.5px solid #3B0C18; border-radius: 12px; display: flex; align-items: center; gap: 14px;">
+          <div style="width: 44px; height: 44px; border-radius: 50%; background: #3B0C18; display: flex; align-items: center; justify-content: center; color: #FFFFFF; box-shadow: 0 4px 12px rgba(59,12,24,0.15); flex-shrink: 0;">
             <i data-lucide="truck" style="width: 22px; height: 22px;"></i>
           </div>
           <div>
-            <h4 style="font-family: 'Cinzel', serif; font-size: 0.95rem; font-weight: 700; color: var(--text-primary); margin: 0 0 2px;">Delivery Across India Within 10 Days</h4>
-            <p style="font-size: 0.82rem; color: var(--text-secondary); margin: 0; line-height: 1.4;">Safe & insured express courier dispatch directly from our Malleshwaram, Bangalore showroom with tracking.</p>
+            <h4 style="font-family: 'Cinzel', serif; font-size: 0.95rem; font-weight: 700; color: #3B0C18; margin: 0 0 2px;">Bangalore Express Doorstep Delivery (24–48 Hrs)</h4>
+            <p style="font-size: 0.82rem; color: var(--text-secondary); margin: 0; line-height: 1.4;">Direct insured express hand-delivery across all Bangalore pincodes (560xxx) from our Malleshwaram showroom.</p>
           </div>
         </div>
 
@@ -175,31 +186,46 @@ async function renderProductDetail() {
           </div>
         </div>
 
-          <div class="pd__qty-section" style="margin-bottom: 24px;">
-            <label class="pd__label" style="font-size: 0.86rem; font-weight: 700; color: var(--text-primary); display: block; margin-bottom: 8px;">Quantity</label>
-            <div class="pd__qty-control" style="display: inline-flex; align-items: center; border: 1px solid var(--border-subtle); border-radius: 8px; overflow: hidden; background: #fff;">
-              <button class="pd__qty-btn" onclick="updateQty(-1)" aria-label="Decrease" style="width: 40px; height: 40px; border: none; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center;">
-                <i data-lucide="minus" style="width:16px;height:16px;"></i>
-              </button>
-              <span class="pd__qty-value" id="qtyValue" style="width: 44px; text-align: center; font-weight: 700; font-size: 0.95rem;">${selectedQuantity}</span>
-              <button class="pd__qty-btn" onclick="updateQty(1)" aria-label="Increase" style="width: 40px; height: 40px; border: none; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center;">
-                <i data-lucide="plus" style="width:16px;height:16px;"></i>
-              </button>
-            </div>
+        <!-- 📏 SIZE SELECTION -->
+        <div class="pd__size-section" style="margin-bottom: 22px;">
+          <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px;">
+            <label class="pd__label" style="font-size: 0.86rem; font-weight: 700; color: var(--text-primary); margin: 0;">${sizeLabel}</label>
+            ${isBangle ? `<span style="font-size: 0.78rem; color: #856404; font-weight: 600;">2.4 (Small) • 2.6 (Medium) • 2.8 (Large)</span>` : `<span style="font-size: 0.78rem; color: var(--accent-emerald); font-weight: 600;">Universal Fit • Adjustable</span>`}
           </div>
+          <div class="pd__sizes" id="pdSizes" style="display: flex; flex-wrap: wrap; gap: 10px;">
+            ${sizeOptions.map(s => `
+              <button type="button" class="pd__size-btn ${s === selectedSize ? 'active' : ''}" onclick="selectSize('${s}', this)" aria-label="Size ${s}">
+                <span>${s}</span>
+              </button>
+            `).join('')}
+          </div>
+        </div>
+
+        <div class="pd__qty-section" style="margin-bottom: 24px;">
+          <label class="pd__label" style="font-size: 0.86rem; font-weight: 700; color: var(--text-primary); display: block; margin-bottom: 8px;">Quantity</label>
+          <div class="pd__qty-control" style="display: inline-flex; align-items: center; border: 1px solid var(--border-subtle); border-radius: 8px; overflow: hidden; background: #fff;">
+            <button class="pd__qty-btn" onclick="updateQty(-1)" aria-label="Decrease" style="width: 40px; height: 40px; border: none; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+              <i data-lucide="minus" style="width:16px;height:16px;"></i>
+            </button>
+            <span class="pd__qty-value" id="qtyValue" style="width: 44px; text-align: center; font-weight: 700; font-size: 0.95rem;">${selectedQuantity}</span>
+            <button class="pd__qty-btn" onclick="updateQty(1)" aria-label="Increase" style="width: 40px; height: 40px; border: none; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+              <i data-lucide="plus" style="width:16px;height:16px;"></i>
+            </button>
+          </div>
+        </div>
 
         <div class="pd__actions" style="display: flex; flex-direction: column; gap: 12px; width: 100%;">
-          <div class="pd__actions-row" style="display: flex; gap: 12px; width: 100%;">
-            <button class="btn btn--primary btn--lg pd__add-btn" onclick="addProductToCart()" style="flex: 1; min-width: 0; white-space: nowrap; padding: 14px 16px; font-size: 0.95rem; display: flex; align-items: center; justify-content: center; gap: 8px;">
+          <div class="pd__actions-row">
+            <button class="btn btn--primary btn--lg pd__add-btn" onclick="addProductToCart()" style="flex: 1; min-width: 0; padding: 14px 16px; font-size: 0.95rem; display: flex; align-items: center; justify-content: center; gap: 8px;">
               <i data-lucide="shopping-bag" style="width:18px;height:18px;"></i>
               Add to Cart
             </button>
-            <button class="btn btn--lg pd__whatsapp-btn" onclick="buyViaWhatsAppDirect()" style="background: #25D366; color: white; border: none; display: flex; align-items: center; justify-content: center; gap: 8px; flex: 1; min-width: 0; white-space: nowrap; font-weight: 600; cursor: pointer; transition: all var(--transition-fast); padding: 14px 16px; font-size: 0.95rem;">
+            <button class="btn btn--lg pd__whatsapp-btn" onclick="buyViaWhatsAppDirect()" style="background: #25D366; color: white; border: none; display: flex; align-items: center; justify-content: center; gap: 8px; flex: 1; min-width: 0; font-weight: 600; cursor: pointer; transition: all var(--transition-fast); padding: 14px 16px; font-size: 0.95rem;">
               <i data-lucide="message-circle" style="width:18px;height:18px;"></i>
               Buy via WhatsApp
             </button>
           </div>
-          <div class="pd__actions-row" style="display: flex; gap: 12px; width: 100%;">
+          <div class="pd__actions-row">
             <button class="btn btn--outline btn--lg" onclick="buyNow()" style="flex: 1; min-width: 0; padding: 14px 16px; font-size: 0.95rem; display: flex; align-items: center; justify-content: center;">
               Buy Now
             </button>
@@ -238,7 +264,7 @@ async function renderProductDetail() {
           <div id="pincodeResult" style="margin-top: 8px; font-size: 0.84rem; display: none; line-height: 1.4;"></div>
         </div>
 
-        <!-- 👗 SAREE MATCHING & 🎥 VIDEO CALL DUAL ACTION BOX -->
+        <!-- 👗 SAREE MATCHING & 💬 WHATSAPP ORDER DUAL ACTION BOX -->
         <div style="background: linear-gradient(135deg, rgba(255, 245, 248, 0.9) 0%, rgba(255, 252, 245, 0.9) 100%); border: 1px solid rgba(212, 69, 106, 0.25); border-radius: 12px; padding: 14px 16px; margin-top: 16px; display: flex; flex-direction: column; gap: 10px;">
           <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap;">
             <div style="font-size: 0.85rem; color: var(--text-primary);">
@@ -252,12 +278,12 @@ async function renderProductDetail() {
           </div>
           <div style="border-top: 1px dashed rgba(212, 175, 55, 0.35); padding-top: 8px; display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap;">
             <div style="font-size: 0.85rem; color: var(--text-primary);">
-              <strong style="display: block; color: #856404; margin-bottom: 2px;">🎥 Live 5-Min Video Call:</strong>
-              Inspect weight, luster &amp; stone shine in real-time.
+              <strong style="display: block; color: #856404; margin-bottom: 2px;">💬 Real Photos &amp; WhatsApp Inquiry:</strong>
+              Request unedited photos, weight details &amp; styling guidance.
             </div>
-            <a href="https://wa.me/919844758450?text=Hi!%20I%20would%20like%20to%20schedule%20a%20quick%205-min%20video%20call%20to%20view%20${encodeURIComponent(currentProduct.name)}%20(ID:%20${prodCode})%20live." target="_blank" class="btn btn--sm btn--outline" style="font-size: 0.8rem; padding: 8px 12px; display: inline-flex; align-items: center; gap: 6px; text-decoration: none; border-color: #856404; color: #856404; white-space: nowrap;">
-              <i data-lucide="video" style="width: 14px; height: 14px;"></i>
-              Book Video Call
+            <a href="https://wa.me/919844758450?text=Hi!%20Please%20share%20real%20photos%20and%20details%20for%20${encodeURIComponent(currentProduct.name)}%20(ID:%20${prodCode})." target="_blank" class="btn btn--sm btn--outline" style="font-size: 0.8rem; padding: 8px 12px; display: inline-flex; align-items: center; gap: 6px; text-decoration: none; border-color: #856404; color: #856404; white-space: nowrap;">
+              <i data-lucide="message-circle" style="width: 14px; height: 14px;"></i>
+              Inquire on WhatsApp
             </a>
           </div>
         </div>
@@ -268,8 +294,8 @@ async function renderProductDetail() {
             <i data-lucide="camera" style="width: 20px; height: 20px; color: #B38F24; flex-shrink: 0; margin-top: 2px;"></i>
             <div style="font-size: 0.84rem; line-height: 1.55; color: #4A3E30;">
               <strong style="color: #2C1820; display: block; margin-bottom: 3px; font-weight: 700;">📸 Visual Authenticity &amp; Live Photos:</strong>
-              Our showcase photos are studio-enhanced with AI referencing our original handcrafted pieces. The actual physical product closely resembles these visuals. Want to see unedited raw photos or a live video before purchasing? 
-              <a href="https://wa.me/919844758450?text=Hi!%20Please%20share%20raw%20photos%20or%20a%20live%20video%20clip%20of%20${encodeURIComponent(currentProduct.name)}%20(ID:%20${prodCode})" target="_blank" style="color: #25D366; font-weight: 700; text-decoration: underline; margin-left: 4px;">Request Raw Images on WhatsApp &rarr;</a>
+              Our showcase photos are studio-enhanced with AI referencing our original handcrafted pieces. The actual physical product closely resembles these visuals. Want to see unedited raw photos before purchasing? 
+              <a href="https://wa.me/919844758450?text=Hi!%20Please%20share%20raw%20photos%20of%20${encodeURIComponent(currentProduct.name)}%20(ID:%20${prodCode})" target="_blank" style="color: #25D366; font-weight: 700; text-decoration: underline; margin-left: 4px;">Request Raw Images on WhatsApp &rarr;</a>
             </div>
           </div>
         </div>
@@ -292,12 +318,12 @@ function checkDeliveryPincode() {
     return;
   }
   result.style.display = 'block';
-  if (pin.startsWith('560') || pin.startsWith('561') || pin.startsWith('562')) {
+  if (pin.startsWith('560')) {
     result.style.color = '#1b7e41';
-    result.innerHTML = '🚀 <strong>Bangalore Express Delivery:</strong> Dispatched in 24–48 hours from our Malleshwaram showroom! Same-day courier option available.';
+    result.innerHTML = '🚀 <strong>Bangalore Express Delivery Available:</strong> Guaranteed doorstep delivery in 24–48 hours from our Malleshwaram showroom!';
   } else {
-    result.style.color = '#1b7e41';
-    result.innerHTML = '🚚 <strong>Pan-India Insured Express:</strong> Delivery in 7–10 days with live SMS/WhatsApp tracking and tamper-proof packaging.';
+    result.style.color = '#856404';
+    result.innerHTML = '📍 <strong>Bangalore-Exclusive Delivery:</strong> We currently deliver exclusively within Bangalore (pincodes 560xxx). For custom outstation orders, please connect directly with our stylists on WhatsApp!';
   }
 }
 
@@ -334,9 +360,10 @@ function updateQty(delta) {
   if (el) el.textContent = selectedQuantity;
 }
 
-function addProductToCart() {
+async function addProductToCart() {
   if (!currentProduct) return;
-  addToCart(currentProduct.id, selectedSize, selectedQuantity);
+  const added = await addToCart(currentProduct.id, selectedSize, selectedQuantity);
+  if (added === false) return;
   
   // Animate button
   const btn = document.querySelector('.pd__add-btn');
@@ -352,9 +379,10 @@ function addProductToCart() {
   }
 }
 
-function buyNow() {
+async function buyNow() {
   if (!currentProduct) return;
-  addToCart(currentProduct.id, selectedSize, selectedQuantity);
+  const added = await addToCart(currentProduct.id, selectedSize, selectedQuantity, { buyNow: true });
+  if (added === false) return;
   window.location.href = '/cart';
 }
 
@@ -398,8 +426,9 @@ function renderRelatedProducts() {
             <span class="stars" style="color: #D4AF37;">${getStarRating(rtRating.avg)}</span>
             <span style="font-size: 0.78rem; color: var(--text-muted);">${rtRating.avg} (${rtRating.count})</span>
           </div>
-          <div class="card__cta-row" style="margin-top: 10px; width: 100%;">
-            <a href="/product/${product.id}" class="btn btn--outline btn--sm" style="width: 100%; justify-content: center; font-size: 0.82rem; font-weight: 600; padding: 8px 12px; border-radius: 6px; text-decoration: none;">View Details</a>
+          <div class="card__cta-row product-card__cta-row" style="margin-top: 10px; width: 100%; display: flex; gap: 6px;">
+            <a href="/product/${product.id}" class="btn btn--outline btn--card-view" style="flex: 1; justify-content: center; font-size: 0.74rem; font-weight: 600; padding: 7px 4px; border-radius: 6px; text-decoration: none; white-space: nowrap;">View Details</a>
+            <button type="button" class="btn btn--primary btn--card-add" onclick="event.preventDefault(); addToCart(${product.id});" style="flex: 1; justify-content: center; font-size: 0.74rem; font-weight: 600; padding: 7px 4px; border-radius: 6px; white-space: nowrap; cursor: pointer;">Add to Cart</button>
           </div>
         </div>
       </div>
@@ -498,13 +527,13 @@ async function getProductReviews(productId) {
 
 async function saveProductReview(productId, review) {
   try {
-    const user = window.Clerk && window.Clerk.user;
+    const customer = typeof getCurrentCustomer === 'function' ? getCurrentCustomer() : null;
     const response = await fetch('/api/reviews', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         productId: parseInt(productId),
-        userId: user ? user.id : null,
+        userId: customer ? (customer.id || customer.email) : null,
         name: review.name,
         rating: review.rating,
         comment: review.comment
@@ -547,7 +576,7 @@ async function renderReviews() {
   const percentage = starsBreakdown.map(c => count > 0 ? Math.round((c / count) * 100) : 0);
 
   container.innerHTML = `
-    <div class="text-center reveal" style="margin-bottom: 40px;">
+    <div class="text-center visible" style="margin-bottom: 40px;">
       <p class="section-subtitle">What Our Clients Say</p>
       <h2 class="section-title">Client <span class="text-gold">Reviews</span></h2>
       <div class="divider"></div>
@@ -555,7 +584,7 @@ async function renderReviews() {
 
     <div class="reviews-grid">
       <!-- Ratings Summary Card -->
-      <div class="reviews-summary reveal reveal--left">
+      <div class="reviews-summary visible">
         <div class="reviews-summary__score">${avg}</div>
         <div class="star-rating" style="margin-bottom: 8px;">
           ${getStarRating(parseFloat(avg))}
@@ -579,7 +608,7 @@ async function renderReviews() {
       </div>
 
       <!-- Reviews Feed -->
-      <div class="reviews-list reveal reveal--right">
+      <div class="reviews-list visible">
         <div class="reviews-list__header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
           <h3 style="font-size: 1.3rem;">All Reviews (${count})</h3>
           <a href="#writeReviewForm" class="btn btn--outline btn--sm">Write Review</a>
@@ -591,16 +620,16 @@ async function renderReviews() {
               <div class="review-card__header">
                 <div>
                   <div class="review-card__author">
-                    <span>${r.name}</span>
+                    <span>${escapeHTML(r.name)}</span>
                     ${r.verified ? `<span class="review-card__verified"><i data-lucide="check" style="width: 10px; height: 10px; display: inline-block; vertical-align: middle;"></i> Verified Purchase</span>` : ''}
                   </div>
                   <div class="star-rating" style="font-size: 0.95rem; margin-top: 6px;">
                     ${getStarRating(r.rating)}
                   </div>
                 </div>
-                <div class="review-card__date">${r.date}</div>
+                <div class="review-card__date">${escapeHTML(r.date || '')}</div>
               </div>
-              <p class="review-card__comment">${r.comment}</p>
+              <p class="review-card__comment">${escapeHTML(r.comment)}</p>
             </div>
           `).join('')}
         </div>
@@ -608,7 +637,7 @@ async function renderReviews() {
     </div>
 
     <!-- Write a Review Form -->
-    <div class="review-form reveal" id="writeReviewForm">
+    <div class="review-form visible" id="writeReviewForm">
       <h3 class="review-form__title" style="margin-bottom: 8px;">Write a Customer Review</h3>
       <p class="review-form__desc">Your review helps other luxury seekers make informed bridal booking choices.</p>
 
@@ -631,7 +660,7 @@ async function renderReviews() {
 
         <div class="form-group">
           <label for="reviewName" class="form-label">Your Name *</label>
-          <input type="text" id="reviewName" class="form-input" placeholder="Enter your name" required autocomplete="name">
+          <input type="text" id="reviewName" class="form-input" placeholder="Enter your name" value="${(typeof getCurrentCustomer === 'function' && getCurrentCustomer()) ? escapeHTML(getCurrentCustomer().name) : ''}" required autocomplete="name">
         </div>
 
         <div class="form-group">
@@ -645,21 +674,19 @@ async function renderReviews() {
   `;
 
   if (typeof lucide !== 'undefined') lucide.createIcons();
+  if (typeof initScrollAnimations === 'function') initScrollAnimations();
 }
 
 async function handleReviewSubmit(e) {
   e.preventDefault();
   if (!currentProduct) return;
 
-  if (!window.Clerk || !window.Clerk.user) {
-    showToast('Please log in to submit a review! 🔒', '🔒');
+  const currentCust = typeof getCurrentCustomer === 'function' ? getCurrentCustomer() : null;
+  if (!currentCust) {
+    showToast('Please sign in to submit a verified review! 🔒', '🔒');
     setTimeout(() => {
-      if (window.Clerk) {
-        window.Clerk.openSignIn();
-      } else {
-        window.location.href = `login.html?redirect=${encodeURIComponent(window.location.href)}`;
-      }
-    }, 1500);
+      window.location.href = `/login.html?redirect=${encodeURIComponent(window.location.pathname)}`;
+    }, 1200);
     return;
   }
 
@@ -712,7 +739,7 @@ window.buyViaWhatsAppDirect = function() {
   message += `🛍️ *Quantity:* ${qty}\n`;
   message += `💰 *Price:* ₹${unitPrice.toLocaleString('en-IN')}${qty > 1 ? ` (Total: ₹${totalPrice.toLocaleString('en-IN')})` : ''}\n`;
   message += `🔗 *Product Link:* https://kannikabangles.com/product/${currentProduct.id}\n\n`;
-  message += `Please confirm stock availability and 10-day pan-India delivery details. Thank you!`;
+  message += `Please confirm stock availability and Bangalore doorstep delivery details. Thank you!`;
   
   const url = `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(message)}`;
   showToast('Opening WhatsApp with Product Details...', '🛍️');

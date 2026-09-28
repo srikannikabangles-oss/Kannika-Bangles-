@@ -80,13 +80,14 @@ async function renderCart() {
     itemsHTML += `
       <div class="cart-item" data-id="${product.id}" data-size="${item.size}">
         <div class="cart-item__image">
-          <img src="${product.image}" alt="${product.name}" loading="lazy">
+          <img src="${typeof getProductImageUrl === 'function' ? getProductImageUrl((product.images && product.images[0]) || product.image) : product.image}" alt="${product.name}" loading="lazy">
         </div>
         <div class="cart-item__details">
           <span class="cart-item__category">${getCategoryName(product.category)}</span>
-          <h3 class="cart-item__name">${product.name}</h3>
-          <div class="cart-item__meta">
-            <span class="cart-item__finish">${product.finish}</span>
+          <h3 class="cart-item__name"><a href="/product/${product.id}" style="color:inherit; text-decoration:none;">${product.name}</a></h3>
+          <div class="cart-item__meta" style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 4px;">
+            <span class="cart-item__size-badge" style="display: inline-block; font-size: 0.78rem; font-weight: 700; color: #856404; background: rgba(212, 175, 55, 0.15); border: 1px solid rgba(212, 175, 55, 0.4); padding: 2px 7px; border-radius: 4px;">Size: ${item.size || 'Free Size'}</span>
+            ${product.finish ? `<span class="cart-item__finish" style="font-size: 0.8rem; color: var(--text-muted);">${product.finish}</span>` : ''}
           </div>
           <div class="cart-item__price-row">
             <span class="cart-item__price">${formatPrice(product.price)}</span>
@@ -115,10 +116,14 @@ async function renderCart() {
   container.innerHTML = itemsHTML;
 
   // Update summary
-  const shipping = 49;
+  const shipping = (subtotal >= 5000 || subtotal === 0) ? 0 : 49;
   const total = subtotal + shipping;
 
   if (summaryEl) {
+    const freeShippingNote = subtotal >= 5000 
+      ? '🎉 Free Bangalore Express Doorstep Delivery applied!'
+      : `Add ₹${(5000 - subtotal).toLocaleString('en-IN')} more to unlock FREE Delivery`;
+
     summaryEl.innerHTML = `
       <div class="cart-summary__row">
         <span>Subtotal (${cart.reduce((a, b) => a + b.quantity, 0)} items)</span>
@@ -131,9 +136,9 @@ async function renderCart() {
       </div>` : ''}
       <div class="cart-summary__row">
         <span>Shipping Fee</span>
-        <span>${formatPrice(shipping)}</span>
+        <span>${shipping === 0 ? '<strong style="color: #10B981;">FREE</strong>' : formatPrice(shipping)}</span>
       </div>
-      <p class="cart-summary__note">Standard shipping charge of ₹49</p>
+      <p class="cart-summary__note" style="color: ${shipping === 0 ? '#10B981' : 'var(--text-muted)'}; font-size: 0.8rem; margin: 4px 0 10px;">${freeShippingNote}</p>
       <div class="cart-summary__divider"></div>
       <div class="cart-summary__row cart-summary__total">
         <span>Total</span>
@@ -147,6 +152,20 @@ async function renderCart() {
     console.error('Cart render error:', e);
   }
 }
+
+window.instantWhatsAppCheckout = async function() {
+  const cart = await getCart();
+  if (!cart || cart.length === 0) {
+    showToast('Your shopping bag is empty', '✗');
+    return;
+  }
+  const orderUrl = await getWhatsAppOrderUrl();
+  if (!orderUrl) return;
+  showToast('Opening WhatsApp to complete order...', '🛍️');
+  setTimeout(() => {
+    window.open(orderUrl, '_blank') || (window.location.href = orderUrl);
+  }, 350);
+};
 
 async function changeQty(productId, size, delta) {
   const cart = await getCart();

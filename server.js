@@ -24,6 +24,18 @@ if (!MONGODB_URI) {
   }
 }
 
+app.disable('x-powered-by');
+
+// Security Headers Middleware
+app.use((req, res, next) => {
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'SAMEORIGIN');
+  res.setHeader('X-XSS-Protection', '1; mode=block');
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  res.setHeader('Permissions-Policy', 'geolocation=(), microphone=(), camera=()');
+  next();
+});
+
 // Middleware
 app.use(compression());
 app.use(cors());
@@ -131,6 +143,12 @@ const reviewSchema = new mongoose.Schema({
 const Review = mongoose.model('Review', reviewSchema);
 
 const orderSchema = new mongoose.Schema({
+  orderId: { 
+    type: String, 
+    unique: true, 
+    sparse: true,
+    default: () => 'KB-' + Date.now().toString(36).toUpperCase() + '-' + Math.random().toString(36).substring(2, 6).toUpperCase() 
+  },
   userId: { type: String, default: null },
   items: [{
     productId: { type: Number, required: true },
@@ -172,6 +190,70 @@ const inquirySchema = new mongoose.Schema({
 }, { timestamps: true });
 const Inquiry = mongoose.model('Inquiry', inquirySchema);
 
+// Customer Schema & Model
+const customerSchema = new mongoose.Schema({
+  name: { type: String, required: true, trim: true },
+  email: { type: String, required: true, unique: true, lowercase: true, trim: true },
+  phone: { type: String, required: true, trim: true },
+  passwordHash: { type: String, required: true },
+  salt: { type: String, required: true },
+  address: {
+    street: { type: String, default: '' },
+    city: { type: String, default: '' },
+    state: { type: String, default: '' },
+    pincode: { type: String, default: '' }
+  }
+}, { timestamps: true });
+const Customer = mongoose.model('Customer', customerSchema);
+
+const CUSTOMER_SECRET = process.env.CUSTOMER_SECRET || process.env.ADMIN_SECRET || 'kannika_customer_secret_key_2026';
+
+function hashPassword(password, salt) {
+  return crypto.pbkdf2Sync(password, salt, 10000, 64, 'sha512').toString('hex');
+}
+
+function generateCustomerToken(customer) {
+  const expiry = Date.now() + (30 * 24 * 60 * 60 * 1000); // 30 days
+  const payload = `${customer._id}:${customer.email}:${expiry}`;
+  const signature = crypto.createHmac('sha256', CUSTOMER_SECRET).update(payload).digest('hex');
+  return Buffer.from(`${payload}:${signature}`).toString('base64');
+}
+
+function verifyCustomerToken(token) {
+  try {
+    if (!token) return null;
+    const decoded = Buffer.from(token, 'base64').toString('utf8');
+    const [id, email, expiry, signature] = decoded.split(':');
+    if (!id || !email || !expiry || !signature) return null;
+    if (Date.now() > parseInt(expiry)) return null;
+    const expectedSig = crypto.createHmac('sha256', CUSTOMER_SECRET).update(`${id}:${email}:${expiry}`).digest('hex');
+    if (signature.length !== expectedSig.length) return null;
+    if (!crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(expectedSig))) return null;
+    return { id, email };
+  } catch (e) {
+    return null;
+  }
+}
+
+async function requireCustomerAuth(req, res, next) {
+  try {
+    const authHeader = req.headers.authorization;
+    const token = authHeader && authHeader.startsWith('Bearer ') ? authHeader.slice(7) : req.query.token;
+    const decoded = verifyCustomerToken(token);
+    if (!decoded) {
+      return res.status(401).json({ error: 'Authentication required' });
+    }
+    const customer = await Customer.findById(decoded.id).select('-passwordHash -salt');
+    if (!customer) {
+      return res.status(401).json({ error: 'Customer account not found' });
+    }
+    req.customer = customer;
+    next();
+  } catch (err) {
+    return res.status(401).json({ error: 'Invalid or expired session' });
+  }
+}
+
 // Admin Authentication Config & Helpers
 const ADMIN_USERNAME = process.env.ADMIN_USERNAME || 'admin';
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'Kannika@Admin2026';
@@ -210,6 +292,70 @@ function requireAdminAuth(req, res, next) {
   }
   next();
 }
+
+// ─── LIGHTWEIGHT IN-MEMORY RATE LIMITING ───
+function createRateLimiter({ windowMs, max, message }) {
+  const hits = new Map();
+  setInterval(() => {
+    const now = Date.now();
+    for (const [key, record] of hits.entries()) {
+      if (now - record.startTime > windowMs) {
+        hits.delete(key);
+      }
+    }
+  }, Math.min(windowMs, 5 * 60 * 1000)).unref();
+
+  return (req, res, next) => {
+    const ip = req.headers['x-forwarded-for']?.split(',')[0].trim() || req.socket.remoteAddress || 'unknown';
+    const now = Date.now();
+    let record = hits.get(ip);
+    if (!record || now - record.startTime > windowMs) {
+      record = { count: 1, startTime: now };
+      hits.set(ip, record);
+      return next();
+    }
+    record.count++;
+    if (record.count > max) {
+      const retryAfterSec = Math.ceil((record.startTime + windowMs - now) / 1000);
+      res.setHeader('Retry-After', retryAfterSec);
+      return res.status(429).json({
+        success: false,
+        error: message || 'Too many requests. Please try again later.'
+      });
+    }
+    next();
+  };
+}
+
+const adminLoginLimiter = createRateLimiter({
+  windowMs: 15 * 60 * 1000,
+  max: 5,
+  message: 'Too many admin login attempts. Please try again after 15 minutes.'
+});
+
+const customerLoginLimiter = createRateLimiter({
+  windowMs: 5 * 60 * 1000,
+  max: 10,
+  message: 'Too many login attempts. Please wait 5 minutes before trying again.'
+});
+
+const customerRegisterLimiter = createRateLimiter({
+  windowMs: 60 * 60 * 1000,
+  max: 5,
+  message: 'Account creation limit reached from this IP. Please try again later.'
+});
+
+const inquiryLimiter = createRateLimiter({
+  windowMs: 15 * 60 * 1000,
+  max: 10,
+  message: 'Inquiry limit reached. Please try again in a few minutes or message us on WhatsApp.'
+});
+
+const reviewLimiter = createRateLimiter({
+  windowMs: 15 * 60 * 1000,
+  max: 10,
+  message: 'Review submission limit reached. Please try again later.'
+});
 
 // API Routes
 
@@ -424,24 +570,30 @@ app.get('/api/reviews/:productId', async (req, res) => {
 });
 
 // 12. Save Product Review
-app.post('/api/reviews', async (req, res) => {
+app.post('/api/reviews', reviewLimiter, async (req, res) => {
   try {
     const { productId, userId, name, rating, comment } = req.body;
-    if (!productId || !name || !rating || !comment) {
-      return res.status(400).json({ error: 'Missing parameters' });
+    if (!productId || typeof name !== 'string' || !name.trim() || !rating || typeof comment !== 'string' || !comment.trim()) {
+      return res.status(400).json({ error: 'Missing or invalid review parameters' });
+    }
+
+    const parsedRating = parseInt(rating);
+    if (isNaN(parsedRating) || parsedRating < 1 || parsedRating > 5) {
+      return res.status(400).json({ error: 'Rating must be between 1 and 5' });
     }
 
     const newReview = new Review({
       productId: parseInt(productId),
-      userId: userId || null,
-      name,
-      rating: parseInt(rating),
-      comment
+      userId: (userId && typeof userId === 'string') ? userId.trim() : null,
+      name: name.trim().slice(0, 80),
+      rating: parsedRating,
+      comment: comment.trim().slice(0, 1000)
     });
 
     await newReview.save();
     res.json({ success: true, review: newReview });
   } catch (err) {
+    console.error('[ERROR] saving review:', err);
     res.status(500).json({ error: 'Server error saving review' });
   }
 });
@@ -462,8 +614,18 @@ app.post('/api/orders', async (req, res) => {
       quantity: parseInt(item.quantity)
     }));
 
+    let effectiveUserId = (userId && userId !== 'guest') ? userId : null;
+    if (!effectiveUserId) {
+      const authHeader = req.headers.authorization;
+      const token = authHeader && authHeader.startsWith('Bearer ') ? authHeader.slice(7) : req.query.token;
+      const decoded = verifyCustomerToken(token);
+      if (decoded) effectiveUserId = decoded.id;
+    }
+
+    const generatedOrderId = 'KB-' + Date.now().toString(36).toUpperCase() + '-' + Math.random().toString(36).substring(2, 6).toUpperCase();
     const newOrder = new Order({
-      userId: userId || null,
+      orderId: generatedOrderId,
+      userId: effectiveUserId,
       items: mappedItems,
       subtotal: parseFloat(subtotal),
       shippingFee: parseFloat(shippingFee),
@@ -472,9 +634,10 @@ app.post('/api/orders', async (req, res) => {
     });
 
     await newOrder.save();
-    res.json({ success: true, orderId: newOrder._id });
+    res.json({ success: true, orderId: newOrder.orderId, id: newOrder._id });
   } catch (err) {
-    res.status(500).json({ error: 'Server error saving order' });
+    console.error('[ORDER ERROR]', err);
+    res.status(500).json({ error: 'Failed to process order. Please try again or complete booking via WhatsApp.' });
   }
 });
 
@@ -505,19 +668,54 @@ app.get('/api/ratings', async (req, res) => {
   }
 });
 
-// 15. Create New Inquiry / Contact Message (Public)
-app.post('/api/inquiries', async (req, res) => {
+// 15. Create New Inquiry / Contact Message (Public with Honeypot Bot Shield & Rate Limiting)
+app.post('/api/inquiries', inquiryLimiter, async (req, res) => {
   try {
-    const { name, email, phone, message, source } = req.body;
-    if (!name || !email || !message) {
+    const { name, email, phone, message, source, hp_check } = req.body;
+
+    // Honeypot Shield: If hidden honeypot field is filled, silently discard bot submission
+    if (hp_check && typeof hp_check === 'string' && hp_check.trim().length > 0) {
+      console.log('[BOT BLOCKED] Honeypot field was filled by automated bot:', hp_check);
+      return res.json({ 
+        success: true, 
+        message: 'Your inquiry has been submitted successfully!' 
+      });
+    }
+
+    if (!name || !email || !message || typeof name !== 'string' || typeof email !== 'string' || typeof message !== 'string') {
       return res.status(400).json({ error: 'Name, email, and message are required' });
     }
 
+    const cleanEmail = email.trim().toLowerCase();
+    const cleanName = name.trim();
+    const cleanPhone = (phone || '').trim();
+    const cleanMessage = message.trim();
+
+    // Bot Pattern Detection:
+    // 1. Dotted-gmail burner bots (e.g., a.z.i.w.o.m.o.b.u.b... with 3+ dots in username)
+    const usernamePart = cleanEmail.split('@')[0] || '';
+    const dotCount = (usernamePart.match(/\./g) || []).length;
+    if (dotCount >= 3 && cleanEmail.endsWith('@gmail.com')) {
+      console.log('[BOT BLOCKED] Dotted burner Gmail address detected:', cleanEmail);
+      return res.json({ success: true, message: 'Your inquiry has been submitted successfully!' });
+    }
+
+    // 2. Random gibberish generator pattern (no spaces, length > 14, erratic upper/lowercase or unpronounceable consonant clusters)
+    const isRandomGibberish = (str) => {
+      if (str.length > 14 && !str.includes(' ') && !/[aeiouAEIOU]{2,}/.test(str)) return true;
+      if (str.length > 18 && !str.includes(' ')) return true;
+      return false;
+    };
+    if (isRandomGibberish(cleanName) || (cleanMessage.length > 18 && isRandomGibberish(cleanMessage))) {
+      console.log('[BOT BLOCKED] Random gibberish bot string detected in name/message:', cleanName);
+      return res.json({ success: true, message: 'Your inquiry has been submitted successfully!' });
+    }
+
     const newInquiry = new Inquiry({
-      name: name.trim(),
-      email: email.trim(),
-      phone: (phone || '').trim(),
-      message: message.trim(),
+      name: cleanName,
+      email: cleanEmail,
+      phone: cleanPhone,
+      message: cleanMessage,
       source: source || 'Contact Form',
       status: 'new'
     });
@@ -534,13 +732,184 @@ app.post('/api/inquiries', async (req, res) => {
   }
 });
 
+// ─── CUSTOMER AUTHENTICATION & PORTAL API ROUTES ───
+
+// Customer Registration
+app.post('/api/customer/register', customerRegisterLimiter, async (req, res) => {
+  try {
+    const { name, email, phone, password, address } = req.body;
+    if (typeof name !== 'string' || typeof email !== 'string' || typeof phone !== 'string' || typeof password !== 'string' ||
+        !name.trim() || !email.trim() || !phone.trim() || !password) {
+      return res.status(400).json({ error: 'Full name, email, phone number, and password are required strings.' });
+    }
+    if (password.length < 6) {
+      return res.status(400).json({ error: 'Password must be at least 6 characters.' });
+    }
+
+    const cleanEmail = email.trim().toLowerCase();
+    const cleanPhone = phone.trim().replace(/\s+/g, '');
+
+    const existing = await Customer.findOne({ email: cleanEmail });
+    if (existing) {
+      return res.status(400).json({ error: 'An account with this email address already exists. Please sign in.' });
+    }
+
+    const salt = crypto.randomBytes(16).toString('hex');
+    const passwordHash = hashPassword(password, salt);
+
+    const customer = new Customer({
+      name: name.trim(),
+      email: cleanEmail,
+      phone: cleanPhone,
+      passwordHash,
+      salt,
+      address: address || {}
+    });
+    await customer.save();
+
+    const token = generateCustomerToken(customer);
+    return res.json({
+      success: true,
+      token,
+      user: {
+        id: customer._id.toString(),
+        name: customer.name,
+        email: customer.email,
+        phone: customer.phone,
+        address: customer.address
+      },
+      message: 'Account created successfully!'
+    });
+  } catch (err) {
+    console.error('Customer register error:', err);
+    res.status(500).json({ error: 'Failed to create account. Please try again later.' });
+  }
+});
+
+// Customer Login (supports email or phone)
+app.post('/api/customer/login', customerLoginLimiter, async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    if (typeof email !== 'string' || typeof password !== 'string' || !email.trim() || !password) {
+      return res.status(400).json({ error: 'Please enter your email/phone and password.' });
+    }
+
+    const cleanInput = email.trim().toLowerCase();
+    const cleanPhone = email.trim().replace(/\s+/g, '');
+
+    const customer = await Customer.findOne({
+      $or: [
+        { email: cleanInput },
+        { phone: cleanPhone }
+      ]
+    });
+
+    if (!customer) {
+      return res.status(401).json({ error: 'Invalid email/phone or password. Please try again.' });
+    }
+
+    const hash = hashPassword(password, customer.salt);
+    if (hash !== customer.passwordHash) {
+      return res.status(401).json({ error: 'Invalid email/phone or password. Please try again.' });
+    }
+
+    const token = generateCustomerToken(customer);
+    return res.json({
+      success: true,
+      token,
+      user: {
+        id: customer._id.toString(),
+        name: customer.name,
+        email: customer.email,
+        phone: customer.phone,
+        address: customer.address
+      },
+      message: 'Logged in successfully!'
+    });
+  } catch (err) {
+    console.error('Customer login error:', err);
+    res.status(500).json({ error: 'Failed to sign in. Please try again later.' });
+  }
+});
+
+// Get Logged-in Customer Profile
+app.get('/api/customer/me', requireCustomerAuth, async (req, res) => {
+  res.json({
+    success: true,
+    user: {
+      id: req.customer._id.toString(),
+      name: req.customer.name,
+      email: req.customer.email,
+      phone: req.customer.phone,
+      address: req.customer.address
+    }
+  });
+});
+
+// Update Customer Profile & Address
+app.put('/api/customer/profile', requireCustomerAuth, async (req, res) => {
+  try {
+    const { name, phone, address } = req.body;
+    if (name) req.customer.name = name.trim();
+    if (phone) req.customer.phone = phone.trim().replace(/\s+/g, '');
+    if (address) {
+      req.customer.address = {
+        street: address.street !== undefined ? address.street : req.customer.address?.street || '',
+        city: address.city !== undefined ? address.city : req.customer.address?.city || '',
+        state: address.state !== undefined ? address.state : req.customer.address?.state || '',
+        pincode: address.pincode !== undefined ? address.pincode : req.customer.address?.pincode || ''
+      };
+    }
+    await req.customer.save();
+
+    res.json({
+      success: true,
+      user: {
+        id: req.customer._id.toString(),
+        name: req.customer.name,
+        email: req.customer.email,
+        phone: req.customer.phone,
+        address: req.customer.address
+      },
+      message: 'Profile updated successfully!'
+    });
+  } catch (err) {
+    console.error('Customer update profile error:', err);
+    res.status(500).json({ error: 'Failed to update profile' });
+  }
+});
+
+// Customer Orders History (auto-links past orders by user id, phone, or email)
+app.get('/api/customer/orders', requireCustomerAuth, async (req, res) => {
+  try {
+    const custId = req.customer._id.toString();
+    const custPhone = req.customer.phone;
+    const custEmail = req.customer.email;
+
+    const query = {
+      $or: [
+        { userId: custId },
+        { 'shippingDetails.phone': custPhone },
+        { 'shippingDetails.phone': custPhone.replace(/^\+91/, '') },
+        { 'shippingDetails.email': custEmail }
+      ]
+    };
+
+    const orders = await Order.find(query).sort({ createdAt: -1 });
+    res.json({ success: true, orders });
+  } catch (err) {
+    console.error('Customer orders error:', err);
+    res.status(500).json({ error: 'Failed to fetch customer orders' });
+  }
+});
+
 // ─── ADMIN API ROUTES ───
 
-// Admin Login
-app.post('/api/admin/login', (req, res) => {
+// Admin Login (Rate limited to 5 attempts / 15 minutes)
+app.post('/api/admin/login', adminLoginLimiter, (req, res) => {
   try {
     const { username, password } = req.body;
-    if (!username || !password) {
+    if (typeof username !== 'string' || typeof password !== 'string' || !username.trim() || !password) {
       return res.status(400).json({ error: 'Username and password are required' });
     }
 
@@ -662,6 +1031,17 @@ app.patch('/api/admin/orders/:id', requireAdminAuth, async (req, res) => {
   }
 });
 
+// Admin: Delete All Orders (for testing & maintenance cleanup)
+app.delete('/api/admin/orders', requireAdminAuth, async (req, res) => {
+  try {
+    const result = await Order.deleteMany({});
+    res.json({ success: true, message: `All orders deleted successfully (${result.deletedCount} orders removed).` });
+  } catch (err) {
+    console.error('[ADMIN DELETE ALL ORDERS ERROR]', err);
+    res.status(500).json({ error: 'Failed to delete orders' });
+  }
+});
+
 // Admin: Delete Order
 app.delete('/api/admin/orders/:id', requireAdminAuth, async (req, res) => {
   try {
@@ -717,7 +1097,7 @@ app.post('/api/admin/upload-image', requireAdminAuth, async (req, res) => {
     res.json({ success: true, imagePath: publicPath });
   } catch (err) {
     console.error('[ERROR] uploading image:', err);
-    res.status(500).json({ error: 'Failed to upload image: ' + err.message });
+    res.status(500).json({ error: 'Failed to upload image. Please check file format and try again.' });
   }
 });
 
@@ -758,7 +1138,7 @@ app.post('/api/admin/products', requireAdminAuth, async (req, res) => {
     res.json({ success: true, product: newProduct });
   } catch (err) {
     console.error('[ERROR] saving new product:', err);
-    res.status(500).json({ error: 'Failed to create product: ' + err.message });
+    res.status(500).json({ error: 'Failed to create product. Please check fields and try again.' });
   }
 });
 
@@ -829,14 +1209,14 @@ app.get(['/product/:id', '/product.html', '/product-template.html'], async (req,
   try {
     const product = await Product.findOne({ id: productId });
     if (!product) {
-      return res.sendFile(path.join(process.cwd(), 'product-template.html'));
+      return res.status(404).sendFile(path.join(process.cwd(), '404.html'));
     }
 
     let template = fs.readFileSync(path.join(process.cwd(), 'product-template.html'), 'utf8');
 
     // Dynamic Title & Meta
     const seoTitle = `${product.name} (${product.code || 'KB-' + product.id}) — Kannika Bangles Bangalore`;
-    const seoDesc = `Buy ${product.name} (Product ID: ${product.code || 'KB-' + product.id}) online for ₹${product.price.toLocaleString('en-IN')}. Handcrafted luxury jewellery with 10-day pan-India delivery & micro gold polish from Sri Kannika Bangles, Malleshwaram, Bangalore.`;
+    const seoDesc = `Buy ${product.name} (Product ID: ${product.code || 'KB-' + product.id}) online for ₹${product.price.toLocaleString('en-IN')}. Handcrafted luxury jewellery with 24–48 hr express Bangalore delivery & micro gold polish from Sri Kannika Bangles, Malleshwaram, Bangalore.`;
     const imageAbsUrl = `https://kannikabangles.com/${product.image.replace(/^\//, '')}`;
 
     // Get real-time reviews from mongoose database
@@ -858,7 +1238,11 @@ app.get(['/product/:id', '/product.html', '/product-template.html'], async (req,
       ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
       : 0;
 
-    const waText = encodeURIComponent(`*Inquiry from Sri Kannika Bangles Website*\n\nHello! I would like to inquire about / order this jewellery item:\n\n✨ *Product Name:* ${product.name}\n🏷️ *Product ID:* ${prodCode}\n📁 *Category:* ${getCategoryDisplayName(product.category)}\n🛍️ *Quantity:* 1\n💰 *Price:* ₹${product.price.toLocaleString('en-IN')}\n🔗 *Product Link:* https://kannikabangles.com/product/${product.id}\n\nPlease confirm stock availability and 10-day pan-India delivery details. Thank you!`);
+    const isBangle = product.category === 'bangles';
+    const sizeLabel = isBangle ? 'Select Size (inches)' : 'Size & Fit';
+    const sizeOptions = isBangle ? ['2.4', '2.6', '2.8'] : ['Free Size (Adjustable)'];
+
+    const waText = encodeURIComponent(`*Inquiry from Sri Kannika Bangles Website*\n\nHello! I would like to inquire about / order this jewellery item:\n\n✨ *Product Name:* ${product.name}\n🏷️ *Product ID:* ${prodCode}\n📁 *Category:* ${getCategoryDisplayName(product.category)}\n🛍️ *Quantity:* 1\n💰 *Price:* ₹${product.price.toLocaleString('en-IN')}\n🔗 *Product Link:* https://kannikabangles.com/product/${product.id}\n\nPlease confirm stock availability and Bangalore doorstep delivery details. Thank you!`);
 
     // Generate Full SSR Product Detail HTML
     const ssrProductDetailHtml = `
@@ -872,55 +1256,52 @@ app.get(['/product/:id', '/product.html', '/product-template.html'], async (req,
         <span>${product.name}</span>
       </div>
 
-      <div class="pd__container">
+      <div class="pd__grid">
+        <!-- Gallery Column -->
         <div class="pd__gallery">
-          <div class="pd__main-image" id="mainImage" style="position: relative; border-radius: 16px; overflow: hidden; background: #fff; border: 1.5px solid rgba(212, 175, 55, 0.35); box-shadow: 0 10px 30px rgba(0,0,0,0.06);">
-            <img src="/${product.image.replace(/^\//, '')}" alt="${product.name} - Sri Kannika Bangles" id="pdMainImg" style="width: 100%; aspect-ratio: 1 / 1; object-fit: cover; display: block; transition: transform 0.4s ease;">
-            ${product.badge ? `<span class="badge badge--${product.badge === 'bestseller' ? 'featured' : product.badge} pd__badge" style="position: absolute; top: 14px; left: 14px; z-index: 5;">${product.badge.toUpperCase()}</span>` : ''}
-            ${discount > 0 ? `<span style="position: absolute; top: 14px; right: 14px; z-index: 5; background: var(--pink-primary); color: white; font-size: 0.72rem; font-weight: 700; padding: 4px 10px; border-radius: 6px;">SAVE ${discount}%</span>` : ''}
+          <div class="pd__main-image-wrap">
+            <img id="pdMainImg" src="${product.image}" alt="${product.name} - Bangalore Bridal Jewellery" class="pd__main-image" loading="eager">
           </div>
           ${product.images && product.images.length > 1 ? `
-          <div class="pd__thumbnails" style="display: flex; gap: 10px; margin-top: 14px; overflow-x: auto;">
-            ${product.images.map((img, i) => `
-              <button class="pd__thumb ${i === 0 ? 'active' : ''}" onclick="switchImage(${i}, this)" style="width: 64px; height: 64px; border-radius: 8px; overflow: hidden; border: 2px solid ${i === 0 ? 'var(--pink-primary)' : 'var(--border-subtle)'}; background: #fff; cursor: pointer; padding: 0;">
-                <img src="/${img.replace(/^\//, '')}" alt="${product.name} view ${i + 1}" style="width: 100%; height: 100%; object-fit: cover;">
-              </button>
-            `).join('')}
-          </div>` : ''}
+            <div class="pd__thumbnails">
+              ${product.images.map((img, i) => `
+                <div class="pd__thumb ${i === 0 ? 'active' : ''}" onclick="switchImage(${i}, this)">
+                  <img src="${img}" alt="${product.name} view ${i+1}" loading="lazy">
+                </div>
+              `).join('')}
+            </div>
+          ` : ''}
         </div>
 
+        <!-- Info Column -->
         <div class="pd__info">
-          <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 6px;">
-            <span class="pd__category-tag" style="font-family: 'Cinzel', serif; font-size: 0.8rem; font-weight: 700; color: var(--pink-primary); letter-spacing: 0.08em; text-transform: uppercase;">${getCategoryDisplayName(product.category)}</span>
-            <span class="pd__sku-tag" style="font-family: monospace; font-size: 0.82rem; font-weight: 700; color: #856404; background: rgba(212, 175, 55, 0.15); border: 1px solid rgba(212, 175, 55, 0.4); padding: 3px 8px; border-radius: 4px; letter-spacing: 0.5px;">ID: ${prodCode}</span>
-          </div>
-          <h1 class="pd__name" style="font-family: 'Cinzel', serif; font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 700; color: var(--text-primary); margin: 4px 0 12px;">${product.name}</h1>
-
-          <div class="pd__rating" style="display: flex; align-items: center; gap: 8px; margin-bottom: 16px;">
-            <span class="stars" style="color: #D4AF37; font-size: 1.1rem;">★★★★★</span>
-            <span class="pd__rating-text" style="font-size: 0.92rem; color: var(--text-muted); font-weight: 600;">${avgRating} (${reviewCount} reviews)</span>
-            <span style="display: inline-block; width: 4px; height: 4px; border-radius: 50%; background: #ccc; margin: 0 4px;"></span>
-            <span style="font-size: 0.85rem; color: var(--accent-emerald); font-weight: 700;">Verified Quality ✓</span>
+          <div class="pd__category-tag" style="text-transform: uppercase; font-size: 0.78rem; letter-spacing: 0.12em; color: var(--gold-primary); font-weight: 700; margin-bottom: 6px;">${getCategoryDisplayName(product.category)}</div>
+          <h1 class="pd__title" style="font-family: 'Cinzel', serif; font-size: clamp(1.4rem, 2.2vw, 1.85rem); margin-bottom: 10px; color: var(--text-primary); line-height: 1.25;">${product.name}</h1>
+          
+          <div class="pd__rating-row" style="display: flex; align-items: center; gap: 8px; margin-bottom: 14px;">
+            <div class="pd__stars" style="color: #D4AF37; font-size: 0.95rem;">★★★★★</div>
+            <span class="pd__rating-val" style="font-weight: 700; font-size: 0.88rem;">${avgRating}</span>
+            <span class="pd__rating-count" style="color: var(--text-muted); font-size: 0.82rem;">(${reviewCount} verified reviews)</span>
           </div>
 
-          <div class="pd__pricing" style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 16px;">
-            <span class="pd__price" style="font-size: 1.85rem; font-weight: 800; color: var(--text-primary);">₹${product.price.toLocaleString('en-IN')}</span>
+          <div class="pd__price-wrap" style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 16px;">
+            <span class="pd__price" style="font-size: 1.6rem; font-weight: 800; color: var(--pink-primary);">₹${product.price.toLocaleString('en-IN')}</span>
             ${product.originalPrice > product.price ? `
-              <span class="pd__original-price" style="font-size: 1.1rem; color: var(--text-muted); text-decoration: line-through;">₹${product.originalPrice.toLocaleString('en-IN')}</span>
+              <span class="pd__original-price" style="text-decoration: line-through; color: var(--text-muted); font-size: 1rem;">₹${product.originalPrice.toLocaleString('en-IN')}</span>
               <span class="pd__discount-badge" style="background: rgba(212, 69, 106, 0.1); color: var(--pink-primary); font-size: 0.82rem; font-weight: 700; padding: 4px 8px; border-radius: 6px;">Save ${discount}%</span>
             ` : ''}
           </div>
 
           <p class="pd__description" style="color: var(--text-secondary); line-height: 1.7; font-size: 0.96rem; margin-bottom: 20px;">${product.description || `Handcrafted ${product.name} with premium gold finish & traditional artistry.`}</p>
 
-          <!-- 🚚 10-DAY PAN-INDIA DELIVERY BANNER -->
-          <div class="pd__delivery-box" style="margin-bottom: 16px; padding: 16px 18px; background: rgba(212, 175, 55, 0.08); border: 1.5px solid rgba(212, 175, 55, 0.35); border-radius: 12px; display: flex; align-items: center; gap: 14px;">
-            <div style="width: 44px; height: 44px; border-radius: 50%; background: #ffffff; display: flex; align-items: center; justify-content: center; color: #B38F24; box-shadow: 0 4px 12px rgba(0,0,0,0.06); flex-shrink: 0;">
+          <!-- 🚚 BANGALORE EXPRESS DELIVERY BANNER -->
+          <div class="pd__delivery-box" style="margin-bottom: 16px; padding: 16px 18px; background: rgba(59, 12, 24, 0.05); border: 1.5px solid #3B0C18; border-radius: 12px; display: flex; align-items: center; gap: 14px;">
+            <div style="width: 44px; height: 44px; border-radius: 50%; background: #3B0C18; display: flex; align-items: center; justify-content: center; color: #FFFFFF; box-shadow: 0 4px 12px rgba(59,12,24,0.15); flex-shrink: 0;">
               <i data-lucide="truck" style="width: 22px; height: 22px;"></i>
             </div>
             <div>
-              <h4 style="font-family: 'Cinzel', serif; font-size: 0.95rem; font-weight: 700; color: var(--text-primary); margin: 0 0 2px;">Delivery Across India Within 10 Days</h4>
-              <p style="font-size: 0.82rem; color: var(--text-secondary); margin: 0; line-height: 1.4;">Safe & insured express courier dispatch directly from our Malleshwaram, Bangalore showroom with tracking.</p>
+              <h4 style="font-family: 'Cinzel', serif; font-size: 0.95rem; font-weight: 700; color: #3B0C18; margin: 0 0 2px;">Bangalore Express Doorstep Delivery (24–48 Hrs)</h4>
+              <p style="font-size: 0.82rem; color: var(--text-secondary); margin: 0; line-height: 1.4;">Direct insured express hand-delivery across all Bangalore pincodes (560xxx) from our Malleshwaram showroom.</p>
             </div>
           </div>
 
@@ -966,6 +1347,21 @@ app.get(['/product/:id', '/product.html', '/product-template.html'], async (req,
             </div>
           </div>
 
+          <!-- 📏 SIZE SELECTION -->
+          <div class="pd__size-section" style="margin-bottom: 22px;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px;">
+              <label class="pd__label" style="font-size: 0.86rem; font-weight: 700; color: var(--text-primary); margin: 0;">${sizeLabel}</label>
+              ${isBangle ? `<span style="font-size: 0.78rem; color: #856404; font-weight: 600;">2.4 (Small) • 2.6 (Medium) • 2.8 (Large)</span>` : `<span style="font-size: 0.78rem; color: var(--accent-emerald); font-weight: 600;">Universal Fit • Adjustable</span>`}
+            </div>
+            <div class="pd__sizes" id="pdSizes" style="display: flex; flex-wrap: wrap; gap: 10px;">
+              ${sizeOptions.map(s => `
+                <button type="button" class="pd__size-btn ${s === '2.6' || !isBangle ? 'active' : ''}" onclick="selectSize('${s}', this)" aria-label="Size ${s}">
+                  <span>${s}</span>
+                </button>
+              `).join('')}
+            </div>
+          </div>
+
           <div class="pd__qty-section" style="margin-bottom: 24px;">
             <label class="pd__label" style="font-size: 0.86rem; font-weight: 700; color: var(--text-primary); display: block; margin-bottom: 8px;">Quantity</label>
             <div class="pd__qty-control" style="display: inline-flex; align-items: center; border: 1px solid var(--border-subtle); border-radius: 8px; overflow: hidden; background: #fff;">
@@ -980,17 +1376,17 @@ app.get(['/product/:id', '/product.html', '/product-template.html'], async (req,
           </div>
 
           <div class="pd__actions" style="display: flex; flex-direction: column; gap: 12px; width: 100%;">
-            <div class="pd__actions-row" style="display: flex; gap: 12px; width: 100%;">
-              <button class="btn btn--primary btn--lg pd__add-btn" onclick="addProductToCart()" style="flex: 1; min-width: 0; white-space: nowrap; padding: 14px 16px; font-size: 0.95rem; display: flex; align-items: center; justify-content: center; gap: 8px;">
+            <div class="pd__actions-row">
+              <button class="btn btn--primary btn--lg pd__add-btn" onclick="addProductToCart()" style="flex: 1; min-width: 0; padding: 14px 16px; font-size: 0.95rem; display: flex; align-items: center; justify-content: center; gap: 8px;">
                 <i data-lucide="shopping-bag" style="width:18px;height:18px;"></i>
                 Add to Cart
               </button>
-              <a href="https://wa.me/919844758450?text=${waText}" target="_blank" class="btn btn--lg pd__whatsapp-btn" style="background: #25D366; color: white; border: none; display: flex; align-items: center; justify-content: center; gap: 8px; flex: 1; min-width: 0; white-space: nowrap; font-weight: 600; cursor: pointer; transition: all var(--transition-fast); padding: 14px 16px; font-size: 0.95rem; text-decoration: none;">
+              <a href="https://wa.me/919844758450?text=${waText}" target="_blank" class="btn btn--lg pd__whatsapp-btn" style="background: #25D366; color: white; border: none; display: flex; align-items: center; justify-content: center; gap: 8px; flex: 1; min-width: 0; font-weight: 600; cursor: pointer; transition: all var(--transition-fast); padding: 14px 16px; font-size: 0.95rem; text-decoration: none;">
                 <i data-lucide="message-circle" style="width:18px;height:18px;"></i>
                 Buy via WhatsApp
               </a>
             </div>
-            <div class="pd__actions-row" style="display: flex; gap: 12px; width: 100%;">
+            <div class="pd__actions-row">
               <button class="btn btn--outline btn--lg" onclick="buyNow()" style="flex: 1; min-width: 0; padding: 14px 16px; font-size: 0.95rem; display: flex; align-items: center; justify-content: center;">
                 Buy Now
               </button>
@@ -1029,7 +1425,7 @@ app.get(['/product/:id', '/product.html', '/product-template.html'], async (req,
             <div id="pincodeResult" style="margin-top: 8px; font-size: 0.84rem; display: none; line-height: 1.4;"></div>
           </div>
 
-          <!-- 👗 SAREE MATCHING & 🎥 VIDEO CALL DUAL ACTION BOX -->
+          <!-- 👗 SAREE MATCHING & 💬 WHATSAPP ORDER DUAL ACTION BOX -->
           <div style="background: linear-gradient(135deg, rgba(255, 245, 248, 0.9) 0%, rgba(255, 252, 245, 0.9) 100%); border: 1px solid rgba(212, 69, 106, 0.25); border-radius: 12px; padding: 14px 16px; margin-top: 16px; display: flex; flex-direction: column; gap: 10px;">
             <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap;">
               <div style="font-size: 0.85rem; color: var(--text-primary);">
@@ -1043,12 +1439,12 @@ app.get(['/product/:id', '/product.html', '/product-template.html'], async (req,
             </div>
             <div style="border-top: 1px dashed rgba(212, 175, 55, 0.35); padding-top: 8px; display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap;">
               <div style="font-size: 0.85rem; color: var(--text-primary);">
-                <strong style="display: block; color: #856404; margin-bottom: 2px;">🎥 Live 5-Min Video Call:</strong>
-                Inspect weight, luster &amp; stone shine in real-time.
+                <strong style="display: block; color: #856404; margin-bottom: 2px;">💬 Real Photos &amp; WhatsApp Inquiry:</strong>
+                Request unedited photos, weight details &amp; styling guidance.
               </div>
-              <a href="https://wa.me/919844758450?text=Hi!%20I%20would%20like%20to%20schedule%20a%20quick%205-min%20video%20call%20to%20view%20${encodeURIComponent(product.name)}%20(ID:%20${prodCode})%20live." target="_blank" class="btn btn--sm btn--outline" style="font-size: 0.8rem; padding: 8px 12px; display: inline-flex; align-items: center; gap: 6px; text-decoration: none; border-color: #856404; color: #856404; white-space: nowrap;">
-                <i data-lucide="video" style="width: 14px; height: 14px;"></i>
-                Book Video Call
+              <a href="https://wa.me/919844758450?text=Hi!%20Please%20share%20real%20photos%20and%20details%20for%20${encodeURIComponent(product.name)}%20(ID:%20${prodCode})." target="_blank" class="btn btn--sm btn--outline" style="font-size: 0.8rem; padding: 8px 12px; display: inline-flex; align-items: center; gap: 6px; text-decoration: none; border-color: #856404; color: #856404; white-space: nowrap;">
+                <i data-lucide="message-circle" style="width: 14px; height: 14px;"></i>
+                Inquire on WhatsApp
               </a>
             </div>
           </div>
@@ -1059,8 +1455,8 @@ app.get(['/product/:id', '/product.html', '/product-template.html'], async (req,
               <i data-lucide="camera" style="width: 20px; height: 20px; color: #B38F24; flex-shrink: 0; margin-top: 2px;"></i>
               <div style="font-size: 0.84rem; line-height: 1.55; color: #4A3E30;">
                 <strong style="color: #2C1820; display: block; margin-bottom: 3px; font-weight: 700;">📸 Visual Authenticity &amp; Live Photos:</strong>
-                Our showcase photos are studio-enhanced with AI referencing our original handcrafted pieces. The actual physical product closely resembles these visuals. Want to see unedited raw photos or a live video before purchasing? 
-                <a href="https://wa.me/919844758450?text=Hi!%20Please%20share%20raw%20photos%20or%20a%20live%20video%20clip%20of%20${encodeURIComponent(product.name)}%20(ID:%20${prodCode})" target="_blank" style="color: #25D366; font-weight: 700; text-decoration: underline; margin-left: 4px;">Request Raw Images on WhatsApp &rarr;</a>
+                Our showcase photos are studio-enhanced with AI referencing our original handcrafted pieces. The actual physical product closely resembles these visuals. Want to see unedited raw photos before purchasing? 
+                <a href="https://wa.me/919844758450?text=Hi!%20Please%20share%20raw%20photos%20of%20${encodeURIComponent(product.name)}%20(ID:%20${prodCode})" target="_blank" style="color: #25D366; font-weight: 700; text-decoration: underline; margin-left: 4px;">Request Raw Images on WhatsApp &rarr;</a>
               </div>
             </div>
           </div>
@@ -1098,8 +1494,9 @@ app.get(['/product/:id', '/product.html', '/product-template.html'], async (req,
               <span class="stars" style="color: #D4AF37;">★★★★★</span>
               <span style="font-size: 0.78rem; color: var(--text-muted);">5.0 (18)</span>
             </div>
-            <div class="card__cta-row" style="margin-top: 10px; width: 100%;">
-              <a href="/product/${p.id}" class="btn btn--outline btn--sm" style="width: 100%; justify-content: center; font-size: 0.82rem; font-weight: 600; padding: 8px 12px; border-radius: 6px; text-decoration: none;">View Details</a>
+            <div class="card__cta-row product-card__cta-row" style="margin-top: 10px; width: 100%; display: flex; gap: 6px;">
+              <a href="/product/${p.id}" class="btn btn--outline btn--card-view" style="flex: 1; justify-content: center; font-size: 0.74rem; font-weight: 600; padding: 7px 4px; border-radius: 6px; text-decoration: none; white-space: nowrap;">View Details</a>
+              <button type="button" class="btn btn--primary btn--card-add" onclick="event.preventDefault(); addToCart(${p.id});" style="flex: 1; justify-content: center; font-size: 0.74rem; font-weight: 600; padding: 7px 4px; border-radius: 6px; white-space: nowrap; cursor: pointer;">Add to Cart</button>
             </div>
           </div>
         </div>
@@ -1165,7 +1562,7 @@ app.get(['/product/:id', '/product.html', '/product-template.html'], async (req,
     res.send(template);
   } catch (err) {
     console.error('SSR product render error:', err);
-    res.status(500).send('<pre>Error: ' + err.message + '\\n' + err.stack + '</pre>');
+    res.status(500).sendFile(path.join(__dirname, '500.html'));
   }
 });
 
@@ -1262,8 +1659,9 @@ async function serveCategorySSR(req, res, category, titleText, metaDesc, keyword
             ${product.originalPrice > product.price ? `<span class="original">₹${product.originalPrice.toLocaleString('en-IN')}</span>` : ''}
             <link itemprop="availability" href="https://schema.org/InStock">
           </div>
-          <div class="card__cta-row" style="margin-top: 10px; width: 100%;">
-            <a href="/product/${product.id}" class="btn btn--outline btn--sm" style="width: 100%; justify-content: center; font-size: 0.82rem; font-weight: 600; padding: 8px 12px; border-radius: 6px; text-decoration: none;">View Details</a>
+          <div class="card__cta-row product-card__cta-row" style="margin-top: 10px; width: 100%; display: flex; gap: 6px;">
+            <a href="/product/${product.id}" class="btn btn--outline btn--card-view" style="flex: 1; justify-content: center; font-size: 0.74rem; font-weight: 600; padding: 7px 4px; border-radius: 6px; text-decoration: none; white-space: nowrap;">View Details</a>
+            <button type="button" class="btn btn--primary btn--card-add" onclick="event.preventDefault(); addToCart(${product.id});" style="flex: 1; justify-content: center; font-size: 0.74rem; font-weight: 600; padding: 7px 4px; border-radius: 6px; white-space: nowrap; cursor: pointer;">Add to Cart</button>
           </div>
         </div>
       </div>`;
@@ -1311,10 +1709,10 @@ async function serveCategorySSR(req, res, category, titleText, metaDesc, keyword
 
     // Pre-render Category Filter Chips with deep links
     const categoriesMeta = [
-      { id: "all", name: "All Collections", icon: "gem", count: 46 },
+      { id: "all", name: "All Collections", icon: "gem", count: 45 },
       { id: "bangles", name: "Bangles", icon: "circle", count: 14 },
       { id: "pendant-sets", name: "Pendant Sets", icon: "sparkles", count: 14 },
-      { id: "necklaces", name: "Necklaces", icon: "gem", count: 6 },
+      { id: "necklaces", name: "Necklaces", icon: "gem", count: 5 },
       { id: "earrings", name: "Earrings", icon: "sparkles", count: 12 }
     ];
 
@@ -1369,14 +1767,14 @@ async function serveCategorySSR(req, res, category, titleText, metaDesc, keyword
     res.send(template);
   } catch (err) {
     console.error('[ERROR] serveCategorySSR failed:', err);
-    res.status(500).send('<pre>Error: ' + err.message + '\\n' + err.stack + '</pre>');
+    res.status(500).sendFile(path.join(__dirname, '500.html'));
   }
 }
 
 app.get('/bangles', async (req, res) => {
   await serveCategorySSR(req, res, 'bangles',
     'Bridal Bangles & Kundan Kadas Bangalore | Sri Kannika Bangles',
-    'Shop handcrafted bridal bangles & Kundan kadas in Bangalore. Premium antique gold polish, AD stone spacer sets & 10-day pan-India delivery. Visit Malleshwaram showroom.',
+    'Shop handcrafted bridal bangles & Kundan kadas in Bangalore. Premium antique gold polish, AD stone spacer sets & 24–48 hr express Bangalore delivery. Visit Malleshwaram showroom.',
     'bridal bangles bangalore, kundan kadas bangalore, antique gold kadas bangalore, ad stone bangles bangalore, micro gold plated bangles bangalore, bangles shop in malleshwaram'
   );
 });
@@ -1384,7 +1782,7 @@ app.get('/bangles', async (req, res) => {
 app.get('/necklaces', async (req, res) => {
   await serveCategorySSR(req, res, 'necklaces',
     'Bridal Necklaces & Kundan Choker Sets Bangalore | Kannika',
-    'Explore luxury bridal necklace sets & antique harams in Bangalore. Handcrafted Kundan chokers, temple nakshi designs & micro gold finish with express pan-India shipping.',
+    'Explore luxury bridal necklace sets & antique harams in Bangalore. Handcrafted Kundan chokers, temple nakshi designs & micro gold finish with 24–48 hr express Bangalore delivery.',
     'bridal necklace sets bangalore, antique haram bangalore, kundan choker sets bangalore, temple necklace jewellery bangalore, matte finish bridal necklace'
   );
 });
@@ -1408,23 +1806,13 @@ app.get('/pendant-sets', async (req, res) => {
 app.get('/shop', async (req, res) => {
   await serveCategorySSR(req, res, 'all',
     'Indian Bridal Jewellery Collection Bangalore | Kannika Bangles',
-    'Explore Bangalore\'s premier collection of handcrafted bridal jewellery. Shop traditional bangles, necklace sets, pendants & jhumkas with 10-day pan-India delivery.',
+    'Explore Bangalore\'s premier collection of handcrafted bridal jewellery. Shop traditional bangles, necklace sets, pendants & jhumkas with 24–48 hr express Bangalore delivery.',
     'bridal jewellery bangalore, indian bridal jewellery online, imitation jewellery bangalore, wedding jewellery sets bengaluru, buy jewellery online bangalore'
   );
 });
 
 app.get('/blog', (req, res) => {
   res.sendFile(path.join(__dirname, 'blog.html'));
-});
-
-app.get('/blog/:slug', (req, res) => {
-  const slug = req.params.slug;
-  const filePath = path.join(__dirname, 'blog', `${slug}.html`);
-  if (fs.existsSync(filePath)) {
-    res.sendFile(filePath);
-  } else {
-    res.sendFile(path.join(__dirname, 'blog.html'));
-  }
 });
 
 app.get('/areas', (req, res) => {
@@ -1461,26 +1849,32 @@ app.get('/haldi-and-mehendi-jewellery-bangalore', (req, res) => {
   res.sendFile(path.join(__dirname, 'haldi-and-mehendi-jewellery-bangalore.html'));
 });
 
-// Serve blog guide pages
+// Serve blog guide pages with path-traversal protection
 app.get('/blog/:slug', (req, res) => {
-  const slug = req.params.slug;
-  const filePath = path.join(__dirname, 'blog', `${slug}.html`);
-  if (fs.existsSync(filePath)) {
-    res.sendFile(filePath);
-  } else {
-    res.status(404).sendFile(path.join(__dirname, '404.html'));
+  const slug = String(req.params.slug || '').trim();
+  if (!/^[a-zA-Z0-9_-]+$/.test(slug)) {
+    return res.status(404).sendFile(path.join(__dirname, '404.html'));
   }
+  const blogDir = path.resolve(__dirname, 'blog');
+  const filePath = path.resolve(blogDir, `${slug}.html`);
+  if (filePath.startsWith(blogDir) && fs.existsSync(filePath)) {
+    return res.sendFile(filePath);
+  }
+  return res.status(404).sendFile(path.join(__dirname, '404.html'));
 });
 
-// Serve areas location pages specifically
+// Serve areas location pages with path-traversal protection
 app.get('/areas/:location', (req, res) => {
-  const loc = req.params.location;
-  const filePath = path.join(__dirname, 'areas', `${loc}.html`);
-  if (fs.existsSync(filePath)) {
-    res.sendFile(filePath);
-  } else {
-    res.status(404).sendFile(path.join(__dirname, '404.html'));
+  const loc = String(req.params.location || '').trim();
+  if (!/^[a-zA-Z0-9_-]+$/.test(loc)) {
+    return res.status(404).sendFile(path.join(__dirname, '404.html'));
   }
+  const areasDir = path.resolve(__dirname, 'areas');
+  const filePath = path.resolve(areasDir, `${loc}.html`);
+  if (filePath.startsWith(areasDir) && fs.existsSync(filePath)) {
+    return res.sendFile(filePath);
+  }
+  return res.status(404).sendFile(path.join(__dirname, '404.html'));
 });
 
 // Serve Static Frontend files with Clean URLs
@@ -1493,10 +1887,13 @@ app.use((req, res) => {
   res.status(404).sendFile(path.join(__dirname, '404.html'));
 });
 
-// Error handling middleware
+// Error handling middleware (Mask internal stack traces and error details)
 app.use((err, req, res, next) => {
-  console.error('[ERROR]', err);
-  res.status(500).send('Server Error: ' + err.message);
+  console.error('[SERVER ERROR]', err);
+  if (req.path.startsWith('/api/')) {
+    return res.status(500).json({ error: 'Internal Server Error. Please try again later.' });
+  }
+  res.status(500).sendFile(path.join(__dirname, '500.html'));
 });
 
 if (!process.env.VERCEL) {

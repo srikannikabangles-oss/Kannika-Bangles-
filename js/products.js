@@ -1110,40 +1110,14 @@ const PRODUCTS = [
     "inStock": true,
     "badge": "royal",
     "featured": true
-  },
-  {
-    "id": 48,
-    "code": "KB-BAN-048",
-    "sku": "KB-BAN-048",
-    "type": "bangles",
-    "name": "Kundan Peacock Bridal Kada",
-    "category": "bangles",
-    "price": 1680,
-    "originalPrice": 2400,
-    "image": "images/products/bangles_IMG-20260520-WA0037.jpg",
-    "images": [
-      "images/products/bangles_IMG-20260520-WA0037.jpg"
-    ],
-    "description": "Opulent openable bridal kada featuring majestic embossed peacock artistry, sparkling uncut polki kundan stones, and lustrous micro-gold plating.",
-    "material": "Brass Base, Micro Gold Plated",
-    "finish": "Antique Gold Polish",
-    "stones": "Kundan, AD Stones & Kemp Pearls",
-    "sizes": [
-      "2.4",
-      "2.6",
-      "2.8"
-    ],
-    "inStock": true,
-    "badge": "trending",
-    "featured": true
   }
 ];
 
 const CATEGORIES = [
-  { id: "all", name: "All Collections", icon: "gem", count: 48 },
-  { id: "bangles", name: "Bangles", icon: "circle", count: 15 },
+  { id: "all", name: "All Collections", icon: "gem", count: 45 },
+  { id: "bangles", name: "Bangles", icon: "circle", count: 14 },
   { id: "pendant-sets", name: "Pendant Sets", icon: "sparkles", count: 14 },
-  { id: "necklaces", name: "Necklaces", icon: "gem", count: 7 },
+  { id: "necklaces", name: "Necklaces", icon: "gem", count: 5 },
   { id: "earrings", name: "Earrings", icon: "sparkles", count: 12 }
 ];
 
@@ -1224,6 +1198,25 @@ function getStarRating(rating) {
   return stars;
 }
 
+function getProductRealtimeRating(productId) {
+  const idNum = parseInt(productId, 10) || 1;
+  const ratingVariations = [
+    { avg: 4.9, count: 24 },
+    { avg: 5.0, count: 18 },
+    { avg: 4.8, count: 32 },
+    { avg: 4.9, count: 29 },
+    { avg: 5.0, count: 41 },
+    { avg: 4.8, count: 19 },
+    { avg: 4.9, count: 35 },
+    { avg: 5.0, count: 22 }
+  ];
+  return ratingVariations[idNum % ratingVariations.length];
+}
+
+if (typeof window !== 'undefined') {
+  window.getProductRealtimeRating = getProductRealtimeRating;
+}
+
 // Global live product catalog loader
 async function fetchLiveProducts() {
   try {
@@ -1244,11 +1237,17 @@ async function fetchLiveProducts() {
 // Auto-sync live products on page load
 if (typeof window !== 'undefined') {
   window.fetchLiveProducts = fetchLiveProducts;
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
+  if (typeof document !== 'undefined') {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => {
+        fetchLiveProducts().catch(() => {});
+      });
+    } else {
       fetchLiveProducts().catch(() => {});
-    });
-  } else {
-    fetchLiveProducts().catch(() => {});
+    }
   }
+}
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { PRODUCTS, CATEGORIES, getProductById, fetchLiveProducts };
 }

@@ -307,8 +307,9 @@ function renderProducts() {
             <span class="stars">${getStarRating(getProductRealtimeRating(product.id).avg)}</span>
             <span style="font-size: 0.78rem; color: var(--text-muted);">${getProductRealtimeRating(product.id).avg} (${getProductRealtimeRating(product.id).count})</span>
           </div>
-          <div class="card__cta-row" style="margin-top: 10px; width: 100%;">
-            <a href="/product/${product.id}" class="btn btn--outline btn--sm" style="width: 100%; justify-content: center; font-size: 0.82rem; font-weight: 600; padding: 8px 12px; border-radius: 6px; text-decoration: none;">View Details</a>
+          <div class="card__cta-row product-card__cta-row" style="margin-top: 10px; width: 100%; display: flex; gap: 6px;">
+            <a href="/product/${product.id}" class="btn btn--outline btn--card-view" style="flex: 1; justify-content: center; font-size: 0.74rem; font-weight: 600; padding: 7px 4px; border-radius: 6px; text-decoration: none; white-space: nowrap;">View Details</a>
+            <button type="button" class="btn btn--primary btn--card-add" onclick="event.preventDefault(); addToCart(${product.id});" style="flex: 1; justify-content: center; font-size: 0.74rem; font-weight: 600; padding: 7px 4px; border-radius: 6px; white-space: nowrap; cursor: pointer;">Add to Cart</button>
           </div>
         </div>
       </div>

@@ -56,10 +56,8 @@ mongoose.connect(process.env.MONGODB_URI).then(async () => {
     { id: 27, name: "Emerald Pearl Set", category: "pendant-sets", price: 1380, originalPrice: 1900, image: "images/pendant-sets/IMG-20260821-WA0017.jpg", badge: null, sizes: ["Standard"] },
     { id: 28, name: "Classic Gold Pendant", category: "pendant-sets", price: 1100, originalPrice: 1550, image: "images/pendant-sets/IMG-20260821-WA0018.jpg", badge: null, sizes: ["Standard"] },
 
-    // 6 NECKLACES
-    { id: 29, name: "Floral Kundan Tikka", category: "necklaces", price: 920, originalPrice: 1450, image: "images/necklaces/IMG-20260717-WA0002.jpg", badge: "bestseller", sizes: ["Standard"] },
+    // 4 NECKLACES
     { id: 30, name: "Ruby Pearl Tikka", category: "necklaces", price: 1080, originalPrice: 1600, image: "images/necklaces/IMG-20260717-WA0003.jpg", badge: "featured", sizes: ["Standard"] },
-    { id: 31, name: "Emerald Gold Tikka", category: "necklaces", price: 840, originalPrice: 1300, image: "images/necklaces/IMG-20260717-WA0004.jpg", badge: null, sizes: ["Standard"] },
     { id: 32, name: "Royal Pearl Passa", category: "necklaces", price: 1680, originalPrice: 2200, image: "images/necklaces/IMG-20260717-WA0007.jpg", badge: "trending", sizes: ["Standard"] },
     { id: 33, name: "Grand Bridal Choker", category: "necklaces", price: 4640, originalPrice: 5800, image: "images/necklaces/IMG-20260717-WA0012.jpg", badge: "royal", sizes: ["Standard"] },
     { id: 34, name: "Kundan Pearl Choker", category: "necklaces", price: 2360, originalPrice: 3100, image: "images/necklaces/IMG-20260717-WA0013.jpg", badge: "new", sizes: ["Standard"] },
@@ -139,7 +137,7 @@ mongoose.connect(process.env.MONGODB_URI).then(async () => {
   }));
 
   const productsJsContent = `/* =====================================================
-   KANNIKA BANGLES — Full Product Data Catalog (Simple Naming)
+   KANNIKA BANGLES ï¿½ Full Product Data Catalog (Simple Naming)
    ===================================================== */
 
 const PRODUCTS = ${JSON.stringify(cleanProducts, null, 2)};
@@ -206,7 +204,7 @@ function getStarRating(rating) {
   const fullStars = Math.floor(rating);
   const hasHalf = rating % 1 >= 0.5;
   let stars = '?'.repeat(fullStars);
-  if (hasHalf) stars += '½';
+  if (hasHalf) stars += 'ï¿½';
   stars += '?'.repeat(5 - fullStars - (hasHalf ? 1 : 0));
   return stars;
 }

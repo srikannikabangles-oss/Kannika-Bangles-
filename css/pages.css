@@ -5,15 +5,15 @@
 
 /* ─── Page Hero Banner ─── */
 .page-hero {
-  min-height: 180px;
-  padding: 110px 20px 32px;
+  min-height: 140px;
+  padding: 40px 20px 36px;
   text-align: center;
   background: linear-gradient(135deg, rgba(59,24,62,0.92), rgba(24,19,22,0.96)), url('/images/hero-banner.png') center/cover no-repeat;
   color: #FFFFFF;
 }
 
 .page-hero__title {
-  font-family: 'Cinzel', serif;
+  font-family: 'Poppins', sans-serif;
   font-size: clamp(1.8rem, 3.5vw, 2.8rem);
   font-weight: 700;
   color: #FDF9F9;
@@ -90,7 +90,7 @@
 }
 
 .about-story__label {
-  font-family: 'Cinzel', serif;
+  font-family: 'Poppins', sans-serif;
   color: var(--pink-primary, #20B2AA);
   font-weight: 700;
   font-size: 0.85rem;
@@ -100,7 +100,7 @@
 }
 
 .about-story__content h2 {
-  font-family: 'Cinzel', serif;
+  font-family: 'Poppins', sans-serif;
   font-size: clamp(1.6rem, 2.5vw, 2.2rem);
   color: var(--text-primary, #2C1820);
   margin: 0;
@@ -161,7 +161,7 @@
 }
 
 .stat-card__number {
-  font-family: 'Cinzel', serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 2.2rem;
   font-weight: 700;
   color: #3B183E;
@@ -216,7 +216,7 @@
 }
 
 .feature-card__title {
-  font-family: 'Cinzel', serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 1.2rem;
   color: #3B183E;
   margin-bottom: 10px;
@@ -239,7 +239,7 @@
 }
 
 .contact-info__heading {
-  font-family: 'Cinzel', serif;
+  font-family: 'Poppins', sans-serif;
   font-size: clamp(1.6rem, 2.5vw, 2.2rem);
   color: #3B183E;
   margin-bottom: 8px;
@@ -309,7 +309,7 @@
 }
 
 .contact-form__heading {
-  font-family: 'Cinzel', serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 1.4rem;
   color: #3B183E;
   margin-bottom: 6px;
@@ -428,7 +428,7 @@
 }
 
 .brand-story__stat-number {
-  font-family: 'Cinzel', serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 2rem;
   font-weight: 700;
   color: var(--pink-primary, #20B2AA);
@@ -453,3 +453,262 @@
     font-size: 1.35rem !important;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   DISTINCT BANGALORE AREA PAGE TEMPLATES (8 Unique Themes)
+   ═══════════════════════════════════════════════════════════════ */
+
+/* 1. MALLÉSHWARAM: Royal Flagship Sanctuary Theme */
+.template-flagship-sanctuary .page-hero {
+  background: linear-gradient(135deg, #2A121C 0%, #15090F 100%);
+  color: #fff;
+  border-bottom: 2px solid rgba(212, 175, 55, 0.4);
+}
+.template-flagship-sanctuary .page-hero__title {
+  color: #fff;
+  letter-spacing: 0.04em;
+}
+.template-flagship-sanctuary .page-hero__subtitle {
+  color: rgba(255, 255, 255, 0.88);
+}
+.template-flagship-sanctuary .page-hero__breadcrumb a {
+  color: rgba(255, 255, 255, 0.7);
+}
+.template-flagship-sanctuary .page-hero__breadcrumb span {
+  color: #FFE28A;
+}
+.template-flagship-sanctuary .area-featured-products {
+  background: #FCF9F5 !important;
+}
+.template-flagship-sanctuary .product-card {
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  box-shadow: 0 8px 24px rgba(42, 18, 28, 0.06);
+}
+.template-flagship-sanctuary .product-card:hover {
+  border-color: var(--gold-primary);
+  box-shadow: 0 14px 32px rgba(139, 105, 20, 0.18);
+}
+@media (max-width: 768px) {
+  .malleshwaram-showroom-card {
+    grid-template-columns: 1fr !important;
+    padding: 24px !important;
+  }
+}
+
+/* 2. JAYANAGAR: Grand Bridal Lookbook Theme */
+.template-bridal-lookbook .page-hero {
+  background: linear-gradient(135deg, #FAF1EB 0%, #F5E5DC 100%);
+  color: var(--text-primary);
+  border-bottom: 2px solid rgba(157, 23, 57, 0.2);
+}
+.template-bridal-lookbook .page-hero__title {
+  color: #591024;
+}
+.template-bridal-lookbook .page-hero__subtitle {
+  color: #6E4D55;
+}
+.template-bridal-lookbook .page-hero__breadcrumb a {
+  color: #7D5C65;
+}
+.template-bridal-lookbook .page-hero__breadcrumb span {
+  color: #9D1739;
+  font-weight: 600;
+}
+.template-bridal-lookbook .area-featured-products {
+  background: #FFF8F5 !important;
+}
+.template-bridal-lookbook .product-card {
+  border-radius: 18px;
+  border: 1px solid rgba(157, 23, 57, 0.15);
+  background: #fff;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.template-bridal-lookbook .product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 36px rgba(157, 23, 57, 0.12);
+}
+
+/* 3. COMMERCIAL STREET: High-Fashion Glamour Boutique Theme */
+.template-glamour-boutique .page-hero {
+  background: linear-gradient(135deg, #161219 0%, #261A28 100%);
+  color: #fff;
+  border-bottom: 1.5px solid rgba(255, 215, 0, 0.3);
+}
+.template-glamour-boutique .page-hero__title {
+  color: #FFFFFF;
+}
+.template-glamour-boutique .page-hero__subtitle {
+  color: rgba(255, 255, 255, 0.85);
+}
+.template-glamour-boutique .page-hero__breadcrumb a {
+  color: rgba(255, 255, 255, 0.65);
+}
+.template-glamour-boutique .page-hero__breadcrumb span {
+  color: #FFD700;
+}
+.template-glamour-boutique .area-featured-products {
+  background: #F8F6FA !important;
+}
+.template-glamour-boutique .product-card {
+  border: 1px solid rgba(26, 17, 30, 0.12);
+  border-top: 3px solid #8B6914;
+}
+
+/* 4. CHICKPET: Ancestral Metalcraft & Direct Artisan Workshop Theme */
+.template-artisan-workshop .page-hero {
+  background: linear-gradient(135deg, #241A12 0%, #17110B 100%);
+  color: #fff;
+  border-bottom: 2px solid rgba(212, 175, 55, 0.35);
+}
+.template-artisan-workshop .page-hero__title {
+  color: #fff;
+}
+.template-artisan-workshop .page-hero__subtitle {
+  color: rgba(255, 255, 255, 0.82);
+}
+.template-artisan-workshop .page-hero__breadcrumb a {
+  color: rgba(255, 255, 255, 0.68);
+}
+.template-artisan-workshop .page-hero__breadcrumb span {
+  color: var(--gold-primary);
+}
+.template-artisan-workshop .area-featured-products {
+  background: #F9F5EC !important;
+}
+.template-artisan-workshop .product-card {
+  border: 1px solid rgba(139, 105, 20, 0.25);
+  background: #FFFDF9;
+}
+
+/* 5. INDIRANAGAR: Modern Minimalist Luxury Theme */
+.template-minimalist-luxury .page-hero {
+  background: linear-gradient(180deg, #FBFBFB 0%, #F1F3F5 100%);
+  color: #222;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+.template-minimalist-luxury .page-hero__title {
+  color: #1A1A1A;
+  letter-spacing: 0.05em;
+}
+.template-minimalist-luxury .page-hero__subtitle {
+  color: #555555;
+  font-weight: 400;
+}
+.template-minimalist-luxury .page-hero__breadcrumb a {
+  color: #777777;
+}
+.template-minimalist-luxury .page-hero__breadcrumb span {
+  color: #8B6914;
+  font-weight: 600;
+}
+.template-minimalist-luxury .area-featured-products {
+  background: #FFFFFF !important;
+}
+.template-minimalist-luxury .product-card {
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);
+  border-radius: 12px;
+}
+
+/* 6. KORAMANGALA: Festive Fusion & Celebrations Theme */
+.template-festive-carousel .page-hero {
+  background: linear-gradient(135deg, #FFF4E8 0%, #FFEBE1 100%);
+  color: #333;
+  border-bottom: 2px solid rgba(212, 69, 106, 0.25);
+}
+.template-festive-carousel .page-hero__title {
+  color: #78122D;
+}
+.template-festive-carousel .page-hero__subtitle {
+  color: #5E3C45;
+}
+.template-festive-carousel .page-hero__breadcrumb a {
+  color: #7E5762;
+}
+.template-festive-carousel .page-hero__breadcrumb span {
+  color: #D63384;
+  font-weight: 600;
+}
+.template-festive-carousel .area-featured-products {
+  background: #FFF9F6 !important;
+}
+.template-festive-carousel .product-card {
+  border: 1px solid rgba(212, 69, 106, 0.15);
+  background: #fff;
+}
+.template-festive-carousel .badge--featured {
+  background: linear-gradient(135deg, #E65100, #C2185B) !important;
+  color: #fff !important;
+}
+
+/* 7. RAJAJINAGAR: Family Heritage & West Bangalore Corridor Theme */
+.template-family-heritage .page-hero {
+  background: linear-gradient(135deg, #271A14 0%, #150C08 100%);
+  color: #fff;
+  border-bottom: 2px solid rgba(212, 175, 55, 0.4);
+}
+.template-family-heritage .page-hero__title {
+  color: #fff;
+}
+.template-family-heritage .page-hero__subtitle {
+  color: rgba(255, 255, 255, 0.85);
+}
+.template-family-heritage .page-hero__breadcrumb a {
+  color: rgba(255, 255, 255, 0.65);
+}
+.template-family-heritage .page-hero__breadcrumb span {
+  color: #F3C966;
+}
+.template-family-heritage .area-featured-products {
+  background: #FAF6F0 !important;
+}
+.template-family-heritage .product-card {
+  border: 1px solid rgba(139, 105, 20, 0.2);
+  background: #FFFDF9;
+}
+
+/* 8. WHITEFIELD: Virtual Studio & Tech-Corridor Express Theme */
+.template-virtual-studio .page-hero {
+  background: linear-gradient(135deg, #131522 0%, #1C1830 100%);
+  color: #fff;
+  border-bottom: 2px solid rgba(212, 175, 55, 0.35);
+}
+.template-virtual-studio .page-hero__title {
+  color: #fff;
+}
+.template-virtual-studio .page-hero__subtitle {
+  color: rgba(255, 255, 255, 0.86);
+}
+.template-virtual-studio .page-hero__breadcrumb a {
+  color: rgba(255, 255, 255, 0.65);
+}
+.template-virtual-studio .page-hero__breadcrumb span {
+  color: #FFDE6A;
+}
+.template-virtual-studio .area-featured-products {
+  background: #F6F7FB !important;
+}
+.template-virtual-studio .product-card {
+  border: 1px solid rgba(30, 24, 48, 0.12);
+  border-radius: 14px;
+}
+.template-virtual-studio .product-card:hover {
+  border-color: rgba(139, 105, 20, 0.4);
+  box-shadow: 0 12px 30px rgba(25, 20, 45, 0.12);
+}
+
+/* General Area Rich Sections Responsive */
+@media (max-width: 768px) {
+  .malleshwaram-showroom-card,
+  .seo-editorial-grid {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+  }
+  .seo-editorial-grid.reverse .seo-editorial-image {
+    order: 2;
+  }
+  .seo-editorial-grid.reverse .seo-editorial-card {
+    order: 1;
+  }
+}
+

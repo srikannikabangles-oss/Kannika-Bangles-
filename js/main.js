@@ -2,6 +2,17 @@
 window.SUPPORT_PHONE = '9844758450';
 window.SUPPORT_WHATSAPP_PHONE = '919844758450';
 
+function escapeHTML(str) {
+  if (str === null || str === undefined) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+window.escapeHTML = escapeHTML;
+
 function syncPhoneNumbersDOM() {
   const supportPhone = window.SUPPORT_PHONE || '9844758450';
   const whatsappPhone = window.SUPPORT_WHATSAPP_PHONE || '919844758450';
@@ -37,11 +48,12 @@ document.addEventListener('DOMContentLoaded', () => {
   initNavbar();
   updateActiveNavLink();
   initScrollAnimations();
-  initBackToTop();
+  // initBackToTop(); // Disabled: Only one sticky button across site (WhatsApp)
   updateCartBadge();
+  updateWishlistBadges();
   initGlobalSearch();
-  initGlobalEnquirySystem(); // Floating & Modal Enquiry with FormSubmit & Admin sync
-  initStickyATC();       // Sticky add-to-cart on product pages
+  initGlobalEnquirySystem(); // Modal Enquiry with FormSubmit & Admin sync (no floating button)
+  initStickyWhatsApp();      // Single global sticky WhatsApp button across whole site
   initLucide();
 });
 
@@ -358,6 +370,20 @@ function initBackToTop() {
 }
 
 /* ─── Cart Management (MongoDB API + local fallback) ─── */
+function getLoggedInUserId() {
+  if (typeof window.getCurrentCustomer === 'function') {
+    const cust = window.getCurrentCustomer();
+    if (cust && (cust.id || cust._id)) return cust.id || cust._id;
+  }
+  try {
+    const raw = localStorage.getItem('kannika_user');
+    const u = raw ? JSON.parse(raw) : null;
+    return u && (u.id || u._id) ? (u.id || u._id) : null;
+  } catch (e) {
+    return null;
+  }
+}
+
 function getLocalCart() {
   try {
     const data = localStorage.getItem('kannika_cart');
@@ -379,7 +405,7 @@ async function getCart() {
   
   if (userId) {
     try {
-      const res = await fetch(`/api/cart?userId=${userId}`);
+      const res = await fetch(`/api/cart?userId=${encodeURIComponent(userId)}`);
       if (res.ok) {
         const dbItems = await res.json();
         const merged = dbItems.map(item => ({
@@ -401,7 +427,7 @@ async function getCart() {
 async function syncCartFromDatabase(userId) {
   if (!userId) return;
   try {
-    const res = await fetch(`/api/cart?userId=${userId}`);
+    const res = await fetch(`/api/cart?userId=${encodeURIComponent(userId)}`);
     if (res.ok) {
       const dbItems = await res.json();
       const merged = dbItems.map(item => ({
@@ -423,13 +449,80 @@ async function syncCartFromDatabase(userId) {
   }
 }
 
-async function addToCart(productId, size = '2.6', quantity = 1) {
+async function mergeGuestCartIntoDatabase(userId) {
+  if (!userId) return;
+  try {
+    const guestCart = getLocalCart();
+    if (!guestCart || guestCart.length === 0) {
+      await syncCartFromDatabase(userId);
+      return;
+    }
+
+    const response = await fetch('/api/cart/merge', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId, guestCart })
+    });
+    if (response.ok) {
+      localStorage.removeItem('kannika_cart');
+    }
+    await syncCartFromDatabase(userId);
+  } catch (err) {
+    console.warn('Failed to merge guest cart into database:', err);
+    await syncCartFromDatabase(userId);
+  }
+}
+
+// Attach helpers to window
+window.getCart = getCart;
+window.getLocalCart = getLocalCart;
+window.saveLocalCart = saveLocalCart;
+window.syncCartFromDatabase = syncCartFromDatabase;
+window.mergeGuestCartIntoDatabase = mergeGuestCartIntoDatabase;
+
+function isUserAuthenticated() {
+  if (typeof window.isCustomerLoggedIn === 'function') {
+    return window.isCustomerLoggedIn();
+  }
+  const token = localStorage.getItem('kannika_token');
+  const user = localStorage.getItem('kannika_user');
+  return !!(token && user);
+}
+window.isUserAuthenticated = isUserAuthenticated;
+
+async function addToCart(productId, size = null, quantity = 1, options = {}) {
+  const prodId = parseInt(productId);
+  const product = typeof getProductById === 'function' ? getProductById(prodId) : null;
+  const isBangle = product ? product.category === 'bangles' : true;
+  const resolvedSize = size || (isBangle ? '2.6' : 'Free Size (Adjustable)');
+
+  // Strict Login Requirement for Add to Cart
+  if (!isUserAuthenticated()) {
+    try {
+      sessionStorage.setItem('kannika_pending_cart', JSON.stringify({
+        id: prodId,
+        size: resolvedSize,
+        quantity,
+        buyNow: !!options.buyNow
+      }));
+    } catch (e) {}
+
+    if (typeof showToast === 'function') {
+      showToast('Please sign in to add items to your cart 🛍️', '🔒');
+    }
+    setTimeout(() => {
+      const currentUrl = window.location.pathname + window.location.search;
+      window.location.href = `/login?redirect=${encodeURIComponent(currentUrl)}`;
+    }, 1000);
+    return false;
+  }
+
   const cart = getLocalCart();
-  const existingIndex = cart.findIndex(item => item.id === parseInt(productId) && item.size === size);
+  const existingIndex = cart.findIndex(item => item.id === prodId && item.size === resolvedSize);
   if (existingIndex > -1) {
     cart[existingIndex].quantity += quantity;
   } else {
-    cart.push({ id: parseInt(productId), size, quantity });
+    cart.push({ id: prodId, size: resolvedSize, quantity });
   }
   saveLocalCart(cart);
   showToast('Added to cart! 🛍️');
@@ -441,13 +534,100 @@ async function addToCart(productId, size = '2.6', quantity = 1) {
       await fetch('/api/cart', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId, productId: parseInt(productId), size, quantity })
+        body: JSON.stringify({ userId, productId: prodId, size: resolvedSize, quantity })
       });
     } catch (error) {
       console.warn('API cart sync failed, local save intact:', error);
     }
   }
+  return true;
 }
+
+/* ─── Global Wishlist Management ─── */
+function getWishlist() {
+  try {
+    const list = JSON.parse(localStorage.getItem('kannika_wishlist'));
+    return Array.isArray(list) ? list : [];
+  } catch (e) {
+    return [];
+  }
+}
+
+function saveWishlist(list) {
+  try {
+    localStorage.setItem('kannika_wishlist', JSON.stringify(list));
+  } catch (e) {}
+}
+
+async function toggleWishlist(productId) {
+  const id = parseInt(productId);
+
+  // Strict Login Requirement for Wishlist
+  if (!isUserAuthenticated()) {
+    try {
+      sessionStorage.setItem('kannika_pending_wishlist', JSON.stringify({ id }));
+    } catch (e) {}
+
+    if (typeof showToast === 'function') {
+      showToast('Please sign in to save items to your wishlist ❤️', '🔒');
+    }
+    setTimeout(() => {
+      const currentUrl = window.location.pathname + window.location.search;
+      window.location.href = `/login?redirect=${encodeURIComponent(currentUrl)}`;
+    }, 1000);
+    return false;
+  }
+
+  let wishlist = getWishlist();
+  const index = wishlist.indexOf(id);
+  let added = false;
+
+  if (index > -1) {
+    wishlist.splice(index, 1);
+    added = false;
+    showToast('Removed from wishlist 🤍');
+  } else {
+    wishlist.push(id);
+    added = true;
+    showToast('Added to wishlist! ❤️');
+  }
+
+  saveWishlist(wishlist);
+  updateWishlistBadges();
+
+  const userId = getLoggedInUserId();
+  if (userId) {
+    try {
+      await fetch('/api/wishlist/toggle', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId, productId: id })
+      });
+    } catch (err) {
+      console.warn('Wishlist API toggle error:', err);
+    }
+  }
+
+  return added;
+}
+
+function updateWishlistBadges() {
+  const count = getWishlist().length;
+  document.querySelectorAll('.navbar__wishlist-badge, #wishlistCount').forEach(badge => {
+    badge.textContent = count;
+    if (badge.classList.contains('navbar__wishlist-badge')) {
+      if (count > 0) badge.classList.add('visible');
+      else badge.classList.remove('visible');
+    }
+  });
+}
+
+// Attach helpers to window
+window.getWishlist = getWishlist;
+window.saveWishlist = saveWishlist;
+window.toggleWishlist = toggleWishlist;
+window.updateWishlistBadges = updateWishlistBadges;
+
 
 // Backup & Recovery Helpers
 async function restoreCartFromBackup() {
@@ -632,7 +812,7 @@ async function getCartOrderDetails() {
     items.push({ cartItem: item, product, itemTotal });
   });
 
-  const shipping = subtotal > 5000 || subtotal === 0 ? 0 : 199;
+  const shipping = subtotal >= 5000 || subtotal === 0 ? 0 : 49;
   const total = subtotal + shipping;
 
   return { items, subtotal, savings, shipping, total };
@@ -642,38 +822,39 @@ async function buildWhatsAppOrderMessage(shippingDetails = null, orderId = null)
   const { items, subtotal, savings, shipping, total } = await getCartOrderDetails();
   if (items.length === 0) return '';
 
-  let message = '*Booking Request from Kannika Bangles Website*\n';
+  let message = `👑 *SRI KANNIKA BANGLES & JEWELS — BENGALURU*\n*Online Order Booking Request*\n`;
   if (orderId) {
-    message += `Order Reference ID: #${orderId.substring(0, 8).toUpperCase()}\n`;
+    const formattedId = orderId.startsWith('#') ? orderId : `#${orderId}`;
+    message += `🔖 *Order Reference:* ${formattedId}\n`;
   }
-  message += '\n';
+  message += `📅 *Date:* ${new Date().toLocaleDateString('en-IN')}\n\n`;
 
   if (shippingDetails) {
-    message += '*Shipping & Delivery Details:*\n';
+    message += `📍 *Delivery & Shipping Details:*\n`;
     message += `👤 Name: ${shippingDetails.name}\n`;
     message += `📞 Phone: ${shippingDetails.phone}\n`;
-    message += `📍 Address: ${shippingDetails.address}\n`;
+    message += `🏠 Address: ${shippingDetails.address}\n`;
     message += `🏙️ City/State: ${shippingDetails.city}, ${shippingDetails.state}\n`;
     message += `📮 Pincode: ${shippingDetails.pincode}\n\n`;
-    message += '*Order Items:*\n';
   }
 
+  message += `🛍️ *Order Items (${items.reduce((s, i) => s + i.cartItem.quantity, 0)} items):*\n`;
   items.forEach(({ cartItem, product, itemTotal }, index) => {
-    const category = (CATEGORIES.find(c => c.id === product.category) || {}).name || product.category;
     const prodCode = product.code || product.sku || `KB-${product.id}`;
     message += `${index + 1}. *${product.name}*\n`;
     message += `   Product ID: ${prodCode}\n`;
+    message += `   Size: ${cartItem.size || 'Free Size'}\n`;
     message += `   Quantity: ${cartItem.quantity}\n`;
     message += `   Unit Price: ${formatPrice(product.price)}\n`;
     message += `   Item Total: ${formatPrice(itemTotal)}\n\n`;
   });
 
-  message += '------------------------------\n';
+  message += `------------------------------\n`;
   message += `Subtotal: ${formatPrice(subtotal)}\n`;
   if (savings > 0) message += `Savings: -${formatPrice(savings)}\n`;
-  message += `Shipping: ${shipping === 0 ? 'FREE' : formatPrice(shipping)}\n`;
-  message += `*Final Total: ${formatPrice(total)}*\n\n`;
-  message += 'Please confirm availability and booking. Thank you!';
+  message += `Shipping: ${shipping === 0 ? 'FREE (Orders ₹5,000+)' : formatPrice(shipping)}\n`;
+  message += `*Total Amount Payable: ${formatPrice(total)}*\n\n`;
+  message += `Kindly confirm stock availability & dispatch schedule. Thank you!`;
 
   return message;
 }
@@ -684,6 +865,9 @@ async function getWhatsAppOrderUrl(shippingDetails = null, orderId = null) {
   const whatsappPhone = window.SUPPORT_WHATSAPP_PHONE || '919844758450';
   return `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(message)}`;
 }
+
+window.buildWhatsAppOrderMessage = buildWhatsAppOrderMessage;
+window.getWhatsAppOrderUrl = getWhatsAppOrderUrl;
 
 /* ─── Render Navbar HTML (reusable across pages) ─── */
 function getNavbarHTML(activePage = '') {
@@ -768,15 +952,10 @@ function getFooterHTML() {
       </div>
     </footer>
 
-    <!-- WhatsApp Float Button -->
+    <!-- WhatsApp Float Button (Only Sticky Button) -->
     <a href="https://wa.me/919844758450?text=Hi! I'm interested in your bangles collection." class="whatsapp-float" target="_blank" aria-label="Chat on WhatsApp">
       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
     </a>
-
-    <!-- Back to Top -->
-    <button class="back-to-top" aria-label="Back to top">
-      <i data-lucide="chevron-up" style="width:22px;height:22px;"></i>
-    </button>
   `;
 }
 
@@ -784,21 +963,11 @@ function getFooterHTML() {
 const STORE_CLIENT_EMAIL = 'Srikannikabangles@gmail.com';
 
 function initGlobalEnquirySystem() {
-  // 1. Inject Floating Enquiry Button if not already present
-  if (!document.getElementById('floatingEnquiryBtn')) {
-    const floatBtn = document.createElement('button');
-    floatBtn.id = 'floatingEnquiryBtn';
-    floatBtn.className = 'floating-enquiry-btn';
-    floatBtn.setAttribute('aria-label', 'Enquire Now');
-    floatBtn.onclick = () => openGlobalEnquiryModal();
-    floatBtn.innerHTML = `
-      <i data-lucide="sparkles" style="width:18px;height:18px;"></i>
-      <span>Enquire Now</span>
-    `;
-    document.body.appendChild(floatBtn);
-  }
+  // Ensure any floating enquiry button is removed so ONLY ONE sticky button (WhatsApp) remains
+  const oldFloatBtn = document.getElementById('floatingEnquiryBtn');
+  if (oldFloatBtn) oldFloatBtn.remove();
 
-  // 2. Inject Global Enquiry Modal if not already present
+  // Inject Global Enquiry Modal if not already present
   if (!document.getElementById('globalEnquiryModal')) {
     const modal = document.createElement('div');
     modal.id = 'globalEnquiryModal';
@@ -839,7 +1008,7 @@ function initGlobalEnquirySystem() {
               <label for="eqInterest">Jewellery Category of Interest</label>
               <select id="eqInterest" name="interest">
                 <option value="Saree & Lehenga Matching Consultation">👗 Saree &amp; Lehenga Matching Consultation</option>
-                <option value="Book a 5-Min Live Video Call">🎥 Book a 5-Min Live Video Call</option>
+                <option value="WhatsApp Bridal Styling">💬 WhatsApp Bridal Styling</option>
                 <option value="Bridal Jewellery Bangalore Sets">✨ Complete Bridal Suite / Wedding Set</option>
                 <option value="Temple Jewellery & Nakshi Harams">🛕 Antique Temple Jewellery &amp; Harams</option>
                 <option value="Bridal Bangles & Kadas">⭕ Bridal Bangles &amp; Kadas</option>
@@ -1209,45 +1378,40 @@ function fixIOSInputZoom() {
   observer.observe(document.body, { childList: true, subtree: true });
 }
 
-/* ─── Sticky Add-to-Cart Bar (Product Detail Pages — Mobile Only) ─── */
-function initStickyATC() {
-  const pdActions = document.querySelector('.pd__actions');
-  if (!pdActions) return;
-  if (window.innerWidth > 768) return;
+/* ─── Single Global Sticky WhatsApp Button Across Whole Site ─── */
+function initStickyWhatsApp() {
+  // 1. Remove any other competing sticky bars (e.g. mobile sticky ATC)
+  const stickyAtc = document.querySelector('.pd__sticky-atc');
+  if (stickyAtc) stickyAtc.remove();
 
-  const pdPrice = document.querySelector('.pd__price');
-  const pdAddBtn = document.querySelector('.pd__add-btn, .pd__actions .btn--primary');
-  if (!pdPrice || !pdAddBtn) return;
+  // 2. Remove floating enquiry button if present
+  const floatEnquiry = document.getElementById('floatingEnquiryBtn');
+  if (floatEnquiry) floatEnquiry.remove();
 
-  const stickyBar = document.createElement('div');
-  stickyBar.className = 'pd__sticky-atc';
-  stickyBar.innerHTML = `
-    <div class="pd__sticky-atc__price">${pdPrice.textContent}</div>
-    <button class="pd__sticky-atc__btn" id="stickyAddBtn">
-      <i data-lucide="shopping-bag" style="width:16px;height:16px;"></i>
-      Add to Cart
-    </button>
-  `;
-  document.body.appendChild(stickyBar);
-  if (typeof lucide !== 'undefined') lucide.createIcons();
+  // 3. Remove back-to-top buttons so only WhatsApp is sticky
+  document.querySelectorAll('.back-to-top').forEach(el => el.remove());
 
-  const stickyBtn = document.getElementById('stickyAddBtn');
-  if (stickyBtn) {
-    stickyBtn.addEventListener('click', () => {
-      hapticFeedback('success');
-      pdAddBtn.click();
-    });
+  // 4. Ensure strictly ONE WhatsApp float button in the entire DOM
+  const existingButtons = document.querySelectorAll('.whatsapp-float');
+  const whatsappPhone = window.SUPPORT_WHATSAPP_PHONE || '919844758450';
+  const waUrl = `https://wa.me/${whatsappPhone}?text=${encodeURIComponent("Hi! I'm interested in your bangles collection.")}`;
+
+  if (existingButtons.length > 1) {
+    // Keep only the first one, remove any duplicates
+    for (let i = 1; i < existingButtons.length; i++) {
+      existingButtons[i].remove();
+    }
+  } else if (existingButtons.length === 0) {
+    // Inject single sticky WhatsApp button if not present in static HTML
+    const wa = document.createElement('a');
+    wa.href = waUrl;
+    wa.className = 'whatsapp-float';
+    wa.target = '_blank';
+    wa.rel = 'noopener';
+    wa.setAttribute('aria-label', 'Chat on WhatsApp');
+    wa.innerHTML = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>`;
+    document.body.appendChild(wa);
   }
-
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach(entry => {
-        stickyBar.classList.toggle('visible', !entry.isIntersecting);
-      });
-    },
-    { threshold: 0.1, rootMargin: '0px 0px -20px 0px' }
-  );
-  observer.observe(pdActions);
 }
 
 /* ─── Touch Press Feedback on Product Cards (Mobile) ─── */
@@ -1262,4 +1426,99 @@ document.addEventListener('DOMContentLoaded', () => {
       }, { passive: true });
     });
   }
+
+  // Universal Contact & Consultation Form Handler for All Pages
+  document.querySelectorAll('form.contact-form, #pageContactForm, #areaContactForm, #quickContactForm, #consultationForm').forEach(form => {
+    // Avoid double attaching if contact.html already has an attached listener
+    if (form.getAttribute('data-has-global-listener')) return;
+    form.setAttribute('data-has-global-listener', 'true');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = form.querySelector('button[type="submit"]');
+      const originalBtnText = btn ? btn.innerHTML : 'Submit';
+
+      const hpInput = form.querySelector('input[name="hp_check"], input[id*="HpCheck"]');
+      const hpVal = hpInput ? hpInput.value.trim() : '';
+      if (hpVal) {
+        // Bot honeypot triggered
+        form.reset();
+        if (typeof showToast === 'function') showToast('Thank you! Your enquiry has been received.', '💌');
+        return;
+      }
+
+      const nameInput = form.querySelector('input[id*="Name"], input[name="name"]');
+      const emailInput = form.querySelector('input[id*="Email"], input[name="email"]');
+      const phoneInput = form.querySelector('input[id*="Phone"], input[name="phone"]');
+      const messageInput = form.querySelector('textarea[id*="Message"], textarea[name="message"]');
+
+      const name = nameInput ? nameInput.value.trim() : '';
+      const email = emailInput ? emailInput.value.trim() : '';
+      const phone = phoneInput ? phoneInput.value.trim() : '';
+      const message = messageInput ? messageInput.value.trim() : '';
+      const pageTitle = document.title || window.location.pathname;
+
+      if (!name || (!email && !phone)) {
+        if (typeof showToast === 'function') {
+          showToast('Please provide your name and phone/email', '⚠️');
+        } else {
+          alert('Please provide your name and phone or email.');
+        }
+        return;
+      }
+
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = 'Submitting Enquiry...';
+      }
+
+      try {
+        const payload = {
+          name,
+          email: email || 'not-provided@kannikabangles.com',
+          phone: phone || 'Not provided',
+          message: message || `Enquiry from page: ${pageTitle}`,
+          source: pageTitle,
+          hp_check: hpVal
+        };
+
+        const formSubmitPromise = fetch('https://formsubmit.co/ajax/Srikannikabangles@gmail.com', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({
+            ...payload,
+            _subject: `New Customer Enquiry from ${name} (${pageTitle})`,
+            _captcha: 'false',
+            _template: 'table'
+          })
+        }).catch(err => console.warn('FormSubmit status:', err));
+
+        const dbPromise = fetch('/api/inquiries', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        }).catch(err => console.warn('DB status:', err));
+
+        await Promise.allSettled([formSubmitPromise, dbPromise]);
+
+        form.reset();
+        if (typeof showToast === 'function') {
+          showToast('Thank you! Your enquiry has been received by our stylists.', '💌');
+        } else {
+          alert('Thank you! Your enquiry has been received by our stylists.');
+        }
+      } catch (err) {
+        console.error('Enquiry submission error:', err);
+        if (typeof showToast === 'function') {
+          showToast('Something went wrong. Please connect via WhatsApp.', '⚠️');
+        }
+      } finally {
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = originalBtnText;
+        }
+      }
+    });
+  });
 });
+

@@ -13,7 +13,7 @@ function get(url) {
 (async () => {
   const shop = await get('http://localhost:3001/shop');
   const cart = await get('http://localhost:3001/cart.html');
-  const prod29 = await get('http://localhost:3001/product/29');
+  const prod29 = await get('http://localhost:3001/product/30');
 
   console.log('Shop contains ?3,000:', shop.includes('?3,000'));
   console.log('Shop contains ?3,000:', shop.includes('?3,000'));
