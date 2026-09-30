@@ -2753,35 +2753,35 @@ main:not(.login-page):not(.not-found-section),
   border-radius: 14px;
 }
 
-/* ─── Dual-Image Grid (Square 1:1 Aspect Ratio: Bangles Fully Seen & Crisp) ─── */
+/* ─── Dual-Image Grid (Enlarged Size: Kept One Below Another for High-Res Detail) ─── */
 .seo-dual-images {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
   width: 100%;
-  align-items: start;
+  align-items: stretch;
 }
 
 .seo-dual-images .seo-editorial-image {
   width: 100%;
-  max-width: none;
-  aspect-ratio: 1 / 1;
+  max-width: 100%;
+  aspect-ratio: 16 / 10;
   height: auto;
-  border-radius: 12px;
+  border-radius: 14px;
   overflow: hidden;
   position: relative;
-  box-shadow: 0 6px 18px rgba(59, 24, 62, 0.06);
-  border: 1px solid rgba(212, 175, 55, 0.25);
+  box-shadow: 0 8px 24px rgba(59, 24, 62, 0.08);
+  border: 1px solid rgba(212, 175, 55, 0.3);
 }
 
 .seo-dual-images .seo-editorial-image img {
   width: 100%;
   height: 100%;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 16 / 10;
   object-fit: cover;
   object-position: center;
   display: block;
-  border-radius: 12px;
+  border-radius: 14px;
   transition: transform 0.35s ease;
 }
 
@@ -5083,12 +5083,12 @@ body.has-announcement.scrolled-down .royal-trust-bar {
    ===================================================== */
 
 /* 1. Base Navbar Clearance (Desktop & Mobile) */
-body:not(.home-page) {
+body:not(.home-page):not(.has-announcement) {
   padding-top: var(--nav-height, 72px) !important;
 }
 
 @media (max-width: 768px) {
-  body:not(.home-page) {
+  body:not(.home-page):not(.has-announcement) {
     padding-top: 60px !important;
   }
 

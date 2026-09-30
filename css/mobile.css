@@ -1355,6 +1355,21 @@ body:not(.home-page) {
     gap: 12px !important;
   }
 
+  /* 14. Shop Category Trust Strip on Mobile */
+  .shop-trust-strip {
+    padding: 32px 0 !important;
+  }
+  .shop-trust-strip .container > div:last-child > div {
+    padding: 16px 16px !important;
+    gap: 14px !important;
+  }
+  .shop-trust-strip h4 {
+    font-size: 0.96rem !important;
+  }
+  .shop-trust-strip p {
+    font-size: 0.82rem !important;
+  }
+
   /* Extra bottom padding on mobile body so bottom nav never covers content */
   body {
     padding-bottom: 70px !important;
