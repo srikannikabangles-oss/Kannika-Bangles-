@@ -160,11 +160,13 @@ function initNavbar() {
       requestAnimationFrame(() => {
         const currentScrollY = window.scrollY;
 
-        // Apply scrolled class (glassmorphism bg)
+        // Apply scrolled class (glassmorphism bg) and scrolled-down state on body
         if (currentScrollY > 20) {
           navbar.classList.add('scrolled');
+          document.body.classList.add('scrolled-down');
         } else {
           navbar.classList.remove('scrolled');
+          document.body.classList.remove('scrolled-down');
         }
 
         // Smart hide/show on mobile only
@@ -192,6 +194,7 @@ function initNavbar() {
   // Check initial scroll position
   if (window.scrollY > 20) {
     navbar.classList.add('scrolled');
+    document.body.classList.add('scrolled-down');
   }
 
   // CSS transition for smart hide/show

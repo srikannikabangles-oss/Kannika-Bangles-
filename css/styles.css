@@ -77,13 +77,15 @@
   /* Layout */
   --container-max: 1320px;
   --container-narrow: 960px;
-  --nav-height: 80px;
+  --nav-height: 72px;
   --topbar-height: 0px;
+  --announcement-height: 34px;
 
   /* Z-Index */
-  --z-nav: 1000;
-  --z-modal: 2000;
-  --z-toast: 3000;
+  --z-nav: 10001;
+  --z-announcement: 10002;
+  --z-modal: 20000;
+  --z-toast: 30000;
 }
 
 /* ─── CSS Reset ─── */
@@ -217,14 +219,30 @@ h4 { font-size: clamp(1.25rem, 2vw, 1.5rem); }
   display: none !important;
 }
 
-/* ─── Universal Subpage Top Offset (Prevents fixed navbar from overlapping page content) ─── */
-body:not(.home-page) {
-  padding-top: calc(var(--nav-height, 72px) + 20px) !important;
+/* ─── Universal Top Page Clearance (Ensures fixed navbar & announcement bar never overlap page content) ─── */
+body {
+  padding-top: var(--nav-height, 72px);
+}
+
+body.has-announcement {
+  padding-top: calc(var(--nav-height, 72px) + var(--announcement-height, 34px)) !important;
+}
+
+body:not(.home-page):not(.has-announcement) {
+  padding-top: calc(var(--nav-height, 72px) + 16px) !important;
 }
 
 @media (max-width: 768px) {
-  body:not(.home-page) {
-    padding-top: calc(60px + 16px) !important;
+  body {
+    padding-top: var(--nav-height, 58px);
+  }
+
+  body.has-announcement {
+    padding-top: calc(var(--nav-height, 58px) + var(--announcement-height, 30px)) !important;
+  }
+
+  body:not(.home-page):not(.has-announcement) {
+    padding-top: calc(var(--nav-height, 58px) + 12px) !important;
   }
 }
 
@@ -237,9 +255,10 @@ body:not(.home-page) {
   width: 100% !important;
   max-width: 100% !important;
   margin: 0 !important;
-  z-index: var(--z-nav, 1000);
+  height: var(--nav-height, 72px);
+  z-index: var(--z-nav, 10001);
   padding: 0;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  transition: top 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), background-color 0.3s ease, box-shadow 0.3s ease;
   background: #3B0C18 !important; /* Deep solid royal maroon/wine */
   border-top: none !important;
   border-left: none !important;
@@ -249,6 +268,12 @@ body:not(.home-page) {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
 }
 
+body.has-announcement .navbar {
+  top: var(--announcement-height, 34px) !important;
+}
+
+body.scrolled-down .navbar,
+body.has-announcement.scrolled-down .navbar,
 .navbar.scrolled {
   top: 0 !important;
   background: #2e0813 !important;
@@ -3276,7 +3301,7 @@ main:not(.login-page):not(.not-found-section),
   display: block !important;
   background: radial-gradient(circle at 85% 40%, rgba(248, 230, 240, 0.7) 0%, rgba(253, 246, 250, 0.95) 50%, #fdf7fa 100%),
               linear-gradient(135deg, #f7edf3 0%, #faedf2 40%, #f9f0f6 70%, #f5e9f1 100%) !important;
-  padding: calc(72px + 32px) 0 60px !important;
+  padding: 24px 0 50px !important;
   overflow: hidden;
   border-bottom: 1px solid rgba(181, 108, 77, 0.15);
 }
@@ -3833,7 +3858,7 @@ main:not(.login-page):not(.not-found-section),
 
 @media (max-width: 768px) {
   .hero.hero--lux-editorial {
-    padding: 30px 0 45px !important;
+    padding: 20px 0 36px !important;
   }
   .lux-hero__grid {
     grid-template-columns: 1fr;
@@ -4612,46 +4637,123 @@ main:not(.login-page):not(.not-found-section),
    Trust Emblems, 4-Step Concierge Journey & Reassurance Badges
    ===================================================== */
 
-/* ─── Top Trust Banner (Sleek Royal Announcement Strip) ─── */
+/* ─── Top Trust Banner (Strictly ONE Line Only) ─── */
 .royal-trust-bar {
-  background: linear-gradient(90deg, #2A0812 0%, #4A1020 50%, #2A0812 100%);
-  border-bottom: 1px solid rgba(212, 175, 55, 0.4);
-  color: #F7E7CE;
-  padding: 8px 16px;
-  font-size: 0.82rem;
-  letter-spacing: 0.04em;
-  text-align: center;
-  position: relative;
-  z-index: 1001;
+  background: linear-gradient(90deg, #1c050c 0%, #3d0c19 50%, #1c050c 100%) !important;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.35) !important;
+  color: #F8E8D0 !important;
+  padding: 0 16px !important;
+  font-size: 0.78rem !important;
+  letter-spacing: 0.03em !important;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  height: var(--announcement-height, 34px) !important;
+  min-height: var(--announcement-height, 34px) !important;
+  max-height: var(--announcement-height, 34px) !important;
+  line-height: var(--announcement-height, 34px) !important;
+  z-index: var(--z-announcement, 10002) !important;
+  overflow: hidden !important;
+  white-space: nowrap !important;
+  text-overflow: ellipsis !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-sizing: border-box !important;
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.35s ease !important;
+  user-select: none;
 }
+
+body.scrolled-down .royal-trust-bar,
+body.has-announcement.scrolled-down .royal-trust-bar {
+  transform: translateY(-100%) !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
 .royal-trust-bar__inner {
-  max-width: var(--container-max);
+  max-width: 1440px;
+  width: 100%;
   margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-wrap: wrap;
-  gap: 10px 24px;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  height: 100%;
 }
+
+.royal-trust-bar__track {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  white-space: nowrap !important;
+}
+
+.royal-trust-bar__content {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  white-space: nowrap !important;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.royal-trust-bar__mobile-duplicate {
+  display: none !important;
+}
+
 .royal-trust-bar__pill {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-weight: 500;
+  white-space: nowrap !important;
 }
-.royal-trust-bar__pill strong {
+
+.royal-trust-bar strong {
   color: #FFDF8C;
   font-weight: 700;
 }
+
+.royal-trust-bar__badge,
 .royal-trust-bar__pill-badge {
-  background: rgba(37, 211, 102, 0.2);
-  color: #25D366;
-  border: 1px solid rgba(37, 211, 102, 0.4);
-  border-radius: 999px;
-  padding: 1px 8px;
-  font-size: 0.72rem;
-  font-weight: 700;
-  text-transform: uppercase;
+  background: rgba(37, 211, 102, 0.2) !important;
+  color: #38E47B !important;
+  border: 1px solid rgba(37, 211, 102, 0.45) !important;
+  border-radius: 999px !important;
+  padding: 1px 8px !important;
+  font-size: 0.70rem !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  white-space: nowrap !important;
+}
+
+.royal-trust-bar__sep {
+  color: rgba(212, 175, 55, 0.6);
+  font-size: 0.82rem;
+}
+
+.royal-trust-bar__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap !important;
+}
+
+.royal-trust-icon {
+  width: 13px;
+  height: 13px;
+  color: #FFDF8C;
+  display: inline-block;
+  vertical-align: middle;
+  flex-shrink: 0;
 }
 
 /* ─── Superpower Section (Homepage Feature) ─── */
