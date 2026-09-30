@@ -27,7 +27,8 @@ const PRODUCTS = [
     ],
     "inStock": true,
     "badge": "bestseller",
-    "featured": true
+    "featured": true,
+    "slug": "antique-gold-kada"
   },
   {
     "id": 15,
@@ -51,7 +52,8 @@ const PRODUCTS = [
     ],
     "inStock": true,
     "badge": "bestseller",
-    "featured": true
+    "featured": true,
+    "slug": "floral-ad-pendant"
   },
   {
     "id": 35,
@@ -75,7 +77,8 @@ const PRODUCTS = [
     ],
     "inStock": true,
     "badge": "bestseller",
-    "featured": true
+    "featured": true,
+    "slug": "floral-pearl-jhumka"
   },
   {
     "id": 2,
@@ -101,15 +104,16 @@ const PRODUCTS = [
     ],
     "inStock": true,
     "badge": "new",
-    "featured": true
+    "featured": true,
+    "slug": "ruby-bridal-bangle"
   },
   {
     "id": 30,
     "code": "KB-NEC-030",
     "sku": "KB-NEC-030",
-    "type": "necklaces",
+    "type": "head-jewellery",
     "name": "Ruby Pearl Tikka",
-    "category": "necklaces",
+    "category": "head-jewellery",
     "price": 1080,
     "originalPrice": 1600,
     "image": "images/necklaces/IMG-20260717-WA0003.jpg",
@@ -125,7 +129,8 @@ const PRODUCTS = [
     ],
     "inStock": true,
     "badge": "featured",
-    "featured": true
+    "featured": true,
+    "slug": "ruby-pearl-tikka"
   },
   {
     "id": 16,
@@ -149,7 +154,8 @@ const PRODUCTS = [
     ],
     "inStock": true,
     "badge": "trending",
-    "featured": true
+    "featured": true,
+    "slug": "peacock-jadau-set"
   },
   {
     "id": 36,
@@ -173,7 +179,8 @@ const PRODUCTS = [
     ],
     "inStock": true,
     "badge": "featured",
-    "featured": true
+    "featured": true,
+    "slug": "classic-temple-jhumka"
   },
   {
     "id": 3,
@@ -199,7 +206,8 @@ const PRODUCTS = [
     ],
     "inStock": true,
     "badge": "popular",
-    "featured": true
+    "featured": true,
+    "slug": "floral-diamond-bangle"
   },
   {
     "id": 17,
@@ -223,7 +231,8 @@ const PRODUCTS = [
     ],
     "inStock": true,
     "badge": null,
-    "featured": true
+    "featured": true,
+    "slug": "emerald-drop-pendant"
   },
   {
     "id": 37,
@@ -247,7 +256,8 @@ const PRODUCTS = [
     ],
     "inStock": true,
     "badge": "trending",
-    "featured": true
+    "featured": true,
+    "slug": "grand-kemp-jhumka"
   },
   {
     "id": 4,
@@ -273,15 +283,16 @@ const PRODUCTS = [
     ],
     "inStock": true,
     "badge": "trending",
-    "featured": true
+    "featured": true,
+    "slug": "classic-temple-kada"
   },
   {
     "id": 32,
     "code": "KB-NEC-032",
     "sku": "KB-NEC-032",
-    "type": "necklaces",
+    "type": "head-jewellery",
     "name": "Royal Pearl Passa",
-    "category": "necklaces",
+    "category": "head-jewellery",
     "price": 1680,
     "originalPrice": 2200,
     "image": "images/necklaces/IMG-20260717-WA0007.jpg",
@@ -297,7 +308,8 @@ const PRODUCTS = [
     ],
     "inStock": true,
     "badge": "trending",
-    "featured": true
+    "featured": true,
+    "slug": "royal-pearl-passa"
   },
   {
     "id": 18,
@@ -321,7 +333,8 @@ const PRODUCTS = [
     ],
     "inStock": true,
     "badge": "popular",
-    "featured": true
+    "featured": true,
+    "slug": "royal-ruby-pendant"
   },
   {
     "id": 38,
@@ -345,7 +358,8 @@ const PRODUCTS = [
     ],
     "inStock": true,
     "badge": null,
-    "featured": true
+    "featured": true,
+    "slug": "royal-peacock-jhumka"
   },
   {
     "id": 5,
@@ -371,7 +385,8 @@ const PRODUCTS = [
     ],
     "inStock": true,
     "badge": "royal",
-    "featured": true
+    "featured": true,
+    "slug": "grand-royal-kada"
   },
   {
     "id": 33,
@@ -395,7 +410,8 @@ const PRODUCTS = [
     ],
     "inStock": true,
     "badge": "royal",
-    "featured": true
+    "featured": true,
+    "slug": "grand-bridal-choker"
   },
   {
     "id": 19,
@@ -419,7 +435,8 @@ const PRODUCTS = [
     ],
     "inStock": true,
     "badge": "featured",
-    "featured": true
+    "featured": true,
+    "slug": "kundan-temple-set"
   },
   {
     "id": 39,
@@ -443,7 +460,8 @@ const PRODUCTS = [
     ],
     "inStock": true,
     "badge": null,
-    "featured": true
+    "featured": true,
+    "slug": "ruby-stone-jhumka"
   },
   {
     "id": 6,
@@ -469,7 +487,8 @@ const PRODUCTS = [
     ],
     "inStock": true,
     "badge": null,
-    "featured": true
+    "featured": true,
+    "slug": "peacock-gold-bangle"
   },
   {
     "id": 34,
@@ -493,7 +512,8 @@ const PRODUCTS = [
     ],
     "inStock": true,
     "badge": "new",
-    "featured": true
+    "featured": true,
+    "slug": "kundan-pearl-choker"
   },
   {
     "id": 20,
@@ -517,7 +537,8 @@ const PRODUCTS = [
     ],
     "inStock": true,
     "badge": null,
-    "featured": true
+    "featured": true,
+    "slug": "classic-pearl-pendant"
   },
   {
     "id": 40,
@@ -541,7 +562,8 @@ const PRODUCTS = [
     ],
     "inStock": true,
     "badge": "featured",
-    "featured": true
+    "featured": true,
+    "slug": "emerald-stud-jhumka"
   },
   {
     "id": 7,
@@ -567,7 +589,8 @@ const PRODUCTS = [
     ],
     "inStock": true,
     "badge": "featured",
-    "featured": true
+    "featured": true,
+    "slug": "kundan-bridal-bangle"
   },
   {
     "id": 21,
@@ -591,7 +614,8 @@ const PRODUCTS = [
     ],
     "inStock": true,
     "badge": null,
-    "featured": true
+    "featured": true,
+    "slug": "antique-gold-set"
   },
   {
     "id": 41,
@@ -615,7 +639,8 @@ const PRODUCTS = [
     ],
     "inStock": true,
     "badge": null,
-    "featured": true
+    "featured": true,
+    "slug": "pearl-drop-earring"
   },
   {
     "id": 8,
@@ -641,7 +666,8 @@ const PRODUCTS = [
     ],
     "inStock": true,
     "badge": null,
-    "featured": true
+    "featured": true,
+    "slug": "traditional-gold-kada"
   },
   {
     "id": 22,
@@ -665,7 +691,8 @@ const PRODUCTS = [
     ],
     "inStock": true,
     "badge": "trending",
-    "featured": true
+    "featured": true,
+    "slug": "grand-floral-pendant"
   },
   {
     "id": 42,
@@ -689,7 +716,8 @@ const PRODUCTS = [
     ],
     "inStock": true,
     "badge": "royal",
-    "featured": true
+    "featured": true,
+    "slug": "heritage-jadau-jhumka"
   },
   {
     "id": 9,
@@ -715,7 +743,8 @@ const PRODUCTS = [
     ],
     "inStock": true,
     "badge": "trending",
-    "featured": true
+    "featured": true,
+    "slug": "heritage-kemp-bangle"
   },
   {
     "id": 23,
@@ -739,7 +768,8 @@ const PRODUCTS = [
     ],
     "inStock": true,
     "badge": "royal",
-    "featured": true
+    "featured": true,
+    "slug": "bridal-diamond-set"
   },
   {
     "id": 43,
@@ -763,7 +793,8 @@ const PRODUCTS = [
     ],
     "inStock": true,
     "badge": null,
-    "featured": true
+    "featured": true,
+    "slug": "floral-gold-earring"
   },
   {
     "id": 10,
@@ -789,7 +820,8 @@ const PRODUCTS = [
     ],
     "inStock": true,
     "badge": null,
-    "featured": true
+    "featured": true,
+    "slug": "floral-stone-bangle"
   },
   {
     "id": 24,
@@ -813,7 +845,8 @@ const PRODUCTS = [
     ],
     "inStock": true,
     "badge": null,
-    "featured": true
+    "featured": true,
+    "slug": "heritage-kemp-pendant"
   },
   {
     "id": 44,
@@ -837,7 +870,8 @@ const PRODUCTS = [
     ],
     "inStock": true,
     "badge": "bestseller",
-    "featured": true
+    "featured": true,
+    "slug": "antique-ruby-studs"
   },
   {
     "id": 11,
@@ -863,7 +897,8 @@ const PRODUCTS = [
     ],
     "inStock": true,
     "badge": null,
-    "featured": true
+    "featured": true,
+    "slug": "filigree-gold-kada"
   },
   {
     "id": 25,
@@ -887,7 +922,8 @@ const PRODUCTS = [
     ],
     "inStock": true,
     "badge": "featured",
-    "featured": true
+    "featured": true,
+    "slug": "imperial-jadau-set"
   },
   {
     "id": 45,
@@ -911,7 +947,8 @@ const PRODUCTS = [
     ],
     "inStock": true,
     "badge": "trending",
-    "featured": true
+    "featured": true,
+    "slug": "bridal-kemp-drops"
   },
   {
     "id": 12,
@@ -937,7 +974,8 @@ const PRODUCTS = [
     ],
     "inStock": true,
     "badge": "royal",
-    "featured": true
+    "featured": true,
+    "slug": "imperial-bridal-kada"
   },
   {
     "id": 26,
@@ -961,7 +999,8 @@ const PRODUCTS = [
     ],
     "inStock": true,
     "badge": null,
-    "featured": true
+    "featured": true,
+    "slug": "royal-crown-pendant"
   },
   {
     "id": 46,
@@ -985,7 +1024,8 @@ const PRODUCTS = [
     ],
     "inStock": true,
     "badge": "new",
-    "featured": true
+    "featured": true,
+    "slug": "peacock-temple-studs"
   },
   {
     "id": 13,
@@ -1011,7 +1051,8 @@ const PRODUCTS = [
     ],
     "inStock": true,
     "badge": null,
-    "featured": true
+    "featured": true,
+    "slug": "delicate-stone-bangle"
   },
   {
     "id": 27,
@@ -1035,7 +1076,8 @@ const PRODUCTS = [
     ],
     "inStock": true,
     "badge": null,
-    "featured": true
+    "featured": true,
+    "slug": "emerald-pearl-set"
   },
   {
     "id": 14,
@@ -1061,7 +1103,8 @@ const PRODUCTS = [
     ],
     "inStock": true,
     "badge": "featured",
-    "featured": true
+    "featured": true,
+    "slug": "royal-antique-bangle"
   },
   {
     "id": 28,
@@ -1085,7 +1128,8 @@ const PRODUCTS = [
     ],
     "inStock": true,
     "badge": null,
-    "featured": true
+    "featured": true,
+    "slug": "classic-gold-pendant"
   },
   {
     "id": 47,
@@ -1109,16 +1153,48 @@ const PRODUCTS = [
     ],
     "inStock": true,
     "badge": "royal",
-    "featured": true
+    "featured": true,
+    "slug": "heritage-lakshmi-temple-haram"
   }
 ];
 
 const CATEGORIES = [
-  { id: "all", name: "All Collections", icon: "gem", count: 45 },
-  { id: "bangles", name: "Bangles", icon: "circle", count: 14 },
-  { id: "pendant-sets", name: "Pendant Sets", icon: "sparkles", count: 14 },
-  { id: "necklaces", name: "Necklaces", icon: "gem", count: 5 },
-  { id: "earrings", name: "Earrings", icon: "sparkles", count: 12 }
+  {
+    "id": "all",
+    "name": "All Collections",
+    "icon": "gem",
+    "count": 45
+  },
+  {
+    "id": "bangles",
+    "name": "Bangles",
+    "icon": "circle",
+    "count": 14
+  },
+  {
+    "id": "pendant-sets",
+    "name": "Pendant Sets",
+    "icon": "sparkles",
+    "count": 14
+  },
+  {
+    "id": "necklaces",
+    "name": "Necklaces",
+    "icon": "gem",
+    "count": 3
+  },
+  {
+    "id": "earrings",
+    "name": "Earrings",
+    "icon": "sparkles",
+    "count": 12
+  },
+  {
+    "id": "head-jewellery",
+    "name": "Head Jewellery",
+    "icon": "crown",
+    "count": 2
+  }
 ];
 
 const TESTIMONIALS = [
@@ -1151,6 +1227,23 @@ function getActiveProducts() {
     return window.PRODUCTS;
   }
   return PRODUCTS;
+}
+
+function getProductSlug(product) {
+  if (!product || !product.name) return '';
+  return product.slug || product.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+}
+
+function getProductBySlug(slug) {
+  if (!slug) return null;
+  const clean = slug.trim().toLowerCase();
+  const list = getActiveProducts();
+  return list.find(p => (p.slug && p.slug.toLowerCase() === clean) || getProductSlug(p) === clean);
+}
+
+if (typeof window !== 'undefined') {
+  window.getProductSlug = getProductSlug;
+  window.getProductBySlug = getProductBySlug;
 }
 
 function getProductById(id) {
@@ -1249,5 +1342,5 @@ if (typeof window !== 'undefined') {
 }
 
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { PRODUCTS, CATEGORIES, getProductById, fetchLiveProducts };
+  module.exports = { PRODUCTS, CATEGORIES, getProductById, getProductBySlug, getProductSlug, fetchLiveProducts };
 }

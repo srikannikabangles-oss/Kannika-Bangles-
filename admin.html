@@ -1155,7 +1155,7 @@
       </div>
       <div id="modalInquiryBody" style="font-size:0.92rem; line-height:1.6; color:var(--text-main);">
         <!-- Injected dynamically -->
-      </div>
+      
     </div>
   </div>
 
@@ -1799,7 +1799,7 @@
 
       tbody.innerHTML = filtered.map(p => {
         const prodCode = p.code || p.sku || (p.category === 'bangles' ? `KB-BAN-${String(p.id).padStart(3,'0')}` : p.category === 'pendant-sets' ? `KB-PEN-${String(p.id).padStart(3,'0')}` : p.category === 'necklaces' ? `KB-NEC-${String(p.id).padStart(3,'0')}` : `KB-EAR-${String(p.id).padStart(3,'0')}`);
-        const waMsg = encodeURIComponent(`Hi Sri Kannika Bangles! I am interested in inquiring about:\n\n✨ Product: ${p.name}\n🏷️ Product ID: ${prodCode}\n💰 Price: ₹${p.price.toLocaleString('en-IN')}\n🔗 Link: https://kannikabangles.com/product/${p.id}\n\nPlease confirm availability and delivery details.`);
+        const waMsg = encodeURIComponent(`Hi Sri Kannika Bangles! I am interested in inquiring about:\n\n✨ Product: ${p.name}\n🏷️ Product ID: ${prodCode}\n💰 Price: ₹${p.price.toLocaleString('en-IN')}\n🔗 Link: https://kannikabangles.com/products/${(typeof getProductSlug === 'function' ? getProductSlug(p) : p.slug) || p.id}\n\nPlease confirm availability and delivery details.`);
         const imgSrc = (p.image || '').startsWith('/') ? p.image : `/${p.image || 'images/kannika_logo.jpeg'}`;
         return `
         <tr>

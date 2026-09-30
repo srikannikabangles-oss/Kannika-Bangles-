@@ -95,6 +95,14 @@ app.get(['/shop.html', '/shop-template.html'], (req, res) => {
   return res.redirect(301, '/shop');
 });
 
+// 301 Redirects: duplicate bangle sizing blogs → canonical calculator (per PDF audit)
+app.get([
+  '/blog/bangle-size-guide-and-wrist-measurement',
+  '/blog/indian-bangle-size-chart-how-to-measure-wrist-size'
+], (req, res) => {
+  return res.redirect(301, '/bangle-size-chart-calculator');
+});
+
 // Connect to MongoDB
 mongoose.connect(MONGODB_URI)
   .then(() => console.log('Connected to MongoDB successfully!'))
@@ -103,6 +111,7 @@ mongoose.connect(MONGODB_URI)
 // MongoDB Schemas & Models
 const productSchema = new mongoose.Schema({
   id: { type: Number, required: true, unique: true },
+  slug: { type: String, index: true },
   code: { type: String },
   sku: { type: String },
   type: { type: String, required: true },
@@ -375,11 +384,24 @@ app.get('/api/products', async (req, res) => {
   }
 });
 
-// 2. Get product by ID
-app.get('/api/products/:id', async (req, res) => {
+// 2. Get product by ID or Slug
+app.get(['/api/products/:idOrSlug', '/api/products/slug/:slug'], async (req, res) => {
   try {
-    const id = parseInt(req.params.id);
-    const product = await Product.findOne({ id: id });
+    const param = (req.params.slug || req.params.idOrSlug || '').trim();
+    let product = null;
+    if (/^\d+$/.test(param)) {
+      product = await Product.findOne({ id: parseInt(param) });
+    } else {
+      product = await Product.findOne({ slug: param.toLowerCase() });
+      if (!product) {
+        product = await Product.findOne({
+          $or: [
+            { code: new RegExp('^' + param + '$', 'i') },
+            { name: new RegExp('^' + param.replace(/-/g, ' ') + '$', 'i') }
+          ]
+        });
+      }
+    }
     if (!product) {
       return res.status(404).json({ error: 'Product not found' });
     }
@@ -1200,34 +1222,94 @@ function getCategoryDisplayName(cat) {
     'bangles': 'Bangles',
     'pendant-sets': 'Pendant Sets',
     'necklaces': 'Necklaces',
-    'earrings': 'Earrings'
+    'earrings': 'Earrings',
+    'head-jewellery': 'Head Jewellery'
   };
-  return map[cat] || cat;
+  return map[cat] || (cat ? cat.charAt(0).toUpperCase() + cat.slice(1).replace(/-/g, ' ') : '');
 }
 
-// SSR Dynamic Product Page with pre-rendered Content, Schema & OpenGraph
-app.get(['/product/:id', '/product.html', '/product-template.html'], async (req, res, next) => {
-  const productId = parseInt(req.params.id || req.query.id);
-  if (!productId || isNaN(productId)) {
+function getProductSlug(product) {
+  if (!product || !product.name) return '';
+  return product.slug || product.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+}
+
+// 301 Redirect old numeric /product/:id and /product/:slug to canonical /products/:slug (per PDF audit)
+app.get(['/product/:idOrSlug', '/product.html', '/product-template.html'], async (req, res, next) => {
+  const param = (req.params.idOrSlug || req.query.id || req.query.slug || '').trim();
+  if (!param) {
     return res.sendFile(path.join(process.cwd(), 'product-template.html'));
   }
 
   try {
-    const product = await Product.findOne({ id: productId });
+    let product;
+    if (/^\d+$/.test(param)) {
+      product = await Product.findOne({ id: parseInt(param) });
+    } else {
+      product = await Product.findOne({ slug: param.toLowerCase() });
+      if (!product) {
+        product = await Product.findOne({
+          $or: [
+            { code: new RegExp('^' + param + '$', 'i') },
+            { name: new RegExp('^' + param.replace(/-/g, ' ') + '$', 'i') }
+          ]
+        });
+      }
+    }
+
+    if (product) {
+      const slug = getProductSlug(product);
+      return res.redirect(301, `/products/${slug}`);
+    }
+
+    return res.status(404).sendFile(path.join(process.cwd(), '404.html'));
+  } catch (err) {
+    return res.status(500).sendFile(path.join(process.cwd(), '500.html'));
+  }
+});
+
+// SSR Canonical Product Page: /products/:slug (per PDF audit Page 10)
+app.get('/products/:slug', async (req, res, next) => {
+  const slug = (req.params.slug || '').trim().toLowerCase();
+  if (!slug) {
+    return res.redirect(301, '/shop');
+  }
+
+  try {
+    let product = await Product.findOne({ slug: slug });
+    if (!product) {
+      // If numeric ID entered in slug parameter, look up by ID and 301 redirect
+      if (/^\d+$/.test(slug)) {
+        product = await Product.findOne({ id: parseInt(slug) });
+        if (product) {
+          return res.redirect(301, `/products/${getProductSlug(product)}`);
+        }
+      }
+      const all = await Product.find({});
+      product = all.find(p => getProductSlug(p) === slug);
+    }
+
     if (!product) {
       return res.status(404).sendFile(path.join(process.cwd(), '404.html'));
     }
 
+    const prodSlug = getProductSlug(product);
+    if (slug !== prodSlug) {
+      return res.redirect(301, `/products/${prodSlug}`);
+    }
+
     let template = fs.readFileSync(path.join(process.cwd(), 'product-template.html'), 'utf8');
 
-    // Dynamic Title & Meta
-    const seoTitle = `${product.name} (${product.code || 'KB-' + product.id}) — Kannika Bangles Bangalore`;
-    const seoDesc = `Buy ${product.name} (Product ID: ${product.code || 'KB-' + product.id}) online for ₹${product.price.toLocaleString('en-IN')}. Handcrafted luxury jewellery with 24–48 hr express Bangalore delivery & micro gold polish from Sri Kannika Bangles, Malleshwaram, Bangalore.`;
+    // Dynamic Title & Meta per PDF audit recommendations (Pages 10-13)
+    const seoTitle = `${product.name} | Bridal Jewellery Bangalore | Kannika`;
+    const finishPart = product.finish || 'premium antique gold polish';
+    const stonePart = product.stones ? `with ${product.stones}` : 'with intricate artisanal artistry';
+    const seoDesc = `${product.name} in ${finishPart}, ${stonePart}. Available from Kannika Bangles Bangalore with express delivery and live WhatsApp inspection.`;
+    const canonicalUrl = `https://kannikabangles.com/products/${prodSlug}`;
     const imageAbsUrl = `https://kannikabangles.com/${product.image.replace(/^\//, '')}`;
 
-    // Get real-time reviews from mongoose database
+    // Reviews from mongoose database
     const ratingData = await Review.aggregate([
-      { $match: { productId: productId } },
+      { $match: { productId: product.id } },
       {
         $group: {
           _id: '$productId',
@@ -1236,10 +1318,11 @@ app.get(['/product/:id', '/product.html', '/product-template.html'], async (req,
         }
       }
     ]);
-    const avgRating = ratingData.length > 0 ? parseFloat(ratingData[0].avgRating.toFixed(1)) : 5.0;
-    const reviewCount = ratingData.length > 0 ? ratingData[0].count : 18;
+    const hasReviews = ratingData.length > 0 && ratingData[0].count > 0;
+    const avgRating = hasReviews ? parseFloat(ratingData[0].avgRating.toFixed(1)) : 5.0;
+    const reviewCount = hasReviews ? ratingData[0].count : 1;
 
-    const prodCode = product.code || product.sku || (product.category === 'bangles' ? `KB-BAN-${String(product.id).padStart(3,'0')}` : product.category === 'pendant-sets' ? `KB-PEN-${String(product.id).padStart(3,'0')}` : product.category === 'necklaces' ? `KB-NEC-${String(product.id).padStart(3,'0')}` : `KB-EAR-${String(product.id).padStart(3,'0')}`);
+    const prodCode = product.code || product.sku || (product.category === 'bangles' ? `KB-BAN-${String(product.id).padStart(3,'0')}` : product.category === 'pendant-sets' ? `KB-PEN-${String(product.id).padStart(3,'0')}` : product.category === 'necklaces' ? `KB-NEC-${String(product.id).padStart(3,'0')}` : product.category === 'head-jewellery' ? `KB-HDJ-${String(product.id).padStart(3,'0')}` : `KB-EAR-${String(product.id).padStart(3,'0')}`);
     const discount = product.originalPrice > product.price 
       ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
       : 0;
@@ -1248,7 +1331,7 @@ app.get(['/product/:id', '/product.html', '/product-template.html'], async (req,
     const sizeLabel = isBangle ? 'Select Size (inches)' : 'Size & Fit';
     const sizeOptions = isBangle ? ['2.4', '2.6', '2.8'] : ['Free Size (Adjustable)'];
 
-    const waText = encodeURIComponent(`*Inquiry from Sri Kannika Bangles Website*\n\nHello! I would like to inquire about / order this jewellery item:\n\n✨ *Product Name:* ${product.name}\n🏷️ *Product ID:* ${prodCode}\n📁 *Category:* ${getCategoryDisplayName(product.category)}\n🛍️ *Quantity:* 1\n💰 *Price:* ₹${product.price.toLocaleString('en-IN')}\n🔗 *Product Link:* https://kannikabangles.com/product/${product.id}\n\nPlease confirm stock availability and Bangalore doorstep delivery details. Thank you!`);
+    const waText = encodeURIComponent(`*Inquiry from Sri Kannika Bangles Website*\n\nHello! I would like to inquire about / order this jewellery item:\n\n✨ *Product Name:* ${product.name}\n🏷️ *Product ID:* ${prodCode}\n📁 *Category:* ${getCategoryDisplayName(product.category)}\n🛍️ *Quantity:* 1\n💰 *Price:* ₹${product.price.toLocaleString('en-IN')}\n🔗 *Product Link:* https://kannikabangles.com/products/${prodSlug}\n\nPlease confirm stock availability and Bangalore doorstep delivery details. Thank you!`);
 
     // Generate Full SSR Product Detail HTML
     const ssrProductDetailHtml = `
@@ -1266,13 +1349,13 @@ app.get(['/product/:id', '/product.html', '/product-template.html'], async (req,
         <!-- Gallery Column -->
         <div class="pd__gallery">
           <div class="pd__main-image-wrap">
-            <img id="pdMainImg" src="${product.image}" alt="${product.name} - Bangalore Bridal Jewellery" class="pd__main-image" loading="eager">
+            <img id="pdMainImg" src="/${product.image.replace(/^\//, '')}" alt="${product.name} - Bangalore Bridal Jewellery" class="pd__main-image" loading="eager">
           </div>
           ${product.images && product.images.length > 1 ? `
             <div class="pd__thumbnails">
               ${product.images.map((img, i) => `
                 <div class="pd__thumb ${i === 0 ? 'active' : ''}" onclick="switchImage(${i}, this)">
-                  <img src="${img}" alt="${product.name} view ${i+1}" loading="lazy">
+                  <img src="/${img.replace(/^\//, '')}" alt="${product.name} view ${i+1}" loading="lazy">
                 </div>
               `).join('')}
             </div>
@@ -1287,7 +1370,7 @@ app.get(['/product/:id', '/product.html', '/product-template.html'], async (req,
           <div class="pd__rating-row" style="display: flex; align-items: center; gap: 8px; margin-bottom: 14px;">
             <div class="pd__stars" style="color: #D4AF37; font-size: 0.95rem;">★★★★★</div>
             <span class="pd__rating-val" style="font-weight: 700; font-size: 0.88rem;">${avgRating}</span>
-            <span class="pd__rating-count" style="color: var(--text-muted); font-size: 0.82rem;">(${reviewCount} verified reviews)</span>
+            <span class="pd__rating-count" style="color: var(--text-muted); font-size: 0.82rem;">(${reviewCount} verified review${reviewCount !== 1 ? 's' : ''})</span>
           </div>
 
           <div class="pd__price-wrap" style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 16px;">
@@ -1300,14 +1383,14 @@ app.get(['/product/:id', '/product.html', '/product-template.html'], async (req,
 
           <p class="pd__description" style="color: var(--text-secondary); line-height: 1.7; font-size: 0.96rem; margin-bottom: 20px;">${product.description || `Handcrafted ${product.name} with premium gold finish & traditional artistry.`}</p>
 
-          <!-- 🚚 BANGALORE EXPRESS DELIVERY BANNER -->
+          <!-- 🚚 BANGALORE EXPRESS DELIVERY BANNER (Consistent & Geography-aware) -->
           <div class="pd__delivery-box" style="margin-bottom: 16px; padding: 16px 18px; background: rgba(59, 12, 24, 0.05); border: 1.5px solid #3B0C18; border-radius: 12px; display: flex; align-items: center; gap: 14px;">
             <div style="width: 44px; height: 44px; border-radius: 50%; background: #3B0C18; display: flex; align-items: center; justify-content: center; color: #FFFFFF; box-shadow: 0 4px 12px rgba(59,12,24,0.15); flex-shrink: 0;">
               <i data-lucide="truck" style="width: 22px; height: 22px;"></i>
             </div>
             <div>
               <h4 style="font-family: 'Cinzel', serif; font-size: 0.95rem; font-weight: 700; color: #3B0C18; margin: 0 0 2px;">Bangalore Express Doorstep Delivery (24–48 Hrs)</h4>
-              <p style="font-size: 0.82rem; color: var(--text-secondary); margin: 0; line-height: 1.4;">Direct insured express hand-delivery across all Bangalore pincodes (560xxx) from our Malleshwaram showroom.</p>
+              <p style="font-size: 0.82rem; color: var(--text-secondary); margin: 0; line-height: 1.4;">Direct express delivery across all Bangalore pincodes (560xxx) from our Malleshwaram showroom. Pan-India shipping available in 7–10 business days.</p>
             </div>
           </div>
 
@@ -1403,18 +1486,66 @@ app.get(['/product/:id', '/product.html', '/product-template.html'], async (req,
             </div>
           </div>
 
-          <div class="pd__trust" style="display: flex; justify-content: space-between; gap: 12px; margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border-subtle); flex-wrap: wrap;">
-            <div class="pd__trust-item" style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 600; color: var(--text-primary);">
-              <i data-lucide="shield-check" style="width:20px;height:20px;color:var(--gold-primary);"></i>
-              <span>100% Handcrafted</span>
+          <!-- 💎 6-PILLAR LUXURY TRUST & ASSURANCE MATRIX -->
+          <div class="pd__trust-matrix" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 24px; padding: 18px; background: rgba(255, 249, 245, 0.85); border: 1.5px solid rgba(212, 175, 55, 0.35); border-radius: 14px; box-shadow: 0 4px 18px rgba(0,0,0,0.03);">
+            <div style="display: flex; align-items: flex-start; gap: 10px;">
+              <div style="width: 32px; height: 32px; border-radius: 8px; background: rgba(37, 211, 102, 0.14); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #0A6C38;">
+                <i data-lucide="shield-check" style="width:18px;height:18px;"></i>
+              </div>
+              <div>
+                <div style="font-size: 0.84rem; font-weight: 700; color: var(--text-primary); line-height: 1.2;">Zero Blind Payment</div>
+                <div style="font-size: 0.74rem; color: var(--text-muted); margin-top: 2px;">Pay ₹0 today • Inspect on video</div>
+              </div>
             </div>
-            <div class="pd__trust-item" style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 600; color: var(--text-primary);">
-              <i data-lucide="truck" style="width:20px;height:20px;color:var(--gold-primary);"></i>
-              <span>Delivery in 10 Days</span>
+
+            <div style="display: flex; align-items: flex-start; gap: 10px;">
+              <div style="width: 32px; height: 32px; border-radius: 8px; background: rgba(59, 12, 24, 0.08); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #3B0C18;">
+                <i data-lucide="video" style="width:18px;height:18px;"></i>
+              </div>
+              <div>
+                <div style="font-size: 0.84rem; font-weight: 700; color: var(--text-primary); line-height: 1.2;">Live 4K WhatsApp Call</div>
+                <div style="font-size: 0.74rem; color: var(--text-muted); margin-top: 2px;">Inspect shine &amp; stones in daylight</div>
+              </div>
             </div>
-            <div class="pd__trust-item" style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 600; color: var(--text-primary);">
-              <i data-lucide="sparkles" style="width:20px;height:20px;color:var(--gold-primary);"></i>
-              <span>Micro Gold Polish</span>
+
+            <div style="display: flex; align-items: flex-start; gap: 10px;">
+              <div style="width: 32px; height: 32px; border-radius: 8px; background: rgba(212, 175, 55, 0.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #8B6914;">
+                <i data-lucide="truck" style="width:18px;height:18px;"></i>
+              </div>
+              <div>
+                <div style="font-size: 0.84rem; font-weight: 700; color: var(--text-primary); line-height: 1.2;">Bangalore Express 24–48h</div>
+                <div style="font-size: 0.74rem; color: var(--text-muted); margin-top: 2px;">Doorstep delivery from boutique</div>
+              </div>
+            </div>
+
+            <div style="display: flex; align-items: flex-start; gap: 10px;">
+              <div style="width: 32px; height: 32px; border-radius: 8px; background: rgba(212, 69, 106, 0.12); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--pink-primary);">
+                <i data-lucide="repeat-2" style="width:18px;height:18px;"></i>
+              </div>
+              <div>
+                <div style="font-size: 0.84rem; font-weight: 700; color: var(--text-primary); line-height: 1.2;">7-Day Size Exchange</div>
+                <div style="font-size: 0.74rem; color: var(--text-muted); margin-top: 2px;">Perfect wrist fit guarantee</div>
+              </div>
+            </div>
+
+            <div style="display: flex; align-items: flex-start; gap: 10px;">
+              <div style="width: 32px; height: 32px; border-radius: 8px; background: rgba(139, 110, 20, 0.12); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #8B6914;">
+                <i data-lucide="sparkles" style="width:18px;height:18px;"></i>
+              </div>
+              <div>
+                <div style="font-size: 0.84rem; font-weight: 700; color: var(--text-primary); line-height: 1.2;">Skin-Friendly Micro Polish</div>
+                <div style="font-size: 0.74rem; color: var(--text-muted); margin-top: 2px;">Anti-tarnish 24K gold lacquer</div>
+              </div>
+            </div>
+
+            <div style="display: flex; align-items: flex-start; gap: 10px;">
+              <div style="width: 32px; height: 32px; border-radius: 8px; background: rgba(46, 117, 89, 0.12); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #2E7559;">
+                <i data-lucide="package-check" style="width:18px;height:18px;"></i>
+              </div>
+              <div>
+                <div style="font-size: 0.84rem; font-weight: 700; color: var(--text-primary); line-height: 1.2;">Insured Box Packaging</div>
+                <div style="font-size: 0.74rem; color: var(--text-muted); margin-top: 2px;">Tamper-proof velvet jewel case</div>
+              </div>
             </div>
           </div>
 
@@ -1461,7 +1592,7 @@ app.get(['/product/:id', '/product.html', '/product-template.html'], async (req,
               <i data-lucide="camera" style="width: 20px; height: 20px; color: #B38F24; flex-shrink: 0; margin-top: 2px;"></i>
               <div style="font-size: 0.84rem; line-height: 1.55; color: #4A3E30;">
                 <strong style="color: #2C1820; display: block; margin-bottom: 3px; font-weight: 700;">📸 Visual Authenticity &amp; Live Photos:</strong>
-                Our showcase photos are studio-enhanced with AI referencing our original handcrafted pieces. The actual physical product closely resembles these visuals. Want to see unedited raw photos before purchasing? 
+                Our showcase photos are studio-enhanced with AI referencing our original handcrafted pieces. The physical jewellery closely resembles these visuals. Want to see unedited showroom photos before purchasing? 
                 <a href="https://wa.me/919844758450?text=Hi!%20Please%20share%20raw%20photos%20of%20${encodeURIComponent(product.name)}%20(ID:%20${prodCode})" target="_blank" style="color: #25D366; font-weight: 700; text-decoration: underline; margin-left: 4px;">Request Raw Images on WhatsApp &rarr;</a>
               </div>
             </div>
@@ -1478,12 +1609,13 @@ app.get(['/product/:id', '/product.html', '/product-template.html'], async (req,
     }
 
     const ssrRelatedHtml = relatedDb.map(p => {
+      const relSlug = getProductSlug(p);
       const relDisc = p.originalPrice > p.price 
         ? Math.round(((p.originalPrice - p.price) / p.originalPrice) * 100) 
         : 0;
       return `
         <div class="card product-card">
-          <a href="/product/${p.id}" class="card__image-link">
+          <a href="/products/${relSlug}" class="card__image-link">
             <div class="card__image">
               <img src="/${p.image.replace(/^\//, '')}" alt="Kannika Bangles - ${p.name}" loading="lazy">
               ${relDisc > 0 ? `<div class="product-card__discount">-${relDisc}%</div>` : ''}
@@ -1491,7 +1623,7 @@ app.get(['/product/:id', '/product.html', '/product-template.html'], async (req,
           </a>
           <div class="card__body">
             <span class="card__category">${getCategoryDisplayName(p.category)}</span>
-            <h3 class="card__title"><a href="/product/${p.id}" style="color:inherit;text-decoration:none;">${p.name}</a></h3>
+            <h3 class="card__title"><a href="/products/${relSlug}" style="color:inherit;text-decoration:none;">${p.name}</a></h3>
             <div class="card__price">
               ₹${p.price.toLocaleString('en-IN')}
               ${p.originalPrice > p.price ? `<span class="original">₹${p.originalPrice.toLocaleString('en-IN')}</span>` : ''}
@@ -1501,7 +1633,7 @@ app.get(['/product/:id', '/product.html', '/product-template.html'], async (req,
               <span style="font-size: 0.78rem; color: var(--text-muted);">5.0 (18)</span>
             </div>
             <div class="card__cta-row product-card__cta-row" style="margin-top: 10px; width: 100%; display: flex; gap: 6px;">
-              <a href="/product/${p.id}" class="btn btn--outline btn--card-view" style="flex: 1; justify-content: center; font-size: 0.74rem; font-weight: 600; padding: 7px 4px; border-radius: 6px; text-decoration: none; white-space: nowrap;">View Details</a>
+              <a href="/products/${relSlug}" class="btn btn--outline btn--card-view" style="flex: 1; justify-content: center; font-size: 0.74rem; font-weight: 600; padding: 7px 4px; border-radius: 6px; text-decoration: none; white-space: nowrap;">View Details</a>
               <button type="button" class="btn btn--primary btn--card-add" onclick="event.preventDefault(); addToCart(${p.id});" style="flex: 1; justify-content: center; font-size: 0.74rem; font-weight: 600; padding: 7px 4px; border-radius: 6px; white-space: nowrap; cursor: pointer;">Add to Cart</button>
             </div>
           </div>
@@ -1514,7 +1646,7 @@ app.get(['/product/:id', '/product.html', '/product-template.html'], async (req,
       "@type": "Product",
       "name": product.name,
       "image": [imageAbsUrl],
-      "description": product.description || `Handcrafted ${product.name} from Sri Kannika Bangles, Bangalore.`,
+      "description": product.description || seoDesc,
       "sku": prodCode,
       "mpn": prodCode,
       "brand": {
@@ -1523,7 +1655,7 @@ app.get(['/product/:id', '/product.html', '/product-template.html'], async (req,
       },
       "offers": {
         "@type": "Offer",
-        "url": `https://kannikabangles.com/product/${product.id}`,
+        "url": canonicalUrl,
         "priceCurrency": "INR",
         "price": product.price,
         "priceValidUntil": "2027-12-31",
@@ -1531,22 +1663,25 @@ app.get(['/product/:id', '/product.html', '/product-template.html'], async (req,
         "availability": product.inStock !== false ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
         "seller": {
           "@type": "Organization",
-          "name": "Sri Kannika Bangles"
+          "name": "Sri Kannika Bangles",
+          "url": "https://kannikabangles.com"
         }
-      },
-      "aggregateRating": {
+      }
+    };
+
+    if (hasReviews) {
+      jsonLd.aggregateRating = {
         "@type": "AggregateRating",
         "ratingValue": avgRating.toString(),
         "reviewCount": reviewCount.toString()
-      }
-    };
+      };
+    }
 
     // Inject Meta & Schema into Head
     template = template.replace(/<title>.*?<\/title>/i, `<title>${seoTitle}</title>`);
     template = template.replace(/<meta name="description" content=".*?">/i, `<meta name="description" content="${seoDesc}">`);
     
     // Inject dynamic canonical link
-    const canonicalUrl = `https://kannikabangles.com/product/${product.id}`;
     template = template.replace(/<link rel="canonical".*?>/i, `<link rel="canonical" href="${canonicalUrl}">`);
 
     // Inject Open Graph URLs
@@ -1573,14 +1708,14 @@ app.get(['/product/:id', '/product.html', '/product-template.html'], async (req,
 });
 
 // ─── SSR Category Pages with Pre-Rendered Product Grid ───
-async function serveCategorySSR(req, res, category, titleText, metaDesc, keywords) {
+async function serveCategorySSR(req, res, category, titleText, metaDesc) {
   try {
     let template = fs.readFileSync(path.join(process.cwd(), 'shop-template.html'), 'utf8');
 
-    // Inject category-specific title & meta
+    // Inject category-specific title & meta (Strictly no meta keywords per PDF audit Page 2)
     template = template.replace(/<title>.*?<\/title>/i, `<title>${titleText}</title>`);
     template = template.replace(/<meta name="description" content=".*?">/i, `<meta name="description" content="${metaDesc}">`);
-    template = template.replace(/<meta name="keywords" content=".*?">/i, `<meta name="keywords" content="${keywords}">`);
+    template = template.replace(/<meta name="keywords"[^>]*>\s*/gi, '');
 
     // Inject canonical link
     const canonicalUrl = `https://kannikabangles.com/${category === 'all' ? 'shop' : category}`;
@@ -1592,44 +1727,49 @@ async function serveCategorySSR(req, res, category, titleText, metaDesc, keyword
     template = template.replace(/<meta name="twitter:description" content=".*?">/i, `<meta name="twitter:description" content="${metaDesc}">`);
 
     // Query products from database dynamically
-    const query = category === 'all' ? {} : { category: category };
-    let products = await Product.find(query).sort({ id: 1 });
+    const allProducts = await Product.find({}).sort({ id: 1 });
+    let products = category === 'all' ? allProducts : allProducts.filter(p => p.category === category);
 
     // When viewing All Collections, interleave categories for a diverse, balanced mix across rows
     if (category === 'all') {
-      const bangles = products.filter(p => p.category === 'bangles');
-      const necklaces = products.filter(p => p.category === 'necklaces');
-      const pendants = products.filter(p => p.category === 'pendant-sets');
-      const earrings = products.filter(p => p.category === 'earrings');
+      const bangles = allProducts.filter(p => p.category === 'bangles');
+      const necklaces = allProducts.filter(p => p.category === 'necklaces');
+      const pendants = allProducts.filter(p => p.category === 'pendant-sets');
+      const earrings = allProducts.filter(p => p.category === 'earrings');
+      const headJewellery = allProducts.filter(p => p.category === 'head-jewellery');
       
       const mixed = [];
-      const maxLen = Math.max(bangles.length, necklaces.length, pendants.length, earrings.length);
+      const maxLen = Math.max(bangles.length, necklaces.length, pendants.length, earrings.length, headJewellery.length);
       for (let i = 0; i < maxLen; i++) {
         if (i < bangles.length) mixed.push(bangles[i]);
         if (i < necklaces.length) mixed.push(necklaces[i]);
         if (i < pendants.length) mixed.push(pendants[i]);
         if (i < earrings.length) mixed.push(earrings[i]);
+        if (i < headJewellery.length) mixed.push(headJewellery[i]);
       }
       products = mixed;
     }
 
     // Build ItemList JSON-LD schema dynamically from database query
-    const itemListElements = products.map((product, idx) => ({
-      "@type": "ListItem",
-      "position": idx + 1,
-      "item": {
-        "@type": "Product",
-        "name": product.name,
-        "url": `https://kannikabangles.com/product/${product.id}`,
-        "image": `https://kannikabangles.com/${product.image}`,
-        "offers": {
-          "@type": "Offer",
-          "price": product.price,
-          "priceCurrency": "INR",
-          "availability": product.inStock ? "https://schema.org/InStock" : "https://schema.org/OutOfStock"
+    const itemListElements = products.map((product, idx) => {
+      const pSlug = getProductSlug(product);
+      return {
+        "@type": "ListItem",
+        "position": idx + 1,
+        "item": {
+          "@type": "Product",
+          "name": product.name,
+          "url": `https://kannikabangles.com/products/${pSlug}`,
+          "image": `https://kannikabangles.com/${product.image.replace(/^\//, '')}`,
+          "offers": {
+            "@type": "Offer",
+            "price": product.price,
+            "priceCurrency": "INR",
+            "availability": product.inStock ? "https://schema.org/InStock" : "https://schema.org/OutOfStock"
+          }
         }
-      }
-    }));
+      };
+    });
 
     const itemListSchema = {
       "@context": "https://schema.org",
@@ -1641,24 +1781,25 @@ async function serveCategorySSR(req, res, category, titleText, metaDesc, keyword
 
     template = template.replace('</head>', `<script type="application/ld+json">${JSON.stringify(itemListSchema)}</script>\n</head>`);
 
-    // Pre-render product grid HTML dynamically
+    // Pre-render product grid HTML dynamically with canonical /products/:slug URLs
     let ssrHtml = '';
     products.forEach(product => {
+      const prodSlug = getProductSlug(product);
       const discount = product.originalPrice > product.price 
         ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
         : 0;
 
       ssrHtml += `
       <div class="card product-card" itemscope itemtype="https://schema.org/Product">
-        <a href="/product/${product.id}" class="card__image-link">
+        <a href="/products/${prodSlug}" class="card__image-link">
           <div class="card__image">
-            <img src="/${product.image}" alt="${product.name} - Handcrafted Indian Jewellery Bangalore" loading="lazy" itemprop="image">
+            <img src="/${product.image.replace(/^\//, '')}" alt="${product.name} - Handcrafted Indian Jewellery Bangalore" loading="lazy" itemprop="image">
             ${discount > 0 ? `<div class="product-card__discount">-${discount}%</div>` : ''}
           </div>
         </a>
         <div class="card__body">
-          <span class="card__category">${product.category.charAt(0).toUpperCase() + product.category.slice(1)}</span>
-          <h3 class="card__title" itemprop="name"><a href="/product/${product.id}" style="color:inherit;text-decoration:none;">${product.name}</a></h3>
+          <span class="card__category">${getCategoryDisplayName(product.category)}</span>
+          <h3 class="card__title" itemprop="name"><a href="/products/${prodSlug}" style="color:inherit;text-decoration:none;">${product.name}</a></h3>
           <div class="card__price" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
             <meta itemprop="priceCurrency" content="INR">
             <span itemprop="price" content="${product.price}">₹${product.price.toLocaleString('en-IN')}</span>
@@ -1666,7 +1807,7 @@ async function serveCategorySSR(req, res, category, titleText, metaDesc, keyword
             <link itemprop="availability" href="https://schema.org/InStock">
           </div>
           <div class="card__cta-row product-card__cta-row" style="margin-top: 10px; width: 100%; display: flex; gap: 6px;">
-            <a href="/product/${product.id}" class="btn btn--outline btn--card-view" style="flex: 1; justify-content: center; font-size: 0.74rem; font-weight: 600; padding: 7px 4px; border-radius: 6px; text-decoration: none; white-space: nowrap;">View Details</a>
+            <a href="/products/${prodSlug}" class="btn btn--outline btn--card-view" style="flex: 1; justify-content: center; font-size: 0.74rem; font-weight: 600; padding: 7px 4px; border-radius: 6px; text-decoration: none; white-space: nowrap;">View Details</a>
             <button type="button" class="btn btn--primary btn--card-add" onclick="event.preventDefault(); addToCart(${product.id});" style="flex: 1; justify-content: center; font-size: 0.74rem; font-weight: 600; padding: 7px 4px; border-radius: 6px; white-space: nowrap; cursor: pointer;">Add to Cart</button>
           </div>
         </div>
@@ -1678,9 +1819,15 @@ async function serveCategorySSR(req, res, category, titleText, metaDesc, keyword
       `<div id="productGrid" class="product-grid">${ssrHtml}</div>`
     );
 
+    // Fix "Showing 0" Bug: render actual count in SSR HTML instantly
+    template = template.replace(
+      '<span id="productCount">0</span>',
+      `<span id="productCount">${products.length} product${products.length !== 1 ? 's' : ''}</span>`
+    );
+
     // Dynamic Active Navbar Link Selection
     template = template.replace(/class="navbar__link active"/g, 'class="navbar__link"');
-    if (category === 'bangles' || category === 'pendant-sets' || category === 'necklaces' || category === 'earrings') {
+    if (['bangles', 'pendant-sets', 'necklaces', 'earrings', 'head-jewellery'].includes(category)) {
       template = template.replace(
         `href="/${category}" class="navbar__dropdown-link"`,
         `href="/${category}" class="navbar__dropdown-link active"`
@@ -1691,35 +1838,39 @@ async function serveCategorySSR(req, res, category, titleText, metaDesc, keyword
       );
     }
 
-    // Dynamic Category H1 Selection
+    // Dynamic Category H1 Selection per PDF Audit (Page 5)
     let categoryH1 = '';
     let categoryLabel = 'Shop';
     if (category === 'bangles') {
       categoryH1 = 'Bridal Bangles &amp; Traditional Kadas in Bangalore';
       categoryLabel = 'Bangles';
     } else if (category === 'pendant-sets') {
-      categoryH1 = 'Handcrafted Pendant Sets &amp; Bridal Jewellery in Bangalore';
+      categoryH1 = 'Handcrafted Pendant Sets in Bangalore';
       categoryLabel = 'Pendant Sets';
     } else if (category === 'necklaces') {
-      categoryH1 = 'Exquisite Bridal Necklaces &amp; Kundan Sets in Bangalore';
+      categoryH1 = 'Bridal Necklaces, Chokers &amp; Harams in Bangalore';
       categoryLabel = 'Necklaces';
     } else if (category === 'earrings') {
-      categoryH1 = 'Designer Earrings, Jhumkas &amp; Studs in Bangalore';
+      categoryH1 = 'Bridal Jhumkas &amp; Earrings in Bangalore';
       categoryLabel = 'Earrings';
+    } else if (category === 'head-jewellery') {
+      categoryH1 = 'Bridal Matha Patti &amp; Maang Tikka in Bangalore';
+      categoryLabel = 'Head Jewellery';
     } else {
-      categoryH1 = 'Indian Wedding &amp; Bridal Jewellery Collection Bangalore';
+      categoryH1 = 'Shop Artificial &amp; Bridal Jewellery Online';
       categoryLabel = 'Shop';
     }
-    template = template.replace('<!--SSR_CATEGORY_H1-->', categoryH1);
+    template = template.replace(/<h1 class="shop-header__title"[^>]*>.*?<\/h1>/i, `<h1 class="shop-header__title" id="seoMainH1">${categoryH1}</h1>`);
     template = template.replace('<div class="breadcrumb"><span>Home</span> <i data-lucide="chevron-right"></i> <span>Shop</span></div>', `<div class="breadcrumb"><span>Home</span> <i data-lucide="chevron-right"></i> <span>${categoryLabel}</span></div>`);
 
-    // Pre-render Category Filter Chips with deep links
+    // Pre-render Category Filter Chips with dynamic counts from DB
     const categoriesMeta = [
-      { id: "all", name: "All Collections", icon: "gem", count: 45 },
-      { id: "bangles", name: "Bangles", icon: "circle", count: 14 },
-      { id: "pendant-sets", name: "Pendant Sets", icon: "sparkles", count: 14 },
-      { id: "necklaces", name: "Necklaces", icon: "gem", count: 5 },
-      { id: "earrings", name: "Earrings", icon: "sparkles", count: 12 }
+      { id: "all", name: "All Collections", icon: "gem", count: allProducts.length },
+      { id: "bangles", name: "Bangles", icon: "circle", count: allProducts.filter(p => p.category === 'bangles').length },
+      { id: "pendant-sets", name: "Pendant Sets", icon: "sparkles", count: allProducts.filter(p => p.category === 'pendant-sets').length },
+      { id: "necklaces", name: "Necklaces", icon: "gem", count: allProducts.filter(p => p.category === 'necklaces').length },
+      { id: "earrings", name: "Earrings", icon: "sparkles", count: allProducts.filter(p => p.category === 'earrings').length },
+      { id: "head-jewellery", name: "Head Jewellery", icon: "crown", count: allProducts.filter(p => p.category === 'head-jewellery').length }
     ];
 
     let chipsHtml = '';
@@ -1777,43 +1928,46 @@ async function serveCategorySSR(req, res, category, titleText, metaDesc, keyword
   }
 }
 
+// Category routes strictly aligned with PDF audit Page 5 metadata
 app.get('/bangles', async (req, res) => {
   await serveCategorySSR(req, res, 'bangles',
-    'Bridal Bangles & Kundan Kadas Bangalore | Sri Kannika Bangles',
-    'Shop handcrafted bridal bangles & Kundan kadas in Bangalore. Premium antique gold polish, AD stone spacer sets & 24–48 hr express Bangalore delivery. Visit Malleshwaram showroom.',
-    'bridal bangles bangalore, kundan kadas bangalore, antique gold kadas bangalore, ad stone bangles bangalore, micro gold plated bangles bangalore, bangles shop in malleshwaram'
+    'Bridal Bangles & Kadas in Bangalore | Kannika Bangles',
+    'Explore bridal bangles, Kundan kadas, temple bangles and micro-gold plated wedding stacks in Bangalore. Sizes 2.2-2.12 with showroom and WhatsApp styling.'
   );
 });
 
 app.get('/necklaces', async (req, res) => {
   await serveCategorySSR(req, res, 'necklaces',
-    'Bridal Necklaces & Kundan Choker Sets Bangalore | Kannika',
-    'Explore luxury bridal necklace sets & antique harams in Bangalore. Handcrafted Kundan chokers, temple nakshi designs & micro gold finish with 24–48 hr express Bangalore delivery.',
-    'bridal necklace sets bangalore, antique haram bangalore, kundan choker sets bangalore, temple necklace jewellery bangalore, matte finish bridal necklace'
+    'Bridal Necklaces & Choker Sets Bangalore | Kannika Bangles',
+    'Shop bridal chokers, temple harams and Kundan necklace sets in Bangalore. Explore wedding-ready designs with live WhatsApp inspection and Malleshwaram pickup.'
   );
 });
 
 app.get('/earrings', async (req, res) => {
   await serveCategorySSR(req, res, 'earrings',
-    'Designer Bridal Earrings & Jhumkas Bangalore | Kannika',
-    'Shop authentic bridal jhumkas, chandbalis & AD studs in Bangalore. Handcrafted temple & Kundan earrings with skin-friendly micro gold polish. Visit Malleshwaram.',
-    'bridal earrings bangalore, antique jhumkas bangalore, kundan chandbali earrings bangalore, ad stone bridal studs bangalore, temple jewellery earrings malleshwaram'
+    'Bridal Jhumkas & Earrings in Bangalore | Kannika Bangles',
+    'Shop bridal jhumkas, temple earrings, studs and statement wedding earrings in Bangalore with premium micro-gold finishes and live WhatsApp inspection.'
   );
 });
 
 app.get('/pendant-sets', async (req, res) => {
   await serveCategorySSR(req, res, 'pendant-sets',
-    'Handcrafted Pendant Sets in Bangalore | Sri Kannika Bangles',
-    'Buy handcrafted pendant sets with matching earrings in Bangalore. Discover Kundan, antique matte & CZ stone lockets with 24k micro gold polish. Order online today.',
-    'pendant sets bangalore, bridal pendant jewellery bangalore, kundan pendant with earrings bangalore, antique locket sets bangalore, gold plated pendant sets malleshwaram'
+    'Pendant Sets in Bangalore | Bridal & 1 Gram Gold | Kannika',
+    'Browse handcrafted pendant sets in Bangalore, including Kundan, temple, AD and 1 gram gold styles with matching earrings and WhatsApp product inspection.'
+  );
+});
+
+app.get('/head-jewellery', async (req, res) => {
+  await serveCategorySSR(req, res, 'head-jewellery',
+    'Bridal Matha Patti & Maang Tikka Bangalore | Kannika',
+    'Explore bridal Matha Patti, Maang Tikka and South Indian Nethi Chutti designs in Bangalore. Match your head jewellery with chokers, sarees and bridal sets.'
   );
 });
 
 app.get('/shop', async (req, res) => {
   await serveCategorySSR(req, res, 'all',
-    'Indian Bridal Jewellery Collection Bangalore | Kannika Bangles',
-    'Explore Bangalore\'s premier collection of handcrafted bridal jewellery. Shop traditional bangles, necklace sets, pendants & jhumkas with 24–48 hr express Bangalore delivery.',
-    'bridal jewellery bangalore, indian bridal jewellery online, imitation jewellery bangalore, wedding jewellery sets bengaluru, buy jewellery online bangalore'
+    'Shop Artificial & Bridal Jewellery Online | Kannika Bangles',
+    'Browse bangles, necklaces, pendant sets and earrings with premium micro-gold finishes. Shop online or inspect pieces on live WhatsApp video from Bangalore.'
   );
 });
 

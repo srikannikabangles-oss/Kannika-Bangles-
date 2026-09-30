@@ -50,7 +50,7 @@ async function renderCart() {
             <span style="font-size: 0.95rem; color: var(--text-primary); font-weight: 500;">🛍️ Did your WhatsApp checkout get interrupted?</span>
             <button class="btn btn--outline btn--sm" onclick="event.preventDefault(); triggerCartRestore();" style="padding: 6px 12px; font-size: 0.85rem; border-color: var(--gold-primary); color: var(--gold-dark); cursor: pointer; transition: all var(--transition-fast);">Restore Cart Items</button>
           `;
-          const containerEmpty = emptyEl.querySelector('.container');
+          const containerEmpty = (emptyEl && emptyEl.querySelector('.container')) || emptyEl;
           if (containerEmpty) {
             containerEmpty.appendChild(banner);
           }
@@ -84,7 +84,7 @@ async function renderCart() {
         </div>
         <div class="cart-item__details">
           <span class="cart-item__category">${getCategoryName(product.category)}</span>
-          <h3 class="cart-item__name"><a href="/product/${product.id}" style="color:inherit; text-decoration:none;">${product.name}</a></h3>
+          <h3 class="cart-item__name"><a href="/products/${(typeof getProductSlug === 'function' ? getProductSlug(product) : product.slug) || product.id}" style="color:inherit; text-decoration:none;">${product.name}</a></h3>
           <div class="cart-item__meta" style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 4px;">
             <span class="cart-item__size-badge" style="display: inline-block; font-size: 0.78rem; font-weight: 700; color: #856404; background: rgba(212, 175, 55, 0.15); border: 1px solid rgba(212, 175, 55, 0.4); padding: 2px 7px; border-radius: 4px;">Size: ${item.size || 'Free Size'}</span>
             ${product.finish ? `<span class="cart-item__finish" style="font-size: 0.8rem; color: var(--text-muted);">${product.finish}</span>` : ''}

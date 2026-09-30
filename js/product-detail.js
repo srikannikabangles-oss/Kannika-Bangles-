@@ -20,8 +20,8 @@ let currentImageIndex = 0;
 
 document.addEventListener('DOMContentLoaded', async () => {
   const params = new URLSearchParams(window.location.search);
-  const pathMatch = window.location.pathname.match(/\/product\/(\d+)/);
-  const productId = (pathMatch && pathMatch[1]) || params.get('id');
+  const pathMatch = window.location.pathname.match(/\/(?:products|product)\/([a-zA-Z0-9_-]+)/);
+  const productId = (pathMatch && pathMatch[1]) || params.get('slug') || params.get('id');
 
   if (!productId) {
     showProductNotFound();
@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   try {
-    const res = await fetch(`/api/products/${productId}`);
+    const res = await fetch(`/api/products/${encodeURIComponent(productId)}`);
     if (res.ok) {
       currentProduct = await res.json();
     }
@@ -37,8 +37,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     console.warn('Could not fetch product from API:', e);
   }
 
-  if (!currentProduct && typeof getProductById === 'function') {
-    currentProduct = getProductById(productId);
+  if (!currentProduct) {
+    if (/^\d+$/.test(productId) && typeof getProductById === 'function') {
+      currentProduct = getProductById(productId);
+    } else if (typeof getProductBySlug === 'function') {
+      currentProduct = getProductBySlug(productId);
+    }
   }
 
   if (!currentProduct) {
@@ -95,11 +99,11 @@ async function renderProductDetail() {
     <div class="pd__container">
       <div class="pd__gallery">
         <div class="pd__main-image" id="mainImage" style="position: relative; border-radius: 16px; overflow: hidden; background: #fff; border: 1.5px solid rgba(212, 175, 55, 0.35); box-shadow: 0 10px 30px rgba(0,0,0,0.06);">
-          <img src="${getProductImageUrl(currentProduct.images[0])}" alt="${currentProduct.name} - Sri Kannika Bangles" id="pdMainImg" style="width: 100%; aspect-ratio: 1 / 1; object-fit: cover; display: block; transition: transform 0.4s ease;">
+          <img src="${getProductImageUrl((currentProduct.images && currentProduct.images[0]) || currentProduct.image)}" alt="${currentProduct.name} - Sri Kannika Bangles" id="pdMainImg" style="width: 100%; aspect-ratio: 1 / 1; object-fit: cover; display: block; transition: transform 0.4s ease;">
           ${currentProduct.badge ? `<span class="badge badge--${currentProduct.badge === 'bestseller' ? 'featured' : currentProduct.badge} pd__badge" style="position: absolute; top: 14px; left: 14px; z-index: 5;">${currentProduct.badge.toUpperCase()}</span>` : ''}
           ${discount > 0 ? `<span style="position: absolute; top: 14px; right: 14px; z-index: 5; background: var(--pink-primary); color: white; font-size: 0.72rem; font-weight: 700; padding: 4px 10px; border-radius: 6px;">SAVE ${discount}%</span>` : ''}
         </div>
-        ${currentProduct.images.length > 1 ? `
+        ${currentProduct.images && currentProduct.images.length > 1 ? `
         <div class="pd__thumbnails" style="display: flex; gap: 10px; margin-top: 14px; overflow-x: auto;">
           ${currentProduct.images.map((img, i) => `
             <button class="pd__thumb ${i === 0 ? 'active' : ''}" onclick="switchImage(${i}, this)" style="width: 64px; height: 64px; border-radius: 8px; overflow: hidden; border: 2px solid ${i === 0 ? 'var(--pink-primary)' : 'var(--border-subtle)'}; background: #fff; cursor: pointer; padding: 0;">
@@ -236,18 +240,66 @@ async function renderProductDetail() {
           </div>
         </div>
 
-        <div class="pd__trust" style="display: flex; justify-content: space-between; gap: 12px; margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border-subtle); flex-wrap: wrap;">
-          <div class="pd__trust-item" style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 600; color: var(--text-primary);">
-            <i data-lucide="shield-check" style="width:20px;height:20px;color:var(--gold-primary);"></i>
-            <span>Zero Blind Payment (Pay ₹0 Today)</span>
+        <!-- 💎 6-PILLAR LUXURY TRUST & ASSURANCE MATRIX -->
+        <div class="pd__trust-matrix" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 24px; padding: 18px; background: rgba(255, 249, 245, 0.85); border: 1.5px solid rgba(212, 175, 55, 0.35); border-radius: 14px; box-shadow: 0 4px 18px rgba(0,0,0,0.03);">
+          <div style="display: flex; align-items: flex-start; gap: 10px;">
+            <div style="width: 32px; height: 32px; border-radius: 8px; background: rgba(37, 211, 102, 0.14); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #0A6C38;">
+              <i data-lucide="shield-check" style="width:18px;height:18px;"></i>
+            </div>
+            <div>
+              <div style="font-size: 0.84rem; font-weight: 700; color: var(--text-primary); line-height: 1.2;">Zero Blind Payment</div>
+              <div style="font-size: 0.74rem; color: var(--text-muted); margin-top: 2px;">Pay ₹0 today • Inspect on video</div>
+            </div>
           </div>
-          <div class="pd__trust-item" style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 600; color: var(--text-primary);">
-            <i data-lucide="video" style="width:20px;height:20px;color:var(--gold-primary);"></i>
-            <span>Live HD Video Inspection</span>
+
+          <div style="display: flex; align-items: flex-start; gap: 10px;">
+            <div style="width: 32px; height: 32px; border-radius: 8px; background: rgba(59, 12, 24, 0.08); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #3B0C18;">
+              <i data-lucide="video" style="width:18px;height:18px;"></i>
+            </div>
+            <div>
+              <div style="font-size: 0.84rem; font-weight: 700; color: var(--text-primary); line-height: 1.2;">Live 4K WhatsApp Call</div>
+              <div style="font-size: 0.74rem; color: var(--text-muted); margin-top: 2px;">Inspect shine &amp; stones in daylight</div>
+            </div>
           </div>
-          <div class="pd__trust-item" style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 600; color: var(--text-primary);">
-            <i data-lucide="sparkles" style="width:20px;height:20px;color:var(--gold-primary);"></i>
-            <span>Free Saree &amp; Size Matching</span>
+
+          <div style="display: flex; align-items: flex-start; gap: 10px;">
+            <div style="width: 32px; height: 32px; border-radius: 8px; background: rgba(212, 175, 55, 0.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #8B6914;">
+              <i data-lucide="truck" style="width:18px;height:18px;"></i>
+            </div>
+            <div>
+              <div style="font-size: 0.84rem; font-weight: 700; color: var(--text-primary); line-height: 1.2;">Bangalore Express 24–48h</div>
+              <div style="font-size: 0.74rem; color: var(--text-muted); margin-top: 2px;">Doorstep delivery from boutique</div>
+            </div>
+          </div>
+
+          <div style="display: flex; align-items: flex-start; gap: 10px;">
+            <div style="width: 32px; height: 32px; border-radius: 8px; background: rgba(212, 69, 106, 0.12); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--pink-primary);">
+              <i data-lucide="repeat-2" style="width:18px;height:18px;"></i>
+            </div>
+            <div>
+              <div style="font-size: 0.84rem; font-weight: 700; color: var(--text-primary); line-height: 1.2;">7-Day Size Exchange</div>
+              <div style="font-size: 0.74rem; color: var(--text-muted); margin-top: 2px;">Perfect wrist fit guarantee</div>
+            </div>
+          </div>
+
+          <div style="display: flex; align-items: flex-start; gap: 10px;">
+            <div style="width: 32px; height: 32px; border-radius: 8px; background: rgba(139, 110, 20, 0.12); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #8B6914;">
+              <i data-lucide="sparkles" style="width:18px;height:18px;"></i>
+            </div>
+            <div>
+              <div style="font-size: 0.84rem; font-weight: 700; color: var(--text-primary); line-height: 1.2;">Skin-Friendly Micro Polish</div>
+              <div style="font-size: 0.74rem; color: var(--text-muted); margin-top: 2px;">Anti-tarnish 24K gold lacquer</div>
+            </div>
+          </div>
+
+          <div style="display: flex; align-items: flex-start; gap: 10px;">
+            <div style="width: 32px; height: 32px; border-radius: 8px; background: rgba(46, 117, 89, 0.12); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #2E7559;">
+              <i data-lucide="package-check" style="width:18px;height:18px;"></i>
+            </div>
+            <div>
+              <div style="font-size: 0.84rem; font-weight: 700; color: var(--text-primary); line-height: 1.2;">Insured Box Packaging</div>
+              <div style="font-size: 0.74rem; color: var(--text-muted); margin-top: 2px;">Tamper-proof velvet jewel case</div>
+            </div>
           </div>
         </div>
 
@@ -417,7 +469,7 @@ function renderRelatedProducts() {
 
     html += `
       <div class="card product-card">
-        <a href="/product/${product.id}" class="card__image-link">
+        <a href="/products/${(typeof getProductSlug === 'function' ? getProductSlug(product) : product.slug) || product.id}" class="card__image-link">
           <div class="card__image">
             <img src="${getProductImageUrl(product.image)}" alt="Kannika Bangles - ${product.name}" loading="lazy">
             ${discount > 0 ? `<div class="product-card__discount">-${discount}%</div>` : ''}
@@ -425,7 +477,7 @@ function renderRelatedProducts() {
         </a>
         <div class="card__body">
           <span class="card__category">${getCatName(product.category)}</span>
-          <h3 class="card__title"><a href="/product/${product.id}" style="color:inherit;text-decoration:none;">${product.name}</a></h3>
+          <h3 class="card__title"><a href="/products/${(typeof getProductSlug === 'function' ? getProductSlug(product) : product.slug) || product.id}" style="color:inherit;text-decoration:none;">${product.name}</a></h3>
           <div class="card__price">
             ${formatPrice(product.price)}
             ${product.originalPrice > product.price ? `<span class="original">${formatPrice(product.originalPrice)}</span>` : ''}
@@ -435,7 +487,7 @@ function renderRelatedProducts() {
             <span style="font-size: 0.78rem; color: var(--text-muted);">${rtRating.avg} (${rtRating.count})</span>
           </div>
           <div class="card__cta-row product-card__cta-row" style="margin-top: 10px; width: 100%; display: flex; gap: 6px;">
-            <a href="/product/${product.id}" class="btn btn--outline btn--card-view" style="flex: 1; justify-content: center; font-size: 0.74rem; font-weight: 600; padding: 7px 4px; border-radius: 6px; text-decoration: none; white-space: nowrap;">View Details</a>
+            <a href="/products/${(typeof getProductSlug === 'function' ? getProductSlug(product) : product.slug) || product.id}" class="btn btn--outline btn--card-view" style="flex: 1; justify-content: center; font-size: 0.74rem; font-weight: 600; padding: 7px 4px; border-radius: 6px; text-decoration: none; white-space: nowrap;">View Details</a>
             <button type="button" class="btn btn--primary btn--card-add" onclick="event.preventDefault(); addToCart(${product.id});" style="flex: 1; justify-content: center; font-size: 0.74rem; font-weight: 600; padding: 7px 4px; border-radius: 6px; white-space: nowrap; cursor: pointer;">Add to Cart</button>
           </div>
         </div>
@@ -452,7 +504,8 @@ function getCatName(catId) {
     'bangles': 'Bangles',
     'pendant-sets': 'Pendant Sets',
     'necklaces': 'Necklaces',
-    'earrings': 'Earrings'
+    'earrings': 'Earrings',
+    'head-jewellery': 'Head Jewellery'
   };
   return names[catId] || catId;
 }

@@ -9,9 +9,9 @@ let currentSort = 'featured';
 let currentPriceRange = 'all';
 
 document.addEventListener('DOMContentLoaded', async () => {
-  // Check pathname first (e.g., /bangles, /pendant-sets, /necklaces, /earrings)
+  // Check pathname first (e.g., /bangles, /pendant-sets, /necklaces, /earrings, /head-jewellery)
   const path = window.location.pathname.replace(/^\//, '').replace(/\/$/, '');
-  if (['bangles', 'pendant-sets', 'necklaces', 'earrings'].includes(path)) {
+  if (['bangles', 'pendant-sets', 'necklaces', 'earrings', 'head-jewellery'].includes(path)) {
     currentCategory = path;
   }
 
@@ -98,29 +98,34 @@ function renderCategoryFilters() {
 
 const CATEGORY_TITLES = {
   'all': {
-    h1: 'Indian Wedding & Bridal Jewellery Collection Bangalore',
+    h1: 'Shop Artificial &amp; Bridal Jewellery Online',
     label: 'All Collections',
-    title: 'Jewellery Shop in Bangalore | Bridal Bangles | Kannika'
+    title: 'Shop Artificial & Bridal Jewellery Online | Kannika Bangles'
   },
   'bangles': {
-    h1: 'Bridal Bangles & Traditional Kadas in Bangalore',
+    h1: 'Bridal Bangles &amp; Traditional Kadas in Bangalore',
     label: 'Bangles',
     title: 'Bridal Bangles & Kadas in Bangalore | Kannika Bangles'
   },
   'pendant-sets': {
-    h1: 'Handcrafted Pendant Sets & Bridal Jewellery in Bangalore',
+    h1: 'Handcrafted Pendant Sets in Bangalore',
     label: 'Pendant Sets',
-    title: 'Bridal Pendant Sets in Bangalore | Kannika Bangles'
+    title: 'Pendant Sets in Bangalore | Bridal & 1 Gram Gold | Kannika'
   },
   'necklaces': {
-    h1: 'Exquisite Bridal Necklaces & Kundan Sets in Bangalore',
+    h1: 'Bridal Necklaces, Chokers &amp; Harams in Bangalore',
     label: 'Necklaces',
-    title: 'Handcrafted Bridal Necklaces in Bangalore | Kannika Bangles'
+    title: 'Bridal Necklaces & Choker Sets Bangalore | Kannika Bangles'
   },
   'earrings': {
-    h1: 'Designer Earrings, Jhumkas & Studs in Bangalore',
+    h1: 'Bridal Jhumkas &amp; Earrings in Bangalore',
     label: 'Earrings',
-    title: 'Designer Earrings & Jhumkas in Bangalore | Kannika Bangles'
+    title: 'Bridal Jhumkas & Earrings in Bangalore | Kannika Bangles'
+  },
+  'head-jewellery': {
+    h1: 'Bridal Matha Patti &amp; Maang Tikka in Bangalore',
+    label: 'Head Jewellery',
+    title: 'Bridal Matha Patti & Maang Tikka Bangalore | Kannika'
   }
 };
 
@@ -160,7 +165,7 @@ function filterByCategory(category) {
 // Handle browser Back/Forward navigation smoothly
 window.addEventListener('popstate', () => {
   const path = window.location.pathname.replace(/^\//, '').replace(/\/$/, '');
-  const cat = ['bangles', 'pendant-sets', 'necklaces', 'earrings'].includes(path) ? path : 'all';
+  const cat = ['bangles', 'pendant-sets', 'necklaces', 'earrings', 'head-jewellery'].includes(path) ? path : 'all';
   filterByCategory(cat);
 });
 
@@ -279,6 +284,8 @@ function renderProducts() {
   products.forEach((product, index) => {
     const badgeHTML = product.badge ? `<span class="badge badge--${product.badge === 'bestseller' ? 'featured' : product.badge}">${product.badge.toUpperCase()}</span>` : '';
     const discount = Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100);
+    const prodSlug = (typeof getProductSlug === 'function' ? getProductSlug(product) : product.slug) || product.id;
+    const prodUrl = `/products/${prodSlug}`;
 
     html += `
       <div class="card product-card" style="animation-delay: ${index * 0.08}s">
@@ -289,7 +296,7 @@ function renderProducts() {
 
           <div class="card__overlay">
             <div class="product-card__overlay-actions">
-              <a href="/product/${product.id}" class="btn btn--primary btn--sm">View Details</a>
+              <a href="${prodUrl}" class="btn btn--primary btn--sm">View Details</a>
               <button class="btn btn--outline btn--sm" onclick="event.preventDefault(); addToCart(${product.id})">
                 <i data-lucide="shopping-bag" style="width:16px;height:16px;"></i> Add to Cart
               </button>
@@ -298,7 +305,7 @@ function renderProducts() {
         </div>
         <div class="card__body">
           <span class="card__category">${getCategoryLabel(product.category)}</span>
-          <h3 class="card__title"><a href="/product/${product.id}" style="color:inherit;text-decoration:none;">${product.name}</a></h3>
+          <h3 class="card__title"><a href="${prodUrl}" style="color:inherit;text-decoration:none;">${product.name}</a></h3>
           <div class="card__price">
             ${formatPrice(product.price)}
             ${product.originalPrice > product.price ? `<span class="original">${formatPrice(product.originalPrice)}</span>` : ''}
@@ -308,7 +315,7 @@ function renderProducts() {
             <span style="font-size: 0.78rem; color: var(--text-muted);">${getProductRealtimeRating(product.id).avg} (${getProductRealtimeRating(product.id).count})</span>
           </div>
           <div class="card__cta-row product-card__cta-row" style="margin-top: 10px; width: 100%; display: flex; gap: 6px;">
-            <a href="/product/${product.id}" class="btn btn--outline btn--card-view" style="flex: 1; justify-content: center; font-size: 0.74rem; font-weight: 600; padding: 7px 4px; border-radius: 6px; text-decoration: none; white-space: nowrap;">View Details</a>
+            <a href="${prodUrl}" class="btn btn--outline btn--card-view" style="flex: 1; justify-content: center; font-size: 0.74rem; font-weight: 600; padding: 7px 4px; border-radius: 6px; text-decoration: none; white-space: nowrap;">View Details</a>
             <button type="button" class="btn btn--primary btn--card-add" onclick="event.preventDefault(); addToCart(${product.id});" style="flex: 1; justify-content: center; font-size: 0.74rem; font-weight: 600; padding: 7px 4px; border-radius: 6px; white-space: nowrap; cursor: pointer;">Add to Cart</button>
           </div>
         </div>
@@ -325,7 +332,8 @@ function getCategoryLabel(catId) {
     'bangles': 'Bangles',
     'pendant-sets': 'Pendant Sets',
     'necklaces': 'Necklaces',
-    'earrings': 'Earrings'
+    'earrings': 'Earrings',
+    'head-jewellery': 'Head Jewellery'
   };
   return labels[catId] || catId;
 }

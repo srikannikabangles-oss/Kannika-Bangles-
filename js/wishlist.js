@@ -99,7 +99,7 @@ function renderWishlist() {
           
           <div class="card__overlay">
             <div class="product-card__overlay-actions">
-              <a href="/product/${product.id}" class="btn btn--primary btn--sm">View Details</a>
+              <a href="/products/${(typeof getProductSlug === 'function' ? getProductSlug(product) : product.slug) || product.id}" class="btn btn--primary btn--sm">View Details</a>
               <button class="btn btn--outline btn--sm" onclick="event.preventDefault(); addWishlistItemToCart(${product.id})">
                 <i data-lucide="shopping-bag" style="width:16px;height:16px;"></i> Add to Cart
               </button>
@@ -108,7 +108,7 @@ function renderWishlist() {
         </div>
         <div class="card__body">
           <span class="card__category">${categoryLabel}</span>
-          <h3 class="card__title"><a href="/product/${product.id}" style="color:inherit; text-decoration:none;">${product.name}</a></h3>
+          <h3 class="card__title"><a href="/products/${(typeof getProductSlug === 'function' ? getProductSlug(product) : product.slug) || product.id}" style="color:inherit; text-decoration:none;">${product.name}</a></h3>
           <div class="card__price">
             ${typeof formatPrice === 'function' ? formatPrice(product.price) : `₹${product.price}`}
             ${product.originalPrice > product.price ? `<span class="original">${typeof formatPrice === 'function' ? formatPrice(product.originalPrice) : `₹${product.originalPrice}`}</span>` : ''}
@@ -117,7 +117,7 @@ function renderWishlist() {
             <span class="stars">${typeof getStarRating === 'function' ? getStarRating(product.rating || 5) : '★★★★★'}</span>
           </div>
           <div class="card__cta-row product-card__cta-row" style="margin-top: 10px; width: 100%; display: flex; gap: 6px;">
-            <a href="/product/${product.id}" class="btn btn--outline btn--card-view" style="flex: 1; justify-content: center; font-size: 0.74rem; font-weight: 600; padding: 7px 4px; border-radius: 6px; text-decoration: none; white-space: nowrap;">View Details</a>
+            <a href="/products/${(typeof getProductSlug === 'function' ? getProductSlug(product) : product.slug) || product.id}" class="btn btn--outline btn--card-view" style="flex: 1; justify-content: center; font-size: 0.74rem; font-weight: 600; padding: 7px 4px; border-radius: 6px; text-decoration: none; white-space: nowrap;">View Details</a>
             <button type="button" class="btn btn--primary btn--card-add" onclick="event.preventDefault(); addWishlistItemToCart(${product.id});" style="flex: 1; justify-content: center; font-size: 0.74rem; font-weight: 600; padding: 7px 4px; border-radius: 6px; white-space: nowrap; cursor: pointer;">Add to Cart</button>
           </div>
         </div>

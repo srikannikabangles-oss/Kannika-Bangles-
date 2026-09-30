@@ -111,7 +111,15 @@
       "destination": "/api"
     },
     {
+      "source": "/products/:slug",
+      "destination": "/api"
+    },
+    {
       "source": "/product/:id",
+      "destination": "/api"
+    },
+    {
+      "source": "/head-jewellery",
       "destination": "/api"
     },
     {
@@ -120,6 +128,16 @@
     }
   ],
   "redirects": [
+    {
+      "source": "/blog/bangle-size-guide-and-wrist-measurement",
+      "destination": "/bangle-size-chart-calculator",
+      "permanent": true
+    },
+    {
+      "source": "/blog/indian-bangle-size-chart-how-to-measure-wrist-size",
+      "destination": "/bangle-size-chart-calculator",
+      "permanent": true
+    },
     {
       "source": "/shop.html",
       "has": [
